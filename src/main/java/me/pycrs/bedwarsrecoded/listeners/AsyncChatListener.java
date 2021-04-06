@@ -19,9 +19,10 @@ public class AsyncChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
-        if (!BedWars.isGameInProgress()) {
+        if (BedWars.isGameInProgress()) {
             event.composer((source, displayName, message) -> Component
-                    .text(Utils.formatStars(new Random().nextInt(1000)) + " ")
+                    .text(Utils.getTeamPrefix(null) + " ")
+                    .append(Component.text(Utils.formatStars(new Random().nextInt(1000)) + " "))
                     .append(displayName)
                     .append(Component.text(": "))
                     .append(message));

@@ -5,3 +5,7 @@ api-version: 1.16
 authors: [ Pycrs ]
 description: I tried to recode the famous Hypixel Bedwars
 website: https://github.com/Pzdrs
+commands:
+  shout:
+    description: Shout command
+    usage: /shout <shout message>

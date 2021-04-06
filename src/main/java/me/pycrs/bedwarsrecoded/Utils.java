@@ -2,6 +2,8 @@ package me.pycrs.bedwarsrecoded;
 
 import org.bukkit.ChatColor;
 
+import java.util.Arrays;
+
 public class Utils {
     public static String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
@@ -44,5 +46,20 @@ public class Utils {
 
     private static boolean inRange(int stars, int low, int high) {
         return stars >= low && stars < high;
+    }
+
+    public static String getTeamPrefix(Player player) {
+        return "[TEAM]";
+    }
+
+    public static String commandArgsMessage(String[] args, int startIndex) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = startIndex; i < args.length; i++) {
+            if (i == args.length - 1)
+                builder.append(args[i]);
+            else
+                builder.append(args[i]).append(" ");
+        }
+        return builder.toString();
     }
 }
