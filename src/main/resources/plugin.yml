@@ -1,0 +1,7 @@
+name: BedWarsRecoded
+version: ${project.version}
+main: me.pycrs.bedwarsrecoded.BedWars
+api-version: 1.16
+authors: [ Pycrs ]
+description: I tried to recode the famous Hypixel Bedwars
+website: https://github.com/Pzdrs
