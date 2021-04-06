@@ -78,7 +78,7 @@ public class PlayerJoinListener implements Listener {
         // Titles
         switch (timer) {
             case 10:
-                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.GOLD), Component.text().asComponent(),
+                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.GREEN), Component.text().asComponent(),
                         Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
                 break;
             case 5:

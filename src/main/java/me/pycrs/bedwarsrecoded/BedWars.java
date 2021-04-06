@@ -7,13 +7,14 @@ import me.pycrs.bedwarsrecoded.listeners.PlayerQuitListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public final class BedWars extends JavaPlugin {
     private static BedWars instance;
     private Mode mode;
     private static boolean gameInProgress = false;
-    private List<BPlayer> BPlayers;
+    private List<BPlayer> players;
     private List<Team> teams;
 
     public PlayerJoinListener playerJoinEvent;
@@ -46,6 +47,10 @@ public final class BedWars extends JavaPlugin {
         new ShoutCommand(this);
     }
 
+    public BPlayer getPlayer(UUID uuid) {
+        return players.stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(uuid)).findFirst().orElse(null);
+    }
+
     public Mode getMode() {
         return mode;
     }
@@ -56,7 +61,7 @@ public final class BedWars extends JavaPlugin {
 
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
-        this.BPlayers = getServer().getOnlinePlayers().stream().map(player -> new BPlayer(player.getUniqueId())).collect(Collectors.toList());
-        // TODO: 4/6/2021 init game
+        this.players = getServer().getOnlinePlayers().stream()
+                .map(player -> new BPlayer(this, player.getUniqueId())).collect(Collectors.toList());
     }
 }
