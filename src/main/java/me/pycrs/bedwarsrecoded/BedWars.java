@@ -4,18 +4,17 @@ import me.pycrs.bedwarsrecoded.commands.ShoutCommand;
 import me.pycrs.bedwarsrecoded.listeners.AsyncChatListener;
 import me.pycrs.bedwarsrecoded.listeners.PlayerJoinListener;
 import me.pycrs.bedwarsrecoded.listeners.PlayerQuitListener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 public final class BedWars extends JavaPlugin {
     private static BedWars instance;
     private Mode mode;
     private static boolean gameInProgress = false;
-    private List<BPlayer> players;
-    private List<Team> teams;
+    private List<BTeam> teams;
 
     public PlayerJoinListener playerJoinEvent;
 
@@ -26,7 +25,6 @@ public final class BedWars extends JavaPlugin {
         init();
 
         mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
-        teams = Team.initTeams(this);
     }
 
     @Override
@@ -46,20 +44,18 @@ public final class BedWars extends JavaPlugin {
         new ShoutCommand(this);
     }
 
-    public BPlayer getPlayer(UUID uuid) {
-        return players.stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(uuid)).findFirst().orElse(null);
+    public List<BPlayer> getPlayers() {
+        List<BPlayer> players = new ArrayList<>();
+        teams.forEach(team -> players.addAll(team.getPlayers()));
+        return players;
     }
 
     public Mode getMode() {
         return mode;
     }
 
-    public List<Team> getTeams() {
+    public List<BTeam> getTeams() {
         return teams;
-    }
-
-    public List<BPlayer> getPlayers() {
-        return players;
     }
 
     public static boolean isGameInProgress() {
@@ -68,10 +64,6 @@ public final class BedWars extends JavaPlugin {
 
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
-        this.players = getServer().getOnlinePlayers().stream()
-                .map(player -> new BPlayer(this, player.getUniqueId())).collect(Collectors.toList());
-        Team.populateTeams(this);
-        teams.forEach(System.out::println);
         // TODO: 4/6/2021 sort players into teams
         // TODO: 4/6/2021 Print the big ass welcome message
     }

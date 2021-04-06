@@ -31,7 +31,8 @@ public class ShoutCommand implements CommandExecutor {
         }
 
         Player player = ((Player) sender);
-        // Check, if there is a message to shout
+        bedWars.getTeams().get(0).addPlayer(new BPlayer(bedWars, player));
+        /*// Check, if there is a message to shout
         if (args.length < 1) {
             player.sendMessage(Component.text(Utils.color("&cMissing arguments! Usage: " + command.getUsage())));
             return true;
@@ -47,20 +48,20 @@ public class ShoutCommand implements CommandExecutor {
             return true;
         }
 
-        BPlayer bPlayer = bedWars.getPlayer(player.getUniqueId());
+        // TODO: 4/6/2021 fix cooldowns
         // Check, if the players is on a cooldown
-        if (bPlayer.isOnShoutCoolDown().getKey()) {
+        *//*if (bPlayer.isOnShoutCoolDown().getKey()) {
             player.sendMessage(Component.text(Utils.color("&cYou must wait &e" +
                     bPlayer.isOnShoutCoolDown().getValue() + " &cseconds until you can use /shout again!")));
             return true;
-        }
+        }*//*
 
         bedWars.getServer().sendMessage(Component
                 .text(Utils.color("&6[SHOUT]&r "))
                 .append(Component.text(Utils.getTeamPrefix(null) + " "))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
-        bPlayer.putOnShoutCoolDown();
+        //bPlayer.putOnShoutCoolDown();*/
         return true;
     }
 }

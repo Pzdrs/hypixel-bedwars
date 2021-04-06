@@ -4,18 +4,16 @@ import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class BPlayer {
     private BedWars bedWars;
-    private UUID uuid;
+    private Player player;
     private boolean shoutCoolDown;
     private int shoutCoolDownLeft;
     private int kills, finalKills, deaths, bedDestroys;
 
-    public BPlayer(BedWars bedWars, UUID uuid) {
+    public BPlayer(BedWars bedWars, Player player) {
         this.bedWars = bedWars;
-        this.uuid = uuid;
+        this.player = player;
         this.shoutCoolDownLeft = bedWars.getConfig().getInt("shoutCooldown");
 
         this.kills = 0;
@@ -50,14 +48,7 @@ public class BPlayer {
     }
 
     public Player getPlayer() {
-        return Bukkit.getPlayer(uuid);
-    }
-
-    public Team getTeam() {
-        for (Team team : bedWars.getTeams())
-            for (Player player : team.getPlayers())
-                if (player.getUniqueId().equals(uuid)) return team;
-        return null;
+        return player;
     }
 
     public Pair<Boolean, Integer> isOnShoutCoolDown() {
