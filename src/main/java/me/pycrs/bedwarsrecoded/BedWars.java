@@ -63,5 +63,6 @@ public final class BedWars extends JavaPlugin {
         BedWars.gameInProgress = gameInProgress;
         this.players = getServer().getOnlinePlayers().stream()
                 .map(player -> new BPlayer(this, player.getUniqueId())).collect(Collectors.toList());
+        // TODO: 4/6/2021 Print the big ass welcome message
     }
 }
