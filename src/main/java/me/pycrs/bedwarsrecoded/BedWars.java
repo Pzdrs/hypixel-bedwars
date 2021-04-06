@@ -7,10 +7,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BedWars extends JavaPlugin {
     private static boolean gameInProgress = false;
+    private static Mode mode;
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         init();
+
+        mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
     }
 
     @Override

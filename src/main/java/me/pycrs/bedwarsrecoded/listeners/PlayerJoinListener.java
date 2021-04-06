@@ -17,6 +17,9 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        // Set player's display name
         event.getPlayer().displayName(Component.text(event.getPlayer().getName()).color(TextColor.fromHexString("#AAAAAA")));
+
+
     }
 }

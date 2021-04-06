@@ -1,5 +1,6 @@
 package me.pycrs.bedwarsrecoded;
 
+import me.pycrs.bedwarsrecoded.exceptions.InvalidTeamSizeException;
 import org.bukkit.ChatColor;
 
 import java.util.Arrays;
@@ -61,5 +62,17 @@ public class Utils {
                 builder.append(args[i]).append(" ");
         }
         return builder.toString();
+    }
+
+    public static Mode teamSizeToMode(int teamSize) {
+        for (Mode mode : Mode.values()) {
+            if (mode.getTeamSize() == teamSize) return mode;
+        }
+        try {
+            throw new InvalidTeamSizeException(teamSize);
+        } catch (InvalidTeamSizeException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
