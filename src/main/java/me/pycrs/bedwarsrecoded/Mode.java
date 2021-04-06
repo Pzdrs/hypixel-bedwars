@@ -1,16 +1,21 @@
 package me.pycrs.bedwarsrecoded;
 
 public enum Mode {
-    SOLO(1, 8),
-    DOUBLES(2, 8),
-    TRIOS(3, 4),
-    SQUADS(4, 4);
+    SOLO(1, 8, 2),
+    DOUBLES(2, 8,4),
+    TRIOS(3, 4, 6),
+    SQUADS(4, 4, 8);
 
-    private int teamSize, amountOfTeams;
+    private final int teamSize, amountOfTeams, minPlayers;
 
-    Mode(int teamSize, int amountOfTeams) {
+    Mode(int teamSize, int amountOfTeams, int minPlayers) {
         this.teamSize = teamSize;
         this.amountOfTeams = amountOfTeams;
+        this.minPlayers = minPlayers;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
     }
 
     public int getTeamSize() {

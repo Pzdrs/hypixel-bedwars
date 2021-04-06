@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BedWars extends JavaPlugin {
     private static boolean gameInProgress = false;
-    private static Mode mode;
+    private Mode mode;
 
     @Override
     public void onEnable() {
@@ -27,6 +27,10 @@ public final class BedWars extends JavaPlugin {
         new AsyncChatListener(this);
 
         new ShoutCommand(this);
+    }
+
+    public Mode getMode() {
+        return mode;
     }
 
     public static boolean isGameInProgress() {
