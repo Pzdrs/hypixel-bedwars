@@ -1,3 +1,6 @@
 # The amount of players in each team
 # A team may only have 1, 2, 3 or 4 players
 teamSize: 1
+
+# The amount of seconds it takes to start the game after the last needed player joins
+lobbyCountdown: 20

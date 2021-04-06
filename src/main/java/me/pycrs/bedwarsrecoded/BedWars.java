@@ -10,6 +10,8 @@ public final class BedWars extends JavaPlugin {
     private static boolean gameInProgress = false;
     private Mode mode;
 
+    public PlayerJoinListener playerJoinEvent;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -24,7 +26,7 @@ public final class BedWars extends JavaPlugin {
     }
 
     private void init() {
-        new PlayerJoinListener(this);
+        this.playerJoinEvent = new PlayerJoinListener(this);
         new PlayerQuitListener(this);
         new AsyncChatListener(this);
 
@@ -37,5 +39,9 @@ public final class BedWars extends JavaPlugin {
 
     public static boolean isGameInProgress() {
         return gameInProgress;
+    }
+
+    public static void setGameInProgress(boolean gameInProgress) {
+        BedWars.gameInProgress = gameInProgress;
     }
 }

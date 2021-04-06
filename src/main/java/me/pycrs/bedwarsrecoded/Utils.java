@@ -1,6 +1,8 @@
 package me.pycrs.bedwarsrecoded;
 
 import me.pycrs.bedwarsrecoded.exceptions.InvalidTeamSizeException;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.Arrays;
@@ -62,6 +64,10 @@ public class Utils {
                 builder.append(args[i]).append(" ");
         }
         return builder.toString();
+    }
+
+    public static void inGameBroadcast(Component component) {
+        Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
 
     public static Mode teamSizeToMode(int teamSize) {
