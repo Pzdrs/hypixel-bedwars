@@ -58,7 +58,7 @@ public class PlayerJoinListener implements Listener {
                     }
                     if (timer.decrementAndGet() == 0) {
                         countDown.cancel();
-                        BedWars.setGameInProgress(true);
+                        bedWars.setGameInProgress(true);
                     }
                 }, 0, 20);
             }

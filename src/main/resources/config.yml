@@ -4,3 +4,6 @@ teamSize: 1
 
 # The amount of seconds it takes to start the game after the last needed player joins
 lobbyCountdown: 20
+
+# The amount of seconds it takes to be able to use /shout again
+shoutCooldown: 30

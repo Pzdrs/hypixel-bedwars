@@ -6,23 +6,36 @@ import me.pycrs.bedwarsrecoded.listeners.PlayerJoinListener;
 import me.pycrs.bedwarsrecoded.listeners.PlayerQuitListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public final class BedWars extends JavaPlugin {
-    private static boolean gameInProgress = false;
+    private static BedWars instance;
     private Mode mode;
+    private static boolean gameInProgress = false;
+    private List<BPlayer> BPlayers;
+    private List<Team> teams;
 
     public PlayerJoinListener playerJoinEvent;
 
     @Override
     public void onEnable() {
+        instance = this;
         saveDefaultConfig();
         init();
 
         mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
+        teams = Team.initTeams(this);
+        teams.forEach(System.out::println);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static BedWars getInstance() {
+        return instance;
     }
 
     private void init() {
@@ -41,7 +54,9 @@ public final class BedWars extends JavaPlugin {
         return gameInProgress;
     }
 
-    public static void setGameInProgress(boolean gameInProgress) {
+    public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
+        this.BPlayers = getServer().getOnlinePlayers().stream().map(player -> new BPlayer(player.getUniqueId())).collect(Collectors.toList());
+        // TODO: 4/6/2021 init game
     }
 }

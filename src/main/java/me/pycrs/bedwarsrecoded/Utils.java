@@ -5,8 +5,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import java.util.Arrays;
-
 public class Utils {
     public static String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
@@ -51,7 +49,7 @@ public class Utils {
         return stars >= low && stars < high;
     }
 
-    public static String getTeamPrefix(Player player) {
+    public static String getTeamPrefix(BPlayer BPlayer) {
         return "[TEAM]";
     }
 
