@@ -9,7 +9,6 @@ import java.util.UUID;
 public class BPlayer {
     private BedWars bedWars;
     private UUID uuid;
-    private Team team;
     private boolean shoutCoolDown;
     private int shoutCoolDownLeft;
     private int kills, finalKills, deaths, bedDestroys;
@@ -55,7 +54,10 @@ public class BPlayer {
     }
 
     public Team getTeam() {
-        return team;
+        for (Team team : bedWars.getTeams())
+            for (Player player : team.getPlayers())
+                if (player.getUniqueId().equals(uuid)) return team;
+        return null;
     }
 
     public Pair<Boolean, Integer> isOnShoutCoolDown() {

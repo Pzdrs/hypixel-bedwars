@@ -27,7 +27,6 @@ public final class BedWars extends JavaPlugin {
 
         mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
         teams = Team.initTeams(this);
-        teams.forEach(System.out::println);
     }
 
     @Override
@@ -55,6 +54,14 @@ public final class BedWars extends JavaPlugin {
         return mode;
     }
 
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public List<BPlayer> getPlayers() {
+        return players;
+    }
+
     public static boolean isGameInProgress() {
         return gameInProgress;
     }
@@ -63,6 +70,9 @@ public final class BedWars extends JavaPlugin {
         BedWars.gameInProgress = gameInProgress;
         this.players = getServer().getOnlinePlayers().stream()
                 .map(player -> new BPlayer(this, player.getUniqueId())).collect(Collectors.toList());
+        Team.populateTeams(this);
+        teams.forEach(System.out::println);
+        // TODO: 4/6/2021 sort players into teams
         // TODO: 4/6/2021 Print the big ass welcome message
     }
 }
