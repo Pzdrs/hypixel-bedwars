@@ -40,7 +40,7 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
         // Make sure no one shouts before the game starts
-        if (!BedWars.isGameInProgress()) {
+        if (!BedWars.gameInProgress) {
             player.sendMessage(Component.text("You can't use /shout before the game has started.", NamedTextColor.RED));
             return true;
         }

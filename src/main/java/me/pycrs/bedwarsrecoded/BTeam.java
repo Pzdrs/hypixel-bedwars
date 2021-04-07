@@ -1,5 +1,6 @@
 package me.pycrs.bedwarsrecoded;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
@@ -23,6 +24,17 @@ public class BTeam {
     public void addPlayer(Player player) {
         players.add(new BPlayer(player));
         team.addEntry(player.getName());
+    }
+
+    public void teamBroadcast(Component message) {
+        players.forEach(player -> player.getPlayer().sendMessage(message));
+    }
+
+    public boolean isPartOfTeam(Player player) {
+        for (BPlayer bPlayer : players) {
+            if (bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
+        }
+        return false;
     }
 
     public Team getTeam() {

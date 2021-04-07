@@ -5,6 +5,7 @@ import me.pycrs.bedwarsrecoded.listeners.AsyncChatListener;
 import me.pycrs.bedwarsrecoded.listeners.PlayerJoinListener;
 import me.pycrs.bedwarsrecoded.listeners.PlayerQuitListener;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public final class BedWars extends JavaPlugin {
     private static BedWars instance;
     private static Mode mode;
-    private static boolean gameInProgress = false;
+    public static boolean gameInProgress = false;
     private List<BTeam> teams;
 
     public PlayerJoinListener playerJoinEvent;
@@ -54,16 +55,21 @@ public final class BedWars extends JavaPlugin {
         return players;
     }
 
+    public BTeam getPlayersTeam(Player player) {
+        for (BTeam team : teams) {
+            for (BPlayer teamPlayer : team.getPlayers()) {
+                if (teamPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return team;
+            }
+        }
+        return null;
+    }
+
     public static Mode getMode() {
         return mode;
     }
 
     public List<BTeam> getTeams() {
         return teams;
-    }
-
-    public static boolean isGameInProgress() {
-        return gameInProgress;
     }
 
     public void setGameInProgress(boolean gameInProgress) {

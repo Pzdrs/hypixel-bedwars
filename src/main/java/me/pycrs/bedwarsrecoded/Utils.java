@@ -4,6 +4,7 @@ import me.pycrs.bedwarsrecoded.exceptions.InvalidTeamSizeException;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class Utils {
     public static String color(String s) {
@@ -49,8 +50,9 @@ public class Utils {
         return stars >= low && stars < high;
     }
 
-    public static String getTeamPrefix(BPlayer BPlayer) {
-        return "[TEAM]";
+    public static Component getTeamPrefix(BTeam team) {
+        if (team == null) return Component.text("[teamName] ");
+        return Component.text("[" + team.getTeamColor().name() + "] ", team.getTeamColor().getColor());
     }
 
     public static String commandArgsMessage(String[] args, int startIndex) {
