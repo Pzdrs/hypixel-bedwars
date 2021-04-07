@@ -1,12 +1,13 @@
 package me.pycrs.bedwarsrecoded.commands;
 
+import javafx.util.Pair;
+import me.pycrs.bedwarsrecoded.BPlayer;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.Mode;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
@@ -45,25 +46,26 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
         // Check, if this mode has /shout enabled
-        if (plugin.getMode().equals(Mode.SOLO)) {
+        if (BedWars.getMode().equals(Mode.SOLO)) {
             player.sendMessage(Component.text("You can't use /shout in solo mode.", NamedTextColor.RED));
             return true;
         }
 
-        // TODO: 4/6/2021 fix cooldowns
         // Check, if the players is on a cooldown
-        /*if (bPlayer.isOnShoutCoolDown().getKey()) {
+        BPlayer bPlayer = Utils.isolateByUUID(plugin.getPlayers(), player);
+        Pair<Boolean, Integer> cooldown = bPlayer.isOnShoutCoolDown();
+        if (cooldown.getKey()) {
             player.sendMessage(Component.text(Utils.color("&cYou must wait &e" +
-                    bPlayer.isOnShoutCoolDown().getValue() + " &cseconds until you can use /shout again!")));
+                    cooldown.getValue() + " &cseconds until you can use /shout again!")));
             return true;
-        }*//*
+        }
 
         plugin.getServer().sendMessage(Component
                 .text(Utils.color("&6[SHOUT]&r "))
-                .append(Component.text(Utils.getTeamPrefix(null) + " "))
+                .append(Utils.getTeamPrefix(plugin.getPlayersTeam(player)))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
-        //bPlayer.putOnShoutCoolDown();*/
+        bPlayer.putOnShoutCoolDown();
         return true;
     }
 

@@ -34,7 +34,7 @@ public class PlayerQuitListener implements Listener {
         plugin.getServer().sendMessage(player.displayName()
                 .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
 
-        if (Bukkit.getOnlinePlayers().size() - 1 < plugin.getMode().getMinPlayers() &&
+        if (Bukkit.getOnlinePlayers().size() - 1 < BedWars.getMode().getMinPlayers() &&
                 plugin.playerJoinEvent.countDown != null &&
                 !plugin.playerJoinEvent.countDown.isCancelled()) {
             plugin.playerJoinEvent.countDown.cancel();

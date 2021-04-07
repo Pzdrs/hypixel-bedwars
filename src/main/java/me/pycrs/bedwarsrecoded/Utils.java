@@ -6,6 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+import java.util.UUID;
+
 public class Utils {
     public static String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
@@ -64,6 +67,10 @@ public class Utils {
                 builder.append(args[i]).append(" ");
         }
         return builder.toString();
+    }
+
+    public static BPlayer isolateByUUID(List<BPlayer> players, Player player) {
+        return players.stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 
     public static void inGameBroadcast(Component component) {
