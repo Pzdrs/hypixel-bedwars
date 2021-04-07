@@ -6,13 +6,14 @@ import me.pycrs.bedwarsrecoded.listeners.PlayerJoinListener;
 import me.pycrs.bedwarsrecoded.listeners.PlayerQuitListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class BedWars extends JavaPlugin {
     private static BedWars instance;
-    private Mode mode;
+    private static Mode mode;
     private static boolean gameInProgress = false;
     private List<BTeam> teams;
 
@@ -25,6 +26,9 @@ public final class BedWars extends JavaPlugin {
         init();
 
         mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
+        // Clear current teams
+        Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
+        teams = BTeam.initTeams();
     }
 
     @Override
@@ -50,7 +54,7 @@ public final class BedWars extends JavaPlugin {
         return players;
     }
 
-    public Mode getMode() {
+    public static Mode getMode() {
         return mode;
     }
 
@@ -64,7 +68,7 @@ public final class BedWars extends JavaPlugin {
 
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
-        // TODO: 4/6/2021 sort players into teams
+        Utils.distributePlayersToTeams(this);
         // TODO: 4/6/2021 Print the big ass welcome message
     }
 }

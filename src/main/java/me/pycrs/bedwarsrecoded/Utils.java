@@ -79,4 +79,15 @@ public class Utils {
         }
         return null;
     }
+
+    public static void distributePlayersToTeams(BedWars plugin) {
+        plugin.getServer().getOnlinePlayers().forEach(player -> {
+            for (BTeam team : plugin.getTeams()) {
+                if (!team.isFull()) {
+                    team.addPlayer(player);
+                    break;
+                }
+            }
+        });
+    }
 }

@@ -1,33 +1,44 @@
 package me.pycrs.bedwarsrecoded;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BTeam {
     private Team team;
-    private List<BPlayer> players;
-    private boolean hasBed;
+    private TeamColor teamColor;
+    private Set<BPlayer> players;
+    private boolean hasBed = true;
 
     public BTeam(TeamColor teamColor) {
-        this.players = new ArrayList<>();
-        this.hasBed = true;
+        this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
+        team.color(teamColor.getColor());
+        this.teamColor = teamColor;
+        this.players = new HashSet<>();
     }
 
-    public void addPlayer(BPlayer player) {
-        players.add(player);
-        team.addEntry(player.getPlayer().getName());
+    public void addPlayer(Player player) {
+        players.add(new BPlayer(player));
+        team.addEntry(player.getName());
     }
 
-    public List<BPlayer> getPlayers() {
+    public Team getTeam() {
+        return team;
+    }
+
+    public TeamColor getTeamColor() {
+        return teamColor;
+    }
+
+    public Set<BPlayer> getPlayers() {
         return players;
+    }
+
+    public boolean isHasBed() {
+        return hasBed;
     }
 
     @Override
@@ -39,10 +50,14 @@ public class BTeam {
                 '}';
     }
 
-    public static List<BTeam> initTeams(BedWars bedWars) {
+    public static List<BTeam> initTeams() {
         return Arrays.stream(TeamColor.values())
                 .map(BTeam::new)
-                .limit(bedWars.getMode().getAmountOfTeams())
+                .limit(BedWars.getMode().getAmountOfTeams())
                 .collect(Collectors.toList());
+    }
+
+    public boolean isFull() {
+        return players.size() == BedWars.getMode().getTeamSize();
     }
 }

@@ -16,11 +16,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.time.Duration;
 
 public class PlayerQuitListener implements Listener {
-    private BedWars bedWars;
+    private BedWars plugin;
 
-    public PlayerQuitListener(BedWars bedWars) {
-        this.bedWars = bedWars;
-        bedWars.getServer().getPluginManager().registerEvents(this, bedWars);
+    public PlayerQuitListener(BedWars plugin) {
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
@@ -31,14 +31,14 @@ public class PlayerQuitListener implements Listener {
         Player player = event.getPlayer();
 
         // New quit messages
-        bedWars.getServer().sendMessage(player.displayName()
+        plugin.getServer().sendMessage(player.displayName()
                 .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
 
-        if (Bukkit.getOnlinePlayers().size() - 1 < bedWars.getMode().getMinPlayers() &&
-                bedWars.playerJoinEvent.countDown != null &&
-                !bedWars.playerJoinEvent.countDown.isCancelled()) {
-            bedWars.playerJoinEvent.countDown.cancel();
-            bedWars.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
+        if (Bukkit.getOnlinePlayers().size() - 1 < plugin.getMode().getMinPlayers() &&
+                plugin.playerJoinEvent.countDown != null &&
+                !plugin.playerJoinEvent.countDown.isCancelled()) {
+            plugin.playerJoinEvent.countDown.cancel();
+            plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
             Utils.inGameBroadcast(Component.text("We don't have enough players! Start cancelled.", NamedTextColor.RED));
             Bukkit.getServer().showTitle(Title.title(Component.text("Waiting for more players...", NamedTextColor.RED), Component.text().asComponent(),
                     Title.Times.of(Duration.ZERO, Duration.ofMillis(2000), Duration.ZERO)));

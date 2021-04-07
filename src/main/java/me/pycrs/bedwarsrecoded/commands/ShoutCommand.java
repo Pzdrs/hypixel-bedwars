@@ -1,6 +1,5 @@
 package me.pycrs.bedwarsrecoded.commands;
 
-import me.pycrs.bedwarsrecoded.BPlayer;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.Mode;
 import me.pycrs.bedwarsrecoded.Utils;
@@ -9,17 +8,21 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class ShoutCommand implements CommandExecutor {
-    private BedWars bedWars;
+public class ShoutCommand implements TabExecutor {
+    private BedWars plugin;
 
-    public ShoutCommand(BedWars bedWars) {
-        this.bedWars = bedWars;
-        Objects.requireNonNull(bedWars.getCommand("shout")).setExecutor(this);
+    public ShoutCommand(BedWars plugin) {
+        this.plugin = plugin;
+        Objects.requireNonNull(plugin.getCommand("shout")).setExecutor(this);
     }
 
     @Override
@@ -31,8 +34,7 @@ public class ShoutCommand implements CommandExecutor {
         }
 
         Player player = ((Player) sender);
-        bedWars.getTeams().get(0).addPlayer(new BPlayer(bedWars, player));
-        /*// Check, if there is a message to shout
+        // Check, if there is a message to shout
         if (args.length < 1) {
             player.sendMessage(Component.text(Utils.color("&cMissing arguments! Usage: " + command.getUsage())));
             return true;
@@ -43,25 +45,30 @@ public class ShoutCommand implements CommandExecutor {
             return true;
         }
         // Check, if this mode has /shout enabled
-        if (bedWars.getMode().equals(Mode.SOLO)) {
+        if (plugin.getMode().equals(Mode.SOLO)) {
             player.sendMessage(Component.text("You can't use /shout in solo mode.", NamedTextColor.RED));
             return true;
         }
 
         // TODO: 4/6/2021 fix cooldowns
         // Check, if the players is on a cooldown
-        *//*if (bPlayer.isOnShoutCoolDown().getKey()) {
+        /*if (bPlayer.isOnShoutCoolDown().getKey()) {
             player.sendMessage(Component.text(Utils.color("&cYou must wait &e" +
                     bPlayer.isOnShoutCoolDown().getValue() + " &cseconds until you can use /shout again!")));
             return true;
         }*//*
 
-        bedWars.getServer().sendMessage(Component
+        plugin.getServer().sendMessage(Component
                 .text(Utils.color("&6[SHOUT]&r "))
                 .append(Component.text(Utils.getTeamPrefix(null) + " "))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
         //bPlayer.putOnShoutCoolDown();*/
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        return new ArrayList<>();
     }
 }

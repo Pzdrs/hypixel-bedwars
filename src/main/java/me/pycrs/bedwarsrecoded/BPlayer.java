@@ -5,17 +5,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class BPlayer {
-    private BedWars bedWars;
     private Player player;
     private boolean shoutCoolDown;
     private int shoutCoolDownLeft;
     private int kills, finalKills, deaths, bedDestroys;
 
-    public BPlayer(BedWars bedWars, Player player) {
-        this.bedWars = bedWars;
+    public BPlayer(Player player) {
         this.player = player;
-        this.shoutCoolDownLeft = bedWars.getConfig().getInt("shoutCooldown");
-
+        this.shoutCoolDownLeft = BedWars.getInstance().getConfig().getInt("shoutCooldown");
         this.kills = 0;
         this.finalKills = 0;
         this.deaths = 0;
@@ -23,12 +20,19 @@ public class BPlayer {
     }
 
     public void putOnShoutCoolDown() {
-        this.shoutCoolDownLeft = bedWars.getConfig().getInt("shoutCooldown");
+        this.shoutCoolDownLeft = BedWars.getInstance().getConfig().getInt("shoutCooldown");
         this.shoutCoolDown = true;
-        Bukkit.getScheduler().runTaskTimer(bedWars, bukkitTask -> {
+        Bukkit.getScheduler().runTaskTimer(BedWars.getInstance(), bukkitTask -> {
             if (shoutCoolDownLeft == 0) this.shoutCoolDown = false;
             shoutCoolDownLeft--;
         }, 0, 20);
+    }
+
+    @Override
+    public String toString() {
+        return "BPlayer{" +
+                "player=" + player +
+                '}';
     }
 
     public void addKill() {

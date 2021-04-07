@@ -10,11 +10,11 @@ import org.bukkit.event.Listener;
 import java.util.Random;
 
 public class AsyncChatListener implements Listener {
-    private BedWars bedWars;
+    private BedWars plugin;
 
-    public AsyncChatListener(BedWars bedWars) {
-        this.bedWars = bedWars;
-        bedWars.getServer().getPluginManager().registerEvents(this, bedWars);
+    public AsyncChatListener(BedWars plugin) {
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
