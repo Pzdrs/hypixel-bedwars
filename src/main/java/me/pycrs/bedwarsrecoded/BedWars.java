@@ -1,9 +1,7 @@
 package me.pycrs.bedwarsrecoded;
 
 import me.pycrs.bedwarsrecoded.commands.ShoutCommand;
-import me.pycrs.bedwarsrecoded.listeners.AsyncChatListener;
-import me.pycrs.bedwarsrecoded.listeners.PlayerJoinListener;
-import me.pycrs.bedwarsrecoded.listeners.PlayerQuitListener;
+import me.pycrs.bedwarsrecoded.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,6 +43,10 @@ public final class BedWars extends JavaPlugin {
         this.playerJoinEvent = new PlayerJoinListener(this);
         new PlayerQuitListener(this);
         new AsyncChatListener(this);
+        new PlayerMoveListener(this);
+        new PlayerDeathListener(this);
+        new BWPlayerDeathListener(this);
+        new BWPlayerRespawnListener(this);
 
         new ShoutCommand(this);
     }
@@ -53,6 +55,10 @@ public final class BedWars extends JavaPlugin {
         List<BPlayer> players = new ArrayList<>();
         teams.forEach(team -> players.addAll(team.getPlayers()));
         return players;
+    }
+
+    public BPlayer getBPlayer(Player player) {
+        return getPlayers().stream().filter(player1 -> player1.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 
     public BTeam getPlayersTeam(Player player) {

@@ -2,6 +2,8 @@ package me.pycrs.bedwarsrecoded.listeners;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.events.BWPlayerDeathEvent;
+import me.pycrs.bedwarsrecoded.events.BWPlayerRespawnEvent;
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -14,7 +16,9 @@ public class BWPlayerRespawnListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeath(BWPlayerDeathEvent event) {
-        System.out.println("player died");
+    public void onPlayerDeath(BWPlayerRespawnEvent event) {
+        event.getPlayer().getPlayer().setGameMode(GameMode.SURVIVAL);
+        // TODO: 4/8/2021 teleport to base
+        System.out.println("player respawned");
     }
 }
