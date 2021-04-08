@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +32,7 @@ public class PlayerJoinListener implements Listener {
         event.joinMessage(null);
 
         Player player = event.getPlayer();
+        player.setGameMode(GameMode.SURVIVAL);
 
         // Set player's display name
         player.displayName(Component.text(event.getPlayer().getName(), NamedTextColor.GRAY));
