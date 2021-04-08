@@ -25,6 +25,7 @@ public class BTeam {
 
     public void addPlayer(Player player) {
         players.add(new BPlayer(player));
+        player.playerListName(Component.text(player.getName(), teamColor.getColor()));
         team.addEntry(player.getName());
     }
 

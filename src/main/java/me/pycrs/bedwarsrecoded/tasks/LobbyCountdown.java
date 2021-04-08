@@ -27,10 +27,10 @@ public class LobbyCountdown extends BukkitRunnable {
             broadcastCountdown(timer.get(), NamedTextColor.YELLOW);
         } else if (timer.get() == 10) {
             broadcastCountdown(timer.get(), NamedTextColor.GOLD);
-        } else if (timer.get() <= 5) {
+        } else if (timer.get() <= 5 && timer.get() > 0) {
             broadcastCountdown(timer.get(), NamedTextColor.RED);
         }
-        if (timer.decrementAndGet() == 0) {
+        if (timer.getAndDecrement() == 0) {
             this.cancel();
             Utils.distributePlayersToTeams(plugin);
             plugin.setGameInProgress(true);

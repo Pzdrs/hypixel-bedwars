@@ -19,9 +19,9 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-       /* if (event.getEntityType().equals(EntityType.PLAYER)) {
+        if (event.getEntityType().equals(EntityType.PLAYER) && BedWars.gameInProgress) {
             Player player = (Player) event.getEntity();
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
-        }*/
+        }
     }
 }

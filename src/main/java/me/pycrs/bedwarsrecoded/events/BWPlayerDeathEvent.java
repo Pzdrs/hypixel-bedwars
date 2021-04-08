@@ -15,8 +15,8 @@ public class BWPlayerDeathEvent extends Event {
     public BWPlayerDeathEvent(BedWars plugin, Player player) {
         this.player = plugin.getBPlayer(player);
         // TODO: 4/8/2021 make this teleport the player to lobby spawn
+        player.teleport(player.getLocation().set(player.getLocation().getX(), 100, player.getLocation().getZ()));
         player.setGameMode(GameMode.SPECTATOR);
-        player.teleport(player.getLocation().add(0,100,0));
     }
 
     public BPlayer getPlayer() {

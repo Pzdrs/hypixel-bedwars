@@ -30,9 +30,15 @@ public class PlayerQuitListener implements Listener {
 
         Player player = event.getPlayer();
 
+        // TODO: 4/8/2021 extra quit message for ingame players
         // New quit messages
-        plugin.getServer().sendMessage(player.displayName()
-                .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
+        if (BedWars.gameInProgress) {
+            plugin.getServer().sendMessage(Component.text(player.getName(), plugin.getBPlayer(player).getTeam().getTeamColor().getColor())
+                    .append(Component.text(" disconnected", NamedTextColor.GRAY)));
+        } else {
+            plugin.getServer().sendMessage(player.displayName()
+                    .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
+        }
 
         if (Bukkit.getOnlinePlayers().size() - 1 < BedWars.getMode().getMinPlayers() && Utils.isLobbyCountdownInProgress(plugin)) {
             plugin.getLobbyCountdown().cancel();

@@ -72,7 +72,7 @@ public final class BedWars extends JavaPlugin {
     }
 
     public void startGame() {
-        this.lobbyCountdown = new LobbyCountdown(this, 20);
+        this.lobbyCountdown = new LobbyCountdown(this, getConfig().getInt("lobbyCountdown"));
         lobbyCountdown.runTaskTimer(this, 0, 20);
     }
 
@@ -88,6 +88,7 @@ public final class BedWars extends JavaPlugin {
         new PlayerDeathListener(this);
         new BWPlayerDeathListener(this);
         new BWPlayerRespawnListener(this);
+        new AsyncPlayerPreLoginListener(this);
 
         new ShoutCommand(this);
         new StartCommand(this);

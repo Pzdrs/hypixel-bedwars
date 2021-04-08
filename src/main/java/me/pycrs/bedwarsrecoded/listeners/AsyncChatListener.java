@@ -21,6 +21,7 @@ public class AsyncChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
+        // TODO: 4/8/2021 spectator chat for spectators and dead players
         if (BedWars.gameInProgress) {
             event.composer((source, displayName, message) -> Component
                     .text(Utils.formatStars(new Random().nextInt(1000)) + " ")

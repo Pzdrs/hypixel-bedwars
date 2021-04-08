@@ -4,13 +4,17 @@ import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import javax.swing.plaf.SplitPaneUI;
+
 public class BPlayer {
+    private BedWars plugin;
     private Player player;
     private boolean shoutCoolDown;
     private int shoutCoolDownLeft;
     private int kills, finalKills, deaths, bedDestroys;
 
     public BPlayer(Player player) {
+        this.plugin = BedWars.getInstance();
         this.player = player;
         this.shoutCoolDownLeft = BedWars.getInstance().getConfig().getInt("shoutCooldown");
         this.kills = 0;
@@ -26,6 +30,10 @@ public class BPlayer {
             if (shoutCoolDownLeft == 0) this.shoutCoolDown = false;
             shoutCoolDownLeft--;
         }, 0, 20);
+    }
+
+    public BTeam getTeam() {
+        return plugin.getPlayersTeam(player);
     }
 
     @Override
