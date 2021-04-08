@@ -17,7 +17,7 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        event.setCancelled(true);
-        Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, event.getEntity()));
+        /*event.setCancelled(true);
+        Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, event.getEntity()));*/
     }
 }

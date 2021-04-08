@@ -99,4 +99,8 @@ public class Utils {
             }
         });
     }
+
+    public static boolean isLobbyCountdownInProgress(BedWars plugin) {
+        return plugin.getLobbyCountdown() != null && !plugin.getLobbyCountdown().isCancelled();
+    }
 }

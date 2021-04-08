@@ -34,10 +34,8 @@ public class PlayerQuitListener implements Listener {
         plugin.getServer().sendMessage(player.displayName()
                 .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
 
-        if (Bukkit.getOnlinePlayers().size() - 1 < BedWars.getMode().getMinPlayers() &&
-                plugin.playerJoinEvent.countDown != null &&
-                !plugin.playerJoinEvent.countDown.isCancelled()) {
-            plugin.playerJoinEvent.countDown.cancel();
+        if (Bukkit.getOnlinePlayers().size() - 1 < BedWars.getMode().getMinPlayers() && Utils.isLobbyCountdownInProgress(plugin)) {
+            plugin.getLobbyCountdown().cancel();
             plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
             Utils.inGameBroadcast(Component.text("We don't have enough players! Start cancelled.", NamedTextColor.RED));
             Bukkit.getServer().showTitle(Title.title(Component.text("Waiting for more players...", NamedTextColor.RED), Component.text().asComponent(),

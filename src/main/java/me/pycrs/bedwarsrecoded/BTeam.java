@@ -2,6 +2,7 @@ package me.pycrs.bedwarsrecoded;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
@@ -13,6 +14,7 @@ public class BTeam {
     private TeamColor teamColor;
     private Set<BPlayer> players;
     private boolean hasBed = true;
+    private Location respawnLocation;
 
     public BTeam(TeamColor teamColor) {
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());

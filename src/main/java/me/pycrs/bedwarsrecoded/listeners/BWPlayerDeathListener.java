@@ -27,19 +27,16 @@ public class BWPlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(BWPlayerDeathEvent event) {
-        Player player = event.getPlayer().getPlayer();
-
-        player.setGameMode(GameMode.SPECTATOR);
         this.respawnTimer = new AtomicInteger(5);
+        // FIXME: 4/8/2021 get rid of zero at the end, stop with 1
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
-            if (respawnTimer.get() == 0) {
+            if (respawnTimer.get() < 1) {
                 bukkitTask.cancel();
                 Bukkit.getPluginManager().callEvent(new BWPlayerRespawnEvent(event.getPlayer()));
             }
             Bukkit.getServer().showTitle(Title.title(
                     Component.text("YOU DIED!", NamedTextColor.RED),
-                    Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.getAndDecrement() + " &eseconds!")),
-                    Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
+                    Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.getAndDecrement() + " &eseconds!"))));
         }, 0, 20);
     }
 }

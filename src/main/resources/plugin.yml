@@ -9,3 +9,6 @@ commands:
   shout:
     description: Shout command
     usage: /shout <shout message>
+  start:
+    description: Force start the game
+    usage: /start

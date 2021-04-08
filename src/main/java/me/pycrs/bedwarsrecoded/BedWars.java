@@ -1,7 +1,9 @@
 package me.pycrs.bedwarsrecoded;
 
 import me.pycrs.bedwarsrecoded.commands.ShoutCommand;
+import me.pycrs.bedwarsrecoded.commands.StartCommand;
 import me.pycrs.bedwarsrecoded.listeners.*;
+import me.pycrs.bedwarsrecoded.tasks.LobbyCountdown;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,8 +17,7 @@ public final class BedWars extends JavaPlugin {
     private static Mode mode;
     public static boolean gameInProgress = false;
     private List<BTeam> teams;
-
-    public PlayerJoinListener playerJoinEvent;
+    private LobbyCountdown lobbyCountdown;
 
     @Override
     public void onEnable() {
@@ -37,18 +38,6 @@ public final class BedWars extends JavaPlugin {
 
     public static BedWars getInstance() {
         return instance;
-    }
-
-    private void init() {
-        this.playerJoinEvent = new PlayerJoinListener(this);
-        new PlayerQuitListener(this);
-        new AsyncChatListener(this);
-        new PlayerMoveListener(this);
-        new PlayerDeathListener(this);
-        new BWPlayerDeathListener(this);
-        new BWPlayerRespawnListener(this);
-
-        new ShoutCommand(this);
     }
 
     public List<BPlayer> getPlayers() {
@@ -74,13 +63,33 @@ public final class BedWars extends JavaPlugin {
         return mode;
     }
 
+    public LobbyCountdown getLobbyCountdown() {
+        return lobbyCountdown;
+    }
+
     public List<BTeam> getTeams() {
         return teams;
     }
 
+    public void startGame() {
+        this.lobbyCountdown = new LobbyCountdown(this, 20);
+        lobbyCountdown.runTaskTimer(this, 0, 20);
+    }
+
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
-        Utils.distributePlayersToTeams(this);
         // TODO: 4/6/2021 Print the big ass welcome message
+    }
+
+    private void init() {
+        new PlayerJoinListener(this);
+        new PlayerQuitListener(this);
+        new AsyncChatListener(this);
+        new PlayerDeathListener(this);
+        new BWPlayerDeathListener(this);
+        new BWPlayerRespawnListener(this);
+
+        new ShoutCommand(this);
+        new StartCommand(this);
     }
 }

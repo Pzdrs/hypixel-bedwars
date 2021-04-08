@@ -2,30 +2,23 @@ package me.pycrs.bedwarsrecoded.listeners;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.Utils;
-import net.kyori.adventure.sound.Sound;
+import me.pycrs.bedwarsrecoded.tasks.LobbyCountdown;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.time.Duration;
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class PlayerJoinListener implements Listener {
     private BedWars plugin;
-    public BukkitTask countDown;
-    private AtomicInteger timer;
 
     public PlayerJoinListener(BedWars plugin) {
         this.plugin = plugin;
@@ -88,53 +81,12 @@ public class PlayerJoinListener implements Listener {
         player.setScoreboard(scoreboard);
 
         // If enough players, start the countdown
-        if (countDown == null || countDown.isCancelled()) {
-            if (Bukkit.getOnlinePlayers().size() >= BedWars.getMode().getMinPlayers()) {
-                this.timer = new AtomicInteger(plugin.getConfig().getInt("lobbyCountdown"));
-                this.countDown = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                    if (timer.get() == 20) {
-                        broadcastCountdown(timer.get(), NamedTextColor.YELLOW);
-                    } else if (timer.get() == 10) {
-                        broadcastCountdown(timer.get(), NamedTextColor.GOLD);
-                    } else if (timer.get() <= 5) {
-                        broadcastCountdown(timer.get(), NamedTextColor.RED);
-                    }
-                    if (timer.decrementAndGet() == 0) {
-                        countDown.cancel();
-                        plugin.setGameInProgress(true);
-                    }
-                }, 0, 20);
+        if (Bukkit.getOnlinePlayers().size() >= BedWars.getMode().getMinPlayers()) {
+            if (Utils.isLobbyCountdownInProgress(plugin)) {
+                player.sendMessage(Component.text(Utils.color("&eThe game is starting in&b " + LobbyCountdown.timer + " &e" + (LobbyCountdown.timer.get() <= 1 ? "second!" : "seconds!"))));
+            } else {
+                plugin.startGame();
             }
-        } else {
-            player.sendMessage(Component.text(Utils.color("&eThe game is starting in&b " + timer + " &e" + (timer.get() <= 1 ? "second!" : "seconds!"))));
-        }
-    }
-
-    private void broadcastCountdown(int timer, NamedTextColor color) {
-        // Chat message
-        Utils.inGameBroadcast(Component
-                .text("The game starts in ", NamedTextColor.YELLOW)
-                .append(Component.text(timer + " ", color))
-                .append(Component.text(timer <= 1 ? "second!" : "seconds!")));
-        // Sounds
-        plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
-        // Titles
-        switch (timer) {
-            case 10:
-                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.GREEN), Component.text().asComponent(),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-                break;
-            case 5:
-            case 4:
-                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.YELLOW), Component.text().asComponent(),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-                break;
-            case 3:
-            case 2:
-            case 1:
-                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.RED), Component.text().asComponent(),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-                break;
         }
     }
 }
