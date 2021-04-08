@@ -16,6 +16,6 @@ public class CreatureSpawnListener implements Listener {
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         // FIXME: 4/8/2021 When i eventually add dragons, this is gonna need to be edited
-        event.setCancelled(true);
+        if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL)) event.setCancelled(true);
     }
 }

@@ -15,8 +15,6 @@ public class BWPlayerRespawnEvent extends Event implements Cancellable {
 
     public BWPlayerRespawnEvent(BPlayer player) {
         this.player = player;
-        // Clear title
-        player.getPlayer().showTitle(Title.title(Component.empty(), Component.empty()));
     }
 
     public BPlayer getPlayer() {

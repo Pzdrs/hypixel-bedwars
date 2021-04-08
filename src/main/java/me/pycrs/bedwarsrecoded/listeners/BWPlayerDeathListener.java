@@ -8,6 +8,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -25,6 +28,13 @@ public class BWPlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(BWPlayerDeathEvent event) {
+        Player player = event.getPlayer().getPlayer();
+        // TODO: 4/8/2021 make this teleport the player to lobby spawn
+        player.setGameMode(GameMode.SPECTATOR);
+
+        // FIXME: 4/8/2021 for some reason this aint teleporting the player what the fuck???
+        player.teleport(new Location(player.getWorld(), 150,100,-200));
+
         this.respawnTimer = new AtomicInteger(5);
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
             if (respawnTimer.get() == 0) {
@@ -33,8 +43,9 @@ public class BWPlayerDeathListener implements Listener {
             } else {
                 event.getPlayer().getPlayer().showTitle(Title.title(
                         Component.text("YOU DIED!", NamedTextColor.RED),
-                        Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.getAndDecrement() + " &eseconds!")),
+                        Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.get() + " &eseconds!")),
                         Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
+                player.sendMessage(Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.getAndDecrement() + " &eseconds!")));
             }
         }, 0, 20);
     }

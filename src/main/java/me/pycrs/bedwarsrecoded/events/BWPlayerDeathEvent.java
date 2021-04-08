@@ -2,7 +2,6 @@ package me.pycrs.bedwarsrecoded.events;
 
 import me.pycrs.bedwarsrecoded.BPlayer;
 import me.pycrs.bedwarsrecoded.BedWars;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -14,9 +13,6 @@ public class BWPlayerDeathEvent extends Event {
 
     public BWPlayerDeathEvent(BedWars plugin, Player player) {
         this.player = plugin.getBPlayer(player);
-        // TODO: 4/8/2021 make this teleport the player to lobby spawn
-        player.teleport(player.getLocation().set(player.getLocation().getX(), 100, player.getLocation().getZ()));
-        player.setGameMode(GameMode.SPECTATOR);
     }
 
     public BPlayer getPlayer() {
