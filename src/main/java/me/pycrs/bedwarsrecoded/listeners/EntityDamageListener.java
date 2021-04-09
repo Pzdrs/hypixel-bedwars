@@ -21,7 +21,11 @@ public class EntityDamageListener implements Listener {
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getEntityType().equals(EntityType.PLAYER) && BedWars.gameInProgress) {
             Player player = (Player) event.getEntity();
-            if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
+            // Custom void instakill
+            if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
+                event.setCancelled(true);
+                Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
+            }
         }
     }
 }
