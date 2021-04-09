@@ -4,12 +4,11 @@ import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import javax.swing.plaf.SplitPaneUI;
-
 public class BPlayer {
     private BedWars plugin;
     private Player player;
     private boolean shoutCoolDown;
+    private boolean spectating = false;
     private int shoutCoolDownLeft;
     private int kills, finalKills, deaths, bedDestroys;
 
@@ -34,6 +33,17 @@ public class BPlayer {
 
     public BTeam getTeam() {
         return plugin.getPlayersTeam(player);
+    }
+
+    public void setSpectator(boolean spectator) {
+        this.spectating = spectator;
+        player.getInventory().clear();
+        player.setHealth(20);
+        player.setInvulnerable(spectator);
+        // FIXME: 4/9/2021 not an ideal invisibility
+        player.setInvisible(spectator);
+        player.setAllowFlight(spectator);
+        player.setFlying(spectator);
     }
 
     @Override

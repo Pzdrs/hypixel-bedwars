@@ -25,6 +25,12 @@ public class EntityDamageListener implements Listener {
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
                 event.setCancelled(true);
                 Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
+                return;
+            }
+            // "replace" the default PlayerDeathEvent for my custom one
+            if (player.getHealth() - event.getFinalDamage() <= 0) {
+                event.setCancelled(true);
+                Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
             }
         }
     }
