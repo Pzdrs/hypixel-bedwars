@@ -37,11 +37,17 @@ public class BPlayer {
 
     public void setSpectator(boolean spectator) {
         this.spectating = spectator;
+        // Better invisibility
+        plugin.getServer().getOnlinePlayers().forEach(online -> {
+            if (spectator)
+                online.hidePlayer(plugin, player);
+            else
+                online.showPlayer(plugin, player);
+        });
         player.getInventory().clear();
         player.setHealth(20);
         player.setInvulnerable(spectator);
         // FIXME: 4/9/2021 not an ideal invisibility
-        player.setInvisible(spectator);
         player.setAllowFlight(spectator);
         player.setFlying(spectator);
     }
