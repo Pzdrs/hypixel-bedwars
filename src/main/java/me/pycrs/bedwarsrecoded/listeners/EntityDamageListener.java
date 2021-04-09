@@ -23,6 +23,7 @@ public class EntityDamageListener implements Listener {
             Player player = (Player) event.getEntity();
             // Custom void instakill
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
+                // TODO: 4/9/2021 if fall damage, add sound
                 event.setCancelled(true);
                 Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
                 return;

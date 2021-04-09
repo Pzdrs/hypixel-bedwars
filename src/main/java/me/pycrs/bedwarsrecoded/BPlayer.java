@@ -2,7 +2,11 @@ package me.pycrs.bedwarsrecoded;
 
 import javafx.util.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class BPlayer {
     private BedWars plugin;
@@ -36,20 +40,32 @@ public class BPlayer {
     }
 
     public void setSpectator(boolean spectator) {
+        // FIXME: 4/9/2021 adjust to player's team spawn location
+        player.teleport(player.getLocation().set(150, 63, -200));
         this.spectating = spectator;
         // Better invisibility
-        plugin.getServer().getOnlinePlayers().forEach(online -> {
-            if (spectator)
-                online.hidePlayer(plugin, player);
-            else
-                online.showPlayer(plugin, player);
-        });
+        if (spectator) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
+            plugin.getPlayers().forEach(bPlayer -> {
+                if (!bPlayer.isSpectating())
+                    bPlayer.getPlayer().hidePlayer(plugin, player);
+            });
+        } else {
+            player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
+            plugin.getPlayers().forEach(bPlayer -> {
+                bPlayer.getPlayer().showPlayer(plugin, player);
+            });
+        }
         player.getInventory().clear();
+        player.getInventory().addItem(new ItemStack(Material.COMPASS));
         player.setHealth(20);
         player.setInvulnerable(spectator);
-        // FIXME: 4/9/2021 not an ideal invisibility
         player.setAllowFlight(spectator);
         player.setFlying(spectator);
+    }
+
+    public boolean isSpectating() {
+        return spectating;
     }
 
     @Override
