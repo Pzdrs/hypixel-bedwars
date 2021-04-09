@@ -3,10 +3,12 @@ package me.pycrs.bedwarsrecoded.listeners;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.events.BWPlayerDeathEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class PlayerDeathListener implements Listener {
     private BedWars plugin;

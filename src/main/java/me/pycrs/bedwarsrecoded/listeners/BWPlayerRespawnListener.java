@@ -25,6 +25,11 @@ public class BWPlayerRespawnListener implements Listener {
     public void onPlayerRespawn(BWPlayerRespawnEvent event) {
         Player player = event.getPlayer().getPlayer();
 
+        player.setInvulnerable(false);
+        player.setInvisible(false);
+        player.setAllowFlight(false);
+
+        System.out.println(player.isDead());
         player.teleport(player.getLocation().set(150, 63, -200));
         player.showTitle(Title.title(Component.text("RESPAWNED!", NamedTextColor.GREEN), Component.empty(),
                 Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));

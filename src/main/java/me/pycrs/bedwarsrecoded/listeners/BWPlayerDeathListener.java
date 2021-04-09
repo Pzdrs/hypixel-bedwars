@@ -30,10 +30,13 @@ public class BWPlayerDeathListener implements Listener {
     public void onPlayerDeath(BWPlayerDeathEvent event) {
         Player player = event.getPlayer().getPlayer();
         // TODO: 4/8/2021 make this teleport the player to lobby spawn
-        player.setGameMode(GameMode.SPECTATOR);
-
         // FIXME: 4/8/2021 for some reason this aint teleporting the player what the fuck???
-        player.teleport(new Location(player.getWorld(), 150,100,-200));
+        player.teleport(player.getLocation().set(150,100,-220));
+
+        player.setInvulnerable(true);
+        player.setInvisible(true);
+        player.setAllowFlight(true);
+        player.setFlying(true);
 
         this.respawnTimer = new AtomicInteger(5);
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
