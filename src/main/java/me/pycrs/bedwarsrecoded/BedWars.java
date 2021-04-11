@@ -91,6 +91,7 @@ public final class BedWars extends JavaPlugin {
         new FoodLevelChangeListener(this);
         new CreatureSpawnListener(this);
         new EntityDamageListener(this);
+        new PlayerInteractEntityListener(this);
 
         new ShoutCommand(this);
         new StartCommand(this);
