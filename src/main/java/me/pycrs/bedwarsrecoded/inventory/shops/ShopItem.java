@@ -1,6 +1,8 @@
 package me.pycrs.bedwarsrecoded.inventory.shops;
 
 import javafx.util.Pair;
+import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -9,6 +11,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +31,10 @@ public class ShopItem {
     }
 
     private ItemStack formatPreviewItem(Material material, int amount) {
-        ItemStack preview = new ItemStack(material, amount);
+        ItemStack preview = new ItemBuilder(material, amount)
+                .setPlugin(BedWars.getInstance())
+                .setPersistentData("role", PersistentDataType.STRING, "shopItem")
+                .build();
         if (description == null) {
             preview.lore(Arrays.asList(
                     Component.text(Utils.color("&7Cost: &r" + BWCurrency.formatPrice(cost))),
@@ -38,7 +45,7 @@ public class ShopItem {
             for (String s : description.split("\n")) {
                 lore.add(Component.text(ChatColor.GRAY + s));
             }
-            lore.addAll(Arrays.asList(Component.empty(),  Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
+            lore.addAll(Arrays.asList(Component.empty(), Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
             preview.lore(lore);
         }
         return preview;

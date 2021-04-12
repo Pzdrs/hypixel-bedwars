@@ -17,24 +17,25 @@ public class GenericShop extends Shop {
 
     @Override
     public void setCategories() {
-        categories.put(new ShopCategory("Quick Buy", Material.NETHER_STAR), false);
-        categories.put(new ShopCategory("Blocks", Material.TERRACOTTA,
+        categories.add(new ShopCategory("quick_buy","Quick Buy", Material.NETHER_STAR));
+        categories.add(new ShopCategory("blocks","Blocks", Material.TERRACOTTA,
                 new ShopItem(Material.WHITE_WOOL, 16, BWCurrency.IRON, 4, "Great for bridging across\nislands. Turns into your team's\ncolor."),
                 new ShopItem(Material.OAK_PLANKS, 16, BWCurrency.GOLD, 4, "Good block to defend your bed.\nStrong against pickaxes."),
                 new ShopItem(Material.END_STONE, 12, BWCurrency.IRON, 24, "Solid block to defend your bed."),
                 new ShopItem(Material.TERRACOTTA, 16, BWCurrency.IRON, 12, "Basic block to defend your bed."),
                 new ShopItem(Material.GLASS, 4, BWCurrency.IRON, 12, "Immune to explosions"),
-                new ShopItem(Material.LADDER, 16, BWCurrency.IRON, 4, "Useful to save cats stuck in\ntrees.")), true);
-        categories.put(new ShopCategory("Melee", Material.GOLDEN_SWORD), false);
-        categories.put(new ShopCategory("Armor", Material.CHAINMAIL_BOOTS), false);
-        categories.put(new ShopCategory("Tools", Material.STONE_PICKAXE), false);
-        categories.put(new ShopCategory("Ranged", Material.BOW), false);
-        categories.put(new ShopCategory("Potions", Material.BREWING_STAND), false);
-        categories.put(new ShopCategory("Utility", Material.TNT), false);
+                new ShopItem(Material.LADDER, 16, BWCurrency.IRON, 4, "Useful to save cats stuck in\ntrees.")));
+        categories.add(new ShopCategory("melee","Melee", Material.GOLDEN_SWORD));
+        categories.add(new ShopCategory("armor","Armor", Material.CHAINMAIL_BOOTS));
+        categories.add(new ShopCategory("tools","Tools", Material.STONE_PICKAXE));
+        categories.add(new ShopCategory("ranged","Ranged", Material.BOW));
+        categories.add(new ShopCategory("potions","Potions", Material.BREWING_STAND));
+        categories.add(new ShopCategory("utility","Utility", Material.TNT));
+        changeCategory("blocks");
     }
 
     @Override
     public void handlePurchase(InventoryClickEvent event) {
-
+        System.out.println(event.getCurrentItem().getType());
     }
 }

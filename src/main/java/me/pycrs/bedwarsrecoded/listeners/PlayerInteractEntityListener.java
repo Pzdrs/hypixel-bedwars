@@ -21,7 +21,6 @@ public class PlayerInteractEntityListener implements Listener {
         // TODO: 4/11/2021 check if entity is an actual shopkeeper, probably gonna use persistent data container
         Entity entity = event.getRightClicked();
         if (entity.getType().equals(EntityType.VILLAGER)) {
-            event.getPlayer().sendMessage("shop");
             new GenericShop().show(event.getPlayer());
         }
     }

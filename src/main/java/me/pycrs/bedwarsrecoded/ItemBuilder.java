@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemBuilder {
+    private JavaPlugin plugin;
     private ItemStack itemStack;
     private ItemMeta itemMeta;
 
@@ -40,6 +41,11 @@ public class ItemBuilder {
     @Override
     public ItemBuilder clone() {
         return new ItemBuilder(itemStack);
+    }
+
+    public ItemBuilder setPlugin(JavaPlugin plugin) {
+        this.plugin = plugin;
+        return this;
     }
 
     public ItemBuilder setUnbreakable(boolean unbreakable) {
@@ -106,7 +112,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setPersistentData(JavaPlugin plugin, String key, PersistentDataType dataType, Object value) {
+    public ItemBuilder setPersistentData(String key, PersistentDataType dataType, Object value) {
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, key), dataType, value);
         return this;
     }

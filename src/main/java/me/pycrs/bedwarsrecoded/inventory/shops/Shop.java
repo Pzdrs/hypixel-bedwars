@@ -3,7 +3,6 @@ package me.pycrs.bedwarsrecoded.inventory.shops;
 import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,26 +19,40 @@ import java.util.*;
 
 public abstract class Shop implements InventoryHolder {
     private Inventory inventory;
-    protected Map<ShopCategory, Boolean> categories;
+    protected LinkedList<ShopCategory> categories;
+    private ShopCategory activeCategory;
     private Player player;
     protected List<ShopItem> items;
 
     public Shop() {
         this.items = new ArrayList<>();
-        this.categories = new LinkedHashMap<>();
+        this.categories = new LinkedList<>();
+    }
+
+    public void changeCategory(String id) {
+        System.out.println(id);
+        this.activeCategory = categories
+                .stream()
+                .filter(category -> category.getId().equals(id))
+                .findFirst().orElse(null);
     }
 
     private void injectItems() {
         if (categorical()) {
-            int index = 0;
             inventory.setItem(9, getCategoryDiode(false));
             inventory.setItem(17, getCategoryDiode(false));
-            for (Map.Entry<ShopCategory, Boolean> category : categories.entrySet()) {
-                inventory.setItem(index, removeLoreIfActive(category.getKey().getPreview(), category.getValue()));
-                inventory.setItem(index + 9, getCategoryDiode(category.getValue()));
-                if (category.getValue()) {
-                    for (int i = 0; i < category.getKey().getItems().size(); i++) {
-                        ShopItem item = category.getKey().getItems().get(i);
+            for (int i = 0; i < categories.size(); i++) {
+                ShopCategory category = categories.get(i);
+                boolean active = activeCategory.getId().equals(category.getId());
+                inventory.setItem(i, removeLoreIfActive(category.getPreview(), active));
+                inventory.setItem(i + 9, getCategoryDiode(active));
+                if (active) {
+                    int lastItemPosition = 18;
+                    for (int j = 0; j < category.getItems().size(); j++) {
+                        // Rendering more than 21 items on one page isn't possible
+                        if (j > 20) break;
+
+                        ShopItem item = category.getItems().get(j);
                         ItemStack itemStack = item.getPreview();
                         ItemMeta meta = itemStack.getItemMeta();
 
@@ -50,10 +63,12 @@ public abstract class Shop implements InventoryHolder {
                         meta.lore(lore);
 
                         itemStack.setItemMeta(meta);
-                        inventory.setItem(index + i + 18, itemStack);
+
+                        int itemPosition = lastItemPosition + (j == 7 || j == 14 ? 3 : 1);
+                        inventory.setItem(itemPosition, itemStack);
+                        lastItemPosition = itemPosition;
                     }
                 }
-                index++;
             }
         } else {
             items.forEach(shopItem -> inventory.addItem(shopItem.getPreview()));
@@ -97,19 +112,23 @@ public abstract class Shop implements InventoryHolder {
     public abstract int getSize();
 
     public void setShopItems() {
-
     }
 
     public void setCategories() {
+    }
 
+    private void render() {
+        setShopItems();
+        setCategories();
+        if (activeCategory == null) this.activeCategory = categories.get(0);
+        this.inventory = Bukkit.createInventory(this, getSize(), Component.text(activeCategory.getName()));
+        injectItems();
+        if (player != null) player.updateInventory();
     }
 
     public final void show(Player player) {
         this.player = player;
-        this.inventory = Bukkit.createInventory(this, getSize());
-        setShopItems();
-        setCategories();
-        injectItems();
+        render();
         player.openInventory(inventory);
     }
 
