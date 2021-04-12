@@ -1,25 +1,56 @@
 package me.pycrs.bedwarsrecoded.inventory.shops;
 
 import javafx.util.Pair;
+import me.pycrs.bedwarsrecoded.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang.WordUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+
 public class ShopItem {
+    private String description;
     private ItemStack preview, product;
     private Pair<BWCurrency, Integer> cost;
 
-    public ShopItem(Material material, int amount, BWCurrency currency, int price) {
-        this.preview = getPreviewItem(material);
-        this.product = getFinalProduct(material, amount);
+    public ShopItem(Material material, int amount, BWCurrency currency, int price, String description) {
+        this.description = description;
         this.cost = new Pair<>(currency, price);
+        this.preview = formatPreviewItem(material, amount);
+        this.product = getFinalProduct(material, amount);
     }
 
-    private ItemStack getPreviewItem(Material material) {
-        return new ItemStack(material);
+    private ItemStack formatPreviewItem(Material material, int amount) {
+        ItemStack preview = new ItemStack(material, amount);
+        if (description == null) {
+            preview.lore(Arrays.asList(
+                    Component.text(Utils.color("&7Cost: &r" + BWCurrency.formatPrice(cost))),
+                    Component.empty(),
+                    Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
+        } else {
+            preview.lore(Arrays.asList(
+                    Component.text(Utils.color("&7Cost: &r" + BWCurrency.formatPrice(cost))),
+                    Component.empty(),
+                    Component.text(ChatColor.GRAY + description),
+                    Component.empty(),
+                    Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
+        }
+        return preview;
+    }
+
+    public Pair<BWCurrency, Integer> getCost() {
+        return cost;
     }
 
     private ItemStack getFinalProduct(Material material, int amount) {
         return new ItemStack(material, amount);
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public ItemStack getPreview() {

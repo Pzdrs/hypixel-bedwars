@@ -2,8 +2,10 @@ package me.pycrs.bedwarsrecoded;
 
 import me.pycrs.bedwarsrecoded.exceptions.InvalidTeamSizeException;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -39,6 +41,10 @@ public class Utils {
         } else {
             return encapsulateStars(stars, null);
         }
+    }
+
+    public static String materialToFriendlyName(Material material) {
+        return WordUtils.capitalize(material.name().toLowerCase().replace("_", " "));
     }
 
     private static String encapsulateStars(int stars, ChatColor color) {

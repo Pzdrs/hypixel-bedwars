@@ -1,17 +1,35 @@
 package me.pycrs.bedwarsrecoded.inventory.shops;
 
+import javafx.util.Pair;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang.WordUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 public enum BWCurrency {
-    IRON(Material.IRON_INGOT), GOLD(Material.GOLD_INGOT), DIAMOND(Material.DIAMOND), EMERALD(Material.EMERALD);
+    IRON(Material.IRON_INGOT, NamedTextColor.WHITE),
+    GOLD(Material.GOLD_INGOT, NamedTextColor.GOLD),
+    DIAMOND(Material.DIAMOND, NamedTextColor.AQUA),
+    EMERALD(Material.EMERALD, NamedTextColor.DARK_GREEN);
 
     private Material material;
+    private NamedTextColor color;
 
-    BWCurrency(Material material) {
+    BWCurrency(Material material, NamedTextColor color) {
         this.material = material;
+        this.color = color;
+    }
+
+    public NamedTextColor getColor() {
+        return color;
     }
 
     public Material getMaterial() {
         return material;
+    }
+
+    public static String formatPrice(Pair<BWCurrency, Integer> cost) {
+        return ChatColor.valueOf(cost.getKey().getColor().toString().toUpperCase()) + (cost.getValue() + " " + WordUtils.capitalize(cost.getKey().name().toLowerCase())) + ChatColor.RESET;
     }
 }
