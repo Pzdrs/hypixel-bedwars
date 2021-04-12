@@ -48,12 +48,12 @@ public abstract class Shop implements InventoryHolder {
                 .stream()
                 .filter(category -> category.getId().equals(id))
                 .findFirst().orElse(null);
+        System.out.println("new active category: " + activeCategory.getId());
     }
 
     private void setupInventory() {
-        setShopItems();
-        setCategories();
-
+        if (items.size() == 0) setShopItems();
+        if (categories.size() == 0) setCategories();
         if (activeCategory == null) this.activeCategory = categories.get(0);
         this.inventory = Bukkit.createInventory(this, getSize(), Component.text(activeCategory.getName()));
 
@@ -64,6 +64,13 @@ public abstract class Shop implements InventoryHolder {
         this.player = player;
         setupInventory();
         player.openInventory(inventory);
+    }
+
+    public void navigate(String category) {
+        System.out.println("navigating to " + category);
+        setActiveCategory(category);
+        setupInventory();
+        show(player);
     }
 
     private void injectItems() {
@@ -86,7 +93,7 @@ public abstract class Shop implements InventoryHolder {
                         ItemStack itemStack = item.getPreview();
                         ItemMeta meta = itemStack.getItemMeta();
 
-                        meta.displayName(Component.text((Utils.canAfford(player,item.getCost()) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType())));
+                        meta.displayName(Component.text((Utils.canAfford(player, item.getCost()) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType())));
 
                         List<Component> lore = new ArrayList<>(Objects.requireNonNull(meta.lore()));
                         lore.add(Component.text(Utils.color(Utils.canAfford(player, item.getCost()) ? "&eClick to purchase!" : "&cYou don't have enough " + WordUtils.capitalize(item.getCost().getKey().name().toLowerCase()) + "!")));

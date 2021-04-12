@@ -32,7 +32,7 @@ public class InventoryClickListener implements Listener {
                 if (role != null) {
                     switch (role) {
                         case "category":
-                            System.out.println(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "category"), PersistentDataType.STRING));
+                            shop.navigate(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "category"), PersistentDataType.STRING));
                             break;
                         case "shopItem":
                             shop.handlePurchase(event);
