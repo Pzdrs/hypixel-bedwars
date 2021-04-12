@@ -1,6 +1,7 @@
 package me.pycrs.bedwarsrecoded;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -98,9 +99,19 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLoreLine(String line) {
+        if (line == null) return this;
         List<Component> lore = itemMeta.hasLore() ? itemMeta.lore() : new ArrayList<>();
         if (lore != null)
-            lore.add(Component.text(color(line)));
+                lore.add(Component.text(color(line)));
+        itemMeta.lore(lore);
+        return this;
+    }
+    public ItemBuilder setItemDescription(String description, ChatColor color) {
+        if (description == null) return this;
+        List<Component> lore = itemMeta.hasLore() ? itemMeta.lore() : new ArrayList<>();
+        if (lore != null)
+            for (String s : description.split("\n"))
+                lore.add(Component.text(color + s));
         itemMeta.lore(lore);
         return this;
     }
