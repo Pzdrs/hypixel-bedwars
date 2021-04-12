@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

@@ -1,15 +1,9 @@
 package me.pycrs.bedwarsrecoded.inventory.shops;
 
-import me.pycrs.bedwarsrecoded.BTeam;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class GenericShop extends Shop {
-    private BTeam team;
-
-    public GenericShop(BTeam team) {
-        super();
-        this.team = team;
-    }
 
     @Override
     public boolean categorical() {
@@ -37,5 +31,10 @@ public class GenericShop extends Shop {
         categories.put(new ShopCategory("Ranged", Material.BOW), false);
         categories.put(new ShopCategory("Potions", Material.BREWING_STAND), false);
         categories.put(new ShopCategory("Utility", Material.TNT), false);
+    }
+
+    @Override
+    public void handlePurchase(InventoryClickEvent event) {
+
     }
 }
