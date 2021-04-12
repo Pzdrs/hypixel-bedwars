@@ -28,12 +28,15 @@ public abstract class Shop implements InventoryHolder {
         this.categories = new LinkedHashMap<>();
     }
 
+    // TODO: 4/12/2021 make the categories scrollable using left and right click outside of the inventory
     private void injectItems() {
         if (categorical()) {
             int index = 0;
+            inventory.setItem(9, getCategoryDiode(false));
+            inventory.setItem(17, getCategoryDiode(false));
             for (Map.Entry<ShopCategory, Boolean> category : categories.entrySet()) {
-                inventory.setItem(index + 1, category.getKey().getPreview());
-                inventory.setItem(index + 10, getCategoryDiode(category.getValue()));
+                inventory.setItem(index, removeLoreIfActive(category.getKey().getPreview(), category.getValue()));
+                inventory.setItem(index + 9, getCategoryDiode(category.getValue()));
                 if (category.getValue()) {
                     for (int i = 0; i < category.getKey().getItems().size(); i++) {
                         ShopItem item = category.getKey().getItems().get(i);
@@ -47,7 +50,7 @@ public abstract class Shop implements InventoryHolder {
                         meta.lore(lore);
 
                         itemStack.setItemMeta(meta);
-                        inventory.setItem(index + i + 19, itemStack);
+                        inventory.setItem(index + i + 18, itemStack);
                     }
                 }
                 index++;
@@ -55,6 +58,11 @@ public abstract class Shop implements InventoryHolder {
         } else {
             items.forEach(shopItem -> inventory.addItem(shopItem.getPreview()));
         }
+    }
+
+    private ItemStack removeLoreIfActive(ItemStack preview, boolean active) {
+        if (active) preview.lore(new ArrayList<>());
+        return preview;
     }
 
     private ItemStack getCategoryDiode(boolean active) {

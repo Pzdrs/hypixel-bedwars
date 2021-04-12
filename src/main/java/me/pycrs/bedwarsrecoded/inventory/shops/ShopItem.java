@@ -9,7 +9,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ShopItem {
     private String description;
@@ -31,12 +33,12 @@ public class ShopItem {
                     Component.empty(),
                     Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
         } else {
-            preview.lore(Arrays.asList(
-                    Component.text(Utils.color("&7Cost: &r" + BWCurrency.formatPrice(cost))),
-                    Component.empty(),
-                    Component.text(ChatColor.GRAY + description),
-                    Component.empty(),
-                    Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
+            List<Component> lore = new ArrayList<>(Arrays.asList(Component.text(Utils.color("&7Cost: &r" + BWCurrency.formatPrice(cost))), Component.empty()));
+            for (String s : description.split("\n")) {
+                lore.add(Component.text(ChatColor.GRAY + s));
+            }
+            lore.addAll(Arrays.asList(Component.empty(),  Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
+            preview.lore(lore);
         }
         return preview;
     }

@@ -92,6 +92,7 @@ public final class BedWars extends JavaPlugin {
         new CreatureSpawnListener(this);
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
+        new InventoryClickListener(this);
 
         new ShoutCommand(this);
         new StartCommand(this);
