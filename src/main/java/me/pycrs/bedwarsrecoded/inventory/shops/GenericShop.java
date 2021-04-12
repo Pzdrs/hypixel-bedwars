@@ -31,7 +31,7 @@ public class GenericShop extends Shop {
         categories.add(new ShopCategory("ranged","Ranged", Material.BOW));
         categories.add(new ShopCategory("potions","Potions", Material.BREWING_STAND));
         categories.add(new ShopCategory("utility","Utility", Material.TNT));
-        changeCategory("blocks");
+        setActiveCategory("blocks");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package me.pycrs.bedwarsrecoded.inventory.shops;
 
 import javafx.util.Pair;
+import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
@@ -29,8 +30,19 @@ public abstract class Shop implements InventoryHolder {
         this.categories = new LinkedList<>();
     }
 
-    public void changeCategory(String id) {
-        System.out.println(id);
+    public abstract void handlePurchase(InventoryClickEvent event);
+
+    public abstract boolean categorical();
+
+    public abstract int getSize();
+
+    public void setShopItems() {
+    }
+
+    public void setCategories() {
+    }
+
+    public void setActiveCategory(String id) {
         this.activeCategory = categories
                 .stream()
                 .filter(category -> category.getId().equals(id))
@@ -44,7 +56,8 @@ public abstract class Shop implements InventoryHolder {
             for (int i = 0; i < categories.size(); i++) {
                 ShopCategory category = categories.get(i);
                 boolean active = activeCategory.getId().equals(category.getId());
-                inventory.setItem(i, removeLoreIfActive(category.getPreview(), active));
+
+                inventory.setItem(i, active ? category.getPreview() : new ItemBuilder(category.getPreview()).addLoreLine("&eClick to view!").build());
                 inventory.setItem(i + 9, getCategoryDiode(active));
                 if (active) {
                     int lastItemPosition = 18;
@@ -75,23 +88,11 @@ public abstract class Shop implements InventoryHolder {
         }
     }
 
-    public abstract void handlePurchase(InventoryClickEvent event);
-
-    private ItemStack removeLoreIfActive(ItemStack preview, boolean active) {
-        if (active) preview.lore(new ArrayList<>());
-        return preview;
-    }
-
     private ItemStack getCategoryDiode(boolean active) {
-        ItemStack diode = new ItemStack(active ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE);
-        ItemMeta meta = diode.getItemMeta();
-
-        // FIXME: 4/12/2021 wrong unicode, figure out how to use surrogate pairs
-        meta.displayName(Component.text(Utils.color("&8\u2191 &7Categories")));
-        meta.lore(new ArrayList<>(Collections.singletonList(Component.text(Utils.color("&8\u2193 &7Items")))));
-
-        diode.setItemMeta(meta);
-        return diode;
+        return new ItemBuilder(active ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE)
+                .setDisplayName("&8\u2191 &7Categories")
+                .setLore("&8\u2193 &7Items")
+                .build();
     }
 
     private boolean canBeBought(Pair<BWCurrency, Integer> cost) {
@@ -107,28 +108,19 @@ public abstract class Shop implements InventoryHolder {
         return resources.get(cost.getKey().getMaterial()) != null && resources.get(cost.getKey().getMaterial()) >= cost.getValue();
     }
 
-    public abstract boolean categorical();
-
-    public abstract int getSize();
-
-    public void setShopItems() {
-    }
-
-    public void setCategories() {
-    }
-
-    private void render() {
+    private void setupInventory() {
         setShopItems();
         setCategories();
+
         if (activeCategory == null) this.activeCategory = categories.get(0);
         this.inventory = Bukkit.createInventory(this, getSize(), Component.text(activeCategory.getName()));
+
         injectItems();
-        if (player != null) player.updateInventory();
     }
 
     public final void show(Player player) {
         this.player = player;
-        render();
+        setupInventory();
         player.openInventory(inventory);
     }
 

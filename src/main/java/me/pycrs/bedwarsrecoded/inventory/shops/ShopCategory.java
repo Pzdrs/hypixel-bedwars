@@ -28,7 +28,6 @@ public class ShopCategory {
                 .setPlugin(BedWars.getInstance())
                 .setDisplayName(ChatColor.GREEN + name)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES)
-                .setLore("&eClick to view!")
                 .setPersistentData("role", PersistentDataType.STRING, "category")
                 .setPersistentData("category", PersistentDataType.STRING, id)
                 .build();

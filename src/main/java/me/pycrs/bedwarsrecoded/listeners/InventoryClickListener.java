@@ -9,8 +9,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.naming.Name;
-
 public class InventoryClickListener implements Listener {
     private BedWars plugin;
 
@@ -34,7 +32,7 @@ public class InventoryClickListener implements Listener {
                 if (role != null) {
                     switch (role) {
                         case "category":
-                            shop.changeCategory(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "category"), PersistentDataType.STRING));
+                            System.out.println(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "category"), PersistentDataType.STRING));
                             break;
                         case "shopItem":
                             shop.handlePurchase(event);
