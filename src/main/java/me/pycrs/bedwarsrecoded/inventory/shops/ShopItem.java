@@ -3,20 +3,10 @@ package me.pycrs.bedwarsrecoded.inventory.shops;
 import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
-import me.pycrs.bedwarsrecoded.Utils;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ShopItem {
     private String description;
@@ -31,24 +21,14 @@ public class ShopItem {
     }
 
     private ItemStack formatPreviewItem(Material material, int amount) {
-        ItemStack preview = new ItemBuilder(material, amount)
+        return new ItemBuilder(material, amount)
                 .setPlugin(BedWars.getInstance())
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")
+                .setLore("&7Cost: &r" + BWCurrency.formatPrice(cost), "")
+                .setItemDescription(description == null ? null : description, ChatColor.GRAY)
+                .addLoreLine("")
+                .addLoreLine("&bSneak Click to remove from Quick Buy")
                 .build();
-        if (description == null) {
-            preview.lore(Arrays.asList(
-                    Component.text(Utils.color("&7Cost: &r" + BWCurrency.formatPrice(cost))),
-                    Component.empty(),
-                    Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
-        } else {
-            List<Component> lore = new ArrayList<>(Arrays.asList(Component.text(Utils.color("&7Cost: &r" + BWCurrency.formatPrice(cost))), Component.empty()));
-            for (String s : description.split("\n")) {
-                lore.add(Component.text(ChatColor.GRAY + s));
-            }
-            lore.addAll(Arrays.asList(Component.empty(), Component.text(ChatColor.AQUA + "Sneak Click to remove from Quick Buy")));
-            preview.lore(lore);
-        }
-        return preview;
     }
 
     public Pair<BWCurrency, Integer> getCost() {
@@ -59,23 +39,7 @@ public class ShopItem {
         return new ItemStack(material, amount);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public ItemStack getPreview() {
         return preview;
-    }
-
-    public ItemStack getProduct() {
-        return product;
-    }
-
-    public BWCurrency getCurrency() {
-        return cost.getKey();
-    }
-
-    public int getPrice() {
-        return cost.getValue();
     }
 }

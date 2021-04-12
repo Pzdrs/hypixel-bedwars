@@ -1,15 +1,18 @@
 package me.pycrs.bedwarsrecoded;
 
+import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.exceptions.InvalidTeamSizeException;
+import me.pycrs.bedwarsrecoded.inventory.shops.BWCurrency;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class Utils {
     public static String color(String s) {
@@ -108,5 +111,25 @@ public class Utils {
 
     public static boolean isLobbyCountdownInProgress(BedWars plugin) {
         return plugin.getLobbyCountdown() != null && !plugin.getLobbyCountdown().isCancelled();
+    }
+
+    public static boolean canAfford(Player player, Pair<BWCurrency, Integer> cost) {
+        HashMap<Material, Integer> resources = new HashMap<>();
+        for (ItemStack content : player.getInventory().getContents()) {
+            if (content == null) break;
+            if (resources.containsKey(content.getType())) {
+                resources.put(content.getType(), resources.get(content.getType()) + content.getAmount());
+                continue;
+            }
+            resources.put(content.getType(), content.getAmount());
+        }
+        return resources.get(cost.getKey().getMaterial()) != null && resources.get(cost.getKey().getMaterial()) >= cost.getValue();
+    }
+
+    public static ItemStack getCategoryDiode(boolean active) {
+        return new ItemBuilder(active ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE)
+                .setDisplayName("&8\u2191 &7Categories")
+                .setLore("&8\u2193 &7Items")
+                .build();
     }
 }

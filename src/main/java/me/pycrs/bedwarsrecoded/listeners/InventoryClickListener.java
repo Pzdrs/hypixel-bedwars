@@ -28,11 +28,11 @@ public class InventoryClickListener implements Listener {
             Shop shop = (Shop) event.getInventory().getHolder();
             ItemStack item = event.getCurrentItem();
             if (item.getItemMeta() != null) {
-                String role = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "role"), PersistentDataType.STRING);
+                String role = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "role"), PersistentDataType.STRING);
                 if (role != null) {
                     switch (role) {
                         case "category":
-                            System.out.println(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "category"), PersistentDataType.STRING));
+                            System.out.println(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "category"), PersistentDataType.STRING));
                             break;
                         case "shopItem":
                             shop.handlePurchase(event);

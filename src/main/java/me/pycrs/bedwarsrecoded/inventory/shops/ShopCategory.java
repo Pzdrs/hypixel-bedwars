@@ -33,16 +33,6 @@ public class ShopCategory {
                 .build();
     }
 
-    @Override
-    public String toString() {
-        return "ShopCategory{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", preview=" + preview +
-                ", items=" + items +
-                '}';
-    }
-
     public List<ShopItem> getItems() {
         return items;
     }
