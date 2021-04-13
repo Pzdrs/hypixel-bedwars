@@ -28,7 +28,7 @@ public enum BWCurrency {
         return material;
     }
 
-    public static String formatPrice(Pair<BWCurrency, Integer> cost) {
-        return ChatColor.valueOf(cost.getKey().getColor().toString().toUpperCase()) + (cost.getValue() + " " + WordUtils.capitalize(cost.getKey().name().toLowerCase())) + ChatColor.RESET;
+    public static String formatPrice(BWCurrency currency, int price) {
+        return ChatColor.valueOf(currency.getColor().toString().toUpperCase()) + (price + " " + WordUtils.capitalize(currency.name().toLowerCase())) + ChatColor.RESET;
     }
 }

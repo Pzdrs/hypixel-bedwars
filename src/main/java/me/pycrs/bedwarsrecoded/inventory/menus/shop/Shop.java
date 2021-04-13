@@ -29,14 +29,12 @@ public abstract class Shop extends Menu {
 
     @Override
     public final void open() {
-        System.out.println("open");
         render();
         player.openInventory(inventory);
     }
 
     @Override
     public final void setContent() {
-        System.out.println("set content");
         if (categories.size() > 1) MenuUtils.displayCategories(inventory, categories, selectedCategory);
         MenuUtils.addPurchasableItems(inventory, selectedCategory.getItems(), player);
     }
@@ -46,8 +44,7 @@ public abstract class Shop extends Menu {
         if (event.getCurrentItem() == null) return;
         switch (MenuUtils.getItemRole(event.getCurrentItem())) {
             case "category":
-                // TODO: 4/13/2021 change category
-                System.out.println(MenuUtils.getPDCValue(event.getCurrentItem(), "category"));
+                setSelectedCategory(MenuUtils.getPDCValue(event.getCurrentItem(), "category"));
                 break;
             case "shopItem":
                 handlePurchase(event);
@@ -62,18 +59,26 @@ public abstract class Shop extends Menu {
     protected abstract void handlePurchase(InventoryClickEvent event);
 
     public final void cycleCategory(CategoryCycleDirection direction) {
+        int currentIndex = MenuUtils.getCategoryIndex(categories, selectedCategory);
         switch (direction) {
             case LEFT:
-                System.out.println("cycle left");
+                setSelectedCategory(--currentIndex);
                 break;
             case RIGHT:
-                System.out.println("cycle right");
+                setSelectedCategory(++currentIndex);
                 break;
         }
     }
 
     public void setSelectedCategory(String id) {
         this.selectedCategory = categories.stream().filter(category -> category.getId().equals(id)).findFirst().orElse(null);
+        open();
+    }
+
+    public void setSelectedCategory(int index) {
+        if (index < 0 || index > categories.size() - 1) return;
+        this.selectedCategory = categories.get(index);
+        open();
     }
 
     private void setupSelectedCategory() {

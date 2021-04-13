@@ -61,26 +61,33 @@ public class MenuUtils {
             ItemStack itemStack = item.getPreview();
             int itemPosition = lastIndex + (i == 7 || i == 14 ? 3 : 1);
             inventory.setItem(itemPosition, new ItemBuilder(itemStack)
-                    .setDisplayName((canAfford(item.getCost(), player) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType()))
-                    .addLoreLine(canAfford(item.getCost(), player) ? "&eClick to purchase!" : "&cYou don't have enough " + WordUtils.capitalize(item.getCost().getKey().name().toLowerCase()) + "!")
+                    .setDisplayName((canAfford(item.getCurrency(), item.getPrice(), player) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType()))
+                    .addLoreLine(canAfford(item.getCurrency(), item.getPrice(), player) ? "&eClick to purchase!" : "&cYou don't have enough " + WordUtils.capitalize(item.getCurrency().name().toLowerCase()) + "!")
                     .build());
             lastIndex = itemPosition;
         }
     }
 
-    private static boolean canAfford(Pair<BWCurrency, Integer> cost, Player player) {
-        return Utils.getMaterialAmount(player.getInventory(), cost.getKey().getType()) >= cost.getValue();
+    private static boolean canAfford(BWCurrency currency, int price, Player player) {
+        return Utils.getMaterialAmount(player.getInventory(), currency.getType()) >= price;
     }
 
     public static boolean hasRole(ItemStack itemStack) {
-        return itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(BedWars.getInstance(),"role"), PersistentDataType.STRING);
+        return itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(BedWars.getInstance(), "role"), PersistentDataType.STRING);
     }
 
     public static String getItemRole(ItemStack itemStack) {
-        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(),"role"), PersistentDataType.STRING);
+        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "role"), PersistentDataType.STRING);
     }
 
     public static String getPDCValue(ItemStack itemStack, String key) {
-        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(),key), PersistentDataType.STRING);
+        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), key), PersistentDataType.STRING);
+    }
+
+    public static int getCategoryIndex(LinkedList<ShopCategory> categories, ShopCategory category) {
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).getId().equals(category.getId())) return i;
+        }
+        return -1;
     }
 }

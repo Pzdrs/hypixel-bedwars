@@ -1,6 +1,5 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 
-import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import org.bukkit.ChatColor;
@@ -11,19 +10,22 @@ import org.bukkit.persistence.PersistentDataType;
 public class ShopItem {
     private String description;
     private ItemStack preview, product;
-    private Pair<BWCurrency, Integer> cost;
+    private BWCurrency currency;
+    private int price;
 
     public ShopItem(Material material, int amount, BWCurrency currency, int price, String description) {
         this.description = description;
-        this.cost = new Pair<>(currency, price);
+        this.currency = currency;
+        this.price = price;
+        this.product = new ItemStack(material, amount);
         this.preview = formatPreviewItem(material, amount);
-        this.product = getFinalProduct(material, amount);
     }
 
     public ShopItem(ItemStack product, BWCurrency currency, int price, String description) {
         this.description = description;
-        this.cost = new Pair<>(currency, price);
-        this.product = getFinalProduct(product);
+        this.currency = currency;
+        this.price = price;
+        this.product = product;
         this.preview = formatPreviewItem(product);
     }
 
@@ -32,10 +34,19 @@ public class ShopItem {
         return new ItemBuilder(material, amount)
                 .setPlugin(BedWars.getInstance())
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")
-                .setLore("&7Cost: &r" + BWCurrency.formatPrice(cost), "")
+                .setLore("&7Cost: &r" + BWCurrency.formatPrice(currency, price), "")
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
                 .addLoreLine("")
                 .addLoreLine("&bSneak Click to remove from Quick Buy&r")
+                .build();
+    }
+
+    private ItemStack formatProductItem(Material material, int amount) {
+        return formatProductItem(new ItemStack(material, amount));
+    }
+
+    private ItemStack formatProductItem(ItemStack itemStack) {
+        return new ItemBuilder(itemStack)
                 .build();
     }
 
@@ -43,16 +54,12 @@ public class ShopItem {
         return itemStack;
     }
 
-    public Pair<BWCurrency, Integer> getCost() {
-        return cost;
+    public BWCurrency getCurrency() {
+        return currency;
     }
 
-    private ItemStack getFinalProduct(Material material, int amount) {
-        return new ItemStack(material, amount);
-    }
-
-    private ItemStack getFinalProduct(ItemStack itemStack) {
-        return itemStack;
+    public int getPrice() {
+        return price;
     }
 
     public ItemStack getPreview() {
