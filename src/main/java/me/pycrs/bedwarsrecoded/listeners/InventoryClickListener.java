@@ -2,6 +2,7 @@ package me.pycrs.bedwarsrecoded.listeners;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.inventory.menus.Menu;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.Shop;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,14 +17,13 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getClickedInventory() == null) {
-            // TODO: 4/12/2021 make categories scrollable
-            System.out.println(event.toString());
-        } else {
-            if (event.getClickedInventory().getHolder() != null && event.getClickedInventory().getHolder() instanceof Menu) {
-                // The player clicked while they were in a Menu
-                event.setCancelled(true);
-                ((Menu) event.getClickedInventory().getHolder()).handle(event);
+        if (event.getInventory().getHolder() instanceof Menu && event.getClickedInventory().getHolder() != null) {
+            event.setCancelled(true);
+            Shop menu = ((Shop)event.getInventory().getHolder());
+            if (event.getClickedInventory() == null) {
+                menu.cycleCategory(Shop.CategoryCycleDirection.RIGHT);
+            } else {
+                menu.handle(event);
             }
         }
     }

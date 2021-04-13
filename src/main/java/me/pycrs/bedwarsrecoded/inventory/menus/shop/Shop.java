@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class Shop extends Menu {
+    public enum CategoryCycleDirection {
+        LEFT, RIGHT
+    }
+
     protected LinkedList<ShopCategory> categories;
     protected ShopCategory selectedCategory;
 
@@ -30,6 +34,10 @@ public abstract class Shop extends Menu {
     @Override
     public final Component getName() {
         return Component.text(selectedCategory.getName());
+    }
+
+    public final void cycleCategory(CategoryCycleDirection direction) {
+
     }
 
     protected abstract String getDefaultCategory();

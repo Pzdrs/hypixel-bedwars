@@ -114,19 +114,6 @@ public class Utils {
         return plugin.getLobbyCountdown() != null && !plugin.getLobbyCountdown().isCancelled();
     }
 
-    public static boolean canAfford(Player player, Pair<BWCurrency, Integer> cost) {
-        HashMap<Material, Integer> resources = new HashMap<>();
-        for (ItemStack content : player.getInventory().getContents()) {
-            if (content == null) break;
-            if (resources.containsKey(content.getType())) {
-                resources.put(content.getType(), resources.get(content.getType()) + content.getAmount());
-                continue;
-            }
-            resources.put(content.getType(), content.getAmount());
-        }
-        return resources.get(cost.getKey().getType()) != null && resources.get(cost.getKey().getType()) >= cost.getValue();
-    }
-
     public static int getMaterialAmount(Inventory inventory, Material material) {
         int amount = 0;
         for (ItemStack content : inventory.getContents()) {
