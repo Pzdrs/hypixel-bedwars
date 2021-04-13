@@ -125,11 +125,4 @@ public class Utils {
         }
         return resources.get(cost.getKey().getMaterial()) != null && resources.get(cost.getKey().getMaterial()) >= cost.getValue();
     }
-
-    public static ItemStack getCategoryDiode(boolean active) {
-        return new ItemBuilder(active ? Material.GREEN_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE)
-                .setDisplayName("&8\u2191 &7Categories")
-                .setLore("&8\u2193 &7Items")
-                .build();
-    }
 }

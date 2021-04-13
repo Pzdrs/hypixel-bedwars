@@ -101,10 +101,11 @@ public class ItemBuilder {
         if (line == null) return this;
         List<Component> lore = itemMeta.hasLore() ? itemMeta.lore() : new ArrayList<>();
         if (lore != null)
-                lore.add(Component.text(color(line)));
+            lore.add(Component.text(color(line)));
         itemMeta.lore(lore);
         return this;
     }
+
     public ItemBuilder setItemDescription(String description, ChatColor color) {
         if (description == null) return this;
         List<Component> lore = itemMeta.hasLore() ? itemMeta.lore() : new ArrayList<>();

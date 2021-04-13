@@ -95,7 +95,7 @@ public class GenericShop extends Shop {
                                 .build(), BWCurrency.IRON, 24, "Place a pop-up defence!")));
 */
         // Default category
-        if (activeCategory == null)
-            setActiveCategory("blocks");
+        if (selectedCategory == null)
+            setSelectedCategory("blocks");
     }
 }

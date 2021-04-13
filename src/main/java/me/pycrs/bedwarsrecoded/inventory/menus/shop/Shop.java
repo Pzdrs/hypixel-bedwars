@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public abstract class Shop extends Menu {
     protected LinkedList<ShopCategory> categories;
-    protected ShopCategory activeCategory;
+    protected ShopCategory selectedCategory;
 
     public Shop(Player player) {
         super(player);
@@ -29,23 +29,23 @@ public abstract class Shop extends Menu {
 
     @Override
     public final Component getName() {
-        return Component.text(activeCategory.getName());
+        return Component.text(selectedCategory.getName());
     }
 
     protected abstract String getDefaultCategory();
 
     public abstract void setCategories();
 
-    public void setActiveCategory(String id) {
-        this.activeCategory = categories.stream().filter(category -> category.getId().equals(id)).findFirst().orElse(null);
+    public void setSelectedCategory(String id) {
+        this.selectedCategory = categories.stream().filter(category -> category.getId().equals(id)).findFirst().orElse(null);
     }
 
     private void setActiveCategory() {
-        setActiveCategory(getDefaultCategory());
+        setSelectedCategory(getDefaultCategory());
     }
 
     private void setupInventory() {
-        this.inventory = Bukkit.createInventory(this, getSize(), Component.text(activeCategory.getName()));
+        this.inventory = Bukkit.createInventory(this, getSize(), Component.text(selectedCategory.getName()));
         setContent();
     }
 
@@ -61,20 +61,17 @@ public abstract class Shop extends Menu {
 
     // FIXME: 4/13/2021 players swinging his hand when navigation to a different category
     private void navigate(String category) {
-        setActiveCategory(category);
+        setSelectedCategory(category);
         open();
     }
 
     @Override
     public final void setContent() {
-        inventory.setItem(9, Utils.getCategoryDiode(false));
-        inventory.setItem(17, Utils.getCategoryDiode(false));
+        if (categories.size() > 1) MenuUtils.displayCategories(inventory, categories, selectedCategory);
+
         for (int i = 0; i < categories.size(); i++) {
             ShopCategory category = categories.get(i);
-            boolean active = activeCategory.getId().equals(category.getId());
-
-            inventory.setItem(i, active ? category.getPreview() : new ItemBuilder(category.getPreview()).addLoreLine("&eClick to view!").build());
-            inventory.setItem(i + 9, Utils.getCategoryDiode(active));
+            boolean active = selectedCategory.getId().equals(category.getId());
             if (active) {
                 int lastItemPosition = 18;
                 for (int j = 0; j < category.getItems().size(); j++) {
