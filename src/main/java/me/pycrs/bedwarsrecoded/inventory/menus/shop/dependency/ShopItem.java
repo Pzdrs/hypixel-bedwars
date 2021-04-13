@@ -39,7 +39,6 @@ public class ShopItem {
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")
                 .setLore("&7Cost: &r" + BWCurrency.formatPrice(currency, price), "")
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
-                .addLoreLine("")
                 .addLoreLine("&bSneak Click to remove from Quick Buy&r")
                 .build();
     }
