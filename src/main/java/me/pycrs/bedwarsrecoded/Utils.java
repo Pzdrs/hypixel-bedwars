@@ -2,7 +2,7 @@ package me.pycrs.bedwarsrecoded;
 
 import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.exceptions.InvalidTeamSizeException;
-import me.pycrs.bedwarsrecoded.inventory.shops.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;

@@ -1,7 +1,6 @@
-package me.pycrs.bedwarsrecoded.inventory.shops;
+package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 
 import javafx.util.Pair;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;

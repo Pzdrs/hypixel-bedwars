@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded.inventory.shops;
+package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
@@ -26,7 +26,7 @@ public class ShopCategory {
     private ItemStack formatPreviewItem(Material material) {
         return new ItemBuilder(material)
                 .setPlugin(BedWars.getInstance())
-                .setDisplayName(ChatColor.GREEN + name)
+                .setDisplayName(ChatColor.GREEN + name + ChatColor.RESET)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .setPersistentData("role", PersistentDataType.STRING, "category")
                 .setPersistentData("category", PersistentDataType.STRING, id)

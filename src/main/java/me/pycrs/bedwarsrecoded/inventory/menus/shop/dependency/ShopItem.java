@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded.inventory.shops;
+package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 
 import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.BedWars;
@@ -20,6 +20,13 @@ public class ShopItem {
         this.product = getFinalProduct(material, amount);
     }
 
+    public ShopItem(ItemStack product, BWCurrency currency, int price, String description) {
+        this.description = description;
+        this.cost = new Pair<>(currency, price);
+        this.product = getFinalProduct(product);
+        this.preview = formatPreviewItem(product);
+    }
+
     private ItemStack formatPreviewItem(Material material, int amount) {
         return new ItemBuilder(material, amount)
                 .setPlugin(BedWars.getInstance())
@@ -27,8 +34,12 @@ public class ShopItem {
                 .setLore("&7Cost: &r" + BWCurrency.formatPrice(cost), "")
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
                 .addLoreLine("")
-                .addLoreLine("&bSneak Click to remove from Quick Buy")
+                .addLoreLine("&bSneak Click to remove from Quick Buy&r")
                 .build();
+    }
+
+    private ItemStack formatPreviewItem(ItemStack itemStack) {
+        return itemStack;
     }
 
     public Pair<BWCurrency, Integer> getCost() {
@@ -37,6 +48,10 @@ public class ShopItem {
 
     private ItemStack getFinalProduct(Material material, int amount) {
         return new ItemStack(material, amount);
+    }
+
+    private ItemStack getFinalProduct(ItemStack itemStack) {
+        return itemStack;
     }
 
     public ItemStack getPreview() {
