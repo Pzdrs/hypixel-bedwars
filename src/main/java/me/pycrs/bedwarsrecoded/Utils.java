@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -123,6 +124,15 @@ public class Utils {
             }
             resources.put(content.getType(), content.getAmount());
         }
-        return resources.get(cost.getKey().getMaterial()) != null && resources.get(cost.getKey().getMaterial()) >= cost.getValue();
+        return resources.get(cost.getKey().getType()) != null && resources.get(cost.getKey().getType()) >= cost.getValue();
+    }
+
+    public static int getMaterialAmount(Inventory inventory, Material material) {
+        int amount = 0;
+        for (ItemStack content : inventory.getContents()) {
+            if (content != null)
+                if (content.getType().equals(material)) amount += content.getAmount();
+        }
+        return amount;
     }
 }

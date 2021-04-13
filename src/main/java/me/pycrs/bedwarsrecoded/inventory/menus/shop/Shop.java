@@ -68,33 +68,6 @@ public abstract class Shop extends Menu {
     @Override
     public final void setContent() {
         if (categories.size() > 1) MenuUtils.displayCategories(inventory, categories, selectedCategory);
-
-        for (int i = 0; i < categories.size(); i++) {
-            ShopCategory category = categories.get(i);
-            boolean active = selectedCategory.getId().equals(category.getId());
-            if (active) {
-                int lastItemPosition = 18;
-                for (int j = 0; j < category.getItems().size(); j++) {
-                    // Rendering more than 21 items on one page isn't possible
-                    if (j > 20) break;
-
-                    ShopItem item = category.getItems().get(j);
-                    ItemStack itemStack = item.getPreview();
-                    ItemMeta meta = itemStack.getItemMeta();
-
-                    meta.displayName(Component.text((Utils.canAfford(player, item.getCost()) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType())));
-
-                    List<Component> lore = new ArrayList<>(Objects.requireNonNull(meta.lore()));
-                    lore.add(Component.text(Utils.color(Utils.canAfford(player, item.getCost()) ? "&eClick to purchase!" : "&cYou don't have enough " + WordUtils.capitalize(item.getCost().getKey().name().toLowerCase()) + "!")));
-                    meta.lore(lore);
-
-                    itemStack.setItemMeta(meta);
-
-                    int itemPosition = lastItemPosition + (j == 7 || j == 14 ? 3 : 1);
-                    inventory.setItem(itemPosition, itemStack);
-                    lastItemPosition = itemPosition;
-                }
-            }
-        }
+        MenuUtils.addPurchasableItems(inventory, selectedCategory.getItems(), player);
     }
 }

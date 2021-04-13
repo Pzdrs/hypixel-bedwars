@@ -24,7 +24,7 @@ public enum BWCurrency {
         return color;
     }
 
-    public Material getMaterial() {
+    public Material getType() {
         return material;
     }
 
