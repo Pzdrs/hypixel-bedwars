@@ -45,6 +45,7 @@ public abstract class Shop extends Menu {
         switch (MenuUtils.getItemRole(event.getCurrentItem())) {
             case "category":
                 setSelectedCategory(MenuUtils.getPDCValue(event.getCurrentItem(), "category"));
+                open();
                 break;
             case "shopItem":
                 handlePurchase(event);
@@ -73,7 +74,6 @@ public abstract class Shop extends Menu {
     public void setSelectedCategory(String id) {
         if (selectedCategory != null && selectedCategory.getId().equals(id)) return;
         this.selectedCategory = categories.stream().filter(category -> category.getId().equals(id)).findFirst().orElse(null);
-        open();
     }
 
     public void setSelectedCategory(int index) {
