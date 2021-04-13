@@ -1,6 +1,9 @@
 package me.pycrs.bedwarsrecoded;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -70,6 +73,15 @@ public class ItemBuilder {
 
     public ItemBuilder setDisplayName(String displayName) {
         itemMeta.displayName(Component.text(color(displayName)));
+        return this;
+    }
+
+    public ItemBuilder setShopDisplayName(ItemStack itemStack, boolean affordable) {
+        Component displayName = (itemStack.hasItemMeta() && itemStack.getItemMeta().displayName() != null ?
+                itemStack.getItemMeta().displayName() : Component.text(Utils.materialToFriendlyName(itemStack.getType())));
+        itemMeta.displayName(displayName
+                .color(affordable ? NamedTextColor.GREEN : NamedTextColor.RED)
+                .decoration(TextDecoration.ITALIC, false));
         return this;
     }
 

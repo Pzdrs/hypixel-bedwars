@@ -7,6 +7,7 @@ import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopItem;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -61,7 +62,7 @@ public class MenuUtils {
             ItemStack itemStack = item.getPreview();
             int itemPosition = lastIndex + (i == 7 || i == 14 ? 3 : 1);
             inventory.setItem(itemPosition, new ItemBuilder(itemStack)
-                    .setDisplayName((canAfford(item.getCurrency(), item.getPrice(), player) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType()))
+                    .setShopDisplayName(itemStack, canAfford(item.getCurrency(), item.getPrice(), player))
                     .addLoreLine(canAfford(item.getCurrency(), item.getPrice(), player) ? "&eClick to purchase!" : "&cYou don't have enough " + WordUtils.capitalize(item.getCurrency().name().toLowerCase()) + "!")
                     .build());
             lastIndex = itemPosition;
