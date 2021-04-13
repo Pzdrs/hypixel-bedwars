@@ -21,6 +21,7 @@ import java.util.List;
 
 public class MenuUtils {
     public static void displayCategories(Inventory inventory, LinkedList<ShopCategory> categories, ShopCategory selectedCategory) {
+        System.out.println("display categs");
         for (int i = 0; i < 9; i++) {
             if (i > categories.size() - 1) {
                 inventory.setItem(i + 9, createCategoryDiode());

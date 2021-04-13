@@ -30,8 +30,11 @@ public class ShopItem {
     }
 
     private ItemStack formatPreviewItem(Material material, int amount) {
-        // TODO: 4/13/2021 serialize some shit and put it into here
-        return new ItemBuilder(material, amount)
+        return formatPreviewItem(new ItemStack(material, amount));
+    }
+
+    private ItemStack formatPreviewItem(ItemStack itemStack) {
+        return new ItemBuilder(itemStack)
                 .setPlugin(BedWars.getInstance())
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")
                 .setLore("&7Cost: &r" + BWCurrency.formatPrice(currency, price), "")
@@ -39,19 +42,6 @@ public class ShopItem {
                 .addLoreLine("")
                 .addLoreLine("&bSneak Click to remove from Quick Buy&r")
                 .build();
-    }
-
-    private ItemStack formatProductItem(Material material, int amount) {
-        return formatProductItem(new ItemStack(material, amount));
-    }
-
-    private ItemStack formatProductItem(ItemStack itemStack) {
-        return new ItemBuilder(itemStack)
-                .build();
-    }
-
-    private ItemStack formatPreviewItem(ItemStack itemStack) {
-        return itemStack;
     }
 
     public BWCurrency getCurrency() {

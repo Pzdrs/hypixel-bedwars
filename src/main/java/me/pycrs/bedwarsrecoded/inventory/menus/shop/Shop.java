@@ -71,6 +71,7 @@ public abstract class Shop extends Menu {
     }
 
     public void setSelectedCategory(String id) {
+        if (selectedCategory != null && selectedCategory.getId().equals(id)) return;
         this.selectedCategory = categories.stream().filter(category -> category.getId().equals(id)).findFirst().orElse(null);
         open();
     }

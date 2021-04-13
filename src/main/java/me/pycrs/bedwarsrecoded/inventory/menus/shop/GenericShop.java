@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
 
 public class GenericShop extends Shop {
     public GenericShop(Player player) {
@@ -41,13 +42,23 @@ public class GenericShop extends Shop {
                 new ShopItem(Material.LADDER, 16, BWCurrency.IRON, 4, "Useful to save cats stuck in\ntrees."),
                 new ShopItem(Material.OAK_PLANKS, 16, BWCurrency.GOLD, 4, "Good block to defend your bed.\nStrong against pickaxes.")));
         categories.add(new ShopCategory("melee", "Melee", Material.GOLDEN_SWORD,
-                new ShopItem(Material.STONE_SWORD, 1, BWCurrency.IRON, 10, null),
-                new ShopItem(Material.IRON_SWORD, 1, BWCurrency.GOLD, 7, null),
-                new ShopItem(Material.DIAMOND_SWORD, 1, BWCurrency.EMERALD, 4, null),
+                new ShopItem(
+                        new ItemBuilder(Material.STONE_SWORD)
+                                .setFlags(ItemFlag.HIDE_ATTRIBUTES)
+                                .build(), BWCurrency.IRON, 10, null),
+                new ShopItem(
+                        new ItemBuilder(Material.IRON_SWORD)
+                                .setFlags(ItemFlag.HIDE_ATTRIBUTES)
+                                .build(), BWCurrency.GOLD, 7, null),
+                new ShopItem(
+                        new ItemBuilder(Material.DIAMOND_SWORD)
+                                .setFlags(ItemFlag.HIDE_ATTRIBUTES)
+                                .build(), BWCurrency.EMERALD, 4, null),
                 new ShopItem(
                         new ItemBuilder(Material.STICK)
                                 .setDisplayName("Stick")
                                 .addEnchantment(Enchantment.KNOCKBACK, 1)
+                                .setFlags(ItemFlag.HIDE_ENCHANTS)
                                 .build(), BWCurrency.GOLD, 6, null)));
         categories.add(new ShopCategory("armor", "Armor", Material.CHAINMAIL_BOOTS));
         categories.add(new ShopCategory("tools", "Tools", Material.STONE_PICKAXE));
