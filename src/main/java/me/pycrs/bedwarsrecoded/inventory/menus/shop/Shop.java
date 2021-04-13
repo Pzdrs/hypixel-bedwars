@@ -43,9 +43,16 @@ public abstract class Shop extends Menu {
 
     @Override
     public final void handle(InventoryClickEvent event) {
-        // TODO: 4/13/2021 handle category changing behaviour
-        // TODO: 4/13/2021 check if clicked item is purchasable and let generic shop handle that
-        handlePurchase(event);
+        if (event.getCurrentItem() == null) return;
+        switch (MenuUtils.getItemRole(event.getCurrentItem())) {
+            case "category":
+                // TODO: 4/13/2021 change category
+                System.out.println(MenuUtils.getPDCValue(event.getCurrentItem(), "category"));
+                break;
+            case "shopItem":
+                handlePurchase(event);
+                break;
+        }
     }
 
     protected abstract String getDefaultCategory();

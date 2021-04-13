@@ -28,6 +28,7 @@ public class ShopItem {
     }
 
     private ItemStack formatPreviewItem(Material material, int amount) {
+        // TODO: 4/13/2021 serialize some shit and put it into here
         return new ItemBuilder(material, amount)
                 .setPlugin(BedWars.getInstance())
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")

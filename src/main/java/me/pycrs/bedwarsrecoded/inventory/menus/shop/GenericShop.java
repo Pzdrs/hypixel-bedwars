@@ -26,7 +26,7 @@ public class GenericShop extends Shop {
 
     @Override
     protected void handlePurchase(InventoryClickEvent event) {
-        // TODO: 4/13/2021 handle item purchase 
+        System.out.println("handle purchase of " + event.getCurrentItem().getType());
     }
 
     // FIXME: 4/13/2021 Different prices per mode

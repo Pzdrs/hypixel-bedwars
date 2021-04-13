@@ -1,6 +1,7 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
 import javafx.util.Pair;
+import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
@@ -9,9 +10,11 @@ import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopItem;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -67,5 +70,17 @@ public class MenuUtils {
 
     private static boolean canAfford(Pair<BWCurrency, Integer> cost, Player player) {
         return Utils.getMaterialAmount(player.getInventory(), cost.getKey().getType()) >= cost.getValue();
+    }
+
+    public static boolean hasRole(ItemStack itemStack) {
+        return itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(BedWars.getInstance(),"role"), PersistentDataType.STRING);
+    }
+
+    public static String getItemRole(ItemStack itemStack) {
+        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(),"role"), PersistentDataType.STRING);
+    }
+
+    public static String getPDCValue(ItemStack itemStack, String key) {
+        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(),key), PersistentDataType.STRING);
     }
 }
