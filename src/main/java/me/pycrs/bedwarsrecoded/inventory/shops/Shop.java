@@ -22,11 +22,12 @@ import java.util.Objects;
 public abstract class Shop implements InventoryHolder {
     private Inventory inventory;
     protected LinkedList<ShopCategory> categories;
-    private ShopCategory activeCategory;
+    protected ShopCategory activeCategory;
     private Player player;
     protected List<ShopItem> items;
 
-    public Shop() {
+    public Shop(Player player) {
+        this.player = player;
         this.items = new ArrayList<>();
         this.categories = new LinkedList<>();
     }
@@ -48,29 +49,28 @@ public abstract class Shop implements InventoryHolder {
                 .stream()
                 .filter(category -> category.getId().equals(id))
                 .findFirst().orElse(null);
-        System.out.println("new active category: " + activeCategory.getId());
     }
 
     private void setupInventory() {
-        if (items.size() == 0) setShopItems();
-        if (categories.size() == 0) setCategories();
-        if (activeCategory == null) this.activeCategory = categories.get(0);
         this.inventory = Bukkit.createInventory(this, getSize(), Component.text(activeCategory.getName()));
-
         injectItems();
     }
 
-    public final void show(Player player) {
-        this.player = player;
+    public final void show() {
+        items.clear();
+        categories.clear();
+        setShopItems();
+        setCategories();
+        if (activeCategory == null)this.activeCategory = categories.get(0);
+
         setupInventory();
         player.openInventory(inventory);
     }
 
+    // FIXME: 4/13/2021 players swinging his hand when navigation to a different category
     public void navigate(String category) {
-        System.out.println("navigating to " + category);
         setActiveCategory(category);
-        setupInventory();
-        show(player);
+        show();
     }
 
     private void injectItems() {
