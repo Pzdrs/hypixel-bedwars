@@ -58,7 +58,7 @@ public class MenuUtils {
             ItemStack itemStack = item.getPreview();
             int itemPosition = lastIndex + (i == 7 || i == 14 ? 3 : 1);
             inventory.setItem(itemPosition, new ItemBuilder(itemStack)
-                    .setDisplayName((canAfford(item.getCost(),player) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType()))
+                    .setDisplayName((canAfford(item.getCost(), player) ? ChatColor.GREEN : ChatColor.RED) + Utils.materialToFriendlyName(itemStack.getType()))
                     .addLoreLine(canAfford(item.getCost(), player) ? "&eClick to purchase!" : "&cYou don't have enough " + WordUtils.capitalize(item.getCost().getKey().name().toLowerCase()) + "!")
                     .build());
             lastIndex = itemPosition;

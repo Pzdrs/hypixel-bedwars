@@ -17,13 +17,18 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getInventory().getHolder() instanceof Menu && event.getClickedInventory().getHolder() != null) {
+        if (event.getInventory().getHolder() instanceof Menu) {
             event.setCancelled(true);
-            Shop menu = ((Shop)event.getInventory().getHolder());
-            if (event.getClickedInventory() == null) {
-                menu.cycleCategory(Shop.CategoryCycleDirection.RIGHT);
+            Shop shop = (Shop) event.getInventory().getHolder();
+            if (event.getClickedInventory() != null) {
+                shop.handle(event);
             } else {
-                menu.handle(event);
+                // Category cycling
+                if (event.getClick().isLeftClick()) {
+                    shop.cycleCategory(Shop.CategoryCycleDirection.LEFT);
+                } else if (event.getClick().isRightClick()) {
+                    shop.cycleCategory(Shop.CategoryCycleDirection.RIGHT);
+                }
             }
         }
     }

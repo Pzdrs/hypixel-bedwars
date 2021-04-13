@@ -16,7 +16,7 @@ public abstract class Menu implements InventoryHolder {
         this.player = player;
     }
 
-    protected abstract Component getName();
+    protected abstract Component getTitle();
 
     protected abstract int getSize();
 
@@ -25,7 +25,7 @@ public abstract class Menu implements InventoryHolder {
     protected abstract void setContent();
 
     public void open() {
-        this.inventory = Bukkit.createInventory(this, getSize(), getName());
+        this.inventory = Bukkit.createInventory(this, getSize(), getTitle());
         setContent();
         player.openInventory(inventory);
     }
