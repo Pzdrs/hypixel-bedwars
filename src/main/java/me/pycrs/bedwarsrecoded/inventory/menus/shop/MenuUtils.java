@@ -91,4 +91,13 @@ public class MenuUtils {
         }
         return -1;
     }
+
+    public static ShopItem getItemById(LinkedList<ShopCategory> categories, String id) {
+        for (ShopCategory category : categories) {
+            for (ShopItem item : category.getItems()) {
+                if (item.getId().equals(id)) return item;
+            }
+        }
+        return null;
+    }
 }

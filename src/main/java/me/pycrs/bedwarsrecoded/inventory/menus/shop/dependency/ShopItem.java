@@ -8,12 +8,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 public class ShopItem {
-    private String description;
+    private String id, description;
     private ItemStack preview, product;
     private BWCurrency currency;
     private int price;
 
-    public ShopItem(Material material, int amount, BWCurrency currency, int price, String description) {
+    public ShopItem(String id, Material material, int amount, BWCurrency currency, int price, String description) {
+        this.id = id;
         this.description = description;
         this.currency = currency;
         this.price = price;
@@ -21,7 +22,8 @@ public class ShopItem {
         this.preview = formatPreviewItem(material, amount);
     }
 
-    public ShopItem(ItemStack product, BWCurrency currency, int price, String description) {
+    public ShopItem(String id, ItemStack product, BWCurrency currency, int price, String description) {
+        this.id = id;
         this.description = description;
         this.currency = currency;
         this.price = price;
@@ -37,10 +39,15 @@ public class ShopItem {
         return new ItemBuilder(itemStack)
                 .setPlugin(BedWars.getInstance())
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")
+                .setPersistentData("itemId", PersistentDataType.STRING, id)
                 .setLore("&7Cost: &r" + BWCurrency.formatPrice(currency, price), "")
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
                 .addLoreLine("&bSneak Click to remove from Quick Buy&r")
                 .build();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public BWCurrency getCurrency() {
@@ -53,5 +60,17 @@ public class ShopItem {
 
     public ItemStack getPreview() {
         return preview;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopItem{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", preview=" + preview +
+                ", product=" + product +
+                ", currency=" + currency +
+                ", price=" + price +
+                '}';
     }
 }
