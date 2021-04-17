@@ -100,4 +100,10 @@ public class MenuUtils {
         }
         return null;
     }
+
+    public static ShopItem getItemById(ShopCategory selectedCategory, String id) {
+        for (ShopItem item : selectedCategory.getItems())
+            if (item.getId().equals(id)) return item;
+        return null;
+    }
 }

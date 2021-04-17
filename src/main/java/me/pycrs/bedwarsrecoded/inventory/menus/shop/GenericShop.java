@@ -31,8 +31,8 @@ public class GenericShop extends Shop {
     @Override
     protected void handlePurchase(InventoryClickEvent event) {
         System.out.println("handle purchase of " + event.getCurrentItem().getType());
-        System.out.println(event.getCurrentItem().getItemMeta()
-                .getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "itemId"), PersistentDataType.STRING));
+        System.out.println(MenuUtils.getItemById(selectedCategory, event.getCurrentItem().getItemMeta()
+                .getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "itemId"), PersistentDataType.STRING)));
     }
 
     // FIXME: 4/13/2021 Different prices per mode

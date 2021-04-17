@@ -15,7 +15,7 @@ public abstract class Shop extends Menu {
     }
 
     protected LinkedList<ShopCategory> categories;
-    private ShopCategory selectedCategory;
+    protected ShopCategory selectedCategory;
 
     public Shop(Player player) {
         super(player);
