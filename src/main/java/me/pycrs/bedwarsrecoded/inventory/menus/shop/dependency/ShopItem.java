@@ -55,6 +55,7 @@ public class ShopItem {
 
     public void purchase(Player player) {
         // TODO: 4/17/2021 add sounds
+        // TODO: 4/17/2021 the product looks like the preview what the fuck?
         if (player.getInventory().firstEmpty() == -1) {
             // Inventory full
             player.sendMessage(Component.text("Purchase Failed! Your inventory is full!", NamedTextColor.RED));
@@ -64,6 +65,8 @@ public class ShopItem {
         if (amount == 0) {
             player.sendMessage(Component.text("You purchased ", NamedTextColor.GREEN)
                     .append(Objects.requireNonNull(preview.getItemMeta().displayName()).color(NamedTextColor.GOLD)));
+            player.getInventory().removeItem(new ItemStack(currency.getType(), price));
+            player.getInventory().addItem(product);
         } else {
             // Cannot afford the item
             player.sendMessage(Component.text("You don't have enough " + WordUtils.capitalize(currency.name().toLowerCase()) + "! Need " + amount + " more!", NamedTextColor.RED));
