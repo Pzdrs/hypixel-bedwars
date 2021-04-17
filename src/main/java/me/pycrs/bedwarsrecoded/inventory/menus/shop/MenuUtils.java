@@ -69,8 +69,14 @@ public class MenuUtils {
         }
     }
 
-    private static boolean canAfford(BWCurrency currency, int price, Player player) {
+    public static boolean canAfford(BWCurrency currency, int price, Player player) {
         return Utils.getMaterialAmount(player.getInventory(), currency.getType()) >= price;
+    }
+
+    public static int canAffordAmount(BWCurrency currency, int price, Player player) {
+        int amount = Utils.getMaterialAmount(player.getInventory(), currency.getType());
+        if (price > amount) return price - amount;
+        return 0;
     }
 
     public static boolean hasRole(ItemStack itemStack) {

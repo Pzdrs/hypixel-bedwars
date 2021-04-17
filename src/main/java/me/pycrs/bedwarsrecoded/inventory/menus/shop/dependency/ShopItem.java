@@ -2,10 +2,17 @@ package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.MenuUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Objects;
 
 public class ShopItem {
     private String id, description;
@@ -44,6 +51,23 @@ public class ShopItem {
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
                 .addLoreLine("&bSneak Click to remove from Quick Buy&r")
                 .build();
+    }
+
+    public void purchase(Player player) {
+        // TODO: 4/17/2021 add sounds
+        if (player.getInventory().firstEmpty() == -1) {
+            // Inventory full
+            player.sendMessage(Component.text("Purchase Failed! Your inventory is full!", NamedTextColor.RED));
+            return;
+        }
+        int amount = MenuUtils.canAffordAmount(currency, price, player);
+        if (amount == 0) {
+            player.sendMessage(Component.text("You purchased ", NamedTextColor.GREEN)
+                    .append(Objects.requireNonNull(preview.getItemMeta().displayName()).color(NamedTextColor.GOLD)));
+        } else {
+            // Cannot afford the item
+            player.sendMessage(Component.text("You don't have enough " + WordUtils.capitalize(currency.name().toLowerCase()) + "! Need " + amount + " more!", NamedTextColor.RED));
+        }
     }
 
     public String getId() {

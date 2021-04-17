@@ -5,6 +5,7 @@ import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopItem;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -30,9 +31,9 @@ public class GenericShop extends Shop {
 
     @Override
     protected void handlePurchase(InventoryClickEvent event) {
-        System.out.println("handle purchase of " + event.getCurrentItem().getType());
-        System.out.println(MenuUtils.getItemById(selectedCategory, event.getCurrentItem().getItemMeta()
-                .getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "itemId"), PersistentDataType.STRING)));
+        ShopItem item = MenuUtils.getItemById(selectedCategory, event.getCurrentItem().getItemMeta()
+                .getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "itemId"), PersistentDataType.STRING));
+        if (item != null) item.purchase(player);
     }
 
     // FIXME: 4/13/2021 Different prices per mode
@@ -40,7 +41,10 @@ public class GenericShop extends Shop {
     protected void setCategories() {
         categories.add(new ShopCategory("quick_buy", "Quick Buy", Material.NETHER_STAR));
         categories.add(new ShopCategory("blocks", "Blocks", Material.TERRACOTTA,
-                new ShopItem("wool", Material.WHITE_WOOL, 16, BWCurrency.IRON, 4, "Great for bridging across\nislands. Turns into your team's\ncolor."),
+                new ShopItem("wool",
+                        new ItemBuilder(Material.WHITE_WOOL, 16)
+                                .setDisplayName("Wool")
+                                .build(), BWCurrency.IRON, 4, "Great for bridging across\nislands. Turns into your team's\ncolor."),
                 new ShopItem("clay", Material.TERRACOTTA, 16, BWCurrency.IRON, 12, "Basic block to defend your bed."),
                 new ShopItem("blast-proof_glass",
                         new ItemBuilder(Material.GLASS, 4)
