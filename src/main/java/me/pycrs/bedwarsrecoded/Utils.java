@@ -47,10 +47,6 @@ public class Utils {
         }
     }
 
-    public static String materialToFriendlyName(Material material) {
-        return WordUtils.capitalize(material.name().toLowerCase().replace("_", " "));
-    }
-
     private static String encapsulateStars(int stars, ChatColor color) {
         if (color == null) {
             char[] star = String.valueOf(stars).toCharArray();
@@ -121,5 +117,9 @@ public class Utils {
                 if (content.getType().equals(material)) amount += content.getAmount();
         }
         return amount;
+    }
+
+    public static String materialToFriendlyName(Material material) {
+        return WordUtils.capitalizeFully(material.name().replace("_", " ").toLowerCase());
     }
 }

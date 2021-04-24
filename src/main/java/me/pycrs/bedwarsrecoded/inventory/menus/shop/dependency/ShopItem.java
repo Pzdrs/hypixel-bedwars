@@ -25,17 +25,25 @@ public class ShopItem {
         this.description = description;
         this.currency = currency;
         this.price = price;
-        this.product = new ItemStack(material, amount);
+        this.product = formatProductItem(material, amount);
         this.preview = formatPreviewItem(material, amount);
     }
 
-    public ShopItem(String id, ItemStack product, BWCurrency currency, int price, String description) {
+    public ShopItem(String id, ItemStack itemStack, BWCurrency currency, int price, String description) {
         this.id = id;
         this.description = description;
         this.currency = currency;
         this.price = price;
-        this.product = product;
-        this.preview = formatPreviewItem(product);
+        this.product = formatProductItem(itemStack);
+        this.preview = formatPreviewItem(itemStack);
+    }
+
+    private ItemStack formatProductItem(Material material, int amount) {
+        return new ItemStack(material, amount);
+    }
+
+    private ItemStack formatProductItem(ItemStack itemStack) {
+        return new ItemStack(itemStack);
     }
 
     private ItemStack formatPreviewItem(Material material, int amount) {
@@ -53,24 +61,24 @@ public class ShopItem {
                 .build();
     }
 
-    public void purchase(Player player) {
+    public boolean purchase(Player player) {
         // TODO: 4/17/2021 add sounds
-        // TODO: 4/17/2021 the product looks like the preview what the fuck?
         if (player.getInventory().firstEmpty() == -1) {
             // Inventory full
             player.sendMessage(Component.text("Purchase Failed! Your inventory is full!", NamedTextColor.RED));
-            return;
+            return false;
         }
         int amount = MenuUtils.canAffordAmount(currency, price, player);
-        if (amount == 0) {
-            player.sendMessage(Component.text("You purchased ", NamedTextColor.GREEN)
-                    .append(Objects.requireNonNull(preview.getItemMeta().displayName()).color(NamedTextColor.GOLD)));
-            player.getInventory().removeItem(new ItemStack(currency.getType(), price));
-            player.getInventory().addItem(product);
-        } else {
+        if (amount != 0) {
             // Cannot afford the item
             player.sendMessage(Component.text("You don't have enough " + WordUtils.capitalize(currency.name().toLowerCase()) + "! Need " + amount + " more!", NamedTextColor.RED));
+            return false;
         }
+        player.sendMessage(Component.text("You purchased ", NamedTextColor.GREEN)
+                .append(Objects.requireNonNull(preview.getItemMeta().displayName()).color(NamedTextColor.GOLD)));
+        player.getInventory().removeItem(new ItemStack(currency.getType(), price));
+        player.getInventory().addItem(product);
+        return true;
     }
 
     public String getId() {

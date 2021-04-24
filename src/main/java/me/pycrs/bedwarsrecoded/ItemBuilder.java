@@ -2,24 +2,19 @@ package me.pycrs.bedwarsrecoded;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ItemBuilder {
     private JavaPlugin plugin;
@@ -41,11 +36,6 @@ public class ItemBuilder {
         setMeta();
     }
 
-    @Override
-    public ItemBuilder clone() {
-        return new ItemBuilder(itemStack);
-    }
-
     public ItemBuilder setPlugin(JavaPlugin plugin) {
         this.plugin = plugin;
         return this;
@@ -53,16 +43,6 @@ public class ItemBuilder {
 
     public ItemBuilder setUnbreakable(boolean unbreakable) {
         itemMeta.setUnbreakable(unbreakable);
-        return this;
-    }
-
-    public ItemBuilder setDamage(int damage) {
-        ((Damageable) itemMeta).setDamage(damage);
-        return this;
-    }
-
-    public ItemBuilder setDurability(int durability) {
-        ((Damageable) itemMeta).setDamage(itemStack.getType().getMaxDurability() - durability);
         return this;
     }
 
@@ -77,6 +57,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setShopDisplayName(ItemStack itemStack, boolean affordable) {
+        System.out.println(affordable);
         Component displayName = (itemStack.hasItemMeta() && itemStack.getItemMeta().displayName() != null ?
                 itemStack.getItemMeta().displayName() : Component.text(Utils.materialToFriendlyName(itemStack.getType())));
         itemMeta.displayName(displayName
@@ -92,11 +73,6 @@ public class ItemBuilder {
 
     public ItemBuilder addEnchantment(Enchantment enchantment, int level) {
         itemMeta.addEnchant(enchantment, level, true);
-        return this;
-    }
-
-    public ItemBuilder addEnchantments(Map<Enchantment, Integer> enchantments) {
-        itemStack.addEnchantments(enchantments);
         return this;
     }
 
@@ -127,13 +103,6 @@ public class ItemBuilder {
             lore.add(Component.empty());
         }
         itemMeta.lore(lore);
-        return this;
-    }
-
-    public ItemBuilder setHeadOwner(Player player) {
-        SkullMeta skullMeta = (SkullMeta) itemMeta;
-        skullMeta.setOwningPlayer(player);
-        itemStack.setItemMeta(skullMeta);
         return this;
     }
 

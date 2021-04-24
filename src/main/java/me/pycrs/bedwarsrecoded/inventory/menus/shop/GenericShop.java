@@ -2,6 +2,7 @@ package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
+import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopItem;
@@ -33,7 +34,8 @@ public class GenericShop extends Shop {
     protected void handlePurchase(InventoryClickEvent event) {
         ShopItem item = MenuUtils.getItemById(selectedCategory, event.getCurrentItem().getItemMeta()
                 .getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "itemId"), PersistentDataType.STRING));
-        if (item != null) item.purchase(player);
+        if (item != null)
+            if (item.purchase(player)) render();
     }
 
     // FIXME: 4/13/2021 Different prices per mode

@@ -28,6 +28,10 @@ public enum BWCurrency {
         return material;
     }
 
+    public static String formatName(BWCurrency currency) {
+        return WordUtils.capitalize(currency.name().toLowerCase());
+    }
+
     public static String formatPrice(BWCurrency currency, int price) {
         return ChatColor.valueOf(currency.getColor().toString().toUpperCase()) + (price + " " + WordUtils.capitalize(currency.name().toLowerCase())) + ChatColor.RESET;
     }

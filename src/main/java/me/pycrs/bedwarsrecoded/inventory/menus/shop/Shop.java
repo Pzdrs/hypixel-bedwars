@@ -1,9 +1,11 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
+import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.Menu;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -29,6 +31,9 @@ public abstract class Shop extends Menu {
 
     @Override
     public final void open() {
+        categories.clear();
+        setCategories();
+        setupSelectedCategory();
         render();
         player.openInventory(inventory);
     }
@@ -86,10 +91,8 @@ public abstract class Shop extends Menu {
         if (selectedCategory == null) setSelectedCategory(getDefaultCategory());
     }
 
-    private void render() {
-        categories.clear();
-        setCategories();
-        setupSelectedCategory();
+    // FIXME: 4/25/2021 when running out of resources while buying stuff, the items dont update, even tho i dont have enough resources it says i can afford it!!!!
+    protected void render() {
         this.inventory = Bukkit.createInventory(this, getSize(), getTitle());
         setContent();
     }

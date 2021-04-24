@@ -7,7 +7,9 @@ import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopItem;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,6 +17,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.LinkedList;
@@ -59,13 +62,16 @@ public class MenuUtils {
             if (i > 20) break;
 
             ShopItem item = items.get(i);
-            ItemStack itemStack = item.getPreview();
+            ItemStack previewItem = item.getPreview();
+
             int itemPosition = lastIndex + (i == 7 || i == 14 ? 3 : 1);
-            inventory.setItem(itemPosition, new ItemBuilder(itemStack)
-                    .setShopDisplayName(itemStack, canAfford(item.getCurrency(), item.getPrice(), player))
-                    .addLoreLine(canAfford(item.getCurrency(), item.getPrice(), player) ? "&eClick to purchase!" : "&cYou don't have enough " + WordUtils.capitalize(item.getCurrency().name().toLowerCase()) + "!")
+            boolean canAfford = canAfford(item.getCurrency(), item.getPrice(), player);
+            inventory.setItem(itemPosition, new ItemBuilder(previewItem)
+                    .setShopDisplayName(previewItem, canAfford)
+                    .addLoreLine(canAfford ? "&eClick to purchase!&r" : "&cYou don't have enough " + BWCurrency.formatName(item.getCurrency()) + "!&r")
                     .build());
             lastIndex = itemPosition;
+            System.out.println();
         }
     }
 
