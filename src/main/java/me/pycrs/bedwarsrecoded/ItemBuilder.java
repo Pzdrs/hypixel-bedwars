@@ -57,7 +57,6 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setShopDisplayName(ItemStack itemStack, boolean affordable) {
-        System.out.println(affordable);
         Component displayName = (itemStack.hasItemMeta() && itemStack.getItemMeta().displayName() != null ?
                 itemStack.getItemMeta().displayName() : Component.text(Utils.materialToFriendlyName(itemStack.getType())));
         itemMeta.displayName(displayName

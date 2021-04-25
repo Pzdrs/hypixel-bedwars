@@ -2,6 +2,7 @@ package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
+import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.MenuUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -75,10 +76,15 @@ public class ShopItem {
             return false;
         }
         player.sendMessage(Component.text("You purchased ", NamedTextColor.GREEN)
-                .append(Objects.requireNonNull(preview.getItemMeta().displayName()).color(NamedTextColor.GOLD)));
+                .append(getItemName(preview).color(NamedTextColor.GOLD)));
         player.getInventory().removeItem(new ItemStack(currency.getType(), price));
         player.getInventory().addItem(product);
         return true;
+    }
+
+    private Component getItemName(ItemStack preview) {
+        if (preview.hasItemMeta() && preview.getItemMeta().displayName() != null) return preview.getItemMeta().displayName();
+        return Component.text(Utils.materialToFriendlyName(preview.getType()));
     }
 
     public String getId() {

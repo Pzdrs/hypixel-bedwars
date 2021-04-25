@@ -1,23 +1,16 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
-import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopItem;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import org.apache.commons.lang.WordUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.LinkedList;
@@ -33,13 +26,13 @@ public class MenuUtils {
             ShopCategory category = categories.get(i);
             boolean selected = selectedCategory.getId().equals(category.getId());
 
-            inventory.setItem(i, createCategory(category, selected));
+            inventory.setItem(i, createCategory(category.getPreview().clone(), selected));
             inventory.setItem(i + 9, createCategoryDiode(selected));
         }
     }
 
-    private static ItemStack createCategory(ShopCategory category, boolean selected) {
-        return new ItemBuilder(category.getPreview())
+    private static ItemStack createCategory(ItemStack preview, boolean selected) {
+        return new ItemBuilder(preview)
                 .addLoreLine(selected ? null : "&eClick to view!")
                 .build();
     }
@@ -62,7 +55,7 @@ public class MenuUtils {
             if (i > 20) break;
 
             ShopItem item = items.get(i);
-            ItemStack previewItem = item.getPreview();
+            ItemStack previewItem = item.getPreview().clone();
 
             int itemPosition = lastIndex + (i == 7 || i == 14 ? 3 : 1);
             boolean canAfford = canAfford(item.getCurrency(), item.getPrice(), player);
@@ -71,7 +64,6 @@ public class MenuUtils {
                     .addLoreLine(canAfford ? "&eClick to purchase!&r" : "&cYou don't have enough " + BWCurrency.formatName(item.getCurrency()) + "!&r")
                     .build());
             lastIndex = itemPosition;
-            System.out.println();
         }
     }
 
