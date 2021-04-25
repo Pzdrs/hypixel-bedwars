@@ -119,4 +119,15 @@ public class MenuUtils {
             if (item.getId().equals(id)) return item;
         return null;
     }
+
+    public static ShopCategory getCategoryById(LinkedList<ShopCategory> categories, String id) {
+        for (ShopCategory category : categories) {
+            if (category.getId().equals(id)) return category;
+        }
+        return null;
+    }
+
+    public static ItemStack createCategoryLink(String id, LinkedList<ShopCategory> categories) {
+        return getCategoryById(categories, id).getPreview();
+    }
 }
