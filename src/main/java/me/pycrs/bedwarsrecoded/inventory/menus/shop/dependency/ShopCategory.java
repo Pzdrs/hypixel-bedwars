@@ -2,6 +2,7 @@ package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.ShopItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;

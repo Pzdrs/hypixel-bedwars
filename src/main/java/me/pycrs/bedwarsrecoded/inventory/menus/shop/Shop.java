@@ -1,6 +1,7 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
 import me.pycrs.bedwarsrecoded.inventory.menus.Menu;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
