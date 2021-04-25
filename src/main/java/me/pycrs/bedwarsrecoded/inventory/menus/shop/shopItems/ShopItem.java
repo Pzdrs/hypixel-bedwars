@@ -12,23 +12,26 @@ import org.bukkit.persistence.PersistentDataType;
 
 public abstract class ShopItem {
     private String id, description;
+    protected boolean teamUpgrade;
     protected ItemStack preview;
     protected BWCurrency currency;
     protected int price;
 
-    public ShopItem(String id, Material material, int amount, BWCurrency currency, int price, String description) {
+    public ShopItem(String id, Material material, int amount, BWCurrency currency, int price, String description, boolean teamUpgrade) {
         this.id = id;
         this.description = description;
         this.currency = currency;
         this.price = price;
         this.preview = formatPreviewItem(material, amount);
+        this.teamUpgrade = teamUpgrade;
     }
 
-    public ShopItem(String id, ItemStack itemStack, BWCurrency currency, int price, String description) {
+    public ShopItem(String id, ItemStack itemStack, BWCurrency currency, int price, String description, boolean teamUpgrade) {
         this.id = id;
         this.description = description;
         this.currency = currency;
         this.price = price;
+        this.teamUpgrade = teamUpgrade;
         this.preview = formatPreviewItem(itemStack);
     }
 
@@ -44,7 +47,7 @@ public abstract class ShopItem {
                 .setPersistentData("itemId", PersistentDataType.STRING, id)
                 .setLore("&7Cost: &r" + BWCurrency.formatPrice(currency, price), "")
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
-                .addLoreLine("&bSneak Click to remove from Quick Buy&r")
+                .addLoreLine(teamUpgrade ? null : "&bSneak Click to remove from Quick Buy&r")
                 .previewEnchantments()
                 .build();
     }

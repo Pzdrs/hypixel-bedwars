@@ -40,7 +40,7 @@ public abstract class Shop extends Menu {
     }
 
     @Override
-    public final void setContent() {
+    public void setContent() {
         if (categories.size() > 1) MenuUtils.displayCategories(inventory, categories, selectedCategory);
         MenuUtils.addPurchasableItems(inventory, selectedCategory.getItems(), player);
     }
@@ -92,7 +92,7 @@ public abstract class Shop extends Menu {
         if (selectedCategory == null) setSelectedCategory(getDefaultCategory());
     }
 
-    protected void render() {
+    protected final void render() {
         inventory.clear();
         setContent();
         player.updateInventory();

@@ -42,12 +42,19 @@ public class MenuUtils {
                 .build();
     }
 
+    public static void fillRow(int row, Inventory inventory, ItemStack itemStack) {
+        if (row * 9 > inventory.getSize()) return;
+        for (int i = (row - 1) * 9; i < row * 9; i++) {
+            inventory.setItem(i, itemStack);
+        }
+    }
+
     private static ItemStack createCategoryDiode() {
         return createCategoryDiode(false);
     }
 
-    public static void addPurchasableItems(Inventory inventory, List<ShopItem> items, Player player) {
-        int lastIndex = 18;
+    public static void addPurchasableItems(int start, Inventory inventory, List<ShopItem> items, Player player) {
+        int lastIndex = start;
         for (int i = 0; i < items.size(); i++) {
             // Rendering more than 21 items on one page isn't possible
             if (i > 20) break;
@@ -63,6 +70,10 @@ public class MenuUtils {
                     .build());
             lastIndex = itemPosition;
         }
+    }
+
+    public static void addPurchasableItems(Inventory inventory, List<ShopItem> items, Player player) {
+        addPurchasableItems(18, inventory, items, player);
     }
 
     public static boolean canAfford(BWCurrency currency, int price, Player player) {

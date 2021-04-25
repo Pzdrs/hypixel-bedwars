@@ -14,12 +14,12 @@ public class GenericShopItem extends ShopItem{
     private ItemStack product;
 
     public GenericShopItem(String id, Material material, int amount, BWCurrency currency, int price, String description) {
-        super(id, material, amount, currency, price, description);
+        super(id, material, amount, currency, price, description, false);
         this.product = formatProductItem(material, amount);
     }
 
     public GenericShopItem(String id, ItemStack itemStack, BWCurrency currency, int price, String description) {
-        super(id, itemStack, currency, price, description);
+        super(id, itemStack, currency, price, description, false);
         this.product = formatProductItem(itemStack);
     }
 
