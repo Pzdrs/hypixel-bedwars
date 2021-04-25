@@ -56,6 +56,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setDisplayName(Component displayName) {
+        itemMeta.displayName(displayName);
+        return this;
+    }
+
     public ItemBuilder setShopDisplayName(ItemStack itemStack, boolean affordable) {
         Component displayName = (itemStack.hasItemMeta() && itemStack.getItemMeta().displayName() != null ?
                 itemStack.getItemMeta().displayName() : Component.text(Utils.materialToFriendlyName(itemStack.getType())));
@@ -102,6 +107,13 @@ public class ItemBuilder {
             lore.add(Component.empty());
         }
         itemMeta.lore(lore);
+        return this;
+    }
+
+    public ItemBuilder previewEnchantments() {
+        if (!itemMeta.hasEnchants()) return this;
+        /*setDisplayName(itemMeta.displayName() == null ? Component.text(Utils.materialToFriendlyName(itemStack.getType())).append(enchantsPreview) :
+                itemMeta.displayName().append(enchantsPreview));*/
         return this;
     }
 

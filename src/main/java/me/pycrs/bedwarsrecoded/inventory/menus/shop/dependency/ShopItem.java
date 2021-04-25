@@ -10,10 +10,9 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.Objects;
 
 public class ShopItem {
     private String id, description;
@@ -44,7 +43,7 @@ public class ShopItem {
     }
 
     private ItemStack formatProductItem(ItemStack itemStack) {
-        return new ItemStack(itemStack);
+        return formatProductItem(itemStack.getType(), itemStack.getAmount());
     }
 
     private ItemStack formatPreviewItem(Material material, int amount) {
@@ -54,11 +53,13 @@ public class ShopItem {
     private ItemStack formatPreviewItem(ItemStack itemStack) {
         return new ItemBuilder(itemStack)
                 .setPlugin(BedWars.getInstance())
+                .setFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")
                 .setPersistentData("itemId", PersistentDataType.STRING, id)
                 .setLore("&7Cost: &r" + BWCurrency.formatPrice(currency, price), "")
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
                 .addLoreLine("&bSneak Click to remove from Quick Buy&r")
+                .previewEnchantments()
                 .build();
     }
 
@@ -83,7 +84,8 @@ public class ShopItem {
     }
 
     private Component getItemName(ItemStack preview) {
-        if (preview.hasItemMeta() && preview.getItemMeta().displayName() != null) return preview.getItemMeta().displayName();
+        if (preview.hasItemMeta() && preview.getItemMeta().displayName() != null)
+            return preview.getItemMeta().displayName();
         return Component.text(Utils.materialToFriendlyName(preview.getType()));
     }
 

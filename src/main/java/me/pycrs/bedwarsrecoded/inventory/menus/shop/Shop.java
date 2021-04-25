@@ -50,7 +50,7 @@ public abstract class Shop extends Menu {
         switch (MenuUtils.getItemRole(event.getCurrentItem())) {
             case "category":
                 setSelectedCategory(MenuUtils.getPDCValue(event.getCurrentItem(), "category"));
-                open();
+                render();
                 break;
             case "shopItem":
                 handlePurchase(event);

@@ -45,7 +45,10 @@ public class GenericShop extends Shop {
                         new ItemBuilder(Material.WHITE_WOOL, 16)
                                 .setDisplayName("Wool")
                                 .build(), BWCurrency.IRON, 4, "Great for bridging across\nislands. Turns into your team's\ncolor."),
-                new ShopItem("clay", Material.TERRACOTTA, 16, BWCurrency.IRON, 12, "Basic block to defend your bed."),
+                new ShopItem("clay",
+                        new ItemBuilder(Material.TERRACOTTA, 16)
+                                .setDisplayName("Hardened Clay")
+                                .build(), BWCurrency.IRON, 12, "Basic block to defend your bed."),
                 new ShopItem("blast-proof_glass",
                         new ItemBuilder(Material.GLASS, 4)
                                 .setDisplayName("Blast-proof Glass")
@@ -54,23 +57,13 @@ public class GenericShop extends Shop {
                 new ShopItem("ladder", Material.LADDER, 16, BWCurrency.IRON, 4, "Useful to save cats stuck in\ntrees."),
                 new ShopItem("wood", Material.OAK_PLANKS, 16, BWCurrency.GOLD, 4, "Good block to defend your bed.\nStrong against pickaxes.")));
         categories.add(new ShopCategory("melee", "Melee", Material.GOLDEN_SWORD,
-                new ShopItem("stone_sword",
-                        new ItemBuilder(Material.STONE_SWORD)
-                                .setFlags(ItemFlag.HIDE_ATTRIBUTES)
-                                .build(), BWCurrency.IRON, 10, null),
-                new ShopItem("iron_sword",
-                        new ItemBuilder(Material.IRON_SWORD)
-                                .setFlags(ItemFlag.HIDE_ATTRIBUTES)
-                                .build(), BWCurrency.GOLD, 7, null),
-                new ShopItem("diamond_sword",
-                        new ItemBuilder(Material.DIAMOND_SWORD)
-                                .setFlags(ItemFlag.HIDE_ATTRIBUTES)
-                                .build(), BWCurrency.EMERALD, 4, null),
+                new ShopItem("stone_sword", Material.STONE_SWORD, 1, BWCurrency.IRON, 10, null),
+                new ShopItem("iron_sword", Material.IRON_SWORD, 1, BWCurrency.GOLD, 7, null),
+                new ShopItem("diamond_sword", Material.DIAMOND_SWORD, 1, BWCurrency.EMERALD, 4, null),
                 new ShopItem("knockback_stick",
                         new ItemBuilder(Material.STICK)
                                 .setDisplayName("Stick")
                                 .addEnchantment(Enchantment.KNOCKBACK, 1)
-                                .setFlags(ItemFlag.HIDE_ENCHANTS)
                                 .build(), BWCurrency.GOLD, 6, null)));
         categories.add(new ShopCategory("armor", "Armor", Material.CHAINMAIL_BOOTS));
         categories.add(new ShopCategory("tools", "Tools", Material.STONE_PICKAXE));
