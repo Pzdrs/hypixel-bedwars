@@ -33,6 +33,7 @@ public enum BWCurrency {
     }
 
     public static String formatPrice(BWCurrency currency, int price) {
-        return ChatColor.valueOf(currency.getColor().toString().toUpperCase()) + (price + " " + WordUtils.capitalize(currency.name().toLowerCase())) + ChatColor.RESET;
+        return ChatColor.valueOf(currency.getColor().toString().toUpperCase()) + (price + " " + WordUtils.capitalize(currency.name().toLowerCase() +
+                ((currency.equals(DIAMOND) || currency.equals(EMERALD)) && price != 1 ? "s" : ""))) + ChatColor.RESET;
     }
 }
