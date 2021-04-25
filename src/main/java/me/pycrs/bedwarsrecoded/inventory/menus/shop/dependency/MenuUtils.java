@@ -4,6 +4,7 @@ import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.ShopItem;
+import me.pycrs.bedwarsrecoded.listeners.InventoryClickListener;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -127,7 +128,8 @@ public class MenuUtils {
         return null;
     }
 
-    public static ItemStack createCategoryLink(String id, LinkedList<ShopCategory> categories) {
-        return getCategoryById(categories, id).getPreview();
+    // TODO: 4/25/2021 somehow run the logic when player clicks this item
+    public static void createButton(ItemStack itemStack, Inventory inventory, int slot, MenuButtonHandler handler) {
+        inventory.setItem(slot, itemStack);
     }
 }

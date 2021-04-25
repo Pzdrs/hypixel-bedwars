@@ -2,13 +2,19 @@ package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.MenuButtonHandler;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.GenericShopItem;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.PermanentUpgrade;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class TeamUpgradesShop extends Shop {
     public TeamUpgradesShop(Player player) {
@@ -40,17 +46,20 @@ public class TeamUpgradesShop extends Shop {
                         new ItemBuilder(Material.DRAGON_EGG)
                                 .setDisplayName("Dragon Buff")
                                 .build(), BWCurrency.DIAMOND, 2, "Your team will have 2 dragons\ninstead of1 during deathmatch!", true)));
-        categories.add(new ShopCategory("traps","Queue a trap", Material.TRIPWIRE_HOOK, new GenericShopItem("kokot", Material.TRIPWIRE_HOOK, 1,BWCurrency.EMERALD,1,null)));
+        categories.add(new ShopCategory("traps", "Queue a trap", Material.TRIPWIRE_HOOK, new GenericShopItem("kokot", Material.TRIPWIRE_HOOK, 1, BWCurrency.EMERALD, 1, null)));
     }
 
     @Override
     public void setContent() {
-        MenuUtils.addPurchasableItems(9, inventory, selectedCategory.getItems(), player);
-        inventory.setItem(16, MenuUtils.createCategoryLink("traps", categories));
         MenuUtils.fillRow(3, inventory, new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
                 .setDisplayName("&8\u2191 &7Purchasable")
                 .setLore("&8\u2193 &7Traps Queue")
                 .build());
+        MenuUtils.addPurchasableItems(9, inventory, selectedCategory.getItems(), player);
+        MenuUtils.createButton(new ItemBuilder(Material.LEATHER)
+                .setDisplayName(Component.text("Buy a trap", NamedTextColor.YELLOW))
+                .setItemDescription("Purchased traps will be\nqueued on the right.", ChatColor.GRAY)
+                .build(), inventory, 16, () -> new TrapsShop(player).open());
     }
 
     @Override
