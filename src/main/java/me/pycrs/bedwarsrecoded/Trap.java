@@ -1,4 +1,12 @@
 package me.pycrs.bedwarsrecoded;
 
-public class Trap {
+import org.bukkit.entity.Player;
+
+public interface Trap {
+    /**
+     *
+     * @param team Team, whose trap was triggered
+     * @param player The player that triggered the trap
+     */
+    void trigger(BTeam team, Player player);
 }
