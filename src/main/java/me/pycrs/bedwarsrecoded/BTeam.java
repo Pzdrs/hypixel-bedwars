@@ -20,7 +20,10 @@ public class BTeam {
     public BTeam(TeamColor teamColor) {
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
-        this.upgrades = new TeamUpgrades(false, 0, 0, Forge.DEFAULT_FORGE, false, false);
+        this.upgrades = new TeamUpgrades(false,
+                ReinforcedArmor.DEFAULT_PROTECTION,
+                ManiacMiner.DEFAULT_HASTE,
+                Forge.DEFAULT_FORGE, false, false);
         team.color(teamColor.getColor());
         this.teamColor = teamColor;
         this.players = new HashSet<>();
