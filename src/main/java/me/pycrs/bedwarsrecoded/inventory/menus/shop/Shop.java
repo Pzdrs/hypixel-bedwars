@@ -41,7 +41,7 @@ public abstract class Shop extends Menu {
 
     @Override
     public void setContent() {
-        if (categories.size() > 1) MenuUtils.displayCategories(inventory, categories, selectedCategory);
+        MenuUtils.displayCategories(inventory, categories, selectedCategory);
         MenuUtils.addPurchasableItems(inventory, selectedCategory.getItems(), player);
     }
 

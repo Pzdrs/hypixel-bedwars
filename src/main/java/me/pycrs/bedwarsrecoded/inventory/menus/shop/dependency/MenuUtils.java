@@ -3,6 +3,7 @@ package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
+import me.pycrs.bedwarsrecoded.inventory.menus.Menu;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.ShopItem;
 import me.pycrs.bedwarsrecoded.listeners.InventoryClickListener;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class MenuUtils {
     public static void displayCategories(Inventory inventory, LinkedList<ShopCategory> categories, ShopCategory selectedCategory) {
@@ -129,7 +131,13 @@ public class MenuUtils {
     }
 
     // TODO: 4/25/2021 somehow run the logic when player clicks this item
-    public static void createButton(ItemStack itemStack, Inventory inventory, int slot, MenuButtonHandler handler) {
-        inventory.setItem(slot, itemStack);
+    public static void createButton(ItemStack itemStack, Menu menu, int slot, MenuButtonHandler handler) {
+        String id = UUID.randomUUID().toString();
+        menu.getInventory().setItem(slot, new ItemBuilder(itemStack)
+                .setPlugin(BedWars.getInstance())
+                .setPersistentData("role", PersistentDataType.STRING, "menuButton")
+                .setPersistentData("menuButtonID", PersistentDataType.STRING, id)
+                .build());
+        menu.getButtons().put(id, new MenuButton(itemStack, handler));
     }
 }

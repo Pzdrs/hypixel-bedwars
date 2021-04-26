@@ -1,5 +1,6 @@
 package me.pycrs.bedwarsrecoded.inventory.menus;
 
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.MenuButton;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,12 +9,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Menu implements InventoryHolder {
     protected Inventory inventory;
     protected Player player;
+    private Map<String, MenuButton> buttons;
 
     public Menu(Player player) {
         this.player = player;
+        this.buttons = new HashMap<>();
     }
 
     protected abstract Component getTitle();
@@ -28,6 +34,10 @@ public abstract class Menu implements InventoryHolder {
         this.inventory = Bukkit.createInventory(this, getSize(), getTitle());
         setContent();
         player.openInventory(inventory);
+    }
+
+    public final Map<String, MenuButton> getButtons() {
+        return buttons;
     }
 
     @Override
