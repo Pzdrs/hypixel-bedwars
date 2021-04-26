@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded;
+package me.pycrs.bedwarsrecoded.teamUpgrades;
 
 public enum ReinforcedArmor {
     DEFAULT_PROTECTION(0, null),

@@ -1,9 +1,11 @@
 package me.pycrs.bedwarsrecoded;
 
+import me.pycrs.bedwarsrecoded.teamUpgrades.Forge;
+import me.pycrs.bedwarsrecoded.teamUpgrades.ManiacMiner;
+import me.pycrs.bedwarsrecoded.teamUpgrades.ReinforcedArmor;
+import me.pycrs.bedwarsrecoded.teamUpgrades.TeamUpgrades;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 

@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded;
+package me.pycrs.bedwarsrecoded.teamUpgrades;
 
 public enum ManiacMiner {
     DEFAULT_HASTE(0, null),

@@ -1,7 +1,8 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
+import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
-import me.pycrs.bedwarsrecoded.Trap;
+import me.pycrs.bedwarsrecoded.Mode;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
@@ -35,15 +36,15 @@ public class TeamUpgradesShop extends Shop {
                 new PermanentUpgrade("sharpness",
                         new ItemBuilder(Material.IRON_SWORD)
                                 .setDisplayName("Sharpened Swords")
-                                .build(), BWCurrency.DIAMOND, 4, "Your team permanently gains\nSharpness I on all swords and\naxes!", true),
+                                .build(), BWCurrency.DIAMOND, BedWars.getMode().equals(Mode.SOLO) || BedWars.getMode().equals(Mode.DOUBLES) ? 4 : 8, "Your team permanently gains\nSharpness I on all swords and\naxes!", true),
                 new PermanentUpgrade("heal_pool",
                         new ItemBuilder(Material.BEACON)
                                 .setDisplayName("Heal Pool")
-                                .build(), BWCurrency.DIAMOND, 1, "Creates a Regeneration field\naround your base!", true),
+                                .build(), BWCurrency.DIAMOND, BedWars.getMode().equals(Mode.SOLO) || BedWars.getMode().equals(Mode.DOUBLES) ? 1 : 3, "Creates a Regeneration field\naround your base!", true),
                 new PermanentUpgrade("dragon_buff",
                         new ItemBuilder(Material.DRAGON_EGG)
                                 .setDisplayName("Dragon Buff")
-                                .build(), BWCurrency.DIAMOND, 2, "Your team will have 2 dragons\ninstead of1 during deathmatch!", true)));
+                                .build(), BWCurrency.DIAMOND, 5, "Your team will have 2 dragons\ninstead of1 during deathmatch!", true)));
     }
 
     @Override

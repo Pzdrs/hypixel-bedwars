@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded;
+package me.pycrs.bedwarsrecoded.teamUpgrades;
 
 public enum Forge {
     DEFAULT_FORGE(1,0,null, false),

@@ -1,4 +1,6 @@
-package me.pycrs.bedwarsrecoded;
+package me.pycrs.bedwarsrecoded.teamUpgrades;
+
+import me.pycrs.bedwarsrecoded.traps.Trap;
 
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
