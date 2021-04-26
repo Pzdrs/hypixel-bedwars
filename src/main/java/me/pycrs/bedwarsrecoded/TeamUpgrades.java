@@ -5,10 +5,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class TeamUpgrades {
     private boolean sharpness, healPool, dragonBuff;
-    private int protection, maniacMiner, forge;
+    private Forge forge;
+    private int protection, maniacMiner;
     private Queue<Trap> traps;
 
-    public TeamUpgrades(boolean sharpness, int protection, int maniacMiner, int forge, boolean healPool, boolean dragonBuff) {
+    public TeamUpgrades(boolean sharpness, int protection, int maniacMiner, Forge forge, boolean healPool, boolean dragonBuff) {
         this.sharpness = sharpness;
         this.protection = protection;
         this.maniacMiner = maniacMiner;
@@ -42,7 +43,7 @@ public class TeamUpgrades {
         return traps;
     }
 
-    public int getForge() {
+    public Forge getForge() {
         return forge;
     }
 }

@@ -1,6 +1,7 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
 import me.pycrs.bedwarsrecoded.ItemBuilder;
+import me.pycrs.bedwarsrecoded.Trap;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
@@ -57,6 +58,7 @@ public class TeamUpgradesShop extends Shop {
                 .setItemDescription("Purchased traps will be\nqueued on the right.", ChatColor.GRAY)
                 .addLoreLine("&eClick to browse!")
                 .build(), this, 16, () -> new TrapsShop(player).open());
+        // TODO: 4/26/2021 display traps queue, i really dont know how to do that rn
     }
 
     @Override

@@ -1,5 +1,7 @@
 package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
+import me.pycrs.bedwarsrecoded.BTeam;
+import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.inventory.menus.Menu;
 import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
@@ -17,10 +19,12 @@ public abstract class Shop extends Menu {
 
     protected LinkedList<ShopCategory> categories;
     protected ShopCategory selectedCategory;
+    protected BTeam team;
 
     public Shop(Player player) {
         super(player);
         this.categories = new LinkedList<>();
+        this.team = BedWars.getInstance().getPlayersTeam(player);
     }
 
     @Override
@@ -30,6 +34,7 @@ public abstract class Shop extends Menu {
 
     @Override
     public final void open() {
+        System.out.println(team.getTeamColor());
         categories.clear();
         setCategories();
         setupSelectedCategory();
