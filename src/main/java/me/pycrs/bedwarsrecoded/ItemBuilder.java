@@ -112,6 +112,9 @@ public class ItemBuilder {
 
     public ItemBuilder previewEnchantments() {
         if (!itemMeta.hasEnchants()) return this;
+        itemMeta.getEnchants().forEach((enchantment, integer) -> {
+                itemMeta.displayName().append(enchantment.displayName(integer));
+        });
         /*setDisplayName(itemMeta.displayName() == null ? Component.text(Utils.materialToFriendlyName(itemStack.getType())).append(enchantsPreview) :
                 itemMeta.displayName().append(enchantsPreview));*/
         return this;

@@ -12,6 +12,10 @@ public class TeamUpgrades {
     private ManiacMiner maniacMiner;
     private Queue<Trap> traps;
 
+    public TeamUpgrades() {
+        this.traps = new ArrayBlockingQueue<>(3);
+    }
+
     public TeamUpgrades(boolean sharpness, ReinforcedArmor protection, ManiacMiner maniacMiner, Forge forge, boolean healPool, boolean dragonBuff) {
         this.sharpness = sharpness;
         this.protection = protection;

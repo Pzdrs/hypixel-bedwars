@@ -1,15 +1,15 @@
 package me.pycrs.bedwarsrecoded;
 
-import me.pycrs.bedwarsrecoded.teamUpgrades.Forge;
-import me.pycrs.bedwarsrecoded.teamUpgrades.ManiacMiner;
-import me.pycrs.bedwarsrecoded.teamUpgrades.ReinforcedArmor;
 import me.pycrs.bedwarsrecoded.teamUpgrades.TeamUpgrades;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BTeam {
@@ -22,10 +22,7 @@ public class BTeam {
     public BTeam(TeamColor teamColor) {
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
-        this.upgrades = new TeamUpgrades(false,
-                ReinforcedArmor.DEFAULT_PROTECTION,
-                ManiacMiner.DEFAULT_HASTE,
-                Forge.DEFAULT_FORGE, false, false);
+        this.upgrades = new TeamUpgrades();
         team.color(teamColor.getColor());
         this.teamColor = teamColor;
         this.players = new HashSet<>();

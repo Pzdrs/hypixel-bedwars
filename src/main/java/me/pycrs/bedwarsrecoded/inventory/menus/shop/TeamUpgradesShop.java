@@ -6,7 +6,6 @@ import me.pycrs.bedwarsrecoded.Mode;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.PermanentUpgrade;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -32,7 +31,7 @@ public class TeamUpgradesShop extends Shop {
 
     @Override
     protected void setCategories() {
-        categories.add(new ShopCategory("default", "Upgrades & Traps", Material.SPONGE,
+        categories.add(new ShopCategory("default", "Upgrades & Traps", Material.SPONGE/*,
                 new PermanentUpgrade("sharpness",
                         new ItemBuilder(Material.IRON_SWORD)
                                 .setDisplayName("Sharpened Swords")
@@ -44,7 +43,7 @@ public class TeamUpgradesShop extends Shop {
                 new PermanentUpgrade("dragon_buff",
                         new ItemBuilder(Material.DRAGON_EGG)
                                 .setDisplayName("Dragon Buff")
-                                .build(), BWCurrency.DIAMOND, 5, "Your team will have 2 dragons\ninstead of1 during deathmatch!", true)));
+                                .build(), BWCurrency.DIAMOND, 5, "Your team will have 2 dragons\ninstead of1 during deathmatch!", true)*/));
     }
 
     @Override

@@ -34,7 +34,6 @@ public abstract class Shop extends Menu {
 
     @Override
     public final void open() {
-        System.out.println(team.getTeamColor());
         categories.clear();
         setCategories();
         setupSelectedCategory();

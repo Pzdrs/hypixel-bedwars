@@ -7,6 +7,7 @@ import me.pycrs.bedwarsrecoded.inventory.menus.button.MenuButton;
 import me.pycrs.bedwarsrecoded.inventory.menus.button.MenuButtonHandler;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.GenericShopItem;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.ShopItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -64,7 +65,7 @@ public class MenuUtils {
             // Rendering more than 21 items on one page isn't possible
             if (i > 20) break;
 
-            ShopItem item = items.get(i);
+            GenericShopItem item = (GenericShopItem) items.get(i);
             ItemStack previewItem = item.getPreview().clone();
 
             int itemPosition = lastIndex + (i == 7 || i == 14 ? 3 : 1);
