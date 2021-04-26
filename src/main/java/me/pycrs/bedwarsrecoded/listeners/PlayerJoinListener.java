@@ -84,11 +84,9 @@ public class PlayerJoinListener implements Listener {
 
         // If enough players, start the countdown
         if (Bukkit.getOnlinePlayers().size() >= BedWars.getMode().getMinPlayers()) {
-            if (Utils.isLobbyCountdownInProgress(plugin)) {
-                player.sendMessage(Component.text(Utils.color("&eThe game is starting in&b " + LobbyCountdown.timer + " &e" + (LobbyCountdown.timer.get() <= 1 ? "second!" : "seconds!"))));
-            } else {
-                plugin.startGame();
-            }
+            if (!Utils.isLobbyCountdownInProgress(plugin)) plugin.startGame();
+            if (Bukkit.getOnlinePlayers().size() == BedWars.getMode().getTeamSize() * BedWars.getMode().getAmountOfTeams()) LobbyCountdown.timer.set(10);
+            player.sendMessage(Component.text(Utils.color("&eThe game is starting in&b " + LobbyCountdown.timer + " &e" + (LobbyCountdown.timer.get() <= 1 ? "second!" : "seconds!"))));
         }
     }
 }

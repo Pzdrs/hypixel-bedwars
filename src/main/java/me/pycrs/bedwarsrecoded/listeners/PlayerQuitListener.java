@@ -30,7 +30,6 @@ public class PlayerQuitListener implements Listener {
 
         Player player = event.getPlayer();
 
-        // TODO: 4/8/2021 extra quit message for ingame players
         // New quit messages
         if (BedWars.gameInProgress) {
             plugin.getServer().sendMessage(Component.text(player.getName(), plugin.getBPlayer(player).getTeam().getTeamColor().getColor())
