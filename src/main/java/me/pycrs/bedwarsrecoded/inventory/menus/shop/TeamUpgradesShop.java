@@ -2,9 +2,8 @@ package me.pycrs.bedwarsrecoded.inventory.menus.shop;
 
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.MenuUtils;
+import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.GenericShopItem;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.PermanentUpgrade;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

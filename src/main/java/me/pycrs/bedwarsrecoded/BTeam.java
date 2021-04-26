@@ -13,12 +13,14 @@ import java.util.stream.Collectors;
 public class BTeam {
     private Team team;
     private TeamColor teamColor;
+    private TeamUpgrades upgrades;
     private Set<BPlayer> players;
     private boolean hasBed = true;
-    private Location respawnLocation;
 
     public BTeam(TeamColor teamColor) {
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
+        // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
+        this.upgrades = new TeamUpgrades(false, 0, 0, 0, false, false);
         team.color(teamColor.getColor());
         this.teamColor = teamColor;
         this.players = new HashSet<>();
@@ -39,6 +41,10 @@ public class BTeam {
             if (bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
         }
         return false;
+    }
+
+    public TeamUpgrades getUpgrades() {
+        return upgrades;
     }
 
     public Team getTeam() {

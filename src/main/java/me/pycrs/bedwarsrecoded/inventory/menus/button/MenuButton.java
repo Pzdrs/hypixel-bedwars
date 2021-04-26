@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
+package me.pycrs.bedwarsrecoded.inventory.menus.button;
 
 import org.bukkit.inventory.ItemStack;
 

@@ -1,11 +1,13 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
+package me.pycrs.bedwarsrecoded.inventory.menus;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
-import me.pycrs.bedwarsrecoded.inventory.menus.Menu;
+import me.pycrs.bedwarsrecoded.inventory.menus.button.MenuButton;
+import me.pycrs.bedwarsrecoded.inventory.menus.button.MenuButtonHandler;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.ShopItem;
-import me.pycrs.bedwarsrecoded.listeners.InventoryClickListener;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
