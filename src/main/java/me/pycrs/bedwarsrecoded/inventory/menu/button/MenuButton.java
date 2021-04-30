@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.button;
+package me.pycrs.bedwarsrecoded.inventory.menu.button;
 
 import org.bukkit.inventory.ItemStack;
 

@@ -25,10 +25,14 @@ public final class BedWars extends JavaPlugin {
         saveDefaultConfig();
         init();
 
-        mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
-        // Clear current teams
-        Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
-        teams = BTeam.initTeams();
+        try {
+            mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
+            // Clear current teams
+            Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
+            teams = BTeam.initTeams();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

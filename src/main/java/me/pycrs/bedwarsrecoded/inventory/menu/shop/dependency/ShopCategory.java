@@ -1,8 +1,8 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
+package me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems.ShopItem;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.ShopItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;

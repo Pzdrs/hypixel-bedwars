@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency;
+package me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.WordUtils;

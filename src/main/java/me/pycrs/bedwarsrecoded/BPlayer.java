@@ -1,12 +1,14 @@
 package me.pycrs.bedwarsrecoded;
 
-import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.AbstractMap;
+import java.util.Map;
 
 public class BPlayer {
     private BedWars plugin;
@@ -95,8 +97,8 @@ public class BPlayer {
         return player;
     }
 
-    public Pair<Boolean, Integer> isOnShoutCoolDown() {
-        return new Pair<>(shoutCoolDown, shoutCoolDownLeft);
+    public Map.Entry<Boolean, Integer> isOnShoutCoolDown() {
+        return new AbstractMap.SimpleEntry<>(shoutCoolDown, shoutCoolDownLeft);
     }
 
     public int getKills() {

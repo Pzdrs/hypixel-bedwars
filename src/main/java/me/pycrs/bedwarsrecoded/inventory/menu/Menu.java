@@ -1,6 +1,6 @@
-package me.pycrs.bedwarsrecoded.inventory.menus;
+package me.pycrs.bedwarsrecoded.inventory.menu;
 
-import me.pycrs.bedwarsrecoded.inventory.menus.button.MenuButton;
+import me.pycrs.bedwarsrecoded.inventory.menu.button.MenuButton;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

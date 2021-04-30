@@ -1,6 +1,5 @@
 package me.pycrs.bedwarsrecoded.commands;
 
-import javafx.util.Pair;
 import me.pycrs.bedwarsrecoded.BPlayer;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.Mode;
@@ -14,9 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ShoutCommand implements TabExecutor {
     private BedWars plugin;
@@ -53,7 +50,7 @@ public class ShoutCommand implements TabExecutor {
 
         // Check, if the players is on a cooldown
         BPlayer bPlayer = Utils.isolateByUUID(plugin.getPlayers(), player);
-        Pair<Boolean, Integer> cooldown = bPlayer.isOnShoutCoolDown();
+        Map.Entry<Boolean, Integer> cooldown = bPlayer.isOnShoutCoolDown();
         if (cooldown.getKey()) {
             player.sendMessage(Component.text(Utils.color("&cYou must wait &e" +
                     cooldown.getValue() + " &cseconds until you can use /shout again!")));

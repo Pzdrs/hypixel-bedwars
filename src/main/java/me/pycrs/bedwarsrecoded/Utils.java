@@ -1,8 +1,5 @@
 package me.pycrs.bedwarsrecoded;
 
-import javafx.util.Pair;
-import me.pycrs.bedwarsrecoded.exceptions.InvalidTeamSizeException;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -12,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Utils {
@@ -83,16 +79,11 @@ public class Utils {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
 
-    public static Mode teamSizeToMode(int teamSize) {
+    public static Mode teamSizeToMode(int teamSize) throws Exception {
         for (Mode mode : Mode.values()) {
             if (mode.getTeamSize() == teamSize) return mode;
         }
-        try {
-            throw new InvalidTeamSizeException(teamSize);
-        } catch (InvalidTeamSizeException e) {
-            e.printStackTrace();
-        }
-        return null;
+       throw new Exception("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
     }
 
     public static void distributePlayersToTeams(BedWars plugin) {

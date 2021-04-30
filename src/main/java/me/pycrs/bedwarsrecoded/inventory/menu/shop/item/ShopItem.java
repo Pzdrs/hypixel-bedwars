@@ -1,17 +1,12 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems;
+package me.pycrs.bedwarsrecoded.inventory.menu.shop.item;
 
-import me.pycrs.bedwarsrecoded.BedWars;
-import me.pycrs.bedwarsrecoded.ItemBuilder;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
-import org.bukkit.ChatColor;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 
 public abstract class ShopItem {
-    private String id, description;
+    protected String id, description;
     protected ItemStack preview;
     protected BWCurrency currency;
     protected int price;
@@ -36,16 +31,7 @@ public abstract class ShopItem {
         return formatPreviewItem(new ItemStack(material, amount));
     }
 
-    private ItemStack formatPreviewItem(ItemStack itemStack) {
-        return new ItemBuilder(itemStack)
-                .setPlugin(BedWars.getInstance())
-                .setFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
-                .setPersistentData("role", PersistentDataType.STRING, "shopItem")
-                .setPersistentData("itemId", PersistentDataType.STRING, id)
-                .setLore("&7Cost: &r" + BWCurrency.formatPrice(currency, price), "")
-                .setItemDescription(description == null ? null : description, ChatColor.GRAY)
-                .build();
-    }
+    protected abstract ItemStack formatPreviewItem(ItemStack itemStack);
 
     public abstract boolean purchase(Player player);
 

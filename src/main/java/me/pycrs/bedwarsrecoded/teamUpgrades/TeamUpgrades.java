@@ -7,8 +7,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class TeamUpgrades {
     private boolean sharpness, healPool, dragonBuff;
+    private int protection;
     private Forge forge;
-    private ReinforcedArmor protection;
     private ManiacMiner maniacMiner;
     private Queue<Trap> traps;
 
@@ -16,7 +16,7 @@ public class TeamUpgrades {
         this.traps = new ArrayBlockingQueue<>(3);
     }
 
-    public TeamUpgrades(boolean sharpness, ReinforcedArmor protection, ManiacMiner maniacMiner, Forge forge, boolean healPool, boolean dragonBuff) {
+    public TeamUpgrades(boolean sharpness, int protection, ManiacMiner maniacMiner, Forge forge, boolean healPool, boolean dragonBuff) {
         this.sharpness = sharpness;
         this.protection = protection;
         this.maniacMiner = maniacMiner;
@@ -38,7 +38,7 @@ public class TeamUpgrades {
         return dragonBuff;
     }
 
-    public ReinforcedArmor getProtection() {
+    public int getProtection() {
         return protection;
     }
 

@@ -1,8 +1,8 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop;
+package me.pycrs.bedwarsrecoded.inventory.menu.shop;
 
 import me.pycrs.bedwarsrecoded.ItemBuilder;
-import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
+import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.ShopCategory;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -37,10 +37,5 @@ public class TrapsShop extends Shop {
                 .setDisplayName(Component.text("Go Back", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
                 .addLoreLine("To Upgrades & Traps")
                 .build(), this, 22, () -> new TeamUpgradesShop(player).open());
-    }
-
-    @Override
-    protected void handlePurchase(InventoryClickEvent event) {
-        System.out.println("trap purchased");
     }
 }

@@ -1,8 +1,9 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop.shopItems;
+package me.pycrs.bedwarsrecoded.inventory.menu.shop.item;
 
 import me.pycrs.bedwarsrecoded.Utils;
-import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.type.CommonItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.WordUtils;
@@ -10,15 +11,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class GenericShopItem extends ShopItem {
+public class CommonShopItem extends CommonItem {
     private ItemStack product;
 
-    public GenericShopItem(String id, Material material, int amount, BWCurrency currency, int price, String description) {
+    public CommonShopItem(String id, Material material, int amount, BWCurrency currency, int price, String description) {
         super(id, material, amount, currency, price, description);
         this.product = formatProductItem(material, amount);
     }
 
-    public GenericShopItem(String id, ItemStack itemStack, BWCurrency currency, int price, String description) {
+    public CommonShopItem(String id, ItemStack itemStack, BWCurrency currency, int price, String description) {
         super(id, itemStack, currency, price, description);
         this.product = formatProductItem(itemStack);
     }

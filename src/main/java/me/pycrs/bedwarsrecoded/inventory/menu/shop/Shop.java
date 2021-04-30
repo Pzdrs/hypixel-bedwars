@@ -1,14 +1,17 @@
-package me.pycrs.bedwarsrecoded.inventory.menus.shop;
+package me.pycrs.bedwarsrecoded.inventory.menu.shop;
 
 import me.pycrs.bedwarsrecoded.BTeam;
 import me.pycrs.bedwarsrecoded.BedWars;
-import me.pycrs.bedwarsrecoded.inventory.menus.Menu;
-import me.pycrs.bedwarsrecoded.inventory.menus.MenuUtils;
-import me.pycrs.bedwarsrecoded.inventory.menus.shop.dependency.ShopCategory;
+import me.pycrs.bedwarsrecoded.inventory.menu.Menu;
+import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.ShopCategory;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.ShopItem;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.LinkedList;
 
@@ -60,6 +63,8 @@ public abstract class Shop extends Menu {
             case "shopItem":
                 handlePurchase(event);
                 break;
+            default:
+                System.out.println("handle case default");
         }
     }
 
@@ -67,7 +72,12 @@ public abstract class Shop extends Menu {
 
     protected abstract void setCategories();
 
-    protected abstract void handlePurchase(InventoryClickEvent event);
+    private void handlePurchase(InventoryClickEvent event) {
+        ShopItem item = MenuUtils.getItemById(selectedCategory, event.getCurrentItem().getItemMeta()
+                .getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "itemId"), PersistentDataType.STRING));
+        if (item != null)
+            if (item.purchase(player)) render();
+    };
 
     public final void cycleCategory(CategoryCycleDirection direction) {
         int currentIndex = MenuUtils.getCategoryIndex(categories, selectedCategory);
