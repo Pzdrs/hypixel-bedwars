@@ -2,6 +2,7 @@ package me.pycrs.bedwarsrecoded;
 
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.ShopItemTier;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
@@ -140,10 +141,10 @@ public class ItemBuilder {
     }
 
     public ItemBuilder previewEnchantments() {
-        if (!itemMeta.hasEnchants()) return this;
+        /*if (!itemMeta.hasEnchants() || !itemMeta.hasDisplayName()) return this;
         itemMeta.getEnchants().forEach((enchantment, integer) -> {
-            itemMeta.displayName().append(enchantment.displayName(integer));
-        });
+            System.out.println(Component.translatable("enchantment.minecraft.knockback"));
+        });*/
         /*setDisplayName(itemMeta.displayName() == null ? Component.text(Utils.materialToFriendlyName(itemStack.getType())).append(enchantsPreview) :
                 itemMeta.displayName().append(enchantsPreview));*/
         return this;

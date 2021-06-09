@@ -7,9 +7,7 @@ import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,12 +20,13 @@ public class CommonShopItem extends ShopItem {
 
     public CommonShopItem(String id, Material material, int amount, BWCurrency currency, int price, String description) {
         super(id, material, amount, currency, price, description);
-        this.product = formatProductItem(material, amount);
+        this.product = new ItemStack(material, amount);
     }
 
     public CommonShopItem(String id, ItemStack itemStack, BWCurrency currency, int price, String description) {
-        super(id, itemStack, currency, price, description);
-        this.product = formatProductItem(itemStack);
+        super(id, itemStack.clone(), currency, price, description);
+        // FIXME: 6/9/2021 items with custom names are italic when bought
+        this.product = itemStack;
     }
 
     @Override
@@ -39,6 +38,7 @@ public class CommonShopItem extends ShopItem {
                 .setPersistentData("itemId", PersistentDataType.STRING, id)
                 .setLore(Component.text("Cost: ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false).append(getCost().getDisplay()), Component.empty())
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
+                .previewEnchantments()
                 .build();
     }
 
@@ -67,13 +67,5 @@ public class CommonShopItem extends ShopItem {
         if (preview.hasItemMeta() && preview.getItemMeta().displayName() != null)
             return preview.getItemMeta().displayName();
         return Component.text(Utils.materialToFriendlyName(preview.getType()));
-    }
-
-    private ItemStack formatProductItem(Material material, int amount) {
-        return new ItemStack(material, amount);
-    }
-
-    private ItemStack formatProductItem(ItemStack itemStack) {
-        return formatProductItem(itemStack.getType(), itemStack.getAmount());
     }
 }
