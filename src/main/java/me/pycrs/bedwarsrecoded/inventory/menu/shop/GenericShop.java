@@ -3,7 +3,10 @@ package me.pycrs.bedwarsrecoded.inventory.menu.shop;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.ShopCategory;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.ButtonShopItem;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.CommonShopItem;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.ShopItem;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.ShopItemClickHandler;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -27,7 +30,11 @@ public class GenericShop extends Shop {
     // TODO: 4/25/2021 per player quick buy menu
     @Override
     protected void setCategories() {
-        categories.add(new ShopCategory("quick_buy", "Quick Buy", Material.NETHER_STAR));
+        categories.add(new ShopCategory("quick_buy", "Quick Buy", Material.NETHER_STAR,
+                new ButtonShopItem("experimental", Material.DIAMOND, 1, BWCurrency.EMERALD, 0, () -> {
+                    player.sendMessage("clicked");
+                    return true;
+                }, null)));
         categories.add(new ShopCategory("blocks", "Blocks", Material.TERRACOTTA,
                 new CommonShopItem("wool",
                         new ItemBuilder(Material.WHITE_WOOL, 16)

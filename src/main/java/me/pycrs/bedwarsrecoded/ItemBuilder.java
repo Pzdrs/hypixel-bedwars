@@ -1,5 +1,6 @@
 package me.pycrs.bedwarsrecoded;
 
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.ShopItemTier;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -14,7 +15,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ItemBuilder {
     private JavaPlugin plugin;
@@ -89,11 +92,25 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setLore(Component... lore) {
+        itemMeta.lore(Arrays.asList(lore));
+        return this;
+    }
+
     public ItemBuilder addLoreLine(String line) {
         if (line == null) return this;
         List<Component> lore = itemMeta.hasLore() ? itemMeta.lore() : new ArrayList<>();
         if (lore != null)
             lore.add(Component.text(color(line)));
+        itemMeta.lore(lore);
+        return this;
+    }
+
+    public ItemBuilder addLoreLine(Component line) {
+        if (line == null) return this;
+        List<Component> lore = itemMeta.hasLore() ? itemMeta.lore() : new ArrayList<>();
+        if (lore != null)
+            lore.add(line);
         itemMeta.lore(lore);
         return this;
     }
@@ -110,10 +127,22 @@ public class ItemBuilder {
         return this;
     }
 
+
+    public ItemBuilder setShopItemTiers(Map<ShopItemTier, Boolean> tiers) {
+        System.out.println(tiers);
+        int tierIndex = 1;
+        for (Map.Entry<ShopItemTier, Boolean> tier : tiers.entrySet()) {
+            addLoreLine(Component.text("Tier ")
+                    .append(Component.text(tierIndex + ": "))
+                    .append(Component.text(tier.getKey().getDescription())));
+        }
+        return this;
+    }
+
     public ItemBuilder previewEnchantments() {
         if (!itemMeta.hasEnchants()) return this;
         itemMeta.getEnchants().forEach((enchantment, integer) -> {
-                itemMeta.displayName().append(enchantment.displayName(integer));
+            itemMeta.displayName().append(enchantment.displayName(integer));
         });
         /*setDisplayName(itemMeta.displayName() == null ? Component.text(Utils.materialToFriendlyName(itemStack.getType())).append(enchantsPreview) :
                 itemMeta.displayName().append(enchantsPreview));*/

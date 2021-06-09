@@ -8,14 +8,13 @@ import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.PermanentUpgradeShopItem;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.ShopItemTier;
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.TieredShopItem;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.TieredUpgradeShopItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class TeamUpgradesShop extends Shop {
     public TeamUpgradesShop(Player player) {
@@ -40,19 +39,19 @@ public class TeamUpgradesShop extends Shop {
                                 .setDisplayName("Sharpened Swords")
                                 .build(), BWCurrency.DIAMOND, isSoloOrDoubles() ? 4 : 8,
                         "Your team permanently gains\nSharpness I on all swords and\naxes!"),
-                new TieredShopItem("reinforced_armor", new ItemBuilder(Material.IRON_CHESTPLATE)
+                new TieredUpgradeShopItem("reinforced_armor", new ItemBuilder(Material.IRON_CHESTPLATE)
                         .setDisplayName("Reinforced Armor {tier}")
                         .build(), "Your team permanently gains\nProtection on all armor pieces!", 0,
                         new ShopItemTier(BWCurrency.DIAMOND, isSoloOrDoubles() ? 2 : 5, "Protection I"),
                         new ShopItemTier(BWCurrency.DIAMOND, isSoloOrDoubles() ? 4 : 10, "Protection II"),
                         new ShopItemTier(BWCurrency.DIAMOND, isSoloOrDoubles() ? 8 : 20, "Protection III"),
                         new ShopItemTier(BWCurrency.DIAMOND, isSoloOrDoubles() ? 16 : 30, "Protection IV")),
-                new TieredShopItem("maniac_miner", new ItemBuilder(Material.GOLDEN_PICKAXE)
+                new TieredUpgradeShopItem("maniac_miner", new ItemBuilder(Material.GOLDEN_PICKAXE)
                         .setDisplayName("Maniac Miner {tier}")
                         .build(), "All players on your team\npermanently gain Haste.", 0,
                         new ShopItemTier(BWCurrency.DIAMOND, isSoloOrDoubles() ? 2 : 4, "Haste I"),
                         new ShopItemTier(BWCurrency.DIAMOND, isSoloOrDoubles() ? 4 : 6, "Haste II")),
-                new TieredShopItem("forge", new ItemBuilder(Material.FURNACE)
+                new TieredUpgradeShopItem("forge", new ItemBuilder(Material.FURNACE)
                         .setDisplayName("{type} Forge")
                         .build(), "Upgrade resources spawning on\nyour island.", 0,
                         new ShopItemTier(BWCurrency.DIAMOND, isSoloOrDoubles() ? 2 : 4, "+50% Resources"),

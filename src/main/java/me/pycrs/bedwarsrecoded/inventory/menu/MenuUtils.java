@@ -68,10 +68,10 @@ public class MenuUtils {
             ItemStack previewItem = item.getPreview().clone();
 
             int itemPosition = lastIndex + (i == 7 || i == 14 ? 3 : 1);
-            boolean canAfford = canAfford(item.getCurrency(), item.getPrice(), player);
+            boolean canAfford = canAfford(item.getCost().getCurrency(), item.getCost().getPrice(), player);
             inventory.setItem(itemPosition, new ItemBuilder(previewItem)
                     .setShopDisplayName(previewItem, canAfford)
-                    .addLoreLine(canAfford ? "&eClick to purchase!&r" : "&cYou don't have enough " + BWCurrency.formatName(item.getCurrency()) + "!&r")
+                    .addLoreLine(canAfford ? "&eClick to purchase!&r" : "&cYou don't have enough " + item.getCost().getCurrency().capitalize() + "!&r")
                     .build());
             lastIndex = itemPosition;
         }
