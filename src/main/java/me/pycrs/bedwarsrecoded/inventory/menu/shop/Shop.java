@@ -28,6 +28,9 @@ public abstract class Shop extends Menu {
         super(player);
         this.categories = new LinkedList<>();
         this.team = BedWars.getInstance().getPlayersTeam(player);
+
+        setCategories();
+        setupSelectedCategory();
     }
 
     @Override
@@ -37,13 +40,9 @@ public abstract class Shop extends Menu {
 
     @Override
     public final void open() {
-        categories.clear();
-        setCategories();
-        setupSelectedCategory();
-
         this.inventory = Bukkit.createInventory(this, getSize(), getTitle());
-        player.openInventory(inventory);
         render();
+        player.openInventory(inventory);
     }
 
     @Override
@@ -58,7 +57,7 @@ public abstract class Shop extends Menu {
         switch (MenuUtils.getItemRole(event.getCurrentItem())) {
             case "category":
                 setSelectedCategory(MenuUtils.getPDCValue(event.getCurrentItem(), "category"));
-                render();
+                open();
                 break;
             case "shopItem":
                 handlePurchase(event);
@@ -99,7 +98,7 @@ public abstract class Shop extends Menu {
     public void setSelectedCategory(int index) {
         if (index < 0 || index > categories.size() - 1) return;
         this.selectedCategory = categories.get(index);
-        render();
+        open();
     }
 
     private void setupSelectedCategory() {
@@ -109,6 +108,5 @@ public abstract class Shop extends Menu {
     protected final void render() {
         inventory.clear();
         setContent();
-        player.updateInventory();
     }
 }
