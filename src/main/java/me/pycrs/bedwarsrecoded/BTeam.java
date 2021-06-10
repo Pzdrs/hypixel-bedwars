@@ -1,15 +1,17 @@
 package me.pycrs.bedwarsrecoded;
 
+import me.pycrs.bedwarsrecoded.generator.Generator;
 import me.pycrs.bedwarsrecoded.teamUpgrades.TeamUpgrades;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
+import org.checkerframework.checker.units.qual.A;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BTeam {
@@ -18,13 +20,16 @@ public class BTeam {
     private TeamUpgrades upgrades;
     private Set<BPlayer> players;
     private boolean hasBed = true;
+    private Location spawn;
+    private Generator forge;
 
-    public BTeam(TeamColor teamColor) {
+    public BTeam(TeamColor teamColor, Location spawn) {
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
         this.upgrades = new TeamUpgrades();
         team.color(teamColor.getColor());
         this.teamColor = teamColor;
+        this.spawn = spawn;
         this.players = new HashSet<>();
     }
 
@@ -69,16 +74,35 @@ public class BTeam {
     public String toString() {
         return "BTeam{" +
                 "team=" + team +
+                ", teamColor=" + teamColor +
+                ", upgrades=" + upgrades +
                 ", players=" + players +
                 ", hasBed=" + hasBed +
+                ", spawn=" + spawn +
+                ", forge=" + forge +
                 '}';
     }
 
-    public static List<BTeam> initTeams() {
-        return Arrays.stream(TeamColor.values())
-                .map(BTeam::new)
-                .limit(BedWars.getMode().getAmountOfTeams())
-                .collect(Collectors.toList());
+    public static List<BTeam> initTeams(JSONArray config) {
+        List<BTeam> teams = new ArrayList<>();
+        for (TeamColor color : TeamColor.values()) {
+            for (Object o : config) {
+                JSONObject teamConfig = new JSONObject(o.toString());
+                if (color.toString().equalsIgnoreCase(teamConfig.getString("color"))) {
+                    JSONObject spawn = teamConfig.getJSONObject("spawn");
+                    teams.add(new BTeam(color, new Location(
+                            Bukkit.getWorld("world"),
+                            spawn.getDouble("x"),
+                            spawn.getDouble("y"),
+                            spawn.getDouble("z"),
+                            spawn.getFloat("yaw"),
+                            spawn.getFloat("pitch")
+                    )));
+                    break;
+                }
+            }
+        }
+        return teams.stream().limit(BedWars.getMode().getAmountOfTeams()).collect(Collectors.toList());
     }
 
     public boolean isFull() {

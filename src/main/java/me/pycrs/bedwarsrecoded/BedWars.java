@@ -60,18 +60,18 @@ public final class BedWars extends JavaPlugin {
 
             diamondsGens.forEach(object -> BedwarsMap.addDiamondGenerator(object, this.map));
             emeraldGens.forEach(object -> BedwarsMap.addEmeraldGenerator(object, this.map));
-            System.out.println(this.map.getEmeraldGenerators());
+
+            try {
+                mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
+                // Clear current teams
+                Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
+                teams = BTeam.initTeams(map.getJSONArray("teams"));
+                System.out.println(teams.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             System.out.println("There has been an error while parsing map.json");
-        }
-
-        try {
-            mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
-            // Clear current teams
-            Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
-            teams = BTeam.initTeams();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -122,7 +122,6 @@ public final class BedWars extends JavaPlugin {
 
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
-        map.getEmeraldGenerators().forEach(generator -> generator.activate(40));
         // TODO: 4/6/2021 Print the big ass welcome message
     }
 

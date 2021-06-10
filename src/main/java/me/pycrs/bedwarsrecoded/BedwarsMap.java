@@ -60,7 +60,7 @@ public class BedwarsMap {
 
     public static void addDiamondGenerator(Object object, BedwarsMap map) {
         JSONObject gen = new JSONObject(object.toString());
-        map.getDiamondGenerators().add(new DiamondGenerator( new Location(
+        map.getDiamondGenerators().add(new DiamondGenerator(new Location(
                 Bukkit.getWorld("world"),
                 gen.getDouble("x"),
                 gen.getDouble("y"),

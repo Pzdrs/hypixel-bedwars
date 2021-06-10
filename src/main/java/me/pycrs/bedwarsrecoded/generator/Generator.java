@@ -23,7 +23,6 @@ public abstract class Generator {
 
     /**
      * Location where the items will spawn, i.e. one block above the actual generator's location
-     *
      * @return Location
      */
     public Location getResourceLocation() {
@@ -37,7 +36,6 @@ public abstract class Generator {
     protected abstract void generateResource();
 
     public void activate(long period) {
-        System.out.println("generator activation");
         runnable.runTaskTimer(BedWars.getInstance(), 0, period);
     }
 
