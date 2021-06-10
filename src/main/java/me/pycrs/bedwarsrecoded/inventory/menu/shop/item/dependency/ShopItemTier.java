@@ -1,7 +1,5 @@
 package me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency;
 
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
-
 public class ShopItemTier {
     private BWCurrency currency;
     private int price;

@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
 
 public class Utils {
@@ -83,7 +85,7 @@ public class Utils {
         for (Mode mode : Mode.values()) {
             if (mode.getTeamSize() == teamSize) return mode;
         }
-       throw new Exception("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
+        throw new Exception("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
     }
 
     public static void distributePlayersToTeams(BedWars plugin) {
@@ -112,5 +114,22 @@ public class Utils {
 
     public static String materialToFriendlyName(Material material) {
         return WordUtils.capitalizeFully(material.name().replace("_", " ").toLowerCase());
+    }
+
+    public static void copyWorld(String src, String dest, boolean overwrite) {
+        try {
+            Files.walk(Paths.get(src)).forEach(a -> {
+                Path b = Paths.get(dest, a.toString().substring(src.length()));
+                try {
+                    if (!a.toString().equals(src))
+                        Files.copy(a, b, overwrite ? new CopyOption[]{StandardCopyOption.REPLACE_EXISTING} : new CopyOption[]{});
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            //permission issue
+            e.printStackTrace();
+        }
     }
 }

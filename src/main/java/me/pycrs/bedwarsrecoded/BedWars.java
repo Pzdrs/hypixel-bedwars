@@ -1,16 +1,22 @@
 package me.pycrs.bedwarsrecoded;
 
+import com.google.gson.Gson;
 import me.pycrs.bedwarsrecoded.commands.ShoutCommand;
 import me.pycrs.bedwarsrecoded.commands.StartCommand;
 import me.pycrs.bedwarsrecoded.listeners.*;
 import me.pycrs.bedwarsrecoded.tasks.LobbyCountdown;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public final class BedWars extends JavaPlugin {
     private static BedWars instance;
@@ -25,6 +31,18 @@ public final class BedWars extends JavaPlugin {
         saveDefaultConfig();
         init();
 
+        Gson gson = new Gson();
+
+        try {
+            Map<?, ?> map = gson.fromJson(Files.newBufferedReader(Paths.get("world/map.json")), Map.class);
+            map.forEach((o, o2) -> {
+                System.out.println(o);
+                System.out.println(o2);
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try {
             mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
             // Clear current teams
@@ -37,7 +55,7 @@ public final class BedWars extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
 
     public static BedWars getInstance() {

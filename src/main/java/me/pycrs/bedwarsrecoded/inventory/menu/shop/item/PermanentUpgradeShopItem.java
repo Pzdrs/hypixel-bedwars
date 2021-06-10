@@ -2,7 +2,7 @@ package me.pycrs.bedwarsrecoded.inventory.menu.shop.item;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.BWCurrency;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;

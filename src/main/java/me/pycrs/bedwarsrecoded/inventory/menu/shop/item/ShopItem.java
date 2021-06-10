@@ -1,15 +1,10 @@
 package me.pycrs.bedwarsrecoded.inventory.menu.shop.item;
 
-import me.pycrs.bedwarsrecoded.BedWars;
-import me.pycrs.bedwarsrecoded.ItemBuilder;
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.Cost;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 
 public abstract class ShopItem {
     protected String id, description;

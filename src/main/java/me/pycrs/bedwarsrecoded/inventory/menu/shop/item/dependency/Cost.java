@@ -1,6 +1,5 @@
 package me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency;
 
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 

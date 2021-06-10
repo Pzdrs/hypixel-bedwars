@@ -3,7 +3,7 @@ package me.pycrs.bedwarsrecoded.inventory.menu.shop;
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Mode;
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.PermanentUpgradeShopItem;

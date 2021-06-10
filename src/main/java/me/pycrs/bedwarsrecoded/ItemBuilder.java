@@ -141,9 +141,9 @@ public class ItemBuilder {
     }
 
     public ItemBuilder previewEnchantments() {
-        /*if (!itemMeta.hasEnchants() || !itemMeta.hasDisplayName()) return this;
+       /* if (!itemMeta.hasEnchants() || !itemMeta.hasDisplayName()) return this;
         itemMeta.getEnchants().forEach((enchantment, integer) -> {
-            System.out.println(Component.translatable("enchantment.minecraft.knockback"));
+            itemMeta.displayName().append(...);
         });*/
         /*setDisplayName(itemMeta.displayName() == null ? Component.text(Utils.materialToFriendlyName(itemStack.getType())).append(enchantsPreview) :
                 itemMeta.displayName().append(enchantsPreview));*/

@@ -5,7 +5,7 @@ import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menu.button.MenuButton;
 import me.pycrs.bedwarsrecoded.inventory.menu.button.MenuButtonHandler;
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.BWCurrency;
+import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.BWCurrency;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency.ShopCategory;
 import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.ShopItem;
 import org.bukkit.Material;

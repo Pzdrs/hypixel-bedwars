@@ -1,4 +1,4 @@
-package me.pycrs.bedwarsrecoded.inventory.menu.shop.dependency;
+package me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.WordUtils;
@@ -35,14 +35,5 @@ public enum BWCurrency {
 
     public String capitalize() {
         return WordUtils.capitalize(toString().toLowerCase());
-    }
-
-    public static String formatName(BWCurrency currency) {
-        return WordUtils.capitalize(currency.name().toLowerCase());
-    }
-
-    public static String formatPrice(BWCurrency currency, int price) {
-        return ChatColor.valueOf(currency.getColor().toString().toUpperCase()) + (price + " " + WordUtils.capitalize(currency.name().toLowerCase() +
-                ((currency.equals(DIAMOND) || currency.equals(EMERALD)) && price != 1 ? "s" : ""))) + ChatColor.RESET;
     }
 }
