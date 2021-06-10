@@ -1,7 +1,6 @@
 package me.pycrs.bedwarsrecoded.generator;
 
 import me.pycrs.bedwarsrecoded.BedWars;
-import me.pycrs.bedwarsrecoded.BedwarsMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -11,11 +10,11 @@ public abstract class Generator {
     private Location location;
     private Material item;
 
-    public Generator(BedwarsMap map, Location location, Material item) {
+    public Generator(Location location, Material item) {
         this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                generateResource(map);
+                generateResource();
             }
         };
         this.location = location;
@@ -35,9 +34,10 @@ public abstract class Generator {
         return item;
     }
 
-    protected abstract void generateResource(BedwarsMap map);
+    protected abstract void generateResource();
 
     public void activate(long period) {
+        System.out.println("generator activation");
         runnable.runTaskTimer(BedWars.getInstance(), 0, period);
     }
 

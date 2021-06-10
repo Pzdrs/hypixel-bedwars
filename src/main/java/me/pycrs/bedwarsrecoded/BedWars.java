@@ -58,25 +58,9 @@ public final class BedWars extends JavaPlugin {
                             lobbySpawn.getFloat("yaw"),
                             lobbySpawn.getFloat("pitch")));
 
-            diamondsGens.forEach(object -> {
-                JSONObject gen = new JSONObject(object.toString());
-                this.map.getDiamondGenerators().add(new DiamondGenerator(this.map, new Location(
-                        Bukkit.getWorld("world"),
-                        gen.getDouble("x"),
-                        gen.getDouble("y"),
-                        gen.getDouble("z")
-                ), Material.DIAMOND));
-            });
-
-            emeraldGens.forEach(object -> {
-                JSONObject gen = new JSONObject(object.toString());
-                this.map.getEmeraldGenerators().add(new EmeraldGenerator(this.map, new Location(
-                        Bukkit.getWorld("world"),
-                        gen.getDouble("x"),
-                        gen.getDouble("y"),
-                        gen.getDouble("z")
-                ), Material.EMERALD));
-            });
+            diamondsGens.forEach(object -> BedwarsMap.addDiamondGenerator(object, this.map));
+            emeraldGens.forEach(object -> BedwarsMap.addEmeraldGenerator(object, this.map));
+            System.out.println(this.map.getEmeraldGenerators());
         } catch (IOException e) {
             System.out.println("There has been an error while parsing map.json");
         }
@@ -138,7 +122,7 @@ public final class BedWars extends JavaPlugin {
 
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
-
+        map.getEmeraldGenerators().forEach(generator -> generator.activate(40));
         // TODO: 4/6/2021 Print the big ass welcome message
     }
 

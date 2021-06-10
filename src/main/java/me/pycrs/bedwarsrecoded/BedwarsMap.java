@@ -1,7 +1,12 @@
 package me.pycrs.bedwarsrecoded;
 
+import me.pycrs.bedwarsrecoded.generator.DiamondGenerator;
+import me.pycrs.bedwarsrecoded.generator.EmeraldGenerator;
 import me.pycrs.bedwarsrecoded.generator.Generator;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,5 +56,25 @@ public class BedwarsMap {
                 ", diamondGenerators=" + diamondGenerators +
                 ", emeraldGenerators=" + emeraldGenerators +
                 '}';
+    }
+
+    public static void addDiamondGenerator(Object object, BedwarsMap map) {
+        JSONObject gen = new JSONObject(object.toString());
+        map.getDiamondGenerators().add(new DiamondGenerator( new Location(
+                Bukkit.getWorld("world"),
+                gen.getDouble("x"),
+                gen.getDouble("y"),
+                gen.getDouble("z")
+        ), Material.DIAMOND));
+    }
+
+    public static void addEmeraldGenerator(Object object, BedwarsMap map) {
+        JSONObject gen = new JSONObject(object.toString());
+        map.getEmeraldGenerators().add(new EmeraldGenerator(new Location(
+                Bukkit.getWorld("world"),
+                gen.getDouble("x"),
+                gen.getDouble("y"),
+                gen.getDouble("z")
+        ), Material.EMERALD));
     }
 }
