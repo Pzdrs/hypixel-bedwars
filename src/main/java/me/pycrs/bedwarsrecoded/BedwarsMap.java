@@ -4,6 +4,7 @@ import me.pycrs.bedwarsrecoded.generator.Generator;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BedwarsMap {
@@ -12,10 +13,11 @@ public class BedwarsMap {
     private Location lobbySpawn;
     private List<Generator> diamondGenerators, emeraldGenerators;
 
-    public BedwarsMap(String name, Mode[] modes, Location lobbySpawn) {
+    public BedwarsMap(String name, List<Object> modes, Location lobbySpawn) {
         this.name = name;
-        this.modes = modes;
         this.lobbySpawn = lobbySpawn;
+        this.modes = new Mode[modes.size()];
+        for (int i = 0; i < modes.size(); i++) this.modes[i] = Mode.valueOf(String.valueOf(modes.get(i)));
         this.diamondGenerators = new ArrayList<>();
         this.emeraldGenerators = new ArrayList<>();
     }
@@ -38,5 +40,16 @@ public class BedwarsMap {
 
     public List<Generator> getEmeraldGenerators() {
         return emeraldGenerators;
+    }
+
+    @Override
+    public String toString() {
+        return "BedwarsMap{" +
+                "name='" + name + '\'' +
+                ", modes=" + Arrays.toString(modes) +
+                ", lobbySpawn=" + lobbySpawn +
+                ", diamondGenerators=" + diamondGenerators +
+                ", emeraldGenerators=" + emeraldGenerators +
+                '}';
     }
 }

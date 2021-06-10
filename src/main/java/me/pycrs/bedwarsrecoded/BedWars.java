@@ -1,22 +1,26 @@
 package me.pycrs.bedwarsrecoded;
 
-import com.google.gson.Gson;
 import me.pycrs.bedwarsrecoded.commands.ShoutCommand;
 import me.pycrs.bedwarsrecoded.commands.StartCommand;
+import me.pycrs.bedwarsrecoded.generator.DiamondGenerator;
 import me.pycrs.bedwarsrecoded.listeners.*;
 import me.pycrs.bedwarsrecoded.tasks.LobbyCountdown;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public final class BedWars extends JavaPlugin {
     private static BedWars instance;
@@ -24,6 +28,7 @@ public final class BedWars extends JavaPlugin {
     public static boolean gameInProgress = false;
     private List<BTeam> teams;
     private LobbyCountdown lobbyCountdown;
+    private BedwarsMap map;
 
     @Override
     public void onEnable() {
@@ -31,16 +36,43 @@ public final class BedWars extends JavaPlugin {
         saveDefaultConfig();
         init();
 
-        Gson gson = new Gson();
-
+        // Extracting the crucial data from map.json
         try {
-            Map<?, ?> map = gson.fromJson(Files.newBufferedReader(Paths.get("world/map.json")), Map.class);
-            map.forEach((o, o2) -> {
-                System.out.println(o);
-                System.out.println(o2);
+            JSONObject map = new JSONObject(Files.readString(Paths.get("world/map.json")));
+            JSONObject lobbySpawn = map.getJSONObject("lobbySpawn");
+            JSONArray diamondsGens = map.getJSONArray("diamondGenerators");
+            JSONArray emeraldGens = map.getJSONArray("emeraldGenerators");
+
+            this.map = new BedwarsMap(map.getString("name"), map.getJSONArray("mode").toList(),
+                    new Location(
+                            Bukkit.getWorld("world"),
+                            lobbySpawn.getDouble("x"),
+                            lobbySpawn.getDouble("y"),
+                            lobbySpawn.getDouble("z"),
+                            lobbySpawn.getFloat("yaw"),
+                            lobbySpawn.getFloat("pitch")));
+
+            diamondsGens.forEach(object -> {
+                JSONObject gen = new JSONObject(object.toString());
+                this.map.getDiamondGenerators().add(new DiamondGenerator(new Location(
+                        Bukkit.getWorld("world"),
+                        gen.getDouble("x"),
+                        gen.getDouble("y"),
+                        gen.getDouble("z")
+                ), Material.DIAMOND));
+            });
+
+            emeraldGens.forEach(object -> {
+                JSONObject gen = new JSONObject(object.toString());
+                this.map.getEmeraldGenerators().add(new DiamondGenerator(new Location(
+                        Bukkit.getWorld("world"),
+                        gen.getDouble("x"),
+                        gen.getDouble("y"),
+                        gen.getDouble("z")
+                ), Material.EMERALD));
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("There has been an error while parsing map.json");
         }
 
         try {
