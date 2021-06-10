@@ -8,14 +8,14 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class DiamondGenerator extends Generator{
-    public DiamondGenerator(BedwarsMap map, Location location, Material item) {
+public class EmeraldGenerator extends Generator{
+    public EmeraldGenerator(BedwarsMap map, Location location, Material item) {
         super(map, location, item);
     }
 
     @Override
     protected void generateResource(BedwarsMap map) {
-        map.getDiamondGenerators().forEach(generator -> {
+        map.getEmeraldGenerators().forEach(generator -> {
             Item item = Bukkit.getWorld("world").dropItem(generator.getResourceLocation(), new ItemStack(generator.getItem()));
             item.setVelocity(new Vector());
         });
