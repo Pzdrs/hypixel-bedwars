@@ -26,7 +26,10 @@ public class GameLoop extends BukkitRunnable {
     public void run() {
         // Initial game setup
         if (currentTime == 0) {
-            Bukkit.getOnlinePlayers().forEach(player -> player.setGameMode(GameMode.SURVIVAL));
+            plugin.getPlayers().forEach(player -> {
+                player.getPlayer().setGameMode(GameMode.SURVIVAL);
+                player.teleportToBase();
+            });
             currentTime++;
             return;
         }

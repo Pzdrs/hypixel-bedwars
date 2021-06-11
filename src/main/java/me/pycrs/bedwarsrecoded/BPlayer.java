@@ -41,6 +41,10 @@ public class BPlayer {
         return plugin.getPlayersTeam(player);
     }
 
+    public void teleportToBase() {
+        player.teleport(plugin.getPlayersTeam(player).getSpawn());
+    }
+
     public void setSpectator(boolean spectator) {
         // FIXME: 4/9/2021 adjust to player's team spawn location
         this.spectating = spectator;
@@ -52,7 +56,7 @@ public class BPlayer {
                     bPlayer.getPlayer().hidePlayer(plugin, player);
             });
         } else {
-            player.teleport(plugin.getPlayersTeam(player).getSpawn());
+            teleportToBase();
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
             plugin.getPlayers().forEach(bPlayer -> {
                 bPlayer.getPlayer().showPlayer(plugin, player);
