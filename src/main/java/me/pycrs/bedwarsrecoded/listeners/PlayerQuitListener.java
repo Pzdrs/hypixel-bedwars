@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.time.Duration;
@@ -40,7 +39,7 @@ public class PlayerQuitListener implements Listener {
         }
 
         if (Bukkit.getOnlinePlayers().size() - 1 < BedWars.getMode().getMinPlayers() && Utils.isLobbyCountdownInProgress(plugin)) {
-            plugin.getLobbyCountdown().cancel();
+            plugin.getLobbyLoop().cancel();
             plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
             Utils.inGameBroadcast(Component.text("We don't have enough players! Start cancelled.", NamedTextColor.RED));
             Bukkit.getServer().showTitle(Title.title(Component.text("Waiting for more players...", NamedTextColor.RED), Component.text().asComponent(),

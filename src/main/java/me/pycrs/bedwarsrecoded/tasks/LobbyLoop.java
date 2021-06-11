@@ -12,11 +12,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class LobbyCountdown extends BukkitRunnable {
+public class LobbyLoop extends BukkitRunnable {
     private BedWars plugin;
     public static AtomicInteger timer;
 
-    public LobbyCountdown(BedWars plugin, int countFrom) {
+    public LobbyLoop(BedWars plugin, int countFrom) {
         this.plugin = plugin;
         timer = new AtomicInteger(countFrom);
     }

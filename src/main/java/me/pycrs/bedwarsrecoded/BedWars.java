@@ -3,8 +3,10 @@ package me.pycrs.bedwarsrecoded;
 import me.pycrs.bedwarsrecoded.commands.ShoutCommand;
 import me.pycrs.bedwarsrecoded.commands.StartCommand;
 import me.pycrs.bedwarsrecoded.listeners.*;
-import me.pycrs.bedwarsrecoded.tasks.LobbyCountdown;
+import me.pycrs.bedwarsrecoded.tasks.GameLoop;
+import me.pycrs.bedwarsrecoded.tasks.LobbyLoop;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,9 +24,12 @@ public final class BedWars extends JavaPlugin {
     private static BedWars instance;
     private static Mode mode;
     public static boolean gameInProgress = false;
-    private List<BTeam> teams;
-    private LobbyCountdown lobbyCountdown;
+
     private BedwarsMap map;
+    private List<BTeam> teams;
+
+    private LobbyLoop lobbyLoop;
+    private GameLoop gameLoop;
 
     @Override
     public void onEnable() {
@@ -101,8 +106,8 @@ public final class BedWars extends JavaPlugin {
         return mode;
     }
 
-    public LobbyCountdown getLobbyCountdown() {
-        return lobbyCountdown;
+    public LobbyLoop getLobbyLoop() {
+        return lobbyLoop;
     }
 
     public List<BTeam> getTeams() {
@@ -110,12 +115,15 @@ public final class BedWars extends JavaPlugin {
     }
 
     public void startGame() {
-        this.lobbyCountdown = new LobbyCountdown(this, getConfig().getInt("lobbyCountdown"));
-        lobbyCountdown.runTaskTimer(this, 0, 20);
+        this.lobbyLoop = new LobbyLoop(this, getConfig().getInt("lobbyCountdown"));
+        lobbyLoop.runTaskTimer(this, 0, 20);
     }
 
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
+        Bukkit.getOnlinePlayers().forEach(player -> player.setGameMode(GameMode.SURVIVAL));
+        this.gameLoop = new GameLoop(this);
+        gameLoop.runTaskTimer(this, 0, 20);
         // TODO: 4/6/2021 Print the big ass welcome message
     }
 
@@ -131,6 +139,8 @@ public final class BedWars extends JavaPlugin {
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryClickListener(this);
+        new WorldInitListener(this);
+        new WeatherChangeListener(this);
 
         new ShoutCommand(this);
         new StartCommand(this);

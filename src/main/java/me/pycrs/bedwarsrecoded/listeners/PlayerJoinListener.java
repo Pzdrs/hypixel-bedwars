@@ -2,7 +2,7 @@ package me.pycrs.bedwarsrecoded.listeners;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.Utils;
-import me.pycrs.bedwarsrecoded.tasks.LobbyCountdown;
+import me.pycrs.bedwarsrecoded.tasks.LobbyLoop;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
@@ -32,7 +32,6 @@ public class PlayerJoinListener implements Listener {
         event.joinMessage(null);
 
         Player player = event.getPlayer();
-        player.setGameMode(GameMode.SURVIVAL);
         player.teleport(plugin.getMap().getLobbySpawnExact());
 
         // Set player's display name
@@ -86,8 +85,8 @@ public class PlayerJoinListener implements Listener {
         // If enough players, start the countdown
         if (Bukkit.getOnlinePlayers().size() >= BedWars.getMode().getMinPlayers()) {
             if (!Utils.isLobbyCountdownInProgress(plugin)) plugin.startGame();
-            if (Bukkit.getOnlinePlayers().size() == BedWars.getMode().getTeamSize() * BedWars.getMode().getAmountOfTeams()) LobbyCountdown.timer.set(10);
-            player.sendMessage(Component.text(Utils.color("&eThe game is starting in&b " + LobbyCountdown.timer + " &e" + (LobbyCountdown.timer.get() <= 1 ? "second!" : "seconds!"))));
+            if (Bukkit.getOnlinePlayers().size() == BedWars.getMode().getTeamSize() * BedWars.getMode().getAmountOfTeams()) LobbyLoop.timer.set(10);
+            player.sendMessage(Component.text(Utils.color("&eThe game is starting in&b " + LobbyLoop.timer + " &e" + (LobbyLoop.timer.get() <= 1 ? "second!" : "seconds!"))));
         }
     }
 }

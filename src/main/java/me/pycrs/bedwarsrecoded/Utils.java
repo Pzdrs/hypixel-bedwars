@@ -100,7 +100,7 @@ public class Utils {
     }
 
     public static boolean isLobbyCountdownInProgress(BedWars plugin) {
-        return plugin.getLobbyCountdown() != null && !plugin.getLobbyCountdown().isCancelled();
+        return plugin.getLobbyLoop() != null && !plugin.getLobbyLoop().isCancelled();
     }
 
     public static int getMaterialAmount(Inventory inventory, Material material) {

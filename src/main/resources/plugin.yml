@@ -1,5 +1,5 @@
 name: BedWarsRecoded
-load: STARTUP
+load: POSTWORLD
 version: ${project.version}
 main: me.pycrs.bedwarsrecoded.BedWars
 api-version: 1.16
