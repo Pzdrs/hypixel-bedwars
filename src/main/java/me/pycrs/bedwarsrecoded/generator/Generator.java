@@ -26,7 +26,7 @@ public abstract class Generator {
      * @return Location
      */
     public Location getResourceLocation() {
-        return location.clone().add(.5, 2, .5);
+        return location.clone().add(.5, 1, .5);
     }
 
     public Material getItem() {

@@ -39,6 +39,10 @@ public class GameLoop extends BukkitRunnable {
             });
             plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(diamondGenBaseSpeed));
             plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(emeraldGenBaseSpeed));
+            plugin.getTeams().forEach(team -> {
+                team.getIronGenerator().activate(20);
+                team.getGoldGenerator().activate(80);
+            });
             currentTime++;
             return;
         }

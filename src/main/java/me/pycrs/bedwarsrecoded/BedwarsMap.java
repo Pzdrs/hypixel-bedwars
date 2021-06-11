@@ -1,8 +1,6 @@
 package me.pycrs.bedwarsrecoded;
 
-import me.pycrs.bedwarsrecoded.generator.DiamondGenerator;
-import me.pycrs.bedwarsrecoded.generator.EmeraldGenerator;
-import me.pycrs.bedwarsrecoded.generator.Generator;
+import me.pycrs.bedwarsrecoded.generator.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
