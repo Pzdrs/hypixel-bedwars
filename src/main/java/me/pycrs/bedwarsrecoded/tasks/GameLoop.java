@@ -1,18 +1,20 @@
 package me.pycrs.bedwarsrecoded.tasks;
 
 import me.pycrs.bedwarsrecoded.BedWars;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameLoop extends BukkitRunnable {
     private BedWars plugin;
-    private int currentTime = 1;
+    private int currentTime = 0;
     int diamondII, emeraldII, diamondIII, emeraldIII, bedDestruction, suddenDeath, gameEnd;
 
     public GameLoop(BedWars plugin) {
         this.plugin = plugin;
 
-        this.diamondII = plugin.getConfig().getInt("events.diamondTierII");
-        this.emeraldII = plugin.getConfig().getInt("events.emeraldTierII");
+        this.diamondII = plugin.getConfig().getInt("events.diamondII");
+        this.emeraldII = plugin.getConfig().getInt("events.emeraldII");
         this.diamondIII = plugin.getConfig().getInt("events.diamondIII");
         this.emeraldIII = plugin.getConfig().getInt("events.emeraldIII");
         this.bedDestruction = plugin.getConfig().getInt("events.bedDestruction");
@@ -22,6 +24,14 @@ public class GameLoop extends BukkitRunnable {
 
     @Override
     public void run() {
+        // Initial game setup
+        if (currentTime == 0) {
+            Bukkit.getOnlinePlayers().forEach(player -> player.setGameMode(GameMode.SURVIVAL));
+            currentTime++;
+            return;
+        }
+
+        // Game events
         if (currentTime == diamondII) System.out.println("diamond II upgrade");
         else if (currentTime == diamondIII) System.out.println("diamond III upgrade");
         else if (currentTime == emeraldII) System.out.println("emerald II upgrade");

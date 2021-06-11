@@ -21,7 +21,6 @@ public class BTeam {
     private Set<BPlayer> players;
     private boolean hasBed = true;
     private Location spawn;
-    private Generator forge;
 
     public BTeam(TeamColor teamColor, Location spawn) {
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
@@ -50,8 +49,8 @@ public class BTeam {
         return false;
     }
 
-    public TeamUpgrades getUpgrades() {
-        return upgrades;
+    public Location getSpawn() {
+        return spawn.clone().add(-.5, 0, .5);
     }
 
     public Team getTeam() {
@@ -66,10 +65,6 @@ public class BTeam {
         return players;
     }
 
-    public boolean isHasBed() {
-        return hasBed;
-    }
-
     @Override
     public String toString() {
         return "BTeam{" +
@@ -79,7 +74,6 @@ public class BTeam {
                 ", players=" + players +
                 ", hasBed=" + hasBed +
                 ", spawn=" + spawn +
-                ", forge=" + forge +
                 '}';
     }
 

@@ -120,7 +120,6 @@ public final class BedWars extends JavaPlugin {
 
     public void setGameInProgress(boolean gameInProgress) {
         BedWars.gameInProgress = gameInProgress;
-        Bukkit.getOnlinePlayers().forEach(player -> player.setGameMode(GameMode.SURVIVAL));
         this.gameLoop = new GameLoop(this);
         gameLoop.runTaskTimer(this, 0, 20);
         // TODO: 4/6/2021 Print the big ass welcome message

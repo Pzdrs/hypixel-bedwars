@@ -28,11 +28,9 @@ public class BWPlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(BWPlayerDeathEvent event) {
-        event.getPlayer().setSpectator(true);
-
         Player player = event.getPlayer().getPlayer();
-        // TODO: 4/8/2021 make this teleport the player to lobby spawn
-        player.teleport(player.getLocation().set(150,100,-220));
+        event.getPlayer().setSpectator(true);
+        player.teleport(plugin.getMap().getLobbySpawn());
 
         this.respawnTimer = new AtomicInteger(5);
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {

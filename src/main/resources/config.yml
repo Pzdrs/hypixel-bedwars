@@ -20,10 +20,10 @@ generatorSpeeds3&4:
 
 # When should each event occur in seconds (from the start of the game)
 events:
-  diamondTierII: 360 # 6 minutes into the game
-  emeraldTierII: 720 # 12 minutes into the game
-  diamondTierIII: 1080 # 18 minutes into the game
-  emeraldTierIII: 1440 # 24 minutes into the game
+  diamondII: 360 # 6 minutes into the game
+  emeraldII: 720 # 12 minutes into the game
+  diamondIII: 1080 # 18 minutes into the game
+  emeraldIII: 1440 # 24 minutes into the game
   bedDestruction: 1800 # 30 minutes into the game
   suddenDeath: 2400 # 40 minutes into the game
   gameEnd: 3000 # 50 minutes into the game
