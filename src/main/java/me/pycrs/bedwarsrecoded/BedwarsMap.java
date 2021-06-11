@@ -39,6 +39,10 @@ public class BedwarsMap {
         return lobbySpawn;
     }
 
+    public Location getLobbySpawnExact() {
+        return lobbySpawn.clone().add(.5, 1, .5);
+    }
+
     public List<Generator> getDiamondGenerators() {
         return diamondGenerators;
     }

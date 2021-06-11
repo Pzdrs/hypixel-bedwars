@@ -33,6 +33,7 @@ public class PlayerJoinListener implements Listener {
 
         Player player = event.getPlayer();
         player.setGameMode(GameMode.SURVIVAL);
+        player.teleport(plugin.getMap().getLobbySpawnExact());
 
         // Set player's display name
         player.displayName(Component.text(event.getPlayer().getName(), NamedTextColor.GRAY));
@@ -55,7 +56,7 @@ public class PlayerJoinListener implements Listener {
 
         lobby.getScore("   ").setScore(10);
 
-        Score map = lobby.getScore(Utils.color("Map: &aMapName"));
+        Score map = lobby.getScore(Utils.color("Map: &a" + plugin.getMap().getName()));
         map.setScore(9);
 
         Score players = lobby.getScore(Utils.color("Players: &a0/8"));

@@ -2,26 +2,16 @@ package me.pycrs.bedwarsrecoded;
 
 import me.pycrs.bedwarsrecoded.commands.ShoutCommand;
 import me.pycrs.bedwarsrecoded.commands.StartCommand;
-import me.pycrs.bedwarsrecoded.generator.DiamondGenerator;
-import me.pycrs.bedwarsrecoded.generator.EmeraldGenerator;
 import me.pycrs.bedwarsrecoded.listeners.*;
 import me.pycrs.bedwarsrecoded.tasks.LobbyCountdown;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
-import org.bukkit.util.Vector;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -101,6 +91,10 @@ public final class BedWars extends JavaPlugin {
             }
         }
         return null;
+    }
+
+    public BedwarsMap getMap() {
+        return map;
     }
 
     public static Mode getMode() {
