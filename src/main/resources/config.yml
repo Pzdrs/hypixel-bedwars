@@ -8,15 +8,23 @@ lobbyCountdown: 20
 # The amount of seconds it takes to be able to use /shout again
 shoutCooldown: 30
 
-# The base speed of diamond and emerald generators in solo and duos
+# The base speed of diamond and emerald generators in solo and duos in seconds
 generatorSpeeds1&2:
-  diamond: 30
-  emerald: 60
+  diamondI: 45
+  diamondII: 30
+  diamondIII: 15
+  emeraldI: 60
+  emeraldII: 45
+  emeraldIII: 30
 
-# The base speed of diamond and emerald generators in trios and squads
+# The base speed of diamond and emerald generators in trios and squads in seconds
 generatorSpeeds3&4:
-  diamond: 25
-  emerald: 50
+  diamondI: 40
+  diamondII: 25
+  diamondIII: 10
+  emeraldI: 55
+  emeraldII: 40
+  emeraldIII: 25
 
 # When should each event occur in seconds (from the start of the game)
 events:

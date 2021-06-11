@@ -125,4 +125,8 @@ public class Utils {
         world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
     }
+
+    public static boolean isSoloOrDoubles() {
+        return BedWars.getMode().equals(Mode.SOLO) || BedWars.getMode().equals(Mode.DOUBLES);
+    }
 }

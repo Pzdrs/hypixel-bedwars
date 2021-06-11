@@ -36,7 +36,7 @@ public abstract class Generator {
     protected abstract void generateResource();
 
     public void activate(long period) {
-        runnable.runTaskTimer(BedWars.getInstance(), 0, period);
+        runnable.runTaskTimer(BedWars.getInstance(), period, period);
     }
 
     public void deactivate() {
