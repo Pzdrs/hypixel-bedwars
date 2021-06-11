@@ -5,9 +5,7 @@ import me.pycrs.bedwarsrecoded.commands.StartCommand;
 import me.pycrs.bedwarsrecoded.listeners.*;
 import me.pycrs.bedwarsrecoded.tasks.GameLoop;
 import me.pycrs.bedwarsrecoded.tasks.LobbyLoop;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
@@ -37,6 +35,8 @@ public final class BedWars extends JavaPlugin {
         saveDefaultConfig();
         init();
 
+        Utils.applyDefaultGamerules(Bukkit.getWorld("world"));
+
         // Extracting the crucial data from map.json
         try {
             JSONObject map = new JSONObject(Files.readString(Paths.get("world/map.json")));
@@ -61,7 +61,6 @@ public final class BedWars extends JavaPlugin {
                 // Clear current teams
                 Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
                 teams = BTeam.initTeams(map.getJSONArray("teams"));
-                System.out.println(teams.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -139,8 +138,6 @@ public final class BedWars extends JavaPlugin {
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryClickListener(this);
-        new WorldInitListener(this);
-        new WeatherChangeListener(this);
 
         new ShoutCommand(this);
         new StartCommand(this);

@@ -2,12 +2,11 @@ package me.pycrs.bedwarsrecoded;
 
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -116,20 +115,14 @@ public class Utils {
         return WordUtils.capitalizeFully(material.name().replace("_", " ").toLowerCase());
     }
 
-    public static void copyWorld(String src, String dest, boolean overwrite) {
-        try {
-            Files.walk(Paths.get(src)).forEach(a -> {
-                Path b = Paths.get(dest, a.toString().substring(src.length()));
-                try {
-                    if (!a.toString().equals(src))
-                        Files.copy(a, b, overwrite ? new CopyOption[]{StandardCopyOption.REPLACE_EXISTING} : new CopyOption[]{});
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (IOException e) {
-            //permission issue
-            e.printStackTrace();
-        }
+    public static void applyDefaultGamerules(@Nullable World world) {
+        if (world == null) return;
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        world.setGameRule(GameRule.DO_ENTITY_DROPS, false);
+        world.setGameRule(GameRule.DO_FIRE_TICK, false);
+        world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        world.setGameRule(GameRule.DISABLE_RAIDS, false);
+        world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
     }
 }
