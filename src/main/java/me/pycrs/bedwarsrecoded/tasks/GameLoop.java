@@ -9,8 +9,6 @@ public class GameLoop extends BukkitRunnable {
     private BedWars plugin;
     private int currentTime = 0;
     int diamondII, emeraldII, diamondIII, emeraldIII, bedDestruction, suddenDeath, gameEnd;
-    int diamondGenBaseSpeed;
-    int emeraldGenBaseSpeed;
 
     public GameLoop(BedWars plugin) {
         this.plugin = plugin;
@@ -22,11 +20,6 @@ public class GameLoop extends BukkitRunnable {
         this.bedDestruction = plugin.getConfig().getInt("events.bedDestruction");
         this.suddenDeath = plugin.getConfig().getInt("events.suddenDeath");
         this.gameEnd = plugin.getConfig().getInt("events.gameEnd");
-
-        this.diamondGenBaseSpeed = (Utils.isSoloOrDoubles() ?
-                plugin.getConfig().getInt("generatorSpeeds1&2.diamond") : plugin.getConfig().getInt("generatorSpeeds3&4.diamond")) * 20;
-        this.emeraldGenBaseSpeed = (Utils.isSoloOrDoubles() ?
-                plugin.getConfig().getInt("generatorSpeeds1&2.emerald") : plugin.getConfig().getInt("generatorSpeeds3&4.emerald")) * 20;
     }
 
     @Override
@@ -37,8 +30,8 @@ public class GameLoop extends BukkitRunnable {
                 player.getPlayer().setGameMode(GameMode.SURVIVAL);
                 player.teleportToBase();
             });
-            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(diamondGenBaseSpeed));
-            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(emeraldGenBaseSpeed));
+            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(getGeneratorSpeed("diamondI")));
+            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(getGeneratorSpeed("emeraldI")));
             plugin.getTeams().forEach(team -> {
                 team.getIronGenerator().activate(20);
                 team.getGoldGenerator().activate(80);
@@ -59,5 +52,10 @@ public class GameLoop extends BukkitRunnable {
             System.out.println("game ended");
         }
         currentTime++;
+    }
+
+    private int getGeneratorSpeed(String tier) {
+        return (Utils.isSoloOrDoubles() ?
+                plugin.getConfig().getInt("generatorSpeeds1&2." + tier) : plugin.getConfig().getInt("generatorSpeeds3&4." + tier)) * 20;
     }
 }
