@@ -141,4 +141,8 @@ public class BTeam {
     public boolean isFull() {
         return players.size() == BedWars.getMode().getTeamSize();
     }
+
+    public boolean isEliminated() {
+        return !hasBed && players.size() == 0;
+    }
 }

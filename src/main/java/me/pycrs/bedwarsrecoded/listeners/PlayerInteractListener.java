@@ -23,7 +23,7 @@ public class PlayerInteractListener implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
             for (BTeam team : plugin.getTeams()) {
                 if (team.getTeamChest().equals(event.getClickedBlock().getLocation())) {
-                    if (!team.isPartOfTeam(event.getPlayer())) {
+                    if (!team.isPartOfTeam(event.getPlayer()) && !team.isEliminated()) {
                         event.getPlayer().sendMessage(
                                 Component.text("You cannot open this Chest as the ", NamedTextColor.RED)
                                         .append(team.getTeamColor().getDisplay())
