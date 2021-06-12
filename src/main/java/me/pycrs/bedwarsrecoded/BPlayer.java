@@ -46,7 +46,6 @@ public class BPlayer {
     }
 
     public void setSpectator(boolean spectator) {
-        // FIXME: 4/9/2021 adjust to player's team spawn location
         this.spectating = spectator;
         // Better invisibility
         if (spectator) {

@@ -2,6 +2,10 @@ package me.pycrs.bedwarsrecoded.tasks;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,6 +32,7 @@ public class GameLoop extends BukkitRunnable {
         // Initial game setup
         if (currentTime == 0) {
             plugin.getPlayers().forEach(player -> {
+                // TODO: 6/12/2021 print the big ass welcome message 
                 player.getPlayer().setGameMode(GameMode.SURVIVAL);
                 player.teleportToBase();
             });

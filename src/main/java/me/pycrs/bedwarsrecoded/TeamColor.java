@@ -1,6 +1,8 @@
 package me.pycrs.bedwarsrecoded;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang.WordUtils;
 
 public enum TeamColor {
     RED(NamedTextColor.RED),
@@ -20,5 +22,10 @@ public enum TeamColor {
 
     public NamedTextColor getColor() {
         return color;
+    }
+
+    public Component getDisplay() {
+        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getColor())
+                .append(Component.text(" Team"));
     }
 }

@@ -121,7 +121,6 @@ public final class BedWars extends JavaPlugin {
         BedWars.gameInProgress = gameInProgress;
         this.gameLoop = new GameLoop(this);
         gameLoop.runTaskTimer(this, 0, 20);
-        // TODO: 4/6/2021 Print the big ass welcome message
     }
 
     private void init() {
@@ -136,6 +135,7 @@ public final class BedWars extends JavaPlugin {
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryClickListener(this);
+        new PlayerInteractListener(this);
 
         new ShoutCommand(this);
         new StartCommand(this);

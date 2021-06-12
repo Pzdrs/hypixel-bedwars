@@ -23,21 +23,22 @@ public class BTeam {
     private TeamColor teamColor;
     private TeamUpgrades upgrades;
     private Set<BPlayer> players;
-    private boolean hasBed = true;
-    private Location spawn;
     private IronGenerator ironGenerator;
     private GoldGenerator goldGenerator;
+    private Location spawn, teamChest;
+    private boolean hasBed = true;
 
-    public BTeam(TeamColor teamColor, Location spawn, IronGenerator ironGenerator, GoldGenerator goldGenerator) {
+    public BTeam(TeamColor teamColor, Location spawn, Location teamChest, IronGenerator ironGenerator, GoldGenerator goldGenerator) {
+        this.players = new HashSet<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
-        this.upgrades = new TeamUpgrades();
         team.color(teamColor.getColor());
+        this.upgrades = new TeamUpgrades();
+        this.teamChest = teamChest;
         this.teamColor = teamColor;
         this.spawn = spawn;
         this.ironGenerator = ironGenerator;
         this.goldGenerator = goldGenerator;
-        this.players = new HashSet<>();
     }
 
     public void addPlayer(Player player) {
@@ -92,6 +93,7 @@ public class BTeam {
                 JSONObject teamConfig = new JSONObject(o.toString());
                 if (color.toString().equalsIgnoreCase(teamConfig.getString("color"))) {
                     JSONObject spawn = teamConfig.getJSONObject("spawn");
+                    JSONObject teamChest = teamConfig.getJSONObject("teamChest");
                     JSONObject forge = teamConfig.getJSONObject("forge");
                     Location spawnLocation = new Location(
                             Bukkit.getWorld("world"),
@@ -101,6 +103,12 @@ public class BTeam {
                             spawn.getFloat("yaw"),
                             spawn.getFloat("pitch")
                     );
+                    Location teamChestLocation = new Location(
+                            Bukkit.getWorld("world"),
+                            teamChest.getDouble("x"),
+                            teamChest.getDouble("y"),
+                            teamChest.getDouble("z")
+                    );
                     Location forgeLocation = new Location(
                             Bukkit.getWorld("world"),
                             forge.getDouble("x"),
@@ -108,7 +116,7 @@ public class BTeam {
                             forge.getDouble("z")
                     );
 
-                    teams.add(new BTeam(color, spawnLocation,
+                    teams.add(new BTeam(color, spawnLocation, teamChestLocation,
                             new IronGenerator(forgeLocation),
                             new GoldGenerator(forgeLocation, Material.GOLD_INGOT)));
                     break;
@@ -116,6 +124,10 @@ public class BTeam {
             }
         }
         return teams.stream().limit(BedWars.getMode().getAmountOfTeams()).collect(Collectors.toList());
+    }
+
+    public Location getTeamChest() {
+        return teamChest;
     }
 
     public IronGenerator getIronGenerator() {
