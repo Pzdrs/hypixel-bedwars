@@ -8,8 +8,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class EmeraldGenerator extends Generator {
-    public EmeraldGenerator(Location location, Material item) {
-        super(location, item);
+    private int cap;
+
+    public EmeraldGenerator(Location location, int cap) {
+        super(location, Material.EMERALD);
+        this.cap = cap;
     }
 
     @Override

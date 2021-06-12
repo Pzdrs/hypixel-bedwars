@@ -2,6 +2,7 @@ package me.pycrs.bedwarsrecoded.tasks;
 
 import me.pycrs.bedwarsrecoded.BedWars;
 import me.pycrs.bedwarsrecoded.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,8 +31,8 @@ public class GameLoop extends BukkitRunnable {
                 player.getPlayer().setGameMode(GameMode.SURVIVAL);
                 player.teleportToBase();
             });
-            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(getGeneratorSpeed("diamondI")));
-            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(getGeneratorSpeed("emeraldI")));
+            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("diamondI")));
+            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("emeraldI")));
             plugin.getTeams().forEach(team -> {
                 team.getIronGenerator().activate(20);
                 team.getGoldGenerator().activate(80);
@@ -41,21 +42,36 @@ public class GameLoop extends BukkitRunnable {
         }
 
         // Game events
-        if (currentTime == diamondII) System.out.println("diamond II upgrade");
-        else if (currentTime == diamondIII) System.out.println("diamond III upgrade");
-        else if (currentTime == emeraldII) System.out.println("emerald II upgrade");
-        else if (currentTime == emeraldIII) System.out.println("emerald III upgrade");
-        else if (currentTime == bedDestruction) System.out.println("bed destruction");
+        if (currentTime == diamondII) {
+            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&bDiamond Generators &ehave been upgraded to Tier &cII")));
+            plugin.getMap().getDiamondGenerators().forEach(generator -> {
+                generator.deactivate();
+                generator.activate(Utils.getGeneratorStats("diamondII"));
+            });
+        } else if (currentTime == diamondIII) {
+            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&bDiamond Generators &ehave been upgraded to Tier &cIII")));
+            plugin.getMap().getDiamondGenerators().forEach(generator -> {
+                generator.deactivate();
+                generator.activate(Utils.getGeneratorStats("diamondIII"));
+            });
+        } else if (currentTime == emeraldII) {
+            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&2Emerald Generators &ehave been upgraded to Tier &cII")));
+            plugin.getMap().getEmeraldGenerators().forEach(generator -> {
+                generator.deactivate();
+                generator.activate(Utils.getGeneratorStats("emeraldII"));
+            });
+        } else if (currentTime == emeraldIII) {
+            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&2Emerald Generators &ehave been upgraded to Tier &cIII")));
+            plugin.getMap().getEmeraldGenerators().forEach(generator -> {
+                generator.deactivate();
+                generator.activate(Utils.getGeneratorStats("emeraldIII"));
+            });
+        } else if (currentTime == bedDestruction) System.out.println("bed destruction");
         else if (currentTime == suddenDeath) System.out.println("dragons spawned");
         else if (currentTime == gameEnd) {
             cancel();
             System.out.println("game ended");
         }
         currentTime++;
-    }
-
-    private int getGeneratorSpeed(String tier) {
-        return (Utils.isSoloOrDoubles() ?
-                plugin.getConfig().getInt("generatorSpeeds1&2." + tier) : plugin.getConfig().getInt("generatorSpeeds3&4." + tier)) * 20;
     }
 }

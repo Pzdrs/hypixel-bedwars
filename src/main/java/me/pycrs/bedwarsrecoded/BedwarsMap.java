@@ -67,7 +67,7 @@ public class BedwarsMap {
                 gen.getDouble("x"),
                 gen.getDouble("y"),
                 gen.getDouble("z")
-        ), Material.DIAMOND));
+        ), Utils.getGeneratorStats("diamondCap")));
     }
 
     public static void addEmeraldGenerator(Object object, BedwarsMap map) {
@@ -77,6 +77,6 @@ public class BedwarsMap {
                 gen.getDouble("x"),
                 gen.getDouble("y"),
                 gen.getDouble("z")
-        ), Material.EMERALD));
+        ), Utils.getGeneratorStats("emeraldCap")));
     }
 }

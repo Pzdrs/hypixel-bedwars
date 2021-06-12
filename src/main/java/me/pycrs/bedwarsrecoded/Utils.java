@@ -129,4 +129,10 @@ public class Utils {
     public static boolean isSoloOrDoubles() {
         return BedWars.getMode().equals(Mode.SOLO) || BedWars.getMode().equals(Mode.DOUBLES);
     }
+
+    public static int getGeneratorStats(String path) {
+        return (Utils.isSoloOrDoubles() ?
+                BedWars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
+                BedWars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * 20;
+    }
 }

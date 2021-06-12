@@ -10,21 +10,29 @@ shoutCooldown: 30
 
 # The base speed of diamond and emerald generators in solo and duos in seconds
 generatorSpeeds1&2:
-  diamondI: 45
-  diamondII: 30
-  diamondIII: 15
+  # Diamond generators
+  diamondI: 30
+  diamondII: 23
+  diamondIII: 12
+  diamondCap: 4
+  # Emerald generators
   emeraldI: 60
   emeraldII: 45
   emeraldIII: 30
+  emeraldCap: 2
 
 # The base speed of diamond and emerald generators in trios and squads in seconds
 generatorSpeeds3&4:
-  diamondI: 40
-  diamondII: 25
-  diamondIII: 10
-  emeraldI: 55
-  emeraldII: 40
-  emeraldIII: 25
+  # Diamond generators
+  diamondI: 30
+  diamondII: 23
+  diamondIII: 12
+  diamondCap: 8
+  # Emerald generators
+  emeraldI: 60
+  emeraldII: 45
+  emeraldIII: 30
+  emeraldCap: 6
 
 # When should each event occur in seconds (from the start of the game)
 events:

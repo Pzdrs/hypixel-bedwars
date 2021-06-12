@@ -1,6 +1,5 @@
 package me.pycrs.bedwarsrecoded;
 
-import me.pycrs.bedwarsrecoded.generator.Generator;
 import me.pycrs.bedwarsrecoded.generator.GoldGenerator;
 import me.pycrs.bedwarsrecoded.generator.IronGenerator;
 import me.pycrs.bedwarsrecoded.teamUpgrades.TeamUpgrades;
@@ -10,11 +9,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
-import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BTeam {
@@ -108,7 +109,7 @@ public class BTeam {
                     );
 
                     teams.add(new BTeam(color, spawnLocation,
-                            new IronGenerator(forgeLocation, Material.IRON_INGOT),
+                            new IronGenerator(forgeLocation),
                             new GoldGenerator(forgeLocation, Material.GOLD_INGOT)));
                     break;
                 }

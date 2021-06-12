@@ -11,18 +11,14 @@ public abstract class Generator {
     private Material item;
 
     public Generator(Location location, Material item) {
-        this.runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                generateResource();
-            }
-        };
+        this.runnable = createRunnable();
         this.location = location;
         this.item = item;
     }
 
     /**
      * Location where the items will spawn, i.e. one block above the actual generator's location
+     *
      * @return Location
      */
     public Location getResourceLocation() {
@@ -41,5 +37,15 @@ public abstract class Generator {
 
     public void deactivate() {
         runnable.cancel();
+        this.runnable = createRunnable();
+    }
+
+    private BukkitRunnable createRunnable() {
+        return new BukkitRunnable() {
+            @Override
+            public void run() {
+                generateResource();
+            }
+        };
     }
 }

@@ -8,8 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class IronGenerator extends Generator implements Splittable {
-    public IronGenerator(Location location, Material item) {
-        super(location, item);
+    public IronGenerator(Location location) {
+        super(location, Material.IRON_INGOT);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package me.pycrs.bedwarsrecoded.generator;
 
-import me.pycrs.bedwarsrecoded.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,8 +8,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class DiamondGenerator extends Generator {
-    public DiamondGenerator(Location location, Material item) {
-        super(location, item);
+    private int cap;
+    public DiamondGenerator(Location location, int cap) {
+        super(location, Material.DIAMOND);
+        this.cap = cap;
     }
 
     @Override
