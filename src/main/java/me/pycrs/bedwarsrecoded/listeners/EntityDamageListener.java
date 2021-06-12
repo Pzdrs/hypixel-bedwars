@@ -23,8 +23,8 @@ public class EntityDamageListener implements Listener {
             Player player = (Player) event.getEntity();
             // Custom void instakill
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-                // FIXME: 6/11/2021 i cannot cancel the event cuz it freaks out so the player looses a hearth in the process
-                Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
+                player.setNoDamageTicks(20);
+                death(event, player);
             }
             // "replace" the default PlayerDeathEvent for my custom one
             else if (player.getHealth() - event.getFinalDamage() <= 0) death(event, player);
