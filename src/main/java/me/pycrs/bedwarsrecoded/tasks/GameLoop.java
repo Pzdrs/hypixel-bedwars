@@ -29,7 +29,7 @@ public class GameLoop extends BukkitRunnable {
         if (currentTime == 0) {
             plugin.getPlayers().forEach(player -> {
                 player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                player.teleportToBase();
+                //player.teleportToBase();
             });
             plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("diamondI")));
             plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("emeraldI")));

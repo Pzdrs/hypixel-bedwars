@@ -39,6 +39,8 @@ public final class BedWars extends JavaPlugin {
 
         // Extracting the crucial data from map.json
         try {
+            mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
+
             JSONObject map = new JSONObject(Files.readString(Paths.get("world/map.json")));
             JSONObject lobbySpawn = map.getJSONObject("lobbySpawn");
             JSONArray diamondsGens = map.getJSONArray("diamondGenerators");
@@ -56,16 +58,13 @@ public final class BedWars extends JavaPlugin {
             diamondsGens.forEach(object -> BedwarsMap.addDiamondGenerator(object, this.map));
             emeraldGens.forEach(object -> BedwarsMap.addEmeraldGenerator(object, this.map));
 
-            try {
-                mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
-                // Clear current teams
-                Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
-                teams = BTeam.initTeams(map.getJSONArray("teams"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // Clear current teams
+            Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
+            teams = BTeam.initTeams(map.getJSONArray("teams"));
         } catch (IOException e) {
             System.out.println("There has been an error while parsing map.json");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
