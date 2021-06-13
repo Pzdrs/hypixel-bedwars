@@ -23,7 +23,8 @@ public class EntityDamageListener implements Listener {
             Player player = (Player) event.getEntity();
             // Custom void instakill
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-                player.setNoDamageTicks(20);
+                player.setNoDamageTicks(player.getMaximumNoDamageTicks());
+                player.setLastDamage(Double.MAX_VALUE);
                 death(event, player);
             }
             // "replace" the default PlayerDeathEvent for my custom one
