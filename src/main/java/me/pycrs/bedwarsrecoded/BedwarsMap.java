@@ -1,9 +1,8 @@
 package me.pycrs.bedwarsrecoded;
 
-import me.pycrs.bedwarsrecoded.generator.*;
+import me.pycrs.bedwarsrecoded.generators.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

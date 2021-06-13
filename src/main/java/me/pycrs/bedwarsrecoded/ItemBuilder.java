@@ -1,8 +1,7 @@
 package me.pycrs.bedwarsrecoded;
 
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.item.dependency.ShopItemTier;
+import me.pycrs.bedwarsrecoded.inventory.menu.shops.items.dependency.ShopItemTier;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;

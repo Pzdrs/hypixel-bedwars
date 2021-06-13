@@ -1,8 +1,8 @@
 package me.pycrs.bedwarsrecoded;
 
-import me.pycrs.bedwarsrecoded.generator.GoldGenerator;
-import me.pycrs.bedwarsrecoded.generator.IronGenerator;
-import me.pycrs.bedwarsrecoded.teamUpgrades.TeamUpgrades;
+import me.pycrs.bedwarsrecoded.generators.GoldGenerator;
+import me.pycrs.bedwarsrecoded.generators.IronGenerator;
+import me.pycrs.bedwarsrecoded.teamupgrades.TeamUpgrades;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

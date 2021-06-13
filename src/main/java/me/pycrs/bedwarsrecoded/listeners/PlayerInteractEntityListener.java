@@ -1,8 +1,8 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
 import me.pycrs.bedwarsrecoded.BedWars;
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.GenericShop;
-import me.pycrs.bedwarsrecoded.inventory.menu.shop.TeamUpgradesShop;
+import me.pycrs.bedwarsrecoded.inventory.menu.shops.GenericShop;
+import me.pycrs.bedwarsrecoded.inventory.menu.shops.TeamUpgradesShop;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
