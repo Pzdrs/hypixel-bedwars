@@ -1,17 +1,22 @@
 package me.pycrs.bedwarsrecoded.tasks;
 
 import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.GameEvent;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class GameLoop extends BukkitRunnable {
     private BedWars plugin;
+    private List<GameEvent> events;
     private int currentTime = 0;
     int diamondII, emeraldII, diamondIII, emeraldIII, bedDestruction, suddenDeath, gameEnd;
 
@@ -25,58 +30,85 @@ public class GameLoop extends BukkitRunnable {
         this.bedDestruction = plugin.getConfig().getInt("events.bedDestruction");
         this.suddenDeath = plugin.getConfig().getInt("events.suddenDeath");
         this.gameEnd = plugin.getConfig().getInt("events.gameEnd");
+
+        this.events = new ArrayList<>(Arrays.asList(
+                new GameEvent.Builder()
+                        .period(0)
+                        .handle(() -> {
+                            plugin.getPlayers().forEach(player -> {
+                                // TODO: 6/12/2021 print the big ass welcome message
+                                player.getPlayer().setGameMode(GameMode.SURVIVAL);
+                                player.teleportToBase();
+                            });
+                            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("diamondI")));
+                            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("emeraldI")));
+                            plugin.getTeams().forEach(team -> {
+                                team.getIronGenerator().activate(20);
+                                team.getGoldGenerator().activate(80);
+                            });
+                        }).build(),
+                new GameEvent.Builder()
+                        .period(diamondII)
+                        .broadcast(Component.text("Diamond Generators", NamedTextColor.AQUA)
+                                .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
+                                .append(Component.text("II", NamedTextColor.RED)))
+                        .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
+                            generator.deactivate();
+                            generator.activate(Utils.getGeneratorStats("diamondII"));
+                        })).build(),
+                new GameEvent.Builder()
+                        .period(emeraldII)
+                        .broadcast(Component.text("Emerald Generators", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
+                                .append(Component.text("II", NamedTextColor.RED)))
+                        .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
+                            generator.deactivate();
+                            generator.activate(Utils.getGeneratorStats("emeraldII"));
+                        })).build(),
+                new GameEvent.Builder()
+                        .period(diamondIII)
+                        .broadcast(Component.text("Diamond Generators", NamedTextColor.AQUA)
+                                .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
+                                .append(Component.text("III", NamedTextColor.RED)))
+                        .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
+                            generator.deactivate();
+                            generator.activate(Utils.getGeneratorStats("diamondIII"));
+                        })).build(),
+                new GameEvent.Builder()
+                        .period(emeraldIII)
+                        .broadcast(Component.text("Emerald Generators", NamedTextColor.DARK_GREEN)
+                                .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
+                                .append(Component.text("III", NamedTextColor.RED)))
+                        .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
+                            generator.deactivate();
+                            generator.activate(Utils.getGeneratorStats("emeraldIII"));
+                        })).build(),
+                new GameEvent.Builder()
+                        .period(bedDestruction)
+                        .before(new GameEvent.Builder()
+                                .period(bedDestruction - 300)
+                                .broadcast(Component.text("All beds will be destroyed in 5 minutes!", NamedTextColor.RED, TextDecoration.BOLD)).build())
+                        .handle(() -> {
+                            System.out.println("bed destroyed");
+                        }).build(),
+                new GameEvent.Builder()
+                        .period(suddenDeath)
+                        .handle(() -> {
+                            System.out.println("dragons spawned");
+                        }).build(),
+                new GameEvent.Builder()
+                        .period(gameEnd)
+                        .handle(() -> {
+                            System.out.println("game ended");
+                            cancel();
+                        }).build()
+        ));
     }
 
     @Override
     public void run() {
-        // Initial game setup
-        if (currentTime == 0) {
-            plugin.getPlayers().forEach(player -> {
-                // TODO: 6/12/2021 print the big ass welcome message 
-                player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                player.teleportToBase();
-            });
-            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("diamondI")));
-            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("emeraldI")));
-            plugin.getTeams().forEach(team -> {
-                team.getIronGenerator().activate(20);
-                team.getGoldGenerator().activate(80);
-            });
-            currentTime++;
-            return;
-        }
-
-        // Game events
-        if (currentTime == diamondII) {
-            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&bDiamond Generators &ehave been upgraded to Tier &cII")));
-            plugin.getMap().getDiamondGenerators().forEach(generator -> {
-                generator.deactivate();
-                generator.activate(Utils.getGeneratorStats("diamondII"));
-            });
-        } else if (currentTime == diamondIII) {
-            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&bDiamond Generators &ehave been upgraded to Tier &cIII")));
-            plugin.getMap().getDiamondGenerators().forEach(generator -> {
-                generator.deactivate();
-                generator.activate(Utils.getGeneratorStats("diamondIII"));
-            });
-        } else if (currentTime == emeraldII) {
-            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&2Emerald Generators &ehave been upgraded to Tier &cII")));
-            plugin.getMap().getEmeraldGenerators().forEach(generator -> {
-                generator.deactivate();
-                generator.activate(Utils.getGeneratorStats("emeraldII"));
-            });
-        } else if (currentTime == emeraldIII) {
-            Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(Utils.color("&2Emerald Generators &ehave been upgraded to Tier &cIII")));
-            plugin.getMap().getEmeraldGenerators().forEach(generator -> {
-                generator.deactivate();
-                generator.activate(Utils.getGeneratorStats("emeraldIII"));
-            });
-        } else if (currentTime == bedDestruction) System.out.println("bed destruction");
-        else if (currentTime == suddenDeath) System.out.println("dragons spawned");
-        else if (currentTime == gameEnd) {
-            cancel();
-            System.out.println("game ended");
-        }
+        System.out.println(currentTime);
+        for (GameEvent event : events) event.proceed(currentTime);
         currentTime++;
     }
 }
