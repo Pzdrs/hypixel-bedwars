@@ -9,6 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,14 +35,14 @@ public class BlockBreakPlaceListener implements Listener {
         if (plugin.getBPlayer(event.getPlayer()).isSpectating()) {
             // If a spectator - just cancel and say nothing
             event.setCancelled(true);
+        } else if (!placedBlocks.contains(event.getBlock())) {
+            // If just a general block - long message
+            event.getPlayer().sendMessage(Component.text("You can only break blocks placed by a player!", NamedTextColor.RED));
+            event.setCancelled(true);
         } else if (false) {
             // TODO: 6/13/2021 check if inside the base
             // If not near the protected base area - short message
             event.getPlayer().sendMessage(Component.text("You can't break blocks here!", NamedTextColor.RED));
-            event.setCancelled(true);
-        } else if (!placedBlocks.contains(event.getBlock())) {
-            // If just a general block - long message
-            event.getPlayer().sendMessage(Component.text("You can only break blocks placed by a player!", NamedTextColor.RED));
             event.setCancelled(true);
         } else placedBlocks.remove(event.getBlock());
     }

@@ -95,14 +95,13 @@ public final class Bedwars extends JavaPlugin {
     }
 
     private void init() {
+        new DisableFeaturesListener(this);
         new PlayerJoinListener(this);
         new PlayerQuitListener(this);
         new AsyncChatListener(this);
         new BWPlayerDeathListener(this);
         new BWPlayerRespawnListener(this);
         new AsyncPlayerPreLoginListener(this);
-        new FoodLevelChangeListener(this);
-        new CreatureSpawnListener(this);
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryClickListener(this);
