@@ -1,7 +1,7 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
 import me.pycrs.bedwarsrecoded.BTeam;
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -11,9 +11,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class PlayerInteractListener implements Listener {
-    private BedWars plugin;
+    private Bedwars plugin;
 
-    public PlayerInteractListener(BedWars plugin) {
+    public PlayerInteractListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

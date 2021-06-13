@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.inventory.menu;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menu.button.MenuButton;
@@ -92,15 +92,15 @@ public class MenuUtils {
     }
 
     public static boolean hasRole(ItemStack itemStack) {
-        return itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(BedWars.getInstance(), "role"), PersistentDataType.STRING);
+        return itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Bedwars.getInstance(), "role"), PersistentDataType.STRING);
     }
 
     public static String getItemRole(ItemStack itemStack) {
-        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "role"), PersistentDataType.STRING);
+        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Bedwars.getInstance(), "role"), PersistentDataType.STRING);
     }
 
     public static String getPDCValue(ItemStack itemStack, String key) {
-        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), key), PersistentDataType.STRING);
+        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Bedwars.getInstance(), key), PersistentDataType.STRING);
     }
 
     public static int getCategoryIndex(LinkedList<ShopCategory> categories, ShopCategory category) {
@@ -136,7 +136,7 @@ public class MenuUtils {
     public static void createButton(ItemStack itemStack, Menu menu, int slot, MenuButtonHandler handler) {
         String id = UUID.randomUUID().toString();
         menu.getInventory().setItem(slot, new ItemBuilder(itemStack)
-                .setPlugin(BedWars.getInstance())
+                .setPlugin(Bedwars.getInstance())
                 .setPersistentData("role", PersistentDataType.STRING, "menuButton")
                 .setPersistentData("menuButtonID", PersistentDataType.STRING, id)
                 .build());

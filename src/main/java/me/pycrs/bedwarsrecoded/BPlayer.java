@@ -11,7 +11,7 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 public class BPlayer {
-    private BedWars plugin;
+    private Bedwars plugin;
     private Player player;
     private boolean shoutCoolDown;
     private boolean spectating = false;
@@ -19,9 +19,9 @@ public class BPlayer {
     private int kills, finalKills, deaths, bedDestroys;
 
     public BPlayer(Player player) {
-        this.plugin = BedWars.getInstance();
+        this.plugin = Bedwars.getInstance();
         this.player = player;
-        this.shoutCoolDownLeft = BedWars.getInstance().getConfig().getInt("shoutCooldown");
+        this.shoutCoolDownLeft = Bedwars.getInstance().getConfig().getInt("shoutCooldown");
         this.kills = 0;
         this.finalKills = 0;
         this.deaths = 0;
@@ -29,20 +29,20 @@ public class BPlayer {
     }
 
     public void putOnShoutCoolDown() {
-        this.shoutCoolDownLeft = BedWars.getInstance().getConfig().getInt("shoutCooldown");
+        this.shoutCoolDownLeft = Bedwars.getInstance().getConfig().getInt("shoutCooldown");
         this.shoutCoolDown = true;
-        Bukkit.getScheduler().runTaskTimer(BedWars.getInstance(), bukkitTask -> {
+        Bukkit.getScheduler().runTaskTimer(Bedwars.getInstance(), bukkitTask -> {
             if (shoutCoolDownLeft == 0) this.shoutCoolDown = false;
             shoutCoolDownLeft--;
         }, 0, 20);
     }
 
     public BTeam getTeam() {
-        return plugin.getPlayersTeam(player);
+        return BTeam.getPlayersTeam(player);
     }
 
     public void teleportToBase() {
-        player.teleport(plugin.getPlayersTeam(player).getSpawn());
+        player.teleport(BTeam.getPlayersTeam(player).getSpawn());
     }
 
     public void setSpectator(boolean spectator) {

@@ -59,6 +59,18 @@ public class BedwarsMap {
                 '}';
     }
 
+    public static BedwarsMap createMap(JSONObject map) {
+        JSONObject lobbySpawn = map.getJSONObject("lobbySpawn");
+        return new BedwarsMap(map.getString("name"), map.getJSONArray("mode").toList(),
+                new Location(
+                        Bukkit.getWorld("world"),
+                        lobbySpawn.getDouble("x"),
+                        lobbySpawn.getDouble("y"),
+                        lobbySpawn.getDouble("z"),
+                        lobbySpawn.getFloat("yaw"),
+                        lobbySpawn.getFloat("pitch")));
+    }
+
     public static void addDiamondGenerator(Object object, BedwarsMap map) {
         JSONObject gen = new JSONObject(object.toString());
         map.getDiamondGenerators().add(new DiamondGenerator(new Location(

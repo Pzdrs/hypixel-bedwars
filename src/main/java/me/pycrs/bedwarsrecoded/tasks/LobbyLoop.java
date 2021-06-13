@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.tasks;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -13,10 +13,10 @@ import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LobbyLoop extends BukkitRunnable {
-    private BedWars plugin;
+    private Bedwars plugin;
     public static AtomicInteger timer;
 
-    public LobbyLoop(BedWars plugin, int countFrom) {
+    public LobbyLoop(Bedwars plugin, int countFrom) {
         this.plugin = plugin;
         timer = new AtomicInteger(countFrom);
     }
@@ -33,7 +33,7 @@ public class LobbyLoop extends BukkitRunnable {
         if (timer.getAndDecrement() == 0) {
             this.cancel();
             Utils.distributePlayersToTeams(plugin);
-            plugin.setGameInProgress(true);
+            plugin.startGame();
         }
     }
 

@@ -1,14 +1,14 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class CreatureSpawnListener implements Listener {
-    private BedWars plugin;
+    private Bedwars plugin;
 
-    public CreatureSpawnListener(BedWars plugin) {
+    public CreatureSpawnListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.events.BWPlayerDeathEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -10,16 +10,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class EntityDamageListener implements Listener {
-    private BedWars plugin;
+    private Bedwars plugin;
 
-    public EntityDamageListener(BedWars plugin) {
+    public EntityDamageListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntityType().equals(EntityType.PLAYER) && BedWars.gameInProgress) {
+        if (event.getEntityType().equals(EntityType.PLAYER) && plugin.isGameInProgress()) {
             Player player = (Player) event.getEntity();
             // Custom void instakill
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {

@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.generators;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,7 +32,7 @@ public abstract class Generator {
     protected abstract void generateResource();
 
     public void activate(long period) {
-        runnable.runTaskTimer(BedWars.getInstance(), period, period);
+        runnable.runTaskTimer(Bedwars.getInstance(), period, period);
     }
 
     public void deactivate() {

@@ -7,9 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class Utils {
@@ -80,14 +82,16 @@ public class Utils {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
 
-    public static Mode teamSizeToMode(int teamSize) throws Exception {
+    public static Mode teamSizeToMode(int teamSize) {
         for (Mode mode : Mode.values()) {
             if (mode.getTeamSize() == teamSize) return mode;
         }
-        throw new Exception("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
+        Bedwars.getInstance().getLogger().severe("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
+        Bedwars.disable();
+        return null;
     }
 
-    public static void distributePlayersToTeams(BedWars plugin) {
+    public static void distributePlayersToTeams(Bedwars plugin) {
         plugin.getServer().getOnlinePlayers().forEach(player -> {
             for (BTeam team : plugin.getTeams()) {
                 if (!team.isFull()) {
@@ -98,7 +102,7 @@ public class Utils {
         });
     }
 
-    public static boolean isLobbyCountdownInProgress(BedWars plugin) {
+    public static boolean isLobbyCountdownInProgress(Bedwars plugin) {
         return plugin.getLobbyLoop() != null && !plugin.getLobbyLoop().isCancelled();
     }
 
@@ -127,12 +131,22 @@ public class Utils {
     }
 
     public static boolean isSoloOrDoubles() {
-        return BedWars.getMode().equals(Mode.SOLO) || BedWars.getMode().equals(Mode.DOUBLES);
+        return Bedwars.getMode().equals(Mode.SOLO) || Bedwars.getMode().equals(Mode.DOUBLES);
     }
 
     public static int getGeneratorStats(String path) {
         return (Utils.isSoloOrDoubles() ?
-                BedWars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
-                BedWars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * 20;
+                Bedwars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
+                Bedwars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * 20;
+    }
+
+    public static JSONObject loadMapJSON() {
+        try {
+            return new JSONObject(Files.readString(Paths.get("world/map.json")));
+        } catch (IOException e) {
+            Bedwars.getInstance().getLogger().severe("Couldn't load world/map.json, it's either corrupted or doesn't exist");
+            Bedwars.disable();
+        }
+        return null;
     }
 }

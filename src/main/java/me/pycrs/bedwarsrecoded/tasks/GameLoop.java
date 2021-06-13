@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.tasks;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.gameevent.GameEvent;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.text.Component;
@@ -14,11 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameLoop extends BukkitRunnable {
-    private BedWars plugin;
+    private Bedwars plugin;
     private List<GameEvent> events;
     private int currentTime = 0;
 
-    public GameLoop(BedWars plugin) {
+    public GameLoop(Bedwars plugin) {
         this.plugin = plugin;
         this.events = new ArrayList<>(Arrays.asList(
                 new GameEvent.Builder()

@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.inventory.menu.shops.dependency;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.inventory.menu.shops.items.ShopItem;
 import org.bukkit.ChatColor;
@@ -26,7 +26,7 @@ public class ShopCategory {
 
     private ItemStack formatPreviewItem(Material material) {
         return new ItemBuilder(material)
-                .setPlugin(BedWars.getInstance())
+                .setPlugin(Bedwars.getInstance())
                 .setDisplayName(ChatColor.GREEN + name + ChatColor.RESET)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES)
                 .setPersistentData("role", PersistentDataType.STRING, "category")

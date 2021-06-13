@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.events.BWPlayerDeathEvent;
 import me.pycrs.bedwarsrecoded.events.BWPlayerRespawnEvent;
@@ -8,8 +8,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,10 +16,10 @@ import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BWPlayerDeathListener implements Listener {
-    private BedWars plugin;
+    private Bedwars plugin;
     private AtomicInteger respawnTimer;
 
-    public BWPlayerDeathListener(BedWars plugin) {
+    public BWPlayerDeathListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

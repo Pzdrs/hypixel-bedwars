@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.inventory.menu.shops.items;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.ItemBuilder;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
@@ -32,7 +32,7 @@ public class CommonShopItem extends ShopItem {
     @Override
     protected ItemStack formatPreviewItem(ItemStack itemStack) {
         return new ItemBuilder(itemStack)
-                .setPlugin(BedWars.getInstance())
+                .setPlugin(Bedwars.getInstance())
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
                 .setPersistentData("role", PersistentDataType.STRING, "shopItem")
                 .setPersistentData("itemId", PersistentDataType.STRING, id)

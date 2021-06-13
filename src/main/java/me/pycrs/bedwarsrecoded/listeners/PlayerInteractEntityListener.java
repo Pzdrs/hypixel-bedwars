@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.inventory.menu.shops.GenericShop;
 import me.pycrs.bedwarsrecoded.inventory.menu.shops.TeamUpgradesShop;
 import org.bukkit.entity.Entity;
@@ -10,9 +10,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 public class PlayerInteractEntityListener implements Listener {
-    private BedWars plugin;
+    private Bedwars plugin;
 
-    public PlayerInteractEntityListener(BedWars plugin) {
+    public PlayerInteractEntityListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

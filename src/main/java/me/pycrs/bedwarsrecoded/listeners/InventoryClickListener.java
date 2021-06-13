@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.inventory.menu.Menu;
 import me.pycrs.bedwarsrecoded.inventory.menu.shops.Shop;
 import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
@@ -9,9 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class InventoryClickListener implements Listener {
-    private BedWars plugin;
+    private Bedwars plugin;
 
-    public InventoryClickListener(BedWars plugin) {
+    public InventoryClickListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

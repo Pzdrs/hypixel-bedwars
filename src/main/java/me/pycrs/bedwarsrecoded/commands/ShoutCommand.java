@@ -1,9 +1,6 @@
 package me.pycrs.bedwarsrecoded.commands;
 
-import me.pycrs.bedwarsrecoded.BPlayer;
-import me.pycrs.bedwarsrecoded.BedWars;
-import me.pycrs.bedwarsrecoded.Mode;
-import me.pycrs.bedwarsrecoded.Utils;
+import me.pycrs.bedwarsrecoded.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
@@ -16,9 +13,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class ShoutCommand implements TabExecutor {
-    private BedWars plugin;
+    private Bedwars plugin;
 
-    public ShoutCommand(BedWars plugin) {
+    public ShoutCommand(Bedwars plugin) {
         this.plugin = plugin;
         Objects.requireNonNull(plugin.getCommand("shout")).setExecutor(this);
     }
@@ -38,12 +35,12 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
         // Make sure no one shouts before the game starts
-        if (!BedWars.gameInProgress) {
+        if (!plugin.isGameInProgress()) {
             player.sendMessage(Component.text("You can't use /shout before the game has started.", NamedTextColor.RED));
             return true;
         }
         // Check, if this mode has /shout enabled
-        if (BedWars.getMode().equals(Mode.SOLO)) {
+        if (Bedwars.getMode().equals(Mode.SOLO)) {
             player.sendMessage(Component.text("You can't use /shout in solo mode.", NamedTextColor.RED));
             return true;
         }
@@ -59,7 +56,7 @@ public class ShoutCommand implements TabExecutor {
 
         plugin.getServer().sendMessage(Component
                 .text(Utils.color("&6[SHOUT]&r "))
-                .append(Utils.getTeamPrefix(plugin.getPlayersTeam(player)))
+                .append(Utils.getTeamPrefix(BTeam.getPlayersTeam(player)))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
         bPlayer.putOnShoutCoolDown();

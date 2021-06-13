@@ -1,7 +1,7 @@
 package me.pycrs.bedwarsrecoded.inventory.menu.shops;
 
 import me.pycrs.bedwarsrecoded.BTeam;
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.inventory.menu.Menu;
 import me.pycrs.bedwarsrecoded.inventory.menu.MenuUtils;
 import me.pycrs.bedwarsrecoded.inventory.menu.shops.dependency.ShopCategory;
@@ -27,7 +27,7 @@ public abstract class Shop extends Menu {
     public Shop(Player player) {
         super(player);
         this.categories = new LinkedList<>();
-        this.team = BedWars.getInstance().getPlayersTeam(player);
+        this.team = BTeam.getPlayersTeam(player);
 
         setCategories();
         setupSelectedCategory();
@@ -73,7 +73,7 @@ public abstract class Shop extends Menu {
 
     private void handlePurchase(InventoryClickEvent event) {
         ShopItem item = MenuUtils.getItemById(selectedCategory, event.getCurrentItem().getItemMeta()
-                .getPersistentDataContainer().get(new NamespacedKey(BedWars.getInstance(), "itemId"), PersistentDataType.STRING));
+                .getPersistentDataContainer().get(new NamespacedKey(Bedwars.getInstance(), "itemId"), PersistentDataType.STRING));
         if (item != null)
             if (item.purchase(player)) render();
     };

@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BedWars;
+import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.Utils;
 import me.pycrs.bedwarsrecoded.tasks.LobbyLoop;
 import net.kyori.adventure.text.Component;
@@ -8,7 +8,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,9 +18,9 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 public class PlayerJoinListener implements Listener {
-    private BedWars plugin;
+    private Bedwars plugin;
 
-    public PlayerJoinListener(BedWars plugin) {
+    public PlayerJoinListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -42,7 +41,7 @@ public class PlayerJoinListener implements Listener {
                 .append(Component.text(" has joined ", NamedTextColor.YELLOW))
                 .append(Component.text(
                         Utils.color("&e(&b" + Bukkit.getOnlinePlayers().size() + "&e/&b" +
-                                BedWars.getMode().getTeamSize() * BedWars.getMode().getAmountOfTeams() + "&e)!"))));
+                                Bedwars.getMode().getTeamSize() * Bedwars.getMode().getAmountOfTeams() + "&e)!"))));
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective lobby = scoreboard.registerNewObjective("lobby", "dummy", Component.text("BEDWARS",
@@ -83,9 +82,9 @@ public class PlayerJoinListener implements Listener {
         player.setScoreboard(scoreboard);
 
         // If enough players, start the countdown
-        if (Bukkit.getOnlinePlayers().size() >= BedWars.getMode().getMinPlayers()) {
-            if (!Utils.isLobbyCountdownInProgress(plugin)) plugin.startGame();
-            if (Bukkit.getOnlinePlayers().size() == BedWars.getMode().getTeamSize() * BedWars.getMode().getAmountOfTeams()) LobbyLoop.timer.set(10);
+        if (Bukkit.getOnlinePlayers().size() >= Bedwars.getMode().getMinPlayers()) {
+            if (!Utils.isLobbyCountdownInProgress(plugin)) plugin.startLobbyCountdown();
+            if (Bukkit.getOnlinePlayers().size() == Bedwars.getMode().getTeamSize() * Bedwars.getMode().getAmountOfTeams()) LobbyLoop.timer.set(10);
             player.sendMessage(Component.text(Utils.color("&eThe game is starting in&b " + LobbyLoop.timer + " &e" + (LobbyLoop.timer.get() <= 1 ? "second!" : "seconds!"))));
         }
     }

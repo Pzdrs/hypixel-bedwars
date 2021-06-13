@@ -74,6 +74,26 @@ public class BTeam {
         return players;
     }
 
+    public Location getTeamChest() {
+        return teamChest;
+    }
+
+    public IronGenerator getIronGenerator() {
+        return ironGenerator;
+    }
+
+    public GoldGenerator getGoldGenerator() {
+        return goldGenerator;
+    }
+
+    public boolean isFull() {
+        return players.size() == Bedwars.getMode().getTeamSize();
+    }
+
+    public boolean isEliminated() {
+        return !hasBed && players.size() == 0;
+    }
+
     @Override
     public String toString() {
         return "BTeam{" +
@@ -84,6 +104,15 @@ public class BTeam {
                 ", hasBed=" + hasBed +
                 ", spawn=" + spawn +
                 '}';
+    }
+
+    public static BTeam getPlayersTeam(Player player) {
+        for (BTeam team : Bedwars.getInstance().getTeams()) {
+            for (BPlayer teamPlayer : team.getPlayers()) {
+                if (teamPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return team;
+            }
+        }
+        return null;
     }
 
     public static List<BTeam> initTeams(JSONArray config) {
@@ -123,26 +152,6 @@ public class BTeam {
                 }
             }
         }
-        return teams.stream().limit(BedWars.getMode().getAmountOfTeams()).collect(Collectors.toList());
-    }
-
-    public Location getTeamChest() {
-        return teamChest;
-    }
-
-    public IronGenerator getIronGenerator() {
-        return ironGenerator;
-    }
-
-    public GoldGenerator getGoldGenerator() {
-        return goldGenerator;
-    }
-
-    public boolean isFull() {
-        return players.size() == BedWars.getMode().getTeamSize();
-    }
-
-    public boolean isEliminated() {
-        return !hasBed && players.size() == 0;
+        return teams.stream().limit(Bedwars.getMode().getAmountOfTeams()).collect(Collectors.toList());
     }
 }
