@@ -1,5 +1,6 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
+import me.pycrs.bedwarsrecoded.BPlayer;
 import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.sound.Sound;
@@ -31,7 +32,7 @@ public class PlayerQuitListener implements Listener {
 
         // New quit messages
         if (Bedwars.isGameInProgress()) {
-            plugin.getServer().sendMessage(Component.text(player.getName(), plugin.getBPlayer(player).getTeam().getTeamColor().getColor())
+            plugin.getServer().sendMessage(Component.text(player.getName(), BPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
                     .append(Component.text(" disconnected", NamedTextColor.GRAY)));
         } else {
             plugin.getServer().sendMessage(player.displayName()

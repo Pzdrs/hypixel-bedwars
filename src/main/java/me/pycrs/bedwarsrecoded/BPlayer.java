@@ -8,7 +8,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class BPlayer {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
@@ -84,6 +86,10 @@ public class BPlayer {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public static BPlayer toBPlayer(Player player) {
+        return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 
     public static BTeam getPlayersTeam(Player player) {

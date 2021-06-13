@@ -32,7 +32,7 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (plugin.getBPlayer(event.getPlayer()).isSpectating()) {
+        if (BPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
             // If a spectator - just cancel and say nothing
             event.setCancelled(true);
         } else if (!placedBlocks.contains(event.getBlock())) {

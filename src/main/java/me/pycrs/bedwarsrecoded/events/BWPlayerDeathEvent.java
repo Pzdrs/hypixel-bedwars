@@ -12,7 +12,7 @@ public class BWPlayerDeathEvent extends Event {
     private BPlayer player;
 
     public BWPlayerDeathEvent(Bedwars plugin, Player player) {
-        this.player = plugin.getBPlayer(player);
+        this.player = BPlayer.toBPlayer(player);
     }
 
     public BPlayer getBPlayer() {

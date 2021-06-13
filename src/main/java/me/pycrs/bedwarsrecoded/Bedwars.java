@@ -6,7 +6,6 @@ import me.pycrs.bedwarsrecoded.listeners.*;
 import me.pycrs.bedwarsrecoded.tasks.GameLoop;
 import me.pycrs.bedwarsrecoded.tasks.LobbyLoop;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
 import org.json.JSONArray;
@@ -72,10 +71,6 @@ public final class Bedwars extends JavaPlugin {
         List<BPlayer> players = new ArrayList<>();
         teams.forEach(team -> players.addAll(team.getPlayers()));
         return players;
-    }
-
-    public BPlayer getBPlayer(Player player) {
-        return getPlayers().stream().filter(player1 -> player1.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 
     public BedwarsMap getMap() {
