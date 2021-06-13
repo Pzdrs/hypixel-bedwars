@@ -1,7 +1,7 @@
 package me.pycrs.bedwarsrecoded.commands;
 
 import me.pycrs.bedwarsrecoded.Bedwars;
-import me.pycrs.bedwarsrecoded.Utils;
+import me.pycrs.bedwarsrecoded.tasks.LobbyLoop;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -37,7 +37,7 @@ public class StartCommand implements TabExecutor {
             sender.sendMessage("A minimum of 1 player is needed to forcefully start the game.");
             return true;
         }
-        if (Utils.isLobbyCountdownInProgress(plugin) || Bedwars.isGameInProgress()) {
+        if (LobbyLoop.isCountingDown() || Bedwars.isGameInProgress()) {
             sender.sendMessage(Component.text("The game is starting already or is already in progress.", NamedTextColor.RED));
             return true;
         } else {

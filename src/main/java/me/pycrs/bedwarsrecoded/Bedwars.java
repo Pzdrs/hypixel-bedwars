@@ -35,7 +35,7 @@ public final class Bedwars extends JavaPlugin {
         mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
 
         // Map setup
-        JSONObject map = Utils.loadMapJSON();
+        JSONObject map = BedwarsMap.loadJSON();
         JSONArray diamondsGens = map.getJSONArray("diamondGenerators");
         JSONArray emeraldGens = map.getJSONArray("emeraldGenerators");
 
@@ -77,10 +77,6 @@ public final class Bedwars extends JavaPlugin {
         return map;
     }
 
-    public static Mode getMode() {
-        return mode;
-    }
-
     public LobbyLoop getLobbyLoop() {
         return lobbyLoop;
     }
@@ -105,5 +101,13 @@ public final class Bedwars extends JavaPlugin {
 
         new ShoutCommand(this);
         new StartCommand(this);
+    }
+
+    public static Mode getMode() {
+        return mode;
+    }
+
+    public static boolean isSoloOrDoubles() {
+        return Bedwars.getMode().equals(Mode.SOLO) || Bedwars.getMode().equals(Mode.DOUBLES);
     }
 }

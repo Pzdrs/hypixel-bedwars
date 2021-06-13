@@ -48,4 +48,10 @@ public abstract class Generator {
             }
         };
     }
+
+    public static int getProperty(String path) {
+        return (Bedwars.isSoloOrDoubles() ?
+                Bedwars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
+                Bedwars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * 20;
+    }
 }

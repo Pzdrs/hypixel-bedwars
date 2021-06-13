@@ -41,9 +41,7 @@ public class Utils {
             return encapsulateStars(stars, ChatColor.BLUE);
         } else if (inRange(stars, 900, 1000)) {
             return encapsulateStars(stars, ChatColor.DARK_PURPLE);
-        } else {
-            return encapsulateStars(stars, null);
-        }
+        } else return encapsulateStars(stars, null);
     }
 
     private static String encapsulateStars(int stars, ChatColor color) {
@@ -73,11 +71,7 @@ public class Utils {
         }
         return builder.toString();
     }
-
-    public static BPlayer isolateByUUID(List<BPlayer> players, Player player) {
-        return players.stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
-    }
-
+    
     public static void inGameBroadcast(Component component) {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
@@ -88,21 +82,6 @@ public class Utils {
         }
         Bedwars.getInstance().getLogger().severe("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
         return null;
-    }
-
-    public static void distributePlayersToTeams(Bedwars plugin) {
-        plugin.getServer().getOnlinePlayers().forEach(player -> {
-            for (BTeam team : plugin.getTeams()) {
-                if (!team.isFull()) {
-                    team.addPlayer(player);
-                    break;
-                }
-            }
-        });
-    }
-
-    public static boolean isLobbyCountdownInProgress(Bedwars plugin) {
-        return plugin.getLobbyLoop() != null && !plugin.getLobbyLoop().isCancelled();
     }
 
     public static int getMaterialAmount(Inventory inventory, Material material) {
@@ -127,24 +106,5 @@ public class Utils {
         world.setGameRule(GameRule.DISABLE_RAIDS, false);
         world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-    }
-
-    public static boolean isSoloOrDoubles() {
-        return Bedwars.getMode().equals(Mode.SOLO) || Bedwars.getMode().equals(Mode.DOUBLES);
-    }
-
-    public static int getGeneratorStats(String path) {
-        return (Utils.isSoloOrDoubles() ?
-                Bedwars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
-                Bedwars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * 20;
-    }
-
-    public static JSONObject loadMapJSON() {
-        try {
-            return new JSONObject(Files.readString(Paths.get("world/map.json")));
-        } catch (IOException e) {
-            Bedwars.getInstance().getLogger().severe("Couldn't load world/map.json, it's either corrupted or doesn't exist");
-        }
-        return null;
     }
 }

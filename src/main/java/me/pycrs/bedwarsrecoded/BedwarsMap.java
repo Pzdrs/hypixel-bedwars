@@ -5,6 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +62,15 @@ public class BedwarsMap {
                 '}';
     }
 
+    public static JSONObject loadJSON() {
+        try {
+            return new JSONObject(Files.readString(Paths.get("world/map.json")));
+        } catch (IOException e) {
+            Bedwars.getInstance().getLogger().severe("Couldn't load world/map.json, it's either corrupted or doesn't exist");
+        }
+        return null;
+    }
+
     public static BedwarsMap createMap(JSONObject map) {
         JSONObject lobbySpawn = map.getJSONObject("lobbySpawn");
         return new BedwarsMap(map.getString("name"), map.getJSONArray("mode").toList(),
@@ -78,7 +90,7 @@ public class BedwarsMap {
                 gen.getDouble("x"),
                 gen.getDouble("y"),
                 gen.getDouble("z")
-        ), Utils.getGeneratorStats("diamondCap")));
+        ), Generator.getProperty("diamondCap")));
     }
 
     public static void addEmeraldGenerator(Object object, BedwarsMap map) {
@@ -88,6 +100,6 @@ public class BedwarsMap {
                 gen.getDouble("x"),
                 gen.getDouble("y"),
                 gen.getDouble("z")
-        ), Utils.getGeneratorStats("emeraldCap")));
+        ), Generator.getProperty("emeraldCap")));
     }
 }

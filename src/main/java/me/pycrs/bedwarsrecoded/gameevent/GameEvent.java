@@ -1,5 +1,6 @@
 package me.pycrs.bedwarsrecoded.gameevent;
 
+import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 
@@ -21,7 +22,7 @@ public class GameEvent {
         if (before != null) before.proceed(currentTime);
 
         if (currentTime == period) {
-            if (broadcast != null) Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(broadcast));
+            if (broadcast != null) Utils.inGameBroadcast(broadcast);
             if (handler != null) handler.handle();
         }
 

@@ -3,6 +3,7 @@ package me.pycrs.bedwarsrecoded.listeners;
 import me.pycrs.bedwarsrecoded.BPlayer;
 import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.Utils;
+import me.pycrs.bedwarsrecoded.tasks.LobbyLoop;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -39,7 +40,7 @@ public class PlayerQuitListener implements Listener {
                     .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
         }
 
-        if (Bukkit.getOnlinePlayers().size() - 1 < Bedwars.getMode().getMinPlayers() && Utils.isLobbyCountdownInProgress(plugin)) {
+        if (Bukkit.getOnlinePlayers().size() - 1 < Bedwars.getMode().getMinPlayers() && LobbyLoop.isCountingDown()) {
             plugin.getLobbyLoop().cancel();
             plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
             Utils.inGameBroadcast(Component.text("We don't have enough players! Start cancelled.", NamedTextColor.RED));

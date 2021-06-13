@@ -45,7 +45,7 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
 
-        BPlayer bPlayer = Utils.isolateByUUID(plugin.getPlayers(), player);
+        BPlayer bPlayer = BPlayer.toBPlayer(player);
         bPlayer.shout(Component
                 .text(Utils.color("&6[SHOUT]&r "))
                 .append(Utils.getTeamPrefix(BPlayer.getPlayersTeam(player)))

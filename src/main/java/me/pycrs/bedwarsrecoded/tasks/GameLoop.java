@@ -2,7 +2,7 @@ package me.pycrs.bedwarsrecoded.tasks;
 
 import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.gameevent.GameEvent;
-import me.pycrs.bedwarsrecoded.Utils;
+import me.pycrs.bedwarsrecoded.generators.Generator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -32,8 +32,8 @@ public class GameLoop extends BukkitRunnable {
                             });
 
                             // Initial generator activation
-                            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("diamondI")));
-                            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Utils.getGeneratorStats("emeraldI")));
+                            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI")));
+                            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI")));
                             plugin.getTeams().forEach(team -> {
                                 // These will depend on what map is in use
                                 team.getIronGenerator().activate(20);
@@ -47,7 +47,7 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text("II", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
                             generator.deactivate();
-                            generator.activate(Utils.getGeneratorStats("diamondII"));
+                            generator.activate(Generator.getProperty("diamondII"));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.emeraldII"))
@@ -56,7 +56,7 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text("II", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
                             generator.deactivate();
-                            generator.activate(Utils.getGeneratorStats("emeraldII"));
+                            generator.activate(Generator.getProperty("emeraldII"));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.diamondIII"))
@@ -65,7 +65,7 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
                             generator.deactivate();
-                            generator.activate(Utils.getGeneratorStats("diamondIII"));
+                            generator.activate(Generator.getProperty("diamondIII"));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.emeraldIII"))
@@ -74,7 +74,7 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
                             generator.deactivate();
-                            generator.activate(Utils.getGeneratorStats("emeraldIII"));
+                            generator.activate(Generator.getProperty("emeraldIII"));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.bedDestruction"))

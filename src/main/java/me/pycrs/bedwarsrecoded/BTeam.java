@@ -145,4 +145,15 @@ public class BTeam {
         }
         return teams.stream().limit(Bedwars.getMode().getAmountOfTeams()).collect(Collectors.toList());
     }
+
+    public static void distributePlayers() {
+        Bedwars.getInstance().getServer().getOnlinePlayers().forEach(player -> {
+            for (BTeam team : Bedwars.getInstance().getTeams()) {
+                if (!team.isFull()) {
+                    team.addPlayer(player);
+                    break;
+                }
+            }
+        });
+    }
 }

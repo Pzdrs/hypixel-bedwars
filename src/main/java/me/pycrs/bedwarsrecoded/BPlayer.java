@@ -37,7 +37,7 @@ public class BPlayer {
                     BPlayer.shoutCooldown.get(player.getUniqueId()) + " &cseconds until you can use /shout again!")));
             return;
         }
-        Bukkit.getOnlinePlayers().forEach(online -> online.sendMessage(component));
+        Utils.inGameBroadcast(component);
         // Take care of removing the player from cooldown and keep the time left updated
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
             if (BPlayer.shoutCooldown.containsKey(player.getUniqueId())) {
