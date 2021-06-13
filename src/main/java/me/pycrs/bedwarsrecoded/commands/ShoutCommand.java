@@ -45,21 +45,12 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
 
-        // Check, if the players is on a cooldown
         BPlayer bPlayer = Utils.isolateByUUID(plugin.getPlayers(), player);
-        Map.Entry<Boolean, Integer> cooldown = bPlayer.isOnShoutCoolDown();
-        if (cooldown.getKey()) {
-            player.sendMessage(Component.text(Utils.color("&cYou must wait &e" +
-                    cooldown.getValue() + " &cseconds until you can use /shout again!")));
-            return true;
-        }
-
-        plugin.getServer().sendMessage(Component
+        bPlayer.shout(Component
                 .text(Utils.color("&6[SHOUT]&r "))
                 .append(Utils.getTeamPrefix(BPlayer.getPlayersTeam(player)))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
-        bPlayer.putOnShoutCoolDown();
         return true;
     }
 
