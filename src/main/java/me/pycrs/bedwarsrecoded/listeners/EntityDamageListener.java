@@ -19,7 +19,7 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntityType().equals(EntityType.PLAYER) && plugin.isGameInProgress()) {
+        if (event.getEntityType().equals(EntityType.PLAYER) && Bedwars.isGameInProgress()) {
             Player player = (Player) event.getEntity();
             // Custom void instakill
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {

@@ -13,14 +13,16 @@ import java.util.Map;
 public class BPlayer {
     private Bedwars plugin;
     private Player player;
+    private BTeam team;
     private boolean shoutCoolDown;
     private boolean spectating = false;
     private int shoutCoolDownLeft;
     private int kills, finalKills, deaths, bedDestroys;
 
-    public BPlayer(Player player) {
+    public BPlayer(Player player, BTeam team) {
         this.plugin = Bedwars.getInstance();
         this.player = player;
+        this.team = team;
         this.shoutCoolDownLeft = Bedwars.getInstance().getConfig().getInt("shoutCooldown");
         this.kills = 0;
         this.finalKills = 0;
@@ -35,14 +37,6 @@ public class BPlayer {
             if (shoutCoolDownLeft == 0) this.shoutCoolDown = false;
             shoutCoolDownLeft--;
         }, 0, 20);
-    }
-
-    public BTeam getTeam() {
-        return BTeam.getPlayersTeam(player);
-    }
-
-    public void teleportToBase() {
-        player.teleport(BTeam.getPlayersTeam(player).getSpawn());
     }
 
     public void setSpectator(boolean spectator) {
@@ -69,54 +63,32 @@ public class BPlayer {
         player.setFlying(spectator);
     }
 
-    public boolean isSpectating() {
-        return spectating;
+    public BTeam getTeam() {
+        return team;
     }
 
-    @Override
-    public String toString() {
-        return "BPlayer{" +
-                "player=" + player +
-                '}';
-    }
-
-    public void addKill() {
-        kills++;
-    }
-
-    public void addFinalKill() {
-        finalKills++;
-    }
-
-    public void addDeath() {
-        deaths++;
-    }
-
-    public void addBedDestroy() {
-        bedDestroys++;
-    }
-
-    public Player getPlayer() {
-        return player;
+    public void teleportToBase() {
+        player.teleport(team.getSpawn());
     }
 
     public Map.Entry<Boolean, Integer> isOnShoutCoolDown() {
         return new AbstractMap.SimpleEntry<>(shoutCoolDown, shoutCoolDownLeft);
     }
 
-    public int getKills() {
-        return kills;
+    public boolean isSpectating() {
+        return spectating;
     }
 
-    public int getFinalKills() {
-        return finalKills;
+    public Player getPlayer() {
+        return player;
     }
 
-    public int getDeaths() {
-        return deaths;
-    }
-
-    public int getBedDestroys() {
-        return bedDestroys;
+    public static BTeam getPlayersTeam(Player player) {
+        for (BTeam team : Bedwars.getInstance().getTeams()) {
+            for (BPlayer teamPlayer : team.getPlayers()) {
+                if (teamPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return team;
+            }
+        }
+        return null;
     }
 }

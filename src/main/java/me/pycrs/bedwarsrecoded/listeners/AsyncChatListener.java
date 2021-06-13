@@ -1,10 +1,7 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.pycrs.bedwarsrecoded.BTeam;
-import me.pycrs.bedwarsrecoded.Bedwars;
-import me.pycrs.bedwarsrecoded.Mode;
-import me.pycrs.bedwarsrecoded.Utils;
+import me.pycrs.bedwarsrecoded.*;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,16 +19,16 @@ public class AsyncChatListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
         // TODO: 4/8/2021 spectator chat for spectators and dead players
-        if (plugin.isGameInProgress()) {
+        if (Bedwars.isGameInProgress()) {
             event.composer((source, displayName, message) -> Component
                     .text(Utils.formatStars(new Random().nextInt(1000)) + " ")
-                    .append(Utils.getTeamPrefix(BTeam.getPlayersTeam(source)))
+                    .append(Utils.getTeamPrefix(BPlayer.getPlayersTeam(source)))
                     .append(displayName)
                     .append(Component.text(": "))
                     .append(message));
             if (!Bedwars.getMode().equals(Mode.SOLO)) {
                 event.setCancelled(true);
-                BTeam team = BTeam.getPlayersTeam(event.getPlayer());
+                BTeam team = BPlayer.getPlayersTeam(event.getPlayer());
                 if (team != null) team.teamBroadcast(event.message());
             }
         } else {

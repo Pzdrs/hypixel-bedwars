@@ -1,5 +1,6 @@
 package me.pycrs.bedwarsrecoded.inventory.menu.shops;
 
+import me.pycrs.bedwarsrecoded.BPlayer;
 import me.pycrs.bedwarsrecoded.BTeam;
 import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.inventory.menu.Menu;
@@ -27,7 +28,7 @@ public abstract class Shop extends Menu {
     public Shop(Player player) {
         super(player);
         this.categories = new LinkedList<>();
-        this.team = BTeam.getPlayersTeam(player);
+        this.team = BPlayer.getPlayersTeam(player);
 
         setCategories();
         setupSelectedCategory();

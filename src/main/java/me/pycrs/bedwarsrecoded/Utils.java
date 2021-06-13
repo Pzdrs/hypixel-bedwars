@@ -87,7 +87,6 @@ public class Utils {
             if (mode.getTeamSize() == teamSize) return mode;
         }
         Bedwars.getInstance().getLogger().severe("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
-        Bedwars.disable();
         return null;
     }
 
@@ -145,7 +144,6 @@ public class Utils {
             return new JSONObject(Files.readString(Paths.get("world/map.json")));
         } catch (IOException e) {
             Bedwars.getInstance().getLogger().severe("Couldn't load world/map.json, it's either corrupted or doesn't exist");
-            Bedwars.disable();
         }
         return null;
     }

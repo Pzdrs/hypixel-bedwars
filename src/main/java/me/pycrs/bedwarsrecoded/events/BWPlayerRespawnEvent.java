@@ -17,7 +17,7 @@ public class BWPlayerRespawnEvent extends Event implements Cancellable {
         this.player = player;
     }
 
-    public BPlayer getPlayer() {
+    public BPlayer getBPlayer() {
         return player;
     }
 

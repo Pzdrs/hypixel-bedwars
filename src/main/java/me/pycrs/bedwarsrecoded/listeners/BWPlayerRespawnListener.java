@@ -21,8 +21,8 @@ public class BWPlayerRespawnListener implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(BWPlayerRespawnEvent event) {
-        event.getPlayer().setSpectator(false);
-        Player player = event.getPlayer().getPlayer();
+        event.getBPlayer().setSpectator(false);
+        Player player = event.getBPlayer().getPlayer();
         player.setInvisible(false);
         player.sendMessage(Component.text("You have respawned!", NamedTextColor.YELLOW));
         player.showTitle(Title.title(Component.text("RESPAWNED!", NamedTextColor.GREEN), Component.empty(),

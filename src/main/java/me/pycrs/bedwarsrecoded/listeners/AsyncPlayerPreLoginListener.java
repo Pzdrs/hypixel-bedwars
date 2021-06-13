@@ -18,7 +18,7 @@ public class AsyncPlayerPreLoginListener implements Listener {
     @EventHandler
     public void onPreLogin(AsyncPlayerPreLoginEvent event) {
         // TODO: 4/8/2021 create the option to spectate
-        if (plugin.isGameInProgress()) {
+        if (Bedwars.isGameInProgress()) {
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
             event.kickMessage(Component.text("The game has already started.", NamedTextColor.RED));
         }

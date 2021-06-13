@@ -26,17 +26,17 @@ public class BWPlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(BWPlayerDeathEvent event) {
-        Player player = event.getPlayer().getPlayer();
-        event.getPlayer().setSpectator(true);
+        Player player = event.getBPlayer().getPlayer();
+        event.getBPlayer().setSpectator(true);
         player.teleport(plugin.getMap().getLobbySpawn());
 
         this.respawnTimer = new AtomicInteger(5);
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
             if (respawnTimer.get() == 0) {
                 bukkitTask.cancel();
-                Bukkit.getPluginManager().callEvent(new BWPlayerRespawnEvent(event.getPlayer()));
+                Bukkit.getPluginManager().callEvent(new BWPlayerRespawnEvent(event.getBPlayer()));
             } else {
-                event.getPlayer().getPlayer().showTitle(Title.title(
+                event.getBPlayer().getPlayer().showTitle(Title.title(
                         Component.text("YOU DIED!", NamedTextColor.RED),
                         Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.get() + " &eseconds!")),
                         Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));

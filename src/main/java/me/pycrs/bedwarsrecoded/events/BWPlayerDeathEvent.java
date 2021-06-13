@@ -15,7 +15,7 @@ public class BWPlayerDeathEvent extends Event {
         this.player = plugin.getBPlayer(player);
     }
 
-    public BPlayer getPlayer() {
+    public BPlayer getBPlayer() {
         return player;
     }
 

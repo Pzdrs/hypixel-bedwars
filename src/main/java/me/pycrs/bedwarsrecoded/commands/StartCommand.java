@@ -37,7 +37,7 @@ public class StartCommand implements TabExecutor {
             sender.sendMessage("A minimum of 1 player is needed to forcefully start the game.");
             return true;
         }
-        if (Utils.isLobbyCountdownInProgress(plugin) || plugin.isGameInProgress()) {
+        if (Utils.isLobbyCountdownInProgress(plugin) || Bedwars.isGameInProgress()) {
             sender.sendMessage(Component.text("The game is starting already or is already in progress.", NamedTextColor.RED));
             return true;
         } else {

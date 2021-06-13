@@ -30,7 +30,7 @@ public class PlayerQuitListener implements Listener {
         Player player = event.getPlayer();
 
         // New quit messages
-        if (plugin.isGameInProgress()) {
+        if (Bedwars.isGameInProgress()) {
             plugin.getServer().sendMessage(Component.text(player.getName(), plugin.getBPlayer(player).getTeam().getTeamColor().getColor())
                     .append(Component.text(" disconnected", NamedTextColor.GRAY)));
         } else {

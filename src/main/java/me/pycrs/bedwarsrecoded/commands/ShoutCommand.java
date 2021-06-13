@@ -35,7 +35,7 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
         // Make sure no one shouts before the game starts
-        if (!plugin.isGameInProgress()) {
+        if (!Bedwars.isGameInProgress()) {
             player.sendMessage(Component.text("You can't use /shout before the game has started.", NamedTextColor.RED));
             return true;
         }
@@ -56,7 +56,7 @@ public class ShoutCommand implements TabExecutor {
 
         plugin.getServer().sendMessage(Component
                 .text(Utils.color("&6[SHOUT]&r "))
-                .append(Utils.getTeamPrefix(BTeam.getPlayersTeam(player)))
+                .append(Utils.getTeamPrefix(BPlayer.getPlayersTeam(player)))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
         bPlayer.putOnShoutCoolDown();

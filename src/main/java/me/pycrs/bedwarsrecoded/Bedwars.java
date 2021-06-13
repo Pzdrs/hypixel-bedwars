@@ -50,10 +50,6 @@ public final class Bedwars extends JavaPlugin {
         teams = BTeam.initTeams(map.getJSONArray("teams"));
     }
 
-    public static void disable() {
-        Bedwars.getInstance().getServer().getPluginManager().disablePlugin(Bedwars.getInstance());
-    }
-
     public static Bedwars getInstance() {
         return instance;
     }

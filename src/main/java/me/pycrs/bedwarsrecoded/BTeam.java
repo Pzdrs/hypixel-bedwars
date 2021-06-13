@@ -42,7 +42,7 @@ public class BTeam {
     }
 
     public void addPlayer(Player player) {
-        players.add(new BPlayer(player));
+        players.add(new BPlayer(player, this));
         player.playerListName(Component.text(player.getName(), teamColor.getColor()));
         team.addEntry(player.getName());
     }
@@ -104,15 +104,6 @@ public class BTeam {
                 ", hasBed=" + hasBed +
                 ", spawn=" + spawn +
                 '}';
-    }
-
-    public static BTeam getPlayersTeam(Player player) {
-        for (BTeam team : Bedwars.getInstance().getTeams()) {
-            for (BPlayer teamPlayer : team.getPlayers()) {
-                if (teamPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return team;
-            }
-        }
-        return null;
     }
 
     public static List<BTeam> initTeams(JSONArray config) {
