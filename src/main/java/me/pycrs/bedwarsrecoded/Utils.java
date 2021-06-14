@@ -3,16 +3,9 @@ package me.pycrs.bedwarsrecoded;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.*;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 public class Utils {
     public static String color(String s) {
@@ -56,7 +49,7 @@ public class Utils {
         return stars >= low && stars < high;
     }
 
-    public static Component getTeamPrefix(BTeam team) {
+    public static Component getTeamPrefix(BedwarsTeam team) {
         if (team == null) return Component.text("[teamName] ");
         return Component.text("[" + team.getTeamColor().name() + "] ", team.getTeamColor().getColor());
     }

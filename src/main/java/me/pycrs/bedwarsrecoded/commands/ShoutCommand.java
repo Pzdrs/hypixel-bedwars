@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.List;
 
 public class ShoutCommand implements TabExecutor {
     private Bedwars plugin;
@@ -45,10 +46,10 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
 
-        BPlayer bPlayer = BPlayer.toBPlayer(player);
-        bPlayer.shout(Component
+        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(player);
+        bedwarsPlayer.shout(Component
                 .text(Utils.color("&6[SHOUT]&r "))
-                .append(Utils.getTeamPrefix(BPlayer.getPlayersTeam(player)))
+                .append(Utils.getTeamPrefix(BedwarsPlayer.getPlayersTeam(player)))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
         return true;

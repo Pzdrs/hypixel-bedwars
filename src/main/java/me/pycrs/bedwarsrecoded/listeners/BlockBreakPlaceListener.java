@@ -1,16 +1,18 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BPlayer;
+import me.pycrs.bedwarsrecoded.BedwarsPlayer;
 import me.pycrs.bedwarsrecoded.Bedwars;
+import me.pycrs.bedwarsrecoded.BedwarsTeam;
+import me.pycrs.bedwarsrecoded.events.BedwarsBedBreakEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +34,15 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (BPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
+        if (event.getBlock().getBlockData() instanceof Bed) {
+            for (BedwarsTeam team : plugin.getTeams())
+                if (event.getBlock().getLocation().equals(team.getBedHead()) || event.getBlock().getLocation().equals(team.getBedFoot())) {
+                    Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(team, event));
+                    return;
+                }
+        }
+
+        if (BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
             // If a spectator - just cancel and say nothing
             event.setCancelled(true);
         } else if (!placedBlocks.contains(event.getBlock())) {

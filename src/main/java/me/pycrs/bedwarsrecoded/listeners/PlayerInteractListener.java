@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.listeners;
 
-import me.pycrs.bedwarsrecoded.BTeam;
+import me.pycrs.bedwarsrecoded.BedwarsTeam;
 import me.pycrs.bedwarsrecoded.Bedwars;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -21,7 +21,7 @@ public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
-            for (BTeam team : plugin.getTeams()) {
+            for (BedwarsTeam team : plugin.getTeams()) {
                 if (team.getTeamChest().equals(event.getClickedBlock().getLocation())) {
                     if (!team.isPartOfTeam(event.getPlayer()) && !team.isEliminated()) {
                         event.getPlayer().sendMessage(

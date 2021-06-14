@@ -28,4 +28,9 @@ public enum TeamColor {
         return Component.text(WordUtils.capitalize(toString().toLowerCase()), getColor())
                 .append(Component.text(" Team"));
     }
+
+    public Component getBedDisplay() {
+        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getColor())
+                .append(Component.text(" Bed"));
+    }
 }

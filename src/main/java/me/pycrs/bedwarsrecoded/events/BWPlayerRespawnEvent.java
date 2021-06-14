@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.events;
 
-import me.pycrs.bedwarsrecoded.BPlayer;
+import me.pycrs.bedwarsrecoded.BedwarsPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.bukkit.event.Cancellable;
@@ -11,13 +11,13 @@ import org.jetbrains.annotations.NotNull;
 public class BWPlayerRespawnEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean cancelled = false;
-    private BPlayer player;
+    private BedwarsPlayer player;
 
-    public BWPlayerRespawnEvent(BPlayer player) {
+    public BWPlayerRespawnEvent(BedwarsPlayer player) {
         this.player = player;
     }
 
-    public BPlayer getBPlayer() {
+    public BedwarsPlayer getBPlayer() {
         return player;
     }
 

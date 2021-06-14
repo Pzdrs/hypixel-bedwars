@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.tasks;
 
-import me.pycrs.bedwarsrecoded.BTeam;
+import me.pycrs.bedwarsrecoded.BedwarsTeam;
 import me.pycrs.bedwarsrecoded.Bedwars;
 import me.pycrs.bedwarsrecoded.Utils;
 import net.kyori.adventure.sound.Sound;
@@ -8,7 +8,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
@@ -34,7 +33,7 @@ public class LobbyLoop extends BukkitRunnable {
         }
         if (timer.getAndDecrement() == 0) {
             this.cancel();
-            BTeam.distributePlayers();
+            BedwarsTeam.distributePlayers();
             plugin.startGame();
         }
     }

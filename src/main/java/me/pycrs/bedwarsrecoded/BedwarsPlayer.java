@@ -12,16 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class BPlayer {
+public class BedwarsPlayer {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
     private Bedwars plugin;
     private Player player;
-    private BTeam team;
+    private BedwarsTeam team;
     private boolean spectating = false;
     private int kills, finalKills, deaths, bedDestroys;
 
-    public BPlayer(Player player, BTeam team) {
+    public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
         this.player = player;
         this.team = team;
@@ -32,22 +32,22 @@ public class BPlayer {
     }
 
     public void shout(Component component) {
-        if (BPlayer.shoutCooldown.containsKey(player.getUniqueId())) {
+        if (BedwarsPlayer.shoutCooldown.containsKey(player.getUniqueId())) {
             player.sendMessage(Component.text(Utils.color("&cYou must wait &e" +
-                    BPlayer.shoutCooldown.get(player.getUniqueId()) + " &cseconds until you can use /shout again!")));
+                    BedwarsPlayer.shoutCooldown.get(player.getUniqueId()) + " &cseconds until you can use /shout again!")));
             return;
         }
         Utils.inGameBroadcast(component);
         // Take care of removing the player from cooldown and keep the time left updated
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
-            if (BPlayer.shoutCooldown.containsKey(player.getUniqueId())) {
-                int current = BPlayer.shoutCooldown.get(player.getUniqueId());
+            if (BedwarsPlayer.shoutCooldown.containsKey(player.getUniqueId())) {
+                int current = BedwarsPlayer.shoutCooldown.get(player.getUniqueId());
                 if (current == 1) {
-                    BPlayer.shoutCooldown.remove(player.getUniqueId());
+                    BedwarsPlayer.shoutCooldown.remove(player.getUniqueId());
                     bukkitTask.cancel();
-                } else BPlayer.shoutCooldown.put(player.getUniqueId(), current - 1);
+                } else BedwarsPlayer.shoutCooldown.put(player.getUniqueId(), current - 1);
 
-            } else BPlayer.shoutCooldown.put(player.getUniqueId(), plugin.getConfig().getInt("shoutCooldown"));
+            } else BedwarsPlayer.shoutCooldown.put(player.getUniqueId(), plugin.getConfig().getInt("shoutCooldown"));
         }, 0, 20);
     }
 
@@ -72,7 +72,7 @@ public class BPlayer {
         player.setFlying(spectator);
     }
 
-    public BTeam getTeam() {
+    public BedwarsTeam getTeam() {
         return team;
     }
 
@@ -88,13 +88,13 @@ public class BPlayer {
         return player;
     }
 
-    public static BPlayer toBPlayer(Player player) {
+    public static BedwarsPlayer toBPlayer(Player player) {
         return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 
-    public static BTeam getPlayersTeam(Player player) {
-        for (BTeam team : Bedwars.getInstance().getTeams()) {
-            for (BPlayer teamPlayer : team.getPlayers()) {
+    public static BedwarsTeam getPlayersTeam(Player player) {
+        for (BedwarsTeam team : Bedwars.getInstance().getTeams()) {
+            for (BedwarsPlayer teamPlayer : team.getPlayers()) {
                 if (teamPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return team;
             }
         }

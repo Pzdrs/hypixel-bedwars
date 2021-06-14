@@ -22,13 +22,13 @@ public class AsyncChatListener implements Listener {
         if (Bedwars.isGameInProgress()) {
             event.composer((source, displayName, message) -> Component
                     .text(Utils.formatStars(new Random().nextInt(1000)) + " ")
-                    .append(Utils.getTeamPrefix(BPlayer.getPlayersTeam(source)))
+                    .append(Utils.getTeamPrefix(BedwarsPlayer.getPlayersTeam(source)))
                     .append(displayName)
                     .append(Component.text(": "))
                     .append(message));
             if (!Bedwars.getMode().equals(Mode.SOLO)) {
                 event.setCancelled(true);
-                BTeam team = BPlayer.getPlayersTeam(event.getPlayer());
+                BedwarsTeam team = BedwarsPlayer.getPlayersTeam(event.getPlayer());
                 if (team != null) team.teamBroadcast(event.message());
             }
         } else {

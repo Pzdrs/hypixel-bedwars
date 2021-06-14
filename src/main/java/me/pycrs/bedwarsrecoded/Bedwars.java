@@ -19,7 +19,7 @@ public final class Bedwars extends JavaPlugin {
     private static Mode mode;
 
     private BedwarsMap map;
-    private List<BTeam> teams;
+    private List<BedwarsTeam> teams;
 
     private LobbyLoop lobbyLoop;
     private static GameLoop gameLoop;
@@ -46,7 +46,7 @@ public final class Bedwars extends JavaPlugin {
 
         // Teams setup
         Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
-        teams = BTeam.initTeams(map.getJSONArray("teams"));
+        teams = BedwarsTeam.initTeams(map.getJSONArray("teams"));
     }
 
     public static Bedwars getInstance() {
@@ -67,8 +67,8 @@ public final class Bedwars extends JavaPlugin {
         gameLoop.runTaskTimer(this, 0, 20);
     }
 
-    public List<BPlayer> getPlayers() {
-        List<BPlayer> players = new ArrayList<>();
+    public List<BedwarsPlayer> getPlayers() {
+        List<BedwarsPlayer> players = new ArrayList<>();
         teams.forEach(team -> players.addAll(team.getPlayers()));
         return players;
     }
@@ -81,7 +81,7 @@ public final class Bedwars extends JavaPlugin {
         return lobbyLoop;
     }
 
-    public List<BTeam> getTeams() {
+    public List<BedwarsTeam> getTeams() {
         return teams;
     }
 
@@ -90,14 +90,16 @@ public final class Bedwars extends JavaPlugin {
         new PlayerJoinListener(this);
         new PlayerQuitListener(this);
         new AsyncChatListener(this);
-        new BWPlayerDeathListener(this);
-        new BWPlayerRespawnListener(this);
         new AsyncPlayerPreLoginListener(this);
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryClickListener(this);
         new PlayerInteractListener(this);
         new BlockBreakPlaceListener(this);
+
+        new BWPlayerDeathListener(this);
+        new BWPlayerRespawnListener(this);
+        new BedwarsBedBreakListener(this);
 
         new ShoutCommand(this);
         new StartCommand(this);

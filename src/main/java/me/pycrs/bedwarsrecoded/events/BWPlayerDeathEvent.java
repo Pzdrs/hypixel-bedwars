@@ -1,6 +1,6 @@
 package me.pycrs.bedwarsrecoded.events;
 
-import me.pycrs.bedwarsrecoded.BPlayer;
+import me.pycrs.bedwarsrecoded.BedwarsPlayer;
 import me.pycrs.bedwarsrecoded.Bedwars;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -9,13 +9,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class BWPlayerDeathEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
-    private BPlayer player;
+    private BedwarsPlayer player;
 
     public BWPlayerDeathEvent(Bedwars plugin, Player player) {
-        this.player = BPlayer.toBPlayer(player);
+        this.player = BedwarsPlayer.toBPlayer(player);
     }
 
-    public BPlayer getBPlayer() {
+    public BedwarsPlayer getBPlayer() {
         return player;
     }
 
