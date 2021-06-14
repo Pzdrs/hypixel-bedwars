@@ -5,18 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.pycrs</groupId>
-    <artifactId>BedWarsRecoded</artifactId>
+    <artifactId>Bedwars</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>BedWarsRecoded</name>
+    <name>Bedwars</name>
 
-    <description>I tried to recode the famous Hypixel Bedwars</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>https://github.com/Pzdrs</url>
 
     <build>
         <plugins>
@@ -25,8 +23,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>

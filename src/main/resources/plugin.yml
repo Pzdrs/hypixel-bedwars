@@ -1,7 +1,7 @@
 name: BedWarsRecoded
 load: POSTWORLD
 version: ${project.version}
-main: me.pycrs.bedwarsrecoded.Bedwars
+main: me.pycrs.bedwars.Bedwars
 api-version: 1.16
 authors: [ Pycrs ]
 description: I tried to recode the famous Hypixel Bedwars
