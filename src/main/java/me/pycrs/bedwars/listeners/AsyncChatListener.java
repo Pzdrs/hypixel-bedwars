@@ -5,8 +5,10 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.BedwarsPlayer;
 import me.pycrs.bedwars.Mode;
+import me.pycrs.bedwars.Utils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,24 +24,30 @@ public class AsyncChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
+        System.out.println(event.viewers());
+
         if (Bedwars.isGameInProgress()) {
             BedwarsPlayer player = BedwarsPlayer.toBPlayer(event.getPlayer());
             if (!player.isSpectating()) {
                 if (Bedwars.getMode() == Mode.SOLO) {
                     // TODO: 6/14/2021 send message to all players in all teams
                 } else {
-                    // TODO: 6/14/2021 send message to teammates only
+                    event.setCancelled(true);
+                    player.getTeam().getPlayers().forEach(bedwarsPlayer -> {
+                        bedwarsPlayer.getPlayer().sendMessage(Component.empty()
+                                .append(event.getPlayer().displayName())
+                                .append(Component.text(": ", NamedTextColor.WHITE))
+                                .append(event.message()));
+                    });
                 }
             } else {
                 // TODO: 6/14/2021 send message to spectators and dead players
             }
         } else {
-            event.renderer(new ChatRenderer() {
-                @Override
-                public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
-                    return Component.text("curak");
-                }
-            });
+            event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
+                    .append(sourceDisplayName)
+                    .append(Component.text(": ", NamedTextColor.WHITE))
+                    .append(message));
         }
     }
 }

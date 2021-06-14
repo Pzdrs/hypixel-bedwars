@@ -29,6 +29,7 @@ public class DisableFeaturesListener implements Listener {
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         event.setCancelled(true);
+        event.getEntity().setFoodLevel(20);
     }
 
     @EventHandler

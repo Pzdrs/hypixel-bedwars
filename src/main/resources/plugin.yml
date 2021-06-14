@@ -1,4 +1,4 @@
-name: BedWarsRecoded
+name: Bedwars
 load: POSTWORLD
 version: ${project.version}
 main: me.pycrs.bedwars.Bedwars
