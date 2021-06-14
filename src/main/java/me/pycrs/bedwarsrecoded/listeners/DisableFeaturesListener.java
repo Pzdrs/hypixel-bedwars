@@ -13,6 +13,7 @@ public class DisableFeaturesListener implements Listener {
 
     public DisableFeaturesListener(Bedwars plugin) {
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
