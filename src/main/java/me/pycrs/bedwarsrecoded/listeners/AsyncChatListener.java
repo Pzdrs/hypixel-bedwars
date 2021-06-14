@@ -18,25 +18,19 @@ public class AsyncChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
-        // TODO: 4/8/2021 spectator chat for spectators and dead players
         if (Bedwars.isGameInProgress()) {
-            event.composer((source, displayName, message) -> Component
-                    .text(Utils.formatStars(new Random().nextInt(1000)) + " ")
-                    .append(Utils.getTeamPrefix(BedwarsPlayer.getPlayersTeam(source)))
-                    .append(displayName)
-                    .append(Component.text(": "))
-                    .append(message));
-            if (!Bedwars.getMode().equals(Mode.SOLO)) {
-                event.setCancelled(true);
-                BedwarsTeam team = BedwarsPlayer.getPlayersTeam(event.getPlayer());
-                if (team != null) team.teamBroadcast(event.message());
+            BedwarsPlayer player = BedwarsPlayer.toBPlayer(event.getPlayer());
+            if (!player.isSpectating()) {
+                if (Bedwars.getMode() == Mode.SOLO) {
+                    // TODO: 6/14/2021 send message to all players in all teams
+                } else {
+                    // TODO: 6/14/2021 send message to teammates only
+                }
+            } else {
+                // TODO: 6/14/2021 send message to spectators and dead players
             }
         } else {
-            event.composer((source, displayName, message) -> Component
-                    .text(Component.empty().content())
-                    .append(displayName)
-                    .append(Component.text(": "))
-                    .append(message));
+            // TODO: 6/14/2021 just format it a bit and continue
         }
     }
 }

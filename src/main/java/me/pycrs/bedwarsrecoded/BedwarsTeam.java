@@ -74,6 +74,7 @@ public class BedwarsTeam {
                 .append(teamColor.getBedDisplay())
                 .append(Component.text(" was destroyed by ", NamedTextColor.GRAY))
                 .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getColor()))
+                .append(Component.text("!", NamedTextColor.GRAY))
                 .append(Component.newline()));
     }
 
