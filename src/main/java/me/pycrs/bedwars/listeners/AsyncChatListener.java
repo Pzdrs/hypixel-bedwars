@@ -30,20 +30,28 @@ public class AsyncChatListener implements Listener {
             BedwarsPlayer player = BedwarsPlayer.toBPlayer(event.getPlayer());
             if (!player.isSpectating()) {
                 if (Bedwars.getMode() == Mode.SOLO) {
-                    // TODO: 6/14/2021 send message to all players in all teams
+                    // Send to everyone
+                    plugin.getServer().sendMessage(Component.empty()
+                            .append(event.getPlayer().displayName())
+                            .append(Component.text(": ", NamedTextColor.WHITE))
+                            .append(event.message()));
                 } else {
+                    // Send to team members and spectators
                     event.setCancelled(true);
-                    player.getTeam().getPlayers().forEach(bedwarsPlayer -> {
-                        bedwarsPlayer.getPlayer().sendMessage(Component.empty()
-                                .append(event.getPlayer().displayName())
-                                .append(Component.text(": ", NamedTextColor.WHITE))
-                                .append(event.message()));
+                    plugin.getPlayers().forEach(bedwarsPlayer -> {
+                        if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(player))
+                            bedwarsPlayer.getPlayer().sendMessage(Component.empty()
+                                    .append(event.getPlayer().displayName())
+                                    .append(Component.text(": ", NamedTextColor.WHITE))
+                                    .append(event.message()));
                     });
                 }
             } else {
+                // Send to all spectators (include players that are respawning)
                 // TODO: 6/14/2021 send message to spectators and dead players
             }
         } else {
+            // Send to everyone
             event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
                     .append(sourceDisplayName)
                     .append(Component.text(": ", NamedTextColor.WHITE))
