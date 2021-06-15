@@ -8,8 +8,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 public class BedwarsPlayer {
@@ -20,6 +29,7 @@ public class BedwarsPlayer {
     private BedwarsTeam team;
     private boolean spectating = false;
     private int kills, finalKills, deaths, bedDestroys;
+    private int level = new Random().nextInt(1000);
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
@@ -29,6 +39,11 @@ public class BedwarsPlayer {
         this.finalKills = 0;
         this.deaths = 0;
         this.bedDestroys = 0;
+
+        String apiKey = plugin.getConfig().getString("hypixelApiKey");
+        if (apiKey != null) {
+            // TODO: 6/15/2021 fetch player's bedwars experience from api.hypixel.net
+        }
     }
 
     public void shout(Component component) {

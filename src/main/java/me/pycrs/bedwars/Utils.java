@@ -64,7 +64,7 @@ public class Utils {
         }
         return builder.toString();
     }
-    
+
     public static void inGameBroadcast(Component component) {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
@@ -99,5 +99,20 @@ public class Utils {
         world.setGameRule(GameRule.DISABLE_RAIDS, false);
         world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+    }
+
+    private static double getBedWarsLevel(double exp) {
+        int level = 100 * ((int) (exp / 487000));
+        exp = exp % 487000;
+        if (exp < 500) return level + exp / 500;
+        level++;
+        if (exp < 1500) return level + (exp - 500) / 1000;
+        level++;
+        if (exp < 3500) return level + (exp - 1500) / 2000;
+        level++;
+        if (exp < 7000) return level + (exp - 3500) / 3500;
+        level++;
+        exp -= 7000;
+        return level + exp / 5000;
     }
 }
