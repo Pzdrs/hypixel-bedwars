@@ -29,8 +29,10 @@ public class AsyncChatListener implements Listener {
         if (Bedwars.isGameInProgress()) {
             BedwarsPlayer player = BedwarsPlayer.toBPlayer(event.getPlayer());
             if (!player.isSpectating()) {
+                // TODO: 6/16/2021 add bw level 
                 if (Bedwars.getMode() == Mode.SOLO) {
                     // Send to everyone
+                    event.setCancelled(true);
                     plugin.getServer().sendMessage(Component.empty()
                             .append(event.getPlayer().displayName())
                             .append(Component.text(": ", NamedTextColor.WHITE))
@@ -48,7 +50,13 @@ public class AsyncChatListener implements Listener {
                 }
             } else {
                 // Send to all spectators (include players that are respawning)
-                // TODO: 6/14/2021 send message to spectators and dead players
+                event.setCancelled(true);
+                plugin.getPlayers().stream()
+                        .filter(BedwarsPlayer::isSpectating)
+                        .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
+                        .append(event.getPlayer().displayName())
+                        .append(Component.text(": ", NamedTextColor.WHITE))
+                        .append(event.message().color(NamedTextColor.WHITE))));
             }
         } else {
             // Send to everyone
