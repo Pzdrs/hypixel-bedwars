@@ -7,11 +7,11 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class BWPlayerDeathEvent extends Event {
+public class BedwarsPlayerDeathEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private BedwarsPlayer player;
 
-    public BWPlayerDeathEvent(Bedwars plugin, Player player) {
+    public BedwarsPlayerDeathEvent(Bedwars plugin, Player player) {
         this.player = BedwarsPlayer.toBPlayer(player);
     }
 

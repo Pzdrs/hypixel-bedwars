@@ -80,6 +80,10 @@ public class BedwarsTeam {
                 .append(Component.newline()));
     }
 
+    public boolean hasBed() {
+        return hasBed;
+    }
+
     public Location getSpawn() {
         return spawn.clone().add(-.5, 0, .5);
     }

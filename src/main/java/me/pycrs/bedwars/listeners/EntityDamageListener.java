@@ -1,16 +1,16 @@
 package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.events.BWPlayerDeathEvent;
+import me.pycrs.bedwars.BedwarsPlayer;
+import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
+import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class EntityDamageListener implements Listener {
     private Bedwars plugin;
@@ -23,9 +23,12 @@ public class EntityDamageListener implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
-            if (((Player) event.getEntity()).getHealth() - event.getFinalDamage() <= 0) {
+            Player player = (Player) event.getEntity();
+            Player killer = (Player) event.getDamager();
+            if (player.getHealth() - event.getFinalDamage() <= 0) {
                 event.setCancelled(true);
-                Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, (Player) event.getEntity()));
+                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(plugin, player));
+                Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer)));
             }
         }
     }
@@ -47,6 +50,6 @@ public class EntityDamageListener implements Listener {
 
     private void death(EntityDamageEvent event, Player player) {
         event.setCancelled(true);
-        Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, player));
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(plugin, player));
     }
 }
