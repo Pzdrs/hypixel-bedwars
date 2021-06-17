@@ -11,20 +11,21 @@ import org.jetbrains.annotations.NotNull;
 public class BedwarsPlayerDeathEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private BedwarsPlayer player;
-    private boolean killedByPlayer = false;
+    private DeathCause cause;
 
-    public BedwarsPlayerDeathEvent(Player player) {
+    public BedwarsPlayerDeathEvent(Player player, DeathCause cause) {
         this.player = BedwarsPlayer.toBPlayer(player);
+        this.cause = cause;
     }
 
-    public BedwarsPlayerDeathEvent(Player player, BedwarsPlayerKillEvent killEvent) {
+    public BedwarsPlayerDeathEvent(Player player, DeathCause cause, BedwarsPlayerKillEvent killEvent) {
         this.player = BedwarsPlayer.toBPlayer(player);
-        this.killedByPlayer = true;
+        this.cause = cause;
         Bukkit.getServer().getPluginManager().callEvent(killEvent);
     }
 
-    public boolean wasKilledByPlayer() {
-        return killedByPlayer;
+    public DeathCause getCause() {
+        return cause;
     }
 
     public BedwarsPlayer getBPlayer() {

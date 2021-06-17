@@ -4,6 +4,7 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.BedwarsPlayer;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
+import me.pycrs.bedwars.events.DeathCause;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -28,7 +29,7 @@ public class EntityDamageListener implements Listener {
             if (player.getHealth() - event.getFinalDamage() <= 0) {
                 event.setCancelled(true);
                 Bukkit.getPluginManager().callEvent(
-                        new BedwarsPlayerDeathEvent(player, new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer))));
+                        new BedwarsPlayerDeathEvent(player, DeathCause.PLAYER_ATTACK, new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer))));
             }
         }
     }
@@ -41,15 +42,14 @@ public class EntityDamageListener implements Listener {
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
                 player.setNoDamageTicks(player.getMaximumNoDamageTicks());
                 player.setLastDamage(Double.MAX_VALUE);
-                death(event, player);
+                event.setCancelled(true);
+                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, DeathCause.VOID));
             }
             // "replace" the default PlayerDeathEvent for my custom one
-            else if (player.getHealth() - event.getFinalDamage() <= 0) death(event, player);
+            else if (player.getHealth() - event.getFinalDamage() <= 0) {
+                event.setCancelled(true);
+                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, DeathCause.OTHER));
+            }
         }
-    }
-
-    private void death(EntityDamageEvent event, Player player) {
-        event.setCancelled(true);
-        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player));
     }
 }

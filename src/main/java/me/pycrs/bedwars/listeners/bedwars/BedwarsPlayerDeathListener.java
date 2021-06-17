@@ -30,9 +30,6 @@ public class BedwarsPlayerDeathListener implements Listener {
         player.teleport(plugin.getMap().getLobbySpawn());
         if (event.getBPlayer().getTeam().hasBed()) {
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerRespawnEvent(event.getBPlayer()));
-            if (!event.wasKilledByPlayer()) {
-                // TODO: 6/17/2021 non player kill message
-            }
         } else {
             // TODO: 6/17/2021 game over and all that shit
         }
