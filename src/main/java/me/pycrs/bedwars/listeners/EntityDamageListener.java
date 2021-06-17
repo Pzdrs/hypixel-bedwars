@@ -6,8 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class EntityDamageListener implements Listener {
     private Bedwars plugin;
@@ -15,6 +18,16 @@ public class EntityDamageListener implements Listener {
     public EntityDamageListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player) {
+            if (((Player) event.getEntity()).getHealth() - event.getFinalDamage() <= 0) {
+                event.setCancelled(true);
+                Bukkit.getPluginManager().callEvent(new BWPlayerDeathEvent(plugin, (Player) event.getEntity()));
+            }
+        }
     }
 
     @EventHandler

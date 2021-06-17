@@ -29,6 +29,7 @@ public class BedwarsPlayerDeathListener implements Listener {
         Player player = event.getBPlayer().getPlayer();
         event.getBPlayer().setSpectator(true);
         player.teleport(plugin.getMap().getLobbySpawn());
+        // TODO: 6/17/2021 check if doesnt have a bed
 
         this.respawnTimer = new AtomicInteger(5);
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
