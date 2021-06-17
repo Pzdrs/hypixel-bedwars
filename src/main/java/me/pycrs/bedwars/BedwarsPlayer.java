@@ -87,6 +87,30 @@ public class BedwarsPlayer {
         this.beds = beds;
     }
 
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
+    public int getFinalKills() {
+        return finalKills;
+    }
+
+    public void setFinalKills(int finalKills) {
+        this.finalKills = finalKills;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
     public BedwarsTeam getTeam() {
         return team;
     }

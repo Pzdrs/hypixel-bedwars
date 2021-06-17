@@ -27,8 +27,8 @@ public class EntityDamageListener implements Listener {
             Player killer = (Player) event.getDamager();
             if (player.getHealth() - event.getFinalDamage() <= 0) {
                 event.setCancelled(true);
-                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(plugin, player));
-                Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer)));
+                Bukkit.getPluginManager().callEvent(
+                        new BedwarsPlayerDeathEvent(player, new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer))));
             }
         }
     }
@@ -50,6 +50,6 @@ public class EntityDamageListener implements Listener {
 
     private void death(EntityDamageEvent event, Player player) {
         event.setCancelled(true);
-        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(plugin, player));
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player));
     }
 }

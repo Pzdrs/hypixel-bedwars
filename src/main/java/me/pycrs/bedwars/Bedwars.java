@@ -4,6 +4,7 @@ import me.pycrs.bedwars.commands.ShoutCommand;
 import me.pycrs.bedwars.commands.StartCommand;
 import me.pycrs.bedwars.listeners.*;
 import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerDeathListener;
+import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerKillListener;
 import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerRespawnListener;
 import me.pycrs.bedwars.listeners.bedwars.BedwarsBedBreakListener;
 import me.pycrs.bedwars.tasks.GameLoop;
@@ -102,6 +103,7 @@ public final class Bedwars extends JavaPlugin {
 
         new BedwarsPlayerDeathListener(this);
         new BedwarsPlayerRespawnListener(this);
+        new BedwarsPlayerKillListener(this);
         new BedwarsBedBreakListener(this);
 
         new ShoutCommand(this);

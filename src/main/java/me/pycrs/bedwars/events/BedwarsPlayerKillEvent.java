@@ -22,6 +22,10 @@ public class BedwarsPlayerKillEvent extends Event {
         return killer;
     }
 
+    public boolean isFinalKill() {
+        return !player.getTeam().hasBed();
+    }
+
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;

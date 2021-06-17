@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -71,6 +72,8 @@ public class BedwarsTeam {
         if (!hasBed) return;
         hasBed = false;
         player.setBeds(player.getBeds() + 1);
+        players.forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().showTitle(
+                Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("You will no longer respawn!"))));
         Utils.inGameBroadcast(Component.newline()
                 .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
                 .append(teamColor.getBedDisplay())

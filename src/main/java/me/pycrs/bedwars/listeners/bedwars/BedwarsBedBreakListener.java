@@ -20,6 +20,10 @@ public class BedwarsBedBreakListener implements Listener {
         if (event.getTeam().isPartOfTeam(event.getBedwarsPlayer())) {
             event.getBedwarsPlayer().getPlayer().sendMessage(Component.text("You can't destroy your own bed!", NamedTextColor.RED));
             event.setCancelled(true);
-        } else event.getTeam().destroyBed(event.getBedwarsPlayer());
+        } else {
+            // FIXME: 6/17/2021 for debugging and keeping the map in decent state the bed itself doesnt break
+            event.setCancelled(true);
+            event.getTeam().destroyBed(event.getBedwarsPlayer());
+        }
     }
 }
