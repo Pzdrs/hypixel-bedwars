@@ -8,14 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -28,7 +20,7 @@ public class BedwarsPlayer {
     private Player player;
     private BedwarsTeam team;
     private boolean spectating = false;
-    private int kills, finalKills, deaths, bedDestroys;
+    private int kills, finalKills, deaths, beds;
     private int level = new Random().nextInt(1000);
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
@@ -38,7 +30,7 @@ public class BedwarsPlayer {
         this.kills = 0;
         this.finalKills = 0;
         this.deaths = 0;
-        this.bedDestroys = 0;
+        this.beds = 0;
 
         String apiKey = plugin.getConfig().getString("hypixelApiKey");
         if (apiKey != null) {
@@ -85,6 +77,14 @@ public class BedwarsPlayer {
         player.setInvulnerable(spectator);
         player.setAllowFlight(spectator);
         player.setFlying(spectator);
+    }
+
+    public int getBeds() {
+        return beds;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
     }
 
     public BedwarsTeam getTeam() {

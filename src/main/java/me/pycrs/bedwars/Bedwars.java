@@ -3,6 +3,9 @@ package me.pycrs.bedwars;
 import me.pycrs.bedwars.commands.ShoutCommand;
 import me.pycrs.bedwars.commands.StartCommand;
 import me.pycrs.bedwars.listeners.*;
+import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerDeathListener;
+import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerRespawnListener;
+import me.pycrs.bedwars.listeners.bedwars.BedwarsBedBreakListener;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import org.bukkit.Bukkit;
@@ -97,8 +100,8 @@ public final class Bedwars extends JavaPlugin {
         new PlayerInteractListener(this);
         new BlockBreakPlaceListener(this);
 
-        new BWPlayerDeathListener(this);
-        new BWPlayerRespawnListener(this);
+        new BedwarsPlayerDeathListener(this);
+        new BedwarsPlayerRespawnListener(this);
         new BedwarsBedBreakListener(this);
 
         new ShoutCommand(this);

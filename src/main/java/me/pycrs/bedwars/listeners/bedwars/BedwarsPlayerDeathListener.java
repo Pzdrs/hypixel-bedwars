@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.listeners;
+package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Utils;
@@ -15,11 +15,11 @@ import org.bukkit.event.Listener;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BWPlayerDeathListener implements Listener {
+public class BedwarsPlayerDeathListener implements Listener {
     private Bedwars plugin;
     private AtomicInteger respawnTimer;
 
-    public BWPlayerDeathListener(Bedwars plugin) {
+    public BedwarsPlayerDeathListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

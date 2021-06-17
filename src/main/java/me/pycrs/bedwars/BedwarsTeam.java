@@ -68,7 +68,9 @@ public class BedwarsTeam {
     }
 
     public void destroyBed(BedwarsPlayer player) {
+        if (!hasBed) return;
         hasBed = false;
+        player.setBeds(player.getBeds() + 1);
         Utils.inGameBroadcast(Component.newline()
                 .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
                 .append(teamColor.getBedDisplay())

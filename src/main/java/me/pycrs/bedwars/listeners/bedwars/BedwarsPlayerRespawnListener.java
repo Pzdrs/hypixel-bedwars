@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.listeners;
+package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.events.BWPlayerRespawnEvent;
@@ -11,10 +11,10 @@ import org.bukkit.event.Listener;
 
 import java.time.Duration;
 
-public class BWPlayerRespawnListener implements Listener {
+public class BedwarsPlayerRespawnListener implements Listener {
     private Bedwars plugin;
 
-    public BWPlayerRespawnListener(Bedwars plugin) {
+    public BedwarsPlayerRespawnListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }

@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.listeners;
+package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
