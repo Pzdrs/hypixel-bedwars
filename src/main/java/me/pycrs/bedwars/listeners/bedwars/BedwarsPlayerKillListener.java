@@ -2,6 +2,7 @@ package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Utils;
+import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -21,7 +22,7 @@ public class BedwarsPlayerKillListener implements Listener {
     @EventHandler
     public void onPlayerKill(BedwarsPlayerKillEvent event) {
         Component killMessage = event.getPlayer().getPlayer().displayName().color(event.getPlayer().getTeam().getTeamColor().getColor())
-                .append(Component.text(" was killed by ", NamedTextColor.GRAY))
+                .append(BedwarsPlayerDeathEvent.DeathCause.PLAYER_ATTACK.getRandomMessage())
                 .append(event.getKiller().getPlayer().displayName().color(event.getKiller().getTeam().getTeamColor().getColor()))
                 .append(Component.text(".", NamedTextColor.GRAY));
         if (event.isFinalKill()) {

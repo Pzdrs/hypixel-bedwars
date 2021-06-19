@@ -6,6 +6,8 @@ import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,9 +31,10 @@ public class BedwarsPlayerDeathListener implements Listener {
         event.getBPlayer().setSpectator(true);
         player.teleport(plugin.getMap().getLobbySpawn());
         if (event.getBPlayer().getTeam().hasBed()) {
+            Utils.inGameBroadcast(event.getMessage());
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerRespawnEvent(event.getBPlayer()));
         } else {
-            // TODO: 6/17/2021 game over and all that shit
+            Utils.inGameBroadcast(event.getMessage().append(Component.text(" FINAL KILL!", Style.style(NamedTextColor.AQUA, TextDecoration.BOLD))));
         }
     }
 }

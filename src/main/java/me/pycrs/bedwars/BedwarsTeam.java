@@ -72,15 +72,26 @@ public class BedwarsTeam {
         if (!hasBed) return;
         hasBed = false;
         player.setBeds(player.getBeds() + 1);
-        players.forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().showTitle(
-                Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("You will no longer respawn!"))));
-        Utils.inGameBroadcast(Component.newline()
-                .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
-                .append(teamColor.getBedDisplay())
-                .append(Component.text(" was destroyed by ", NamedTextColor.GRAY))
-                .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getColor()))
-                .append(Component.text("!", NamedTextColor.GRAY))
-                .append(Component.newline()));
+        Bedwars.getInstance().getPlayers().forEach(bedwarsPlayer -> {
+            if (isPartOfTeam(bedwarsPlayer)) {
+                bedwarsPlayer.getPlayer().showTitle(
+                        Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("You will no longer respawn!")));
+                bedwarsPlayer.getPlayer().sendMessage(Component.newline()
+                        .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
+                        .append(Component.text("Your bed was destroyed by ", NamedTextColor.GRAY))
+                        .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getColor()))
+                        .append(Component.text("!", NamedTextColor.GRAY))
+                        .append(Component.newline()));
+            } else {
+                bedwarsPlayer.getPlayer().sendMessage(Component.newline()
+                        .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
+                        .append(teamColor.getBedDisplay())
+                        .append(Component.text(" was destroyed by ", NamedTextColor.GRAY))
+                        .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getColor()))
+                        .append(Component.text("!", NamedTextColor.GRAY))
+                        .append(Component.newline()));
+            }
+        });
     }
 
     public boolean hasBed() {

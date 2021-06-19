@@ -4,7 +4,6 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.BedwarsPlayer;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
-import me.pycrs.bedwars.events.DeathCause;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -29,7 +28,7 @@ public class EntityDamageListener implements Listener {
             if (player.getHealth() - event.getFinalDamage() <= 0) {
                 event.setCancelled(true);
                 Bukkit.getPluginManager().callEvent(
-                        new BedwarsPlayerDeathEvent(player, DeathCause.PLAYER_ATTACK, new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer))));
+                        new BedwarsPlayerDeathEvent(player, BedwarsPlayerDeathEvent.DeathCause.PLAYER_ATTACK, new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer))));
             }
         }
     }
@@ -43,12 +42,13 @@ public class EntityDamageListener implements Listener {
                 player.setNoDamageTicks(player.getMaximumNoDamageTicks());
                 player.setLastDamage(Double.MAX_VALUE);
                 event.setCancelled(true);
-                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, DeathCause.VOID));
+                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, BedwarsPlayerDeathEvent.DeathCause.VOID));
             }
             // "replace" the default PlayerDeathEvent for my custom one
             else if (player.getHealth() - event.getFinalDamage() <= 0) {
+                // TODO: 6/19/2021 figure out what kind of damage and pass it to the death event
                 event.setCancelled(true);
-                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, DeathCause.OTHER));
+                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, BedwarsPlayerDeathEvent.DeathCause.OTHER));
             }
         }
     }
