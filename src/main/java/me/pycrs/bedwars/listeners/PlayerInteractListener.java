@@ -6,6 +6,7 @@ import me.pycrs.bedwars.Bedwars;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -26,15 +27,19 @@ public class PlayerInteractListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
-            for (BedwarsTeam team : plugin.getTeams()) {
-                if (team.getTeamChest().equals(event.getClickedBlock().getLocation())) {
-                    if (!team.isPartOfTeam(event.getPlayer()) && !team.isEliminated()) {
-                        event.getPlayer().sendMessage(
-                                Component.text("You cannot open this Chest as the ", NamedTextColor.RED)
-                                        .append(team.getTeamColor().getDisplay())
-                                        .append(Component.text(" has not been eliminated!", NamedTextColor.RED)));
-                        event.setCancelled(true);
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getClickedBlock().getBlockData() instanceof Bed) {
+                event.setCancelled(true);
+            } else if (event.getClickedBlock().getType() == Material.CHEST) {
+                for (BedwarsTeam team : plugin.getTeams()) {
+                    if (team.getTeamChest().equals(event.getClickedBlock().getLocation())) {
+                        if (!team.isPartOfTeam(event.getPlayer()) && !team.isEliminated()) {
+                            event.getPlayer().sendMessage(
+                                    Component.text("You cannot open this Chest as the ", NamedTextColor.RED)
+                                            .append(team.getTeamColor().getDisplay())
+                                            .append(Component.text(" has not been eliminated!", NamedTextColor.RED)));
+                            event.setCancelled(true);
+                        }
                     }
                 }
             }

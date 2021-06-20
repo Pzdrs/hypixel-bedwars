@@ -54,9 +54,10 @@ public class EntityDamageListener implements Listener {
             if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) {
                 player.setNoDamageTicks(player.getMaximumNoDamageTicks());
                 player.setLastDamage(Double.MAX_VALUE);
+                player.setLastDamageCause(event);
                 event.setCancelled(true);
                 Bukkit.getServer().getPluginManager().callEvent(new PlayerDeathEvent(player, new ArrayList<>(), 0,
-                        player.displayName().append(Component.text(" fell into the void."))));
+                        player.displayName().append(Component.text(" fell into the void"))));
             } else if (player.getHealth() - event.getFinalDamage() <= 0) {
                 // TODO: 6/20/2021 somehow cancel the hurt sound 
             }

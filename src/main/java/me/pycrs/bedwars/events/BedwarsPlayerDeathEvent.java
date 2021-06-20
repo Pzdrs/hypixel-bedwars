@@ -2,7 +2,6 @@ package me.pycrs.bedwars.events;
 
 import me.pycrs.bedwars.BedwarsPlayer;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -14,8 +13,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.Random;
-import java.util.function.Consumer;
 
 public class BedwarsPlayerDeathEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
@@ -34,11 +31,10 @@ public class BedwarsPlayerDeathEvent extends Event {
                 .append(Component.text(".", NamedTextColor.GRAY));
     }
 
-    // TODO: 6/20/2021 account for different kinds of deaths, void, fall, etc.
     public BedwarsPlayerDeathEvent(Player player, Player killer) {
         this.player = BedwarsPlayer.toBPlayer(player);
         this.killer = BedwarsPlayer.toBPlayer(killer);
-        this.message = Component.text("{player} was killed by {killer}.", NamedTextColor.GRAY)
+        this.message = createMessage(Objects.requireNonNull(player.getLastDamageCause()))
                 .replaceText(TextReplacementConfig.builder().matchLiteral("{player}")
                         .replacement(player.displayName().color(this.player.getTeam().getTeamColor().getColor())).build())
                 .replaceText(TextReplacementConfig.builder().matchLiteral("{killer}")
@@ -46,11 +42,24 @@ public class BedwarsPlayerDeathEvent extends Event {
         Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer)));
     }
 
+    private Component createMessage(EntityDamageEvent event) {
+        switch (event.getCause()) {
+            case PROJECTILE:
+                return Component.text("{player} was shot by {killer}.", NamedTextColor.GRAY);
+            case VOID:
+                return Component.text("{player} was knocked into the void by {killer}.", NamedTextColor.GRAY);
+            case FALL:
+                return Component.text("{player} hit the ground too hard whilst trying to escape {killer}.", NamedTextColor.GRAY);
+            default:
+                return Component.text("{player} was killed by {killer}.", NamedTextColor.GRAY);
+        }
+    }
+
     public BedwarsPlayer getBPlayer() {
         return player;
     }
 
-    public Component getMessage() {
+    public Component createMessage() {
         return message;
     }
 
