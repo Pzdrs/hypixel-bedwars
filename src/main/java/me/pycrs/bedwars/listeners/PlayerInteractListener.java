@@ -1,5 +1,6 @@
 package me.pycrs.bedwars.listeners;
 
+import me.pycrs.bedwars.BedwarsPlayer;
 import me.pycrs.bedwars.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
 import net.kyori.adventure.text.Component;
@@ -20,6 +21,11 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+        // Cancel all spectator interaction
+        if (BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
+            event.setCancelled(true);
+            return;
+        }
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
             for (BedwarsTeam team : plugin.getTeams()) {
                 if (team.getTeamChest().equals(event.getClickedBlock().getLocation())) {

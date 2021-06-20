@@ -28,23 +28,21 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        // cant place blocks inside base or near generators or above y256
+        // TODO: 6/20/2021 cant place blocks inside base or near generators or above y256
         placedBlocks.add(event.getBlock());
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (event.getBlock().getBlockData() instanceof Bed) {
+        if (BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
+            // If a spectator - just cancel and say nothing
+            event.setCancelled(true);
+        } else if (event.getBlock().getBlockData() instanceof Bed) {
             for (BedwarsTeam team : plugin.getTeams())
                 if (event.getBlock().getLocation().equals(team.getBedHead()) || event.getBlock().getLocation().equals(team.getBedFoot())) {
                     Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(team, event));
                     return;
                 }
-        }
-
-        if (BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
-            // If a spectator - just cancel and say nothing
-            event.setCancelled(true);
         } else if (!placedBlocks.contains(event.getBlock())) {
             // If just a general block - long message
             event.getPlayer().sendMessage(Component.text("You can only break blocks placed by a player!", NamedTextColor.RED));

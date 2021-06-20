@@ -34,6 +34,7 @@ public class BedwarsPlayerDeathEvent extends Event {
                 .append(Component.text(".", NamedTextColor.GRAY));
     }
 
+    // TODO: 6/20/2021 account for different kinds of deaths, void, fall, etc.
     public BedwarsPlayerDeathEvent(Player player, Player killer) {
         this.player = BedwarsPlayer.toBPlayer(player);
         this.killer = BedwarsPlayer.toBPlayer(killer);

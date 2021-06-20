@@ -6,6 +6,7 @@ import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,12 +30,19 @@ public class EntityDamageListener implements Listener {
     public void onPlayerAttack(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
             Player player = (Player) event.getEntity();
-            Player killer = (Player) event.getDamager();
-            if (taggedPlayers.containsKey(player.getUniqueId()))
+            Player damager = (Player) event.getDamager();
+            // Prevent spectators from punching people
+            if (BedwarsPlayer.toBPlayer(damager).isSpectating()) {
+                event.setCancelled(true);
+                return;
+            }
+
+            if (taggedPlayers.containsKey(player.getUniqueId())) {
                 Bukkit.getScheduler().cancelTask(taggedPlayers.get(player.getUniqueId()).getValue());
+            }
             int tid = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
                     taggedPlayers.remove(player.getUniqueId()), (long) (plugin.getConfig().getDouble("playerTagPeriod") * 20));
-            taggedPlayers.put(player.getUniqueId(), new AbstractMap.SimpleEntry<>(killer.getUniqueId(), tid));
+            taggedPlayers.put(player.getUniqueId(), new AbstractMap.SimpleEntry<>(damager.getUniqueId(), tid));
         }
     }
 
@@ -47,9 +55,10 @@ public class EntityDamageListener implements Listener {
                 player.setNoDamageTicks(player.getMaximumNoDamageTicks());
                 player.setLastDamage(Double.MAX_VALUE);
                 event.setCancelled(true);
-
                 Bukkit.getServer().getPluginManager().callEvent(new PlayerDeathEvent(player, new ArrayList<>(), 0,
                         player.displayName().append(Component.text(" fell into the void."))));
+            } else if (player.getHealth() - event.getFinalDamage() <= 0) {
+                // TODO: 6/20/2021 somehow cancel the hurt sound 
             }
         }
     }
