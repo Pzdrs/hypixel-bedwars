@@ -132,6 +132,21 @@ public class BedwarsPlayer {
         return player;
     }
 
+    @Override
+    public String toString() {
+        return "BedwarsPlayer{" +
+                "plugin=" + plugin +
+                ", player=" + player +
+                ", team=" + team +
+                ", spectating=" + spectating +
+                ", kills=" + kills +
+                ", finalKills=" + finalKills +
+                ", deaths=" + deaths +
+                ", beds=" + beds +
+                ", level=" + level +
+                '}';
+    }
+
     public static BedwarsPlayer toBPlayer(Player player) {
         return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }

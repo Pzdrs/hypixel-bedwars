@@ -20,6 +20,10 @@ public class BedwarsPlayerDeathEvent extends Event {
     private BedwarsPlayer player, killer;
     private Component message;
 
+    public BedwarsPlayerDeathEvent(Player player) {
+        this.player = BedwarsPlayer.toBPlayer(player);
+    }
+
     public BedwarsPlayerDeathEvent(PlayerDeathEvent event) {
         this.player = BedwarsPlayer.toBPlayer(event.getEntity());
         this.message = Component.empty()
@@ -59,7 +63,7 @@ public class BedwarsPlayerDeathEvent extends Event {
         return player;
     }
 
-    public Component createMessage() {
+    public Component getMessage() {
         return message;
     }
 

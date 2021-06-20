@@ -15,12 +15,13 @@ public class BedwarsPlayerKillListener implements Listener {
 
     @EventHandler
     public void onPlayerKill(BedwarsPlayerKillEvent event) {
-        // TODO: 6/19/2021 remove from team
         if (event.isFinalKill()) {
             event.getBKiller().setFinalKills(event.getBKiller().getFinalKills() + 1);
+            event.getBKiller().setDeaths(event.getBKiller().getDeaths() + 1);
             event.getBPlayer().getTeam().getPlayers().remove(event.getBPlayer());
         } else {
             event.getBKiller().setKills(event.getBKiller().getKills() + 1);
+            event.getBKiller().setDeaths(event.getBKiller().getDeaths() + 1);
         }
     }
 }

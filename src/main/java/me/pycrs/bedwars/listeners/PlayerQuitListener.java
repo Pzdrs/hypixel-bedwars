@@ -26,17 +26,14 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        // Get rid of the default join message
-        event.quitMessage(null);
-
         Player player = event.getPlayer();
 
         // New quit messages
         if (Bedwars.isGameInProgress()) {
-            plugin.getServer().sendMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
+            event.quitMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
                     .append(Component.text(" disconnected", NamedTextColor.GRAY)));
         } else {
-            plugin.getServer().sendMessage(player.displayName()
+            event.quitMessage(player.displayName()
                     .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
         }
 

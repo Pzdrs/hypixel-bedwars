@@ -56,16 +56,7 @@ public class AsyncChatListener implements Listener {
                                     .append(event.message()));
                     });
                 }
-            } /*else {
-                // Send to all spectators (include players that are respawning)
-                event.setCancelled(true);
-                plugin.getPlayers().stream()
-                        .filter(BedwarsPlayer::isSpectating)
-                        .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
-                                .append(event.getPlayer().displayName())
-                                .append(Component.text(": ", NamedTextColor.WHITE))
-                                .append(event.message().color(NamedTextColor.WHITE))));
-            }*/
+            }
         } else {
             // Send to everyone
             event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
