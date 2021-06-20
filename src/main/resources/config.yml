@@ -8,6 +8,10 @@ lobbyCountdown: 20
 # The amount of seconds it takes to be able to use /shout again
 shoutCooldown: 30
 
+# The time, when a player is eligible for getting a kill
+# Example: A player hits another player, if they die in the next n amount of seconds the first player gets the kill
+playerTagPeriod: 5
+
 # The base speed of diamond and emerald generators in solo and duos in seconds
 generatorSpeeds1&2:
   # Diamond generators

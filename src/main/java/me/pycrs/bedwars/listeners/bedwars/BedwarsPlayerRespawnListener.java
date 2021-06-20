@@ -23,6 +23,7 @@ public class BedwarsPlayerRespawnListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
+    // FIXME: 6/20/2021 if multiple people respawning at one time they all share respawnTimer variable oof
     @EventHandler
     public void onPlayerRespawn(BedwarsPlayerRespawnEvent event) {
         Player player = event.getBPlayer().getPlayer();

@@ -14,11 +14,11 @@ public class BedwarsPlayerKillEvent extends Event {
         this.killer = killer;
     }
 
-    public BedwarsPlayer getPlayer() {
+    public BedwarsPlayer getBPlayer() {
         return player;
     }
 
-    public BedwarsPlayer getKiller() {
+    public BedwarsPlayer getBKiller() {
         return killer;
     }
 

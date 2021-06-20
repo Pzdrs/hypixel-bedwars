@@ -35,6 +35,7 @@ public class BedwarsPlayerDeathListener implements Listener {
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerRespawnEvent(event.getBPlayer()));
         } else {
             Utils.inGameBroadcast(event.getMessage().append(Component.text(" FINAL KILL!", Style.style(NamedTextColor.AQUA, TextDecoration.BOLD))));
+            event.getBPlayer().getPlayer().sendMessage(Component.text("You have been eliminated!", NamedTextColor.RED));
         }
     }
 }

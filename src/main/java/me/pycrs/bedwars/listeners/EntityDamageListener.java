@@ -4,6 +4,7 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.BedwarsPlayer;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -11,8 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.*;
 
 public class EntityDamageListener implements Listener {
+    public static Map<UUID, Map.Entry<UUID, Integer>> taggedPlayers = new HashMap<>();
     private Bedwars plugin;
 
     public EntityDamageListener(Bedwars plugin) {
@@ -21,20 +26,20 @@ public class EntityDamageListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player) {
+    public void onPlayerAttack(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player && event.getDamager() instanceof Player) {
             Player player = (Player) event.getEntity();
             Player killer = (Player) event.getDamager();
-            if (player.getHealth() - event.getFinalDamage() <= 0) {
-                event.setCancelled(true);
-                Bukkit.getPluginManager().callEvent(
-                        new BedwarsPlayerDeathEvent(player, BedwarsPlayerDeathEvent.DeathCause.PLAYER_ATTACK, new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer))));
-            }
+            if (taggedPlayers.containsKey(player.getUniqueId()))
+                Bukkit.getScheduler().cancelTask(taggedPlayers.get(player.getUniqueId()).getValue());
+            int tid = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
+                    taggedPlayers.remove(player.getUniqueId()), (long) (plugin.getConfig().getDouble("playerTagPeriod") * 20));
+            taggedPlayers.put(player.getUniqueId(), new AbstractMap.SimpleEntry<>(killer.getUniqueId(), tid));
         }
     }
 
     @EventHandler
-    public void onEntityDamage(EntityDamageEvent event) {
+    public void onPlayerDamage(EntityDamageEvent event) {
         if (event.getEntityType().equals(EntityType.PLAYER) && Bedwars.isGameInProgress()) {
             Player player = (Player) event.getEntity();
             // Custom void instakill
@@ -42,14 +47,19 @@ public class EntityDamageListener implements Listener {
                 player.setNoDamageTicks(player.getMaximumNoDamageTicks());
                 player.setLastDamage(Double.MAX_VALUE);
                 event.setCancelled(true);
-                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, BedwarsPlayerDeathEvent.DeathCause.VOID));
-            }
-            // "replace" the default PlayerDeathEvent for my custom one
-            else if (player.getHealth() - event.getFinalDamage() <= 0) {
-                // TODO: 6/19/2021 figure out what kind of damage and pass it to the death event
-                event.setCancelled(true);
-                Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, BedwarsPlayerDeathEvent.DeathCause.OTHER));
+
+                Bukkit.getServer().getPluginManager().callEvent(new PlayerDeathEvent(player, new ArrayList<>(), 0,
+                        player.displayName().append(Component.text(" fell into the void."))));
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        event.setCancelled(true);
+        if (taggedPlayers.containsKey(event.getEntity().getUniqueId())) {
+            Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(event.getEntity(),
+                    Bukkit.getPlayer(taggedPlayers.get(event.getEntity().getUniqueId()).getKey())));
+        } else Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(event));
     }
 }
