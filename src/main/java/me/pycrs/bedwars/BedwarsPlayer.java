@@ -80,6 +80,10 @@ public class BedwarsPlayer {
         player.setFlying(spectator);
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public int getBeds() {
         return beds;
     }

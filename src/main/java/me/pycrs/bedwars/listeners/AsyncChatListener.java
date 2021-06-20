@@ -24,8 +24,6 @@ public class AsyncChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
-        System.out.println(event.viewers());
-
         if (Bedwars.isGameInProgress()) {
             BedwarsPlayer player = BedwarsPlayer.toBPlayer(event.getPlayer());
             if (!player.isSpectating()) {
@@ -34,6 +32,7 @@ public class AsyncChatListener implements Listener {
                     // Send to everyone
                     event.setCancelled(true);
                     plugin.getServer().sendMessage(Component.empty()
+                            .append(Utils.formatStars(player.getLevel()))
                             .append(event.getPlayer().displayName())
                             .append(Component.text(": ", NamedTextColor.WHITE))
                             .append(event.message()));
@@ -43,6 +42,7 @@ public class AsyncChatListener implements Listener {
                     plugin.getPlayers().forEach(bedwarsPlayer -> {
                         if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(player))
                             bedwarsPlayer.getPlayer().sendMessage(Component.empty()
+                                    .append(Utils.formatStars(player.getLevel()))
                                     .append(event.getPlayer().displayName())
                                     .append(Component.text(": ", NamedTextColor.WHITE))
                                     .append(event.message()));

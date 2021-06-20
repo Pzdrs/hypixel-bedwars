@@ -13,7 +13,7 @@ public class Utils {
     }
 
     // TODO: 4/6/2021 The new prestige colors beyond 1000 stars - not urgent
-    public static String formatStars(int stars) {
+    public static Component formatStars(int stars) {
         if (inRange(stars, 0, 100)) {
             return encapsulateStars(stars, ChatColor.GRAY);
         } else if (inRange(stars, 100, 200)) {
@@ -37,12 +37,12 @@ public class Utils {
         } else return encapsulateStars(stars, null);
     }
 
-    private static String encapsulateStars(int stars, ChatColor color) {
+    private static Component encapsulateStars(int stars, ChatColor color) {
         if (color == null) {
             char[] star = String.valueOf(stars).toCharArray();
-            return color("&c[&6" + star[0] + "&e" + star[1] + "&a" + star[2] + "&b" + star[3] + "&d\u272B&5]&r");
+            return Component.text(color("&c[&6" + star[0] + "&e" + star[1] + "&a" + star[2] + "&b" + star[3] + "&d\u272B&5]&r "));
         }
-        return color + "[" + stars + "\u272B" + "]" + ChatColor.RESET;
+        return Component.text(color + "[" + stars + "\u272B" + "] " + ChatColor.RESET);
     }
 
     private static boolean inRange(int stars, int low, int high) {
