@@ -76,6 +76,7 @@ public class BedwarsPlayer {
         player.setHealth(20);
         player.setInvulnerable(spectator);
         player.setAllowFlight(spectator);
+        player.setFireTicks(0);
         player.setFlying(spectator);
     }
 
