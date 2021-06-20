@@ -26,7 +26,15 @@ public class AsyncChatListener implements Listener {
     public void onPlayerChat(AsyncChatEvent event) {
         if (Bedwars.isGameInProgress()) {
             BedwarsPlayer player = BedwarsPlayer.toBPlayer(event.getPlayer());
-            if (!player.isSpectating()) {
+            if (player == null || player.isSpectating()) {
+                event.setCancelled(true);
+                plugin.getPlayers().stream()
+                        .filter(BedwarsPlayer::isSpectating)
+                        .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
+                                .append(event.getPlayer().displayName())
+                                .append(Component.text(": ", NamedTextColor.WHITE))
+                                .append(event.message().color(NamedTextColor.WHITE))));
+            } else if (!player.isSpectating()) {
                 // TODO: 6/16/2021 add bw level 
                 if (Bedwars.getMode() == Mode.SOLO) {
                     // Send to everyone
@@ -48,16 +56,16 @@ public class AsyncChatListener implements Listener {
                                     .append(event.message()));
                     });
                 }
-            } else {
+            } /*else {
                 // Send to all spectators (include players that are respawning)
                 event.setCancelled(true);
                 plugin.getPlayers().stream()
                         .filter(BedwarsPlayer::isSpectating)
                         .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
-                        .append(event.getPlayer().displayName())
-                        .append(Component.text(": ", NamedTextColor.WHITE))
-                        .append(event.message().color(NamedTextColor.WHITE))));
-            }
+                                .append(event.getPlayer().displayName())
+                                .append(Component.text(": ", NamedTextColor.WHITE))
+                                .append(event.message().color(NamedTextColor.WHITE))));
+            }*/
         } else {
             // Send to everyone
             event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()

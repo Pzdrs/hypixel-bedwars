@@ -142,18 +142,6 @@ public class BedwarsTeam {
         return !hasBed && players.size() == 0;
     }
 
-    @Override
-    public String toString() {
-        return "BTeam{" +
-                "team=" + team +
-                ", teamColor=" + teamColor +
-                ", upgrades=" + upgrades +
-                ", players=" + players +
-                ", hasBed=" + hasBed +
-                ", spawn=" + spawn +
-                '}';
-    }
-
     public static List<BedwarsTeam> initTeams(JSONArray config) {
         List<BedwarsTeam> teams = new ArrayList<>();
         for (TeamColor color : TeamColor.values()) {
