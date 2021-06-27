@@ -1,6 +1,6 @@
 package me.pycrs.bedwars;
 
-import me.pycrs.bedwars.generators.IronGenerator;
+import me.pycrs.bedwars.generators.Forge;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -25,11 +25,11 @@ public class BedwarsTeam {
     private TeamColor teamColor;
     private TeamUpgrades upgrades;
     private Set<BedwarsPlayer> players;
-    private IronGenerator ironGenerator;
+    private Forge forge;
     private Location spawn, teamChest, bedHead, bedFoot;
     private boolean hasBed = true;
 
-    public BedwarsTeam(TeamColor teamColor, Location spawn, Location teamChest, Location bedHead, Location bedFoot, IronGenerator ironGenerator) {
+    public BedwarsTeam(TeamColor teamColor, Location spawn, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
         this.players = new HashSet<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
@@ -40,7 +40,8 @@ public class BedwarsTeam {
         this.spawn = spawn;
         this.bedHead = bedHead;
         this.bedFoot = bedFoot;
-        this.ironGenerator = ironGenerator;
+        this.forge = forge;
+        forge.setTeam(this);
     }
 
     public void addPlayer(Player player) {
@@ -122,8 +123,8 @@ public class BedwarsTeam {
         return teamChest;
     }
 
-    public IronGenerator getIronGenerator() {
-        return ironGenerator;
+    public Forge getIronGenerator() {
+        return forge;
     }
 
     public boolean isFull() {
@@ -179,7 +180,7 @@ public class BedwarsTeam {
                     );
 
                     teams.add(new BedwarsTeam(color, spawnLocation, teamChestLocation, bedHeadLocation, bedFootLocation,
-                            new IronGenerator(forgeLocation)));
+                            new Forge(forgeLocation)));
                     break;
                 }
             }

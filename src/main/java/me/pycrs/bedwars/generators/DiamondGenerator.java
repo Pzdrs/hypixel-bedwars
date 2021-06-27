@@ -15,8 +15,6 @@ public class DiamondGenerator extends Generator {
 
     @Override
     protected void generateResource() {
-        System.out.println(current);
-        System.out.println(cap);
         if (current >= cap) return;
         super.generateResource();
         current++;
