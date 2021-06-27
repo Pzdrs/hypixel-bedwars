@@ -30,7 +30,6 @@ public class BedwarsPlayerRespawnListener implements Listener {
         this.respawnTimer = new AtomicInteger(5);
 
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
-            System.out.println(respawnTimer);
             if (respawnTimer.get() == 0) {
                 bukkitTask.cancel();
                 event.getBPlayer().setSpectator(false);

@@ -13,7 +13,7 @@ import org.bukkit.util.Vector;
 
 public abstract class Generator {
     private BukkitRunnable runnable;
-    private Location location;
+    protected Location location;
 
     public Generator(Location location) {
         this.location = location;
