@@ -1,10 +1,12 @@
 package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.BedwarsMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -36,7 +38,6 @@ public abstract class Generator {
 
     /**
      * Activates a given generator with the provided period of resource spawning.
-     * If the generator is already running, it will be reactivated using the new period value
      *
      * @param period How fast should the generator spawn resources
      */
@@ -62,5 +63,18 @@ public abstract class Generator {
         return (Bedwars.isSoloOrDoubles() ?
                 Bedwars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
                 Bedwars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * (isGeneratorSpeed ? 20 : 1);
+    }
+
+    public static boolean pickupCheck(BedwarsMap map, EntityPickupItemEvent event) {
+        switch (event.getItem().getItemStack().getType()) {
+            case DIAMOND:
+                for (Generator diamondGenerator : map.getDiamondGenerators()) {
+                    Location item = event.getItem().getLocation();
+                    item.setY(diamondGenerator.location.getY());
+                    if (diamondGenerator.location.distance(item) < 1) ((DiamondGenerator) diamondGenerator).pickupResource(event);
+                }
+            case EMERALD:
+        }
+        return true;
     }
 }

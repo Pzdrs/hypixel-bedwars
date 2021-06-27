@@ -3,6 +3,7 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.BedwarsPlayer;
 import me.pycrs.bedwars.BedwarsTeam;
+import me.pycrs.bedwars.generators.Generator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -24,8 +25,8 @@ public class EntityPickupItemListener implements Listener {
 
     @EventHandler
     public void onItemPickup(EntityPickupItemEvent event) {
-        if (!Bedwars.isGameInProgress()) return;
-        if (!(event.getEntity() instanceof Player)) return;
+        if (!Bedwars.isGameInProgress() || !(event.getEntity() instanceof Player)) return;
+        if (Generator.pickupCheck(plugin.getMap(), event))return;
         Player player = (Player) event.getEntity();
         // Cancel all spectator interaction
         if (BedwarsPlayer.toBPlayer(player).isSpectating()) {
