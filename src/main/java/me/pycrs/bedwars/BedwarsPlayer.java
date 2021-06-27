@@ -78,6 +78,7 @@ public class BedwarsPlayer {
         player.setAllowFlight(spectator);
         player.setFireTicks(0);
         player.setFlying(spectator);
+        System.out.println("done");
     }
 
     public int getLevel() {

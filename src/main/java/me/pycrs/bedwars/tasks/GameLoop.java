@@ -46,7 +46,6 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("II", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
-                            generator.deactivate();
                             generator.activate(Generator.getProperty("diamondII"));
                         })).build(),
                 new GameEvent.Builder()
@@ -55,7 +54,6 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("II", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
-                            generator.deactivate();
                             generator.activate(Generator.getProperty("emeraldII"));
                         })).build(),
                 new GameEvent.Builder()
@@ -64,7 +62,6 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
-                            generator.deactivate();
                             generator.activate(Generator.getProperty("diamondIII"));
                         })).build(),
                 new GameEvent.Builder()
@@ -73,7 +70,6 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
-                            generator.deactivate();
                             generator.activate(Generator.getProperty("emeraldIII"));
                         })).build(),
                 new GameEvent.Builder()

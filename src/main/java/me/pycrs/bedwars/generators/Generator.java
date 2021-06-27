@@ -18,7 +18,6 @@ public abstract class Generator {
 
     /**
      * Location where the items will spawn, i.e. one block above the actual generator's location
-     *
      * @return Location
      */
     public Location getResourceLocation() {
@@ -31,13 +30,17 @@ public abstract class Generator {
 
     protected abstract void generateResource();
 
+    /**
+     * Activates a given generator with the provided period of resource spawning.
+     * If the generator is already running, it will be reactivated using the new period value
+     * @param period How fast should the generator spawn resources
+     */
     public void activate(long period) {
+        if (runnable != null && !runnable.isCancelled()) {
+            runnable.cancel();
+            this.runnable = createRunnable();
+        }
         runnable.runTaskTimer(Bedwars.getInstance(), period, period);
-    }
-
-    public void deactivate() {
-        runnable.cancel();
-        this.runnable = createRunnable();
     }
 
     private BukkitRunnable createRunnable() {

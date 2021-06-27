@@ -31,6 +31,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(player);
 
         // Set player's display name
         player.displayName(Component.text(event.getPlayer().getName(), NamedTextColor.GRAY));
@@ -38,7 +39,8 @@ public class PlayerJoinListener implements Listener {
         if (Bedwars.isGameInProgress()) {
             event.joinMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
                     .append(Component.text(" reconnected", NamedTextColor.GRAY)));
-            // TODO: 6/20/2021 death and respawn 
+            // TODO: 6/20/2021 death and respawn
+            bedwarsPlayer.setSpectator(true);
         } else {
             // New join messages
             event.joinMessage(player.displayName()
