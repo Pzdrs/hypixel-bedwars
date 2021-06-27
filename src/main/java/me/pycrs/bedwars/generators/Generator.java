@@ -1,46 +1,52 @@
 package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.Bedwars;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public abstract class Generator {
     private BukkitRunnable runnable;
     private Location location;
-    private Material item;
 
-    public Generator(Location location, Material item) {
-        this.runnable = createRunnable();
+    public Generator(Location location) {
         this.location = location;
-        this.item = item;
+        this.runnable = createRunnable();
     }
 
     /**
      * Location where the items will spawn, i.e. one block above the actual generator's location
+     *
      * @return Location
      */
     public Location getResourceLocation() {
         return location.clone().add(.5, 1, .5);
     }
 
-    public Material getItem() {
-        return item;
+    protected void generateResource() {
+        Item item = Bukkit.getWorld("world").dropItem(getResourceLocation(), new ItemStack(getResource()));
+        item.setVelocity(new Vector());
     }
 
-    protected abstract void generateResource();
+    protected abstract Material getResource();
 
     /**
      * Activates a given generator with the provided period of resource spawning.
      * If the generator is already running, it will be reactivated using the new period value
+     *
      * @param period How fast should the generator spawn resources
      */
     public void activate(long period) {
-        if (runnable != null && !runnable.isCancelled()) {
-            runnable.cancel();
-            this.runnable = createRunnable();
-        }
         runnable.runTaskTimer(Bedwars.getInstance(), period, period);
+    }
+
+    public void deactivate() {
+        runnable.cancel();
+        this.runnable = createRunnable();
     }
 
     private BukkitRunnable createRunnable() {
