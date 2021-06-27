@@ -12,21 +12,27 @@ shoutCooldown: 30
 # Example: A player hits another player, if they die in the next n amount of seconds the first player gets the kill
 playerTagPeriod: 5
 
-# The base speed of diamond and emerald generators in solo and duos in seconds
-generatorSpeeds1&2:
+# Generator settings in solos and doubles
+generators1&2:
+  # The Forge
+  forgeIronCap: 64 # Maximum of 64 iron can be laying in the generator
+  forgeGoldCap: 16 # Same as the above, just for gold
   # Diamond generators
-  diamondI: 30
-  diamondII: 23
-  diamondIII: 12
-  diamondCap: 4
+  diamondI: 30 # A new diamond every 30 seconds
+  diamondII: 23 # ... 23 seconds
+  diamondIII: 12 # ... 12 seconds
+  diamondCap: 4 # Maximum of 4 diamonds can be laying in the generator
   # Emerald generators
-  emeraldI: 60
-  emeraldII: 45
-  emeraldIII: 30
-  emeraldCap: 2
+  emeraldI: 60 # A new emerald every 60 seconds
+  emeraldII: 45 # ... 45 seconds
+  emeraldIII: 30 # ... 30 seconds
+  emeraldCap: 2 # Maximum of 2 emeralds can be laying in the generator
 
-# The base speed of diamond and emerald generators in trios and squads in seconds
-generatorSpeeds3&4:
+# Generator settings in threes and fours
+generators3&4:
+  # The Forge
+  forgeIronCap: 64
+  forgeGoldCap: 16
   # Diamond generators
   diamondI: 30
   diamondII: 23

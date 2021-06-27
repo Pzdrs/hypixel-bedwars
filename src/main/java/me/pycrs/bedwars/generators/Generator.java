@@ -2,9 +2,11 @@ package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.BedwarsMap;
+import me.pycrs.bedwars.BedwarsTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Item;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -61,8 +63,8 @@ public abstract class Generator {
 
     public static int getProperty(String path, boolean isGeneratorSpeed) {
         return (Bedwars.isSoloOrDoubles() ?
-                Bedwars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
-                Bedwars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * (isGeneratorSpeed ? 20 : 1);
+                Bedwars.getInstance().getConfig().getInt("generators1&2." + path) :
+                Bedwars.getInstance().getConfig().getInt("generators3&4." + path)) * (isGeneratorSpeed ? 20 : 1);
     }
 
     public static boolean pickupCheck(BedwarsMap map, EntityPickupItemEvent event) {

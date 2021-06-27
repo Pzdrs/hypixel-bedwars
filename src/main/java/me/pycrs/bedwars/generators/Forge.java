@@ -3,14 +3,18 @@ package me.pycrs.bedwars.generators;
 import me.pycrs.bedwars.BedwarsTeam;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 
 import java.util.Random;
 
 public class Forge extends Generator {
     private BedwarsTeam team;
+    private int currentIron = 0, currentGold = 0, ironCap, goldCap;
 
-    public Forge(Location location) {
+    public Forge(Location location, int ironCap, int goldCap) {
         super(location);
+        this.ironCap = ironCap;
+        this.goldCap = goldCap;
     }
 
     @Override

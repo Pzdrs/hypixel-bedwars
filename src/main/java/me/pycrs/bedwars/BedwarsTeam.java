@@ -1,6 +1,7 @@
 package me.pycrs.bedwars;
 
 import me.pycrs.bedwars.generators.Forge;
+import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -180,7 +181,9 @@ public class BedwarsTeam {
                     );
 
                     teams.add(new BedwarsTeam(color, spawnLocation, teamChestLocation, bedHeadLocation, bedFootLocation,
-                            new Forge(forgeLocation)));
+                            new Forge(forgeLocation,
+                                    Generator.getProperty("forgeIronCap", false),
+                                    Generator.getProperty("forgeGoldCap", false))));
                     break;
                 }
             }
