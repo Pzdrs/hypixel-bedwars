@@ -24,12 +24,12 @@ public abstract class Generator {
      * @return Location
      */
     public Location getResourceLocation() {
-        return location.clone().add(.5, 1, .5);
+        return location.clone().add(.5, 2.5, .5);
     }
 
     protected void generateResource() {
         Item item = Bukkit.getWorld("world").dropItem(getResourceLocation(), new ItemStack(getResource()));
-        item.setVelocity(new Vector());
+        item.setVelocity(new Vector(0, .1, 0));
     }
 
     protected abstract Material getResource();
