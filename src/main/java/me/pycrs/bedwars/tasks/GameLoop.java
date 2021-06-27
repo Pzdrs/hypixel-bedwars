@@ -27,8 +27,8 @@ public class GameLoop extends BukkitRunnable {
                         .handle(() -> {
                             // Initial setup
                             plugin.getPlayers().forEach(player -> {
-                                //player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                                //player.teleportToBase();
+                                player.getPlayer().setGameMode(GameMode.SURVIVAL);
+                                player.teleportToBase();
                             });
 
                             // Initial generator activation

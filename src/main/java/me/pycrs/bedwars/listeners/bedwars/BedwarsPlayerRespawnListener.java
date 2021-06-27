@@ -16,18 +16,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BedwarsPlayerRespawnListener implements Listener {
     private Bedwars plugin;
-    private AtomicInteger respawnTimer;
 
     public BedwarsPlayerRespawnListener(Bedwars plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    // FIXME: 6/20/2021 if multiple people respawning at one time they all share respawnTimer variable oof
     @EventHandler
     public void onPlayerRespawn(BedwarsPlayerRespawnEvent event) {
         Player player = event.getBPlayer().getPlayer();
-        this.respawnTimer = new AtomicInteger(5);
+        AtomicInteger respawnTimer = new AtomicInteger(5);
 
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
             if (respawnTimer.get() == 0) {
