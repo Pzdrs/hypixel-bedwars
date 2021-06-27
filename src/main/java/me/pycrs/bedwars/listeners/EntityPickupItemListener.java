@@ -26,7 +26,7 @@ public class EntityPickupItemListener implements Listener {
     @EventHandler
     public void onItemPickup(EntityPickupItemEvent event) {
         if (!Bedwars.isGameInProgress() || !(event.getEntity() instanceof Player)) return;
-        if (Generator.pickupCheck(plugin.getMap(), event))return;
+        if (Generator.pickupCheck(plugin.getMap(), event)) return;
         Player player = (Player) event.getEntity();
         // Cancel all spectator interaction
         if (BedwarsPlayer.toBPlayer(player).isSpectating()) {

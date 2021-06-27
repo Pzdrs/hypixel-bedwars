@@ -71,10 +71,21 @@ public abstract class Generator {
                 for (Generator diamondGenerator : map.getDiamondGenerators()) {
                     Location item = event.getItem().getLocation();
                     item.setY(diamondGenerator.location.getY());
-                    if (diamondGenerator.location.distance(item) < 1) ((DiamondGenerator) diamondGenerator).pickupResource(event);
+                    if (diamondGenerator.location.distance(item) < 1) {
+                        ((DiamondGenerator) diamondGenerator).pickupResource(event);
+                        return true;
+                    }
                 }
             case EMERALD:
+                for (Generator emeraldGenerator : map.getEmeraldGenerators()) {
+                    Location item = event.getItem().getLocation();
+                    item.setY(emeraldGenerator.location.getY());
+                    if (emeraldGenerator.location.distance(item) < 1) {
+                        ((EmeraldGenerator) emeraldGenerator).pickupResource(event);
+                        return true;
+                    }
+                }
         }
-        return true;
+        return false;
     }
 }

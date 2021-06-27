@@ -2,6 +2,7 @@ package me.pycrs.bedwars.generators;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 
 public class EmeraldGenerator extends Generator {
     private int current = 0, cap;
@@ -16,6 +17,11 @@ public class EmeraldGenerator extends Generator {
         if (current >= cap) return;
         super.generateResource();
         current++;
+    }
+
+    public void pickupResource(EntityPickupItemEvent event) {
+        current = Math.max(current - event.getItem().getItemStack().getAmount(), 0);
+        // TODO: 6/27/2021 track how many diamonds/emeralds/iron/gold players collect
     }
 
     @Override

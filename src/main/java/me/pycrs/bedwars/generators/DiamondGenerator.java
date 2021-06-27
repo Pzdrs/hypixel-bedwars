@@ -15,13 +15,15 @@ public class DiamondGenerator extends Generator {
 
     @Override
     protected void generateResource() {
+        System.out.println(current);
+        System.out.println(cap);
         if (current >= cap) return;
         super.generateResource();
         current++;
     }
 
     public void pickupResource(EntityPickupItemEvent event) {
-        current -= event.getItem().getItemStack().getAmount();
+        current = Math.max(current - event.getItem().getItemStack().getAmount(), 0);
         // TODO: 6/27/2021 track how many diamonds/emeralds/iron/gold players collect
     }
 
