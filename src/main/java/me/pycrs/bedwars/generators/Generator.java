@@ -58,9 +58,9 @@ public abstract class Generator {
         };
     }
 
-    public static int getProperty(String path) {
+    public static int getProperty(String path, boolean isGeneratorSpeed) {
         return (Bedwars.isSoloOrDoubles() ?
                 Bedwars.getInstance().getConfig().getInt("generatorSpeeds1&2." + path) :
-                Bedwars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * 20;
+                Bedwars.getInstance().getConfig().getInt("generatorSpeeds3&4." + path)) * (isGeneratorSpeed ? 20 : 1);
     }
 }

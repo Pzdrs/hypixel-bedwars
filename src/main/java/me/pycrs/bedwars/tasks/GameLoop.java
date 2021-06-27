@@ -32,12 +32,11 @@ public class GameLoop extends BukkitRunnable {
                             });
 
                             // Initial generator activation
-                            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI")));
-                            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI")));
+                            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI", true)));
+                            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI", true)));
                             plugin.getTeams().forEach(team -> {
                                 // These will depend on what map is in use
                                 team.getIronGenerator().activate(20);
-                                team.getGoldGenerator().activate(80);
                             });
                         }).build(),
                 new GameEvent.Builder()
@@ -46,7 +45,8 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("II", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
-                            generator.activate(Generator.getProperty("diamondII"));
+                            generator.deactivate();
+                            generator.activate(Generator.getProperty("diamondII", true));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.emeraldII"))
@@ -54,7 +54,8 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("II", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
-                            generator.activate(Generator.getProperty("emeraldII"));
+                            generator.deactivate();
+                            generator.activate(Generator.getProperty("emeraldII",true));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.diamondIII"))
@@ -62,7 +63,8 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
-                            generator.activate(Generator.getProperty("diamondIII"));
+                            generator.deactivate();
+                            generator.activate(Generator.getProperty("diamondIII",true));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.emeraldIII"))
@@ -70,7 +72,8 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
-                            generator.activate(Generator.getProperty("emeraldIII"));
+                            generator.deactivate();
+                            generator.activate(Generator.getProperty("emeraldIII",true));
                         })).build(),
                 new GameEvent.Builder()
                         .period(plugin.getConfig().getInt("events.bedDestruction"))

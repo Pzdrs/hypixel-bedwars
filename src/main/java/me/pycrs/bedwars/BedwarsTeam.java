@@ -1,6 +1,5 @@
 package me.pycrs.bedwars;
 
-import me.pycrs.bedwars.generators.GoldGenerator;
 import me.pycrs.bedwars.generators.IronGenerator;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;
 import net.kyori.adventure.text.Component;
@@ -10,7 +9,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 import org.json.JSONArray;
@@ -28,11 +26,10 @@ public class BedwarsTeam {
     private TeamUpgrades upgrades;
     private Set<BedwarsPlayer> players;
     private IronGenerator ironGenerator;
-    private GoldGenerator goldGenerator;
     private Location spawn, teamChest, bedHead, bedFoot;
     private boolean hasBed = true;
 
-    public BedwarsTeam(TeamColor teamColor, Location spawn, Location teamChest, Location bedHead, Location bedFoot, IronGenerator ironGenerator, GoldGenerator goldGenerator) {
+    public BedwarsTeam(TeamColor teamColor, Location spawn, Location teamChest, Location bedHead, Location bedFoot, IronGenerator ironGenerator) {
         this.players = new HashSet<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
@@ -44,7 +41,6 @@ public class BedwarsTeam {
         this.bedHead = bedHead;
         this.bedFoot = bedFoot;
         this.ironGenerator = ironGenerator;
-        this.goldGenerator = goldGenerator;
     }
 
     public void addPlayer(Player player) {
@@ -130,10 +126,6 @@ public class BedwarsTeam {
         return ironGenerator;
     }
 
-    public GoldGenerator getGoldGenerator() {
-        return goldGenerator;
-    }
-
     public boolean isFull() {
         return players.size() == Bedwars.getMode().getTeamSize();
     }
@@ -187,8 +179,7 @@ public class BedwarsTeam {
                     );
 
                     teams.add(new BedwarsTeam(color, spawnLocation, teamChestLocation, bedHeadLocation, bedFootLocation,
-                            new IronGenerator(forgeLocation),
-                            new GoldGenerator(forgeLocation, Material.GOLD_INGOT)));
+                            new IronGenerator(forgeLocation)));
                     break;
                 }
             }
