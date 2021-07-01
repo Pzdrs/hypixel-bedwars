@@ -1,12 +1,10 @@
 package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.BedwarsPlayer;
+import me.pycrs.bedwars.entity.BedwarsPlayer;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
-import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

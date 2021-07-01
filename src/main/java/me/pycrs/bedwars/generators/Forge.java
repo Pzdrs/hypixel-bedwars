@@ -1,9 +1,8 @@
 package me.pycrs.bedwars.generators;
 
-import me.pycrs.bedwars.BedwarsTeam;
+import me.pycrs.bedwars.entity.BedwarsTeam;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 
 import java.util.Random;
 

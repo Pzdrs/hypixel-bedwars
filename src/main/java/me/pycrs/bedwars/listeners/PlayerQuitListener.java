@@ -1,8 +1,8 @@
 package me.pycrs.bedwars.listeners;
 
-import me.pycrs.bedwars.BedwarsPlayer;
+import me.pycrs.bedwars.entity.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.Utils;
+import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;

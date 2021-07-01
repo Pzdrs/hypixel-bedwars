@@ -1,7 +1,7 @@
 package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.gameevent.GameEvent;
+import me.pycrs.bedwars.entity.GameEvent;
 import me.pycrs.bedwars.generators.Generator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

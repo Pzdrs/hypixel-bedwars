@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.traps;
 
-import me.pycrs.bedwars.BedwarsTeam;
+import me.pycrs.bedwars.entity.BedwarsTeam;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 

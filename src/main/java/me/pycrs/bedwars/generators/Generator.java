@@ -1,12 +1,10 @@
 package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.BedwarsMap;
-import me.pycrs.bedwars.BedwarsTeam;
+import me.pycrs.bedwars.entity.BedwarsMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Item;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;

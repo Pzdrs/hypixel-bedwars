@@ -1,8 +1,8 @@
 package me.pycrs.bedwars.tasks;
 
-import me.pycrs.bedwars.BedwarsTeam;
+import me.pycrs.bedwars.entity.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.Utils;
+import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

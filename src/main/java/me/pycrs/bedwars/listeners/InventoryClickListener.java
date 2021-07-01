@@ -1,9 +1,9 @@
 package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.inventory.menu.Menu;
-import me.pycrs.bedwars.inventory.menu.shops.Shop;
-import me.pycrs.bedwars.inventory.menu.MenuUtils;
+import me.pycrs.bedwars.menu.Menu;
+import me.pycrs.bedwars.menu.shops.Shop;
+import me.pycrs.bedwars.menu.MenuUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
