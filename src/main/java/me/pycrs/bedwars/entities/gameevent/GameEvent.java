@@ -1,7 +1,6 @@
-package me.pycrs.bedwars.entity;
+package me.pycrs.bedwars.entities.gameevent;
 
 import me.pycrs.bedwars.util.Utils;
-import me.pycrs.bedwars.entity.dependency.GameEventHandler;
 import net.kyori.adventure.text.Component;
 
 public class GameEvent {

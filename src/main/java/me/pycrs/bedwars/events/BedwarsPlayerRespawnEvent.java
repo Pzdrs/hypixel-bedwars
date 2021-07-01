@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.events;
 
-import me.pycrs.bedwars.entity.BedwarsPlayer;
+import me.pycrs.bedwars.entities.BedwarsPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

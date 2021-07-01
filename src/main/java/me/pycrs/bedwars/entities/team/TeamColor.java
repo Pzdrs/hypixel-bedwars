@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.entity.dependency;
+package me.pycrs.bedwars.entities.team;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

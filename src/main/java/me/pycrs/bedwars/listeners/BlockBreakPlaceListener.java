@@ -1,8 +1,8 @@
 package me.pycrs.bedwars.listeners;
 
-import me.pycrs.bedwars.entity.BedwarsPlayer;
+import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entity.BedwarsTeam;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

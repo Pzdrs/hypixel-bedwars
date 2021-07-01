@@ -1,7 +1,7 @@
-package me.pycrs.bedwars.entity;
+package me.pycrs.bedwars.entities.team;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entity.dependency.TeamColor;
+import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.generators.Forge;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;

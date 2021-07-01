@@ -1,7 +1,7 @@
 package me.pycrs.bedwars.menu.shops;
 
-import me.pycrs.bedwars.entity.BedwarsPlayer;
-import me.pycrs.bedwars.entity.BedwarsTeam;
+import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.menu.Menu;
 import me.pycrs.bedwars.menu.MenuUtils;

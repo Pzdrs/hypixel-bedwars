@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.listeners;
 
-import me.pycrs.bedwars.entity.BedwarsPlayer;
+import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.tasks.LobbyLoop;

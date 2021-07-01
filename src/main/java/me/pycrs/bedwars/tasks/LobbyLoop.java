@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.tasks;
 
-import me.pycrs.bedwars.entity.BedwarsTeam;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.sound.Sound;

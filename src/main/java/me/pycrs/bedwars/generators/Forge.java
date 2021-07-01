@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.generators;
 
-import me.pycrs.bedwars.entity.BedwarsTeam;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import org.bukkit.Location;
 import org.bukkit.Material;
 

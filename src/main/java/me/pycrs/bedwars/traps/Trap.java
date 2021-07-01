@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.traps;
 
-import me.pycrs.bedwars.entity.BedwarsTeam;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import org.bukkit.entity.Player;
 
 public interface Trap {

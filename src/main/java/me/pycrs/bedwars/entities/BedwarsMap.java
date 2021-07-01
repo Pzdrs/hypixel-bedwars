@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.entity;
+package me.pycrs.bedwars.entities;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Mode;

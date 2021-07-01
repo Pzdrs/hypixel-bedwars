@@ -2,7 +2,7 @@ package me.pycrs.bedwars.util;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Mode;
-import me.pycrs.bedwars.entity.BedwarsTeam;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.*;

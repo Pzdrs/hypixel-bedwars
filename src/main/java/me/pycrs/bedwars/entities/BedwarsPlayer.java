@@ -1,6 +1,7 @@
-package me.pycrs.bedwars.entity;
+package me.pycrs.bedwars.entities;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
