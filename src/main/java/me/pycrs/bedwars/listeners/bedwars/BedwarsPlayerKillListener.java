@@ -16,12 +16,12 @@ public class BedwarsPlayerKillListener implements Listener {
     @EventHandler
     public void onPlayerKill(BedwarsPlayerKillEvent event) {
         if (event.isFinalKill()) {
-            event.getBKiller().setFinalKills(event.getBKiller().getFinalKills() + 1);
-            event.getBKiller().setDeaths(event.getBKiller().getDeaths() + 1);
+            event.getBKiller().getStatistics().setFinalKills(event.getBKiller().getStatistics().getFinalKills() + 1);
+            event.getBKiller().getStatistics().setDeaths(event.getBKiller().getStatistics().getDeaths() + 1);
             event.getBPlayer().getTeam().getPlayers().remove(event.getBPlayer());
         } else {
-            event.getBKiller().setKills(event.getBKiller().getKills() + 1);
-            event.getBKiller().setDeaths(event.getBKiller().getDeaths() + 1);
+            event.getBKiller().getStatistics().setKills(event.getBKiller().getStatistics().getKills());
+            event.getBKiller().getStatistics().setDeaths(event.getBKiller().getStatistics().getDeaths() + 1);
         }
     }
 }

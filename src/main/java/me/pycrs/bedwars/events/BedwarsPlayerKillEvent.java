@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.events;
 
-import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;

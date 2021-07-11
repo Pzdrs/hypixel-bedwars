@@ -3,7 +3,7 @@ package me.pycrs.bedwars;
 import me.pycrs.bedwars.commands.ShoutCommand;
 import me.pycrs.bedwars.commands.StartCommand;
 import me.pycrs.bedwars.entities.BedwarsMap;
-import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.listeners.*;
 import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerDeathListener;

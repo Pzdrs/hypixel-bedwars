@@ -2,10 +2,12 @@ package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.BedwarsMap;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -66,13 +68,14 @@ public abstract class Generator {
     }
 
     public static boolean pickupCheck(BedwarsMap map, EntityPickupItemEvent event) {
+        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer((Player) event.getEntity());
         switch (event.getItem().getItemStack().getType()) {
             case DIAMOND:
                 for (Generator diamondGenerator : map.getDiamondGenerators()) {
                     Location item = event.getItem().getLocation();
                     item.setY(diamondGenerator.location.getY());
                     if (diamondGenerator.location.distance(item) < 1) {
-                        ((DiamondGenerator) diamondGenerator).pickupResource(event);
+                        ((DiamondGenerator) diamondGenerator).pickupResource(event, bedwarsPlayer);
                         return true;
                     }
                 }
@@ -81,7 +84,7 @@ public abstract class Generator {
                     Location item = event.getItem().getLocation();
                     item.setY(emeraldGenerator.location.getY());
                     if (emeraldGenerator.location.distance(item) < 1) {
-                        ((EmeraldGenerator) emeraldGenerator).pickupResource(event);
+                        ((EmeraldGenerator) emeraldGenerator).pickupResource(event, bedwarsPlayer);
                         return true;
                     }
                 }

@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.events;
 
-import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;

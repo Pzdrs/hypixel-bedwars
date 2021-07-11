@@ -3,7 +3,7 @@ package me.pycrs.bedwars.listeners;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
-import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;

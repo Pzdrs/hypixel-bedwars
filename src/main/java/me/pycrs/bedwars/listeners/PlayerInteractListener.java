@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.listeners;
 
-import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
 import net.kyori.adventure.text.Component;

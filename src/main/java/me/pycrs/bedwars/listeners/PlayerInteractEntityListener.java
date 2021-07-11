@@ -1,7 +1,7 @@
 package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.menu.shops.GenericShop;
 import me.pycrs.bedwars.menu.shops.TeamUpgradesShop;
 import org.bukkit.entity.Entity;

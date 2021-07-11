@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.entities;
+package me.pycrs.bedwars.entities.player;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
@@ -14,7 +14,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 public class BedwarsPlayer {
@@ -24,17 +23,14 @@ public class BedwarsPlayer {
     private Player player;
     private BedwarsTeam team;
     private boolean spectating = false;
-    private int kills, finalKills, deaths, beds;
+    private PlayerStatistics statistics;
     private int level;
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
         this.player = player;
         this.team = team;
-        this.kills = 0;
-        this.finalKills = 0;
-        this.deaths = 0;
-        this.beds = 0;
+        this.statistics = new PlayerStatistics();
 
         String apiKey = Settings.hypixelApiKey;
         if (apiKey != null) {
@@ -88,36 +84,8 @@ public class BedwarsPlayer {
         return level;
     }
 
-    public int getBeds() {
-        return beds;
-    }
-
-    public void setBeds(int beds) {
-        this.beds = beds;
-    }
-
-    public int getKills() {
-        return kills;
-    }
-
-    public void setKills(int kills) {
-        this.kills = kills;
-    }
-
-    public int getFinalKills() {
-        return finalKills;
-    }
-
-    public void setFinalKills(int finalKills) {
-        this.finalKills = finalKills;
-    }
-
-    public int getDeaths() {
-        return deaths;
-    }
-
-    public void setDeaths(int deaths) {
-        this.deaths = deaths;
+    public PlayerStatistics getStatistics() {
+        return statistics;
     }
 
     public BedwarsTeam getTeam() {
@@ -143,10 +111,7 @@ public class BedwarsPlayer {
                 ", player=" + player +
                 ", team=" + team +
                 ", spectating=" + spectating +
-                ", kills=" + kills +
-                ", finalKills=" + finalKills +
-                ", deaths=" + deaths +
-                ", beds=" + beds +
+                ", statistics=" + statistics +
                 ", level=" + level +
                 '}';
     }

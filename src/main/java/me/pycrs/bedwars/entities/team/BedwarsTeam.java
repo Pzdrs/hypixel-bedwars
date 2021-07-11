@@ -2,7 +2,7 @@ package me.pycrs.bedwars.entities.team;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
-import me.pycrs.bedwars.entities.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.generators.Forge;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;
@@ -72,7 +72,7 @@ public class BedwarsTeam {
     public void destroyBed(BedwarsPlayer player) {
         if (!hasBed) return;
         hasBed = false;
-        player.setBeds(player.getBeds() + 1);
+        player.getStatistics().setBeds(player.getStatistics().getBeds() + 1);
         Bedwars.getInstance().getPlayers().forEach(bedwarsPlayer -> {
             if (isPartOfTeam(bedwarsPlayer)) {
                 bedwarsPlayer.getPlayer().showTitle(
