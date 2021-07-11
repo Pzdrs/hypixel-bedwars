@@ -72,14 +72,6 @@ public class Utils {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(component));
     }
 
-    public static Mode teamSizeToMode(int teamSize) {
-        for (Mode mode : Mode.values()) {
-            if (mode.getTeamSize() == teamSize) return mode;
-        }
-        Bedwars.getInstance().getLogger().severe("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
-        return null;
-    }
-
     public static int getMaterialAmount(Inventory inventory, Material material) {
         int amount = 0;
         for (ItemStack content : inventory.getContents()) {

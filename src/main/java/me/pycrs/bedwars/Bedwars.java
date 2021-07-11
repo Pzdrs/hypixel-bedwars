@@ -35,7 +35,7 @@ public final class Bedwars extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        if (Settings.loadPluginConfig(getConfig())) Bukkit.getPluginManager().disablePlugin(Bedwars.getInstance());
+        if (!Settings.loadPluginConfig(getConfig())) Bukkit.getPluginManager().disablePlugin(Bedwars.getInstance());
         init();
 
         // Server setup
