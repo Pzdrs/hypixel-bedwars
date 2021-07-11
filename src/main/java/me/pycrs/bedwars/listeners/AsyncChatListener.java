@@ -2,6 +2,7 @@ package me.pycrs.bedwars.listeners;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.util.Utils;
@@ -32,7 +33,7 @@ public class AsyncChatListener implements Listener {
                                 .append(event.message().color(NamedTextColor.WHITE))));
             } else if (!player.isSpectating()) {
                 // TODO: 6/16/2021 add bw level 
-                if (Bedwars.getMode() == Mode.SOLO) {
+                if (Settings.mode == Mode.SOLO) {
                     // Send to everyone
                     event.setCancelled(true);
                     plugin.getServer().sendMessage(Component.empty()

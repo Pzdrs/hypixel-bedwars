@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.entities;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
@@ -24,7 +25,7 @@ public class BedwarsPlayer {
     private BedwarsTeam team;
     private boolean spectating = false;
     private int kills, finalKills, deaths, beds;
-    private int level = new Random().nextInt(1000);
+    private int level;
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
@@ -35,10 +36,10 @@ public class BedwarsPlayer {
         this.deaths = 0;
         this.beds = 0;
 
-        String apiKey = plugin.getConfig().getString("hypixelApiKey");
+        String apiKey = Settings.hypixelApiKey;
         if (apiKey != null) {
             // TODO: 6/15/2021 fetch player's bedwars experience from api.hypixel.net
-        }
+        } else this.level = 0;
     }
 
     public void shout(Component component) {
@@ -57,7 +58,7 @@ public class BedwarsPlayer {
                     bukkitTask.cancel();
                 } else BedwarsPlayer.shoutCooldown.put(player.getUniqueId(), current - 1);
 
-            } else BedwarsPlayer.shoutCooldown.put(player.getUniqueId(), plugin.getConfig().getInt("shoutCooldown"));
+            } else BedwarsPlayer.shoutCooldown.put(player.getUniqueId(), Settings.shoutCooldown);
         }, 0, 20);
     }
 

@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import net.kyori.adventure.text.Component;
@@ -39,7 +40,7 @@ public class EntityDamageListener implements Listener {
                 Bukkit.getScheduler().cancelTask(taggedPlayers.get(player.getUniqueId()).getValue());
             }
             int tid = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                    taggedPlayers.remove(player.getUniqueId()), (long) (plugin.getConfig().getDouble("playerTagPeriod") * 20));
+                    taggedPlayers.remove(player.getUniqueId()), Settings.playerTagPeriod * 20L);
             taggedPlayers.put(player.getUniqueId(), new AbstractMap.SimpleEntry<>(damager.getUniqueId(), tid));
         }
     }

@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.gameevent.GameEvent;
 import me.pycrs.bedwars.generators.Generator;
 import net.kyori.adventure.text.Component;
@@ -40,7 +41,7 @@ public class GameLoop extends BukkitRunnable {
                             });
                         }).build(),
                 new GameEvent.Builder()
-                        .period(plugin.getConfig().getInt("events.diamondII"))
+                        .period(Settings.eventDiamondII)
                         .broadcast(Component.text("Diamond Generators", NamedTextColor.AQUA)
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("II", NamedTextColor.RED)))
@@ -49,7 +50,7 @@ public class GameLoop extends BukkitRunnable {
                             generator.activate(Generator.getProperty("diamondII", true));
                         })).build(),
                 new GameEvent.Builder()
-                        .period(plugin.getConfig().getInt("events.emeraldII"))
+                        .period(Settings.eventEmeraldII)
                         .broadcast(Component.text("Emerald Generators", NamedTextColor.DARK_GREEN)
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("II", NamedTextColor.RED)))
@@ -58,7 +59,7 @@ public class GameLoop extends BukkitRunnable {
                             generator.activate(Generator.getProperty("emeraldII",true));
                         })).build(),
                 new GameEvent.Builder()
-                        .period(plugin.getConfig().getInt("events.diamondIII"))
+                        .period(Settings.eventDiamondIII)
                         .broadcast(Component.text("Diamond Generators", NamedTextColor.AQUA)
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("III", NamedTextColor.RED)))
@@ -67,7 +68,7 @@ public class GameLoop extends BukkitRunnable {
                             generator.activate(Generator.getProperty("diamondIII",true));
                         })).build(),
                 new GameEvent.Builder()
-                        .period(plugin.getConfig().getInt("events.emeraldIII"))
+                        .period(Settings.eventEmeraldIII)
                         .broadcast(Component.text("Emerald Generators", NamedTextColor.DARK_GREEN)
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))
                                 .append(Component.text("III", NamedTextColor.RED)))
@@ -76,20 +77,20 @@ public class GameLoop extends BukkitRunnable {
                             generator.activate(Generator.getProperty("emeraldIII",true));
                         })).build(),
                 new GameEvent.Builder()
-                        .period(plugin.getConfig().getInt("events.bedDestruction"))
+                        .period(Settings.eventBedDestruction)
                         .before(new GameEvent.Builder()
-                                .period(plugin.getConfig().getInt("events.bedDestruction") - 300)
+                                .period(Settings.eventBedDestruction - 300)
                                 .broadcast(Component.text("All beds will be destroyed in 5 minutes!", NamedTextColor.RED, TextDecoration.BOLD)).build())
                         .handle(() -> {
                             System.out.println("bed destroyed");
                         }).build(),
                 new GameEvent.Builder()
-                        .period(plugin.getConfig().getInt("events.suddenDeath"))
+                        .period(Settings.eventSuddenDeath)
                         .handle(() -> {
                             System.out.println("dragons spawned");
                         }).build(),
                 new GameEvent.Builder()
-                        .period(plugin.getConfig().getInt("events.gameEnd"))
+                        .period(Settings.eventGameEnd)
                         .handle(() -> {
                             System.out.println("game ended");
                             cancel();

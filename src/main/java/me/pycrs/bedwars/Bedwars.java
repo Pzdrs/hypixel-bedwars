@@ -24,7 +24,6 @@ import java.util.List;
 
 public final class Bedwars extends JavaPlugin {
     private static Bedwars instance;
-    private static Mode mode;
 
     private BedwarsMap map;
     private List<BedwarsTeam> teams;
@@ -36,11 +35,11 @@ public final class Bedwars extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
+        if (Settings.loadPluginConfig(getConfig())) Bukkit.getPluginManager().disablePlugin(Bedwars.getInstance());
         init();
 
         // Server setup
         Utils.applyDefaultGamerules(Bukkit.getWorld("world"));
-        mode = Utils.teamSizeToMode(getConfig().getInt("teamSize"));
 
         // Map setup
         JSONObject map = BedwarsMap.loadJSON();
@@ -66,7 +65,7 @@ public final class Bedwars extends JavaPlugin {
     }
 
     public void startLobbyCountdown() {
-        this.lobbyLoop = new LobbyLoop(this, getConfig().getInt("lobbyCountdown"));
+        this.lobbyLoop = new LobbyLoop(this, Settings.lobbyCountdown);
         lobbyLoop.runTaskTimer(this, 0, 20);
     }
 
@@ -115,11 +114,7 @@ public final class Bedwars extends JavaPlugin {
         new StartCommand(this);
     }
 
-    public static Mode getMode() {
-        return mode;
-    }
-
     public static boolean isSoloOrDoubles() {
-        return Bedwars.getMode().equals(Mode.SOLO) || Bedwars.getMode().equals(Mode.DOUBLES);
+        return Settings.mode.equals(Mode.SOLO) || Settings.mode.equals(Mode.DOUBLES);
     }
 }
