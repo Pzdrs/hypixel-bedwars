@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BedwarsTeam {
+    private Bedwars plugin = Bedwars.getInstance();
     private Team team;
     private TeamColor teamColor;
     private TeamUpgrades upgrades;
@@ -49,7 +50,9 @@ public class BedwarsTeam {
     }
 
     public void addPlayer(Player player) {
-        players.add(new BedwarsPlayer(player, this));
+        BedwarsPlayer bedwarsPlayer = new BedwarsPlayer(player, this);
+        plugin.getPlayers().add(bedwarsPlayer);
+        players.add(bedwarsPlayer);
         player.playerListName(Component.text(player.getName(), teamColor.getColor()));
         team.addEntry(player.getName());
     }

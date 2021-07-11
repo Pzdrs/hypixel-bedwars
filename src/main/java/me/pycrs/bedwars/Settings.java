@@ -32,17 +32,19 @@ public class Settings {
         shoutCooldown = config.getInt("shoutCooldown", 30);
         playerTagPeriod = config.getInt("playerTagPeriod", 5);
 
-        eventDiamondII = config.getInt("diamondII");
-        eventDiamondIII = config.getInt("diamondIII");
-        eventEmeraldII = config.getInt("emeraldII");
-        eventEmeraldIII = config.getInt("emeraldIII");
-        eventBedDestruction = config.getInt("bedDestruction");
-        eventSuddenDeath = config.getInt("suddenDeath");
-        eventGameEnd = config.getInt("gameEnd");
+        eventDiamondII = config.getInt("events.diamondII");
+        eventDiamondIII = config.getInt("events.diamondIII");
+        eventEmeraldII = config.getInt("events.emeraldII");
+        eventEmeraldIII = config.getInt("events.emeraldIII");
+        eventBedDestruction = config.getInt("events.bedDestruction");
+        eventSuddenDeath = config.getInt("events.suddenDeath");
+        eventGameEnd = config.getInt("events.gameEnd");
 
         hypixelApiKey = config.getString("hypixelApiKey");
         return true;
     }
+
+
 
     private static Mode teamSizeToMode(int teamSize) {
         for (Mode mode : Mode.values()) {

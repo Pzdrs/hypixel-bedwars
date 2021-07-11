@@ -34,7 +34,7 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
+        if (!Bedwars.isGameInProgress() || BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
             // If a spectator - just cancel and say nothing
             event.setCancelled(true);
         } else if (event.getBlock().getBlockData() instanceof Bed) {

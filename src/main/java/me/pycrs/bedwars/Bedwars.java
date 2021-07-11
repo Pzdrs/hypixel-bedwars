@@ -6,10 +6,10 @@ import me.pycrs.bedwars.entities.BedwarsMap;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.listeners.*;
+import me.pycrs.bedwars.listeners.bedwars.BedwarsBedBreakListener;
 import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerDeathListener;
 import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerKillListener;
 import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerRespawnListener;
-import me.pycrs.bedwars.listeners.bedwars.BedwarsBedBreakListener;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.Utils;
@@ -26,6 +26,7 @@ public final class Bedwars extends JavaPlugin {
     private static Bedwars instance;
 
     private BedwarsMap map;
+    private List<BedwarsPlayer> players;
     private List<BedwarsTeam> teams;
 
     private LobbyLoop lobbyLoop;
@@ -53,7 +54,8 @@ public final class Bedwars extends JavaPlugin {
 
         // Teams setup
         Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
-        teams = BedwarsTeam.initTeams(map.getJSONArray("teams"));
+        this.players = new ArrayList<>();
+        this.teams = BedwarsTeam.initTeams(map.getJSONArray("teams"));
     }
 
     public static Bedwars getInstance() {
@@ -70,13 +72,12 @@ public final class Bedwars extends JavaPlugin {
     }
 
     public void startGame() {
+        BedwarsTeam.distributePlayers();
         gameLoop = new GameLoop(this);
         gameLoop.runTaskTimer(this, 0, 20);
     }
 
     public List<BedwarsPlayer> getPlayers() {
-        List<BedwarsPlayer> players = new ArrayList<>();
-        teams.forEach(team -> players.addAll(team.getPlayers()));
         return players;
     }
 

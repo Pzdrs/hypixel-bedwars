@@ -33,7 +33,6 @@ public class LobbyLoop extends BukkitRunnable {
         }
         if (timer.getAndDecrement() == 0) {
             this.cancel();
-            BedwarsTeam.distributePlayers();
             plugin.startGame();
         }
     }

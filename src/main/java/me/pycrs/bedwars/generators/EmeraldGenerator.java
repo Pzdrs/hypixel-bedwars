@@ -22,7 +22,6 @@ public class EmeraldGenerator extends Generator {
 
     public void pickupResource(EntityPickupItemEvent event, BedwarsPlayer bedwarsPlayer) {
         current = Math.max(current - event.getItem().getItemStack().getAmount(), 0);
-        // TODO: 6/27/2021 track how many diamonds/emeralds/iron/gold players collect
         bedwarsPlayer.getStatistics().addResources(event.getItem().getItemStack());
     }
 
