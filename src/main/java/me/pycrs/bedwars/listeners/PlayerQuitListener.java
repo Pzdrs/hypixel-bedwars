@@ -1,5 +1,6 @@
 package me.pycrs.bedwars.listeners;
 
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.util.Utils;
@@ -37,7 +38,7 @@ public class PlayerQuitListener implements Listener {
                     .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
         }
 
-        if (Bukkit.getOnlinePlayers().size() - 1 < Bedwars.getMode().getMinPlayers() && LobbyLoop.isCountingDown()) {
+        if (Bukkit.getOnlinePlayers().size() - 1 < Settings.mode.getMinPlayers() && LobbyLoop.isCountingDown()) {
             plugin.getLobbyLoop().cancel();
             plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
             Utils.inGameBroadcast(Component.text("We don't have enough players! Start cancelled.", NamedTextColor.RED));

@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.tasks.LobbyLoop;
@@ -45,7 +46,7 @@ public class PlayerJoinListener implements Listener {
                     .append(Component.text(" has joined ", NamedTextColor.YELLOW))
                     .append(Component.text(
                             Utils.color("&e(&b" + Bukkit.getOnlinePlayers().size() + "&e/&b" +
-                                    Bedwars.getMode().getTeamSize() * Bedwars.getMode().getAmountOfTeams() + "&e)!"))));
+                                    Settings.mode.getTeamSize() * Settings.mode.getAmountOfTeams() + "&e)!"))));
             
             player.teleport(plugin.getMap().getLobbySpawnExact());
 
@@ -87,9 +88,9 @@ public class PlayerJoinListener implements Listener {
             player.setScoreboard(scoreboard);
 
             // If enough players, start the countdown
-            if (Bukkit.getOnlinePlayers().size() >= Bedwars.getMode().getMinPlayers()) {
+            if (Bukkit.getOnlinePlayers().size() >= Settings.mode.getMinPlayers()) {
                 if (!LobbyLoop.isCountingDown()) plugin.startLobbyCountdown();
-                if (Bukkit.getOnlinePlayers().size() == Bedwars.getMode().getTeamSize() * Bedwars.getMode().getAmountOfTeams())
+                if (Bukkit.getOnlinePlayers().size() == Settings.mode.getTeamSize() * Settings.mode.getAmountOfTeams())
                     LobbyLoop.timer.set(10);
                 player.sendMessage(
                         Component.text(Utils.color("&eThe game is starting in&b " + LobbyLoop.timer + " &e" + (LobbyLoop.timer.get() <= 1 ? "second!" : "seconds!"))));

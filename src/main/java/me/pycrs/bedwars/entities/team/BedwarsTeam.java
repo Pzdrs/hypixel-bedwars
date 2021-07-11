@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.entities.team;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.BedwarsPlayer;
 import me.pycrs.bedwars.generators.Forge;
 import me.pycrs.bedwars.generators.Generator;
@@ -131,7 +132,7 @@ public class BedwarsTeam {
     }
 
     public boolean isFull() {
-        return players.size() == Bedwars.getMode().getTeamSize();
+        return players.size() == Settings.mode.getTeamSize();
     }
 
     public boolean isEliminated() {
@@ -190,7 +191,7 @@ public class BedwarsTeam {
                 }
             }
         }
-        return teams.stream().limit(Bedwars.getMode().getAmountOfTeams()).collect(Collectors.toList());
+        return teams.stream().limit(Settings.mode.getAmountOfTeams()).collect(Collectors.toList());
     }
 
     public static void distributePlayers() {

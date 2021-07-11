@@ -43,7 +43,7 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
         // Check, if this mode has /shout enabled
-        if (Bedwars.getMode().equals(Mode.SOLO)) {
+        if (Settings.mode.equals(Mode.SOLO)) {
             player.sendMessage(Component.text("You can't use /shout in solo mode.", NamedTextColor.RED));
             return true;
         }
