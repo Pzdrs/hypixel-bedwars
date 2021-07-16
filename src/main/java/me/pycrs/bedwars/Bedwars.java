@@ -30,7 +30,7 @@ public final class Bedwars extends JavaPlugin {
     private List<BedwarsTeam> teams;
 
     private LobbyLoop lobbyLoop;
-    private static GameLoop gameLoop;
+    public static GameLoop gameLoop;
 
     @Override
     public void onEnable() {
@@ -71,12 +71,6 @@ public final class Bedwars extends JavaPlugin {
         lobbyLoop.runTaskTimer(this, 0, 20);
     }
 
-    public void startGame() {
-        BedwarsTeam.distributePlayers();
-        gameLoop = new GameLoop(this);
-        gameLoop.runTaskTimer(this, 0, 20);
-    }
-
     public List<BedwarsPlayer> getPlayers() {
         return players;
     }
@@ -113,9 +107,5 @@ public final class Bedwars extends JavaPlugin {
 
         new ShoutCommand(this);
         new StartCommand(this);
-    }
-
-    public static boolean isSoloOrDoubles() {
-        return Settings.mode.equals(Mode.SOLO) || Settings.mode.equals(Mode.DOUBLES);
     }
 }

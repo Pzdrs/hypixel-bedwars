@@ -2,6 +2,7 @@ package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -33,7 +34,7 @@ public class LobbyLoop extends BukkitRunnable {
         }
         if (timer.getAndDecrement() == 0) {
             this.cancel();
-            plugin.startGame();
+            Bukkit.getPluginManager().callEvent(new BedwarsGameStartEvent());
         }
     }
 

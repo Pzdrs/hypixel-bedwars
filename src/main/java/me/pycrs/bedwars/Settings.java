@@ -44,13 +44,15 @@ public class Settings {
         return true;
     }
 
-
-
     private static Mode teamSizeToMode(int teamSize) {
         for (Mode mode : Mode.values()) {
             if (mode.getTeamSize() == teamSize) return mode;
         }
         Bedwars.getInstance().getLogger().severe("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
         return null;
+    }
+
+    public static boolean isSoloOrDoubles() {
+        return mode.equals(Mode.SOLO) || mode.equals(Mode.DOUBLES);
     }
 }

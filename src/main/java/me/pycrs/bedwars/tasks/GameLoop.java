@@ -21,7 +21,6 @@ public class GameLoop extends BukkitRunnable {
 
     public GameLoop(Bedwars plugin) {
         this.plugin = plugin;
-        System.out.println(Settings.eventDiamondII);
         this.events = new ArrayList<>(Arrays.asList(
                 new GameEvent.Builder()
                         .period(0)

@@ -3,6 +3,8 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
+import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
+import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import net.kyori.adventure.text.Component;
@@ -35,11 +37,9 @@ public class PlayerJoinListener implements Listener {
         player.displayName(Component.text(event.getPlayer().getName(), NamedTextColor.GRAY));
 
         if (Bedwars.isGameInProgress()) {
-            BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(player);
             event.joinMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
                     .append(Component.text(" reconnected", NamedTextColor.GRAY)));
             // TODO: 6/20/2021 death and respawn
-            bedwarsPlayer.setSpectator(true);
         } else {
             // New join messages
             event.joinMessage(player.displayName()
