@@ -23,24 +23,6 @@ public class GameLoop extends BukkitRunnable {
         this.plugin = plugin;
         this.events = new ArrayList<>(Arrays.asList(
                 new GameEvent.Builder()
-                        .period(0)
-                        .broadcast(Component.text("the big ass welcome message im not bothered to make rn"))
-                        .handle(() -> {
-                            // Initial setup
-                            plugin.getPlayers().forEach(player -> {
-                                player.getPlayer().setGameMode(GameMode.SURVIVAL);
-                                player.teleportToBase();
-                            });
-
-                            // Initial generator activation
-                            plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI", true)));
-                            plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI", true)));
-                            plugin.getTeams().forEach(team -> {
-                                // These will depend on what map is in use
-                                team.getIronGenerator().activate(20);
-                            });
-                        }).build(),
-                new GameEvent.Builder()
                         .period(Settings.eventDiamondII)
                         .broadcast(Component.text("Diamond Generators", NamedTextColor.AQUA)
                                 .append(Component.text(" have been upgraded to Tier ", NamedTextColor.YELLOW))

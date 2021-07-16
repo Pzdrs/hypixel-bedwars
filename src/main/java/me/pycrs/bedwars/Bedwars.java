@@ -6,10 +6,7 @@ import me.pycrs.bedwars.entities.BedwarsMap;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.listeners.*;
-import me.pycrs.bedwars.listeners.bedwars.BedwarsBedBreakListener;
-import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerDeathListener;
-import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerKillListener;
-import me.pycrs.bedwars.listeners.bedwars.BedwarsPlayerRespawnListener;
+import me.pycrs.bedwars.listeners.bedwars.*;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.Utils;
@@ -100,6 +97,7 @@ public final class Bedwars extends JavaPlugin {
         new EntityPickupItemListener(this);
         new BlockBreakPlaceListener(this);
 
+        new BedwarsGameStartListener(this);
         new BedwarsPlayerDeathListener(this);
         new BedwarsPlayerRespawnListener(this);
         new BedwarsPlayerKillListener(this);
