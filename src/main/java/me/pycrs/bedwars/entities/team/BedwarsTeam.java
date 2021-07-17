@@ -18,10 +18,7 @@ import org.bukkit.scoreboard.Team;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BedwarsTeam {
@@ -29,13 +26,13 @@ public class BedwarsTeam {
     private Team team;
     private TeamColor teamColor;
     private TeamUpgrades upgrades;
-    private Set<BedwarsPlayer> players;
+    private Map<BedwarsPlayer, Boolean> players;
     private Forge forge;
     private Location spawn, teamChest, bedHead, bedFoot;
     private boolean hasBed = true;
 
     public BedwarsTeam(TeamColor teamColor, Location spawn, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
-        this.players = new HashSet<>();
+        this.players = new HashMap<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
         team.color(teamColor.getColor());
@@ -52,22 +49,22 @@ public class BedwarsTeam {
     public void addPlayer(Player player) {
         BedwarsPlayer bedwarsPlayer = new BedwarsPlayer(player, this);
         plugin.getPlayers().add(bedwarsPlayer);
-        players.add(bedwarsPlayer);
+        players.put(bedwarsPlayer, false);
         player.playerListName(Component.text(player.getName(), teamColor.getColor()));
         team.addEntry(player.getName());
     }
 
     public void teamBroadcast(Component message) {
-        players.forEach(player -> player.getPlayer().sendMessage(message));
+        players.forEach((bedwarsPlayer, aBoolean) -> bedwarsPlayer.getPlayer().sendMessage(message));
     }
 
     public boolean isPartOfTeam(BedwarsPlayer player) {
-        return players.contains(player);
+        return players.containsKey(player);
     }
 
     public boolean isPartOfTeam(Player player) {
-        for (BedwarsPlayer bedwarsPlayer : players) {
-            if (bedwarsPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
+        for (Map.Entry<BedwarsPlayer, Boolean> entry : players.entrySet()) {
+            if (entry.getKey().getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
         }
         return false;
     }
@@ -122,7 +119,7 @@ public class BedwarsTeam {
         return teamColor;
     }
 
-    public Set<BedwarsPlayer> getPlayers() {
+    public Map<BedwarsPlayer, Boolean> getPlayers() {
         return players;
     }
 
