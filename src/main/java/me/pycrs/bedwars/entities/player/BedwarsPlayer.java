@@ -119,13 +119,4 @@ public class BedwarsPlayer {
     public static BedwarsPlayer toBPlayer(Player player) {
         return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
-
-    public static BedwarsTeam getPlayersTeam(Player player) {
-        for (BedwarsTeam team : Bedwars.getInstance().getTeams()) {
-            for (BedwarsPlayer teamPlayer : team.getPlayers()) {
-                if (teamPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return team;
-            }
-        }
-        return null;
-    }
 }

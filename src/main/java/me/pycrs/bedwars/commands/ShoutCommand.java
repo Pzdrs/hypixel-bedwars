@@ -51,7 +51,7 @@ public class ShoutCommand implements TabExecutor {
         BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(player);
         bedwarsPlayer.shout(Component
                 .text(Utils.color("&6[SHOUT]&r "))
-                .append(Utils.getTeamPrefix(BedwarsPlayer.getPlayersTeam(player)))
+                .append(Utils.getTeamPrefix(BedwarsPlayer.toBPlayer(player).getTeam()))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
         return true;

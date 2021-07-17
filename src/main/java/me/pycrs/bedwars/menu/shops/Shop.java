@@ -28,7 +28,7 @@ public abstract class Shop extends Menu {
     public Shop(Player player) {
         super(player);
         this.categories = new LinkedList<>();
-        this.team = BedwarsPlayer.getPlayersTeam(player);
+        this.team = BedwarsPlayer.toBPlayer(player).getTeam();
 
         setCategories();
         setupSelectedCategory();
