@@ -107,12 +107,7 @@ public class BedwarsPlayer {
     @Override
     public String toString() {
         return "BedwarsPlayer{" +
-                "plugin=" + plugin +
-                ", player=" + player +
-                ", team=" + team +
-                ", spectating=" + spectating +
-                ", statistics=" + statistics +
-                ", level=" + level +
+                "player=" + player +
                 '}';
     }
 

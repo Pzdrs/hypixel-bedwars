@@ -149,6 +149,13 @@ public class BedwarsTeam {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "BedwarsTeam{" +
+                "players=" + players +
+                '}';
+    }
+
     public static List<BedwarsTeam> initTeams(JSONArray config) {
         List<BedwarsTeam> teams = new ArrayList<>();
         for (TeamColor color : TeamColor.values()) {
@@ -213,5 +220,17 @@ public class BedwarsTeam {
                 }
             }
         });
+        removeEmptyTeams();
+    }
+
+    private static void removeEmptyTeams() {
+        Iterator<BedwarsTeam> iterator = Bedwars.getInstance().getTeams().iterator();
+        while (iterator.hasNext()) {
+            BedwarsTeam team = iterator.next();
+            if (team.players.size() == 0) {
+                Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(team));
+                iterator.remove();
+            }
+        }
     }
 }
