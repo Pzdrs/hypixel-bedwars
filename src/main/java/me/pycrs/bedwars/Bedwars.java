@@ -98,6 +98,7 @@ public final class Bedwars extends JavaPlugin {
         new BlockBreakPlaceListener(this);
 
         new BedwarsGameStartListener(this);
+        new BedwarsGameEndListener(this);
         new BedwarsPlayerDeathListener(this);
         new BedwarsPlayerRespawnListener(this);
         new BedwarsPlayerKillListener(this);

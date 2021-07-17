@@ -5,9 +5,16 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 public class BedwarsGameEndEvent extends Event {
+    public enum Result {
+        EVERYONE_LEFT
+    }
+
+    private Result result;
+
     private static final HandlerList HANDLERS = new HandlerList();
 
-    public BedwarsGameEndEvent() {
+    public BedwarsGameEndEvent(Result result) {
+        this.result = result;
     }
 
     @Override
