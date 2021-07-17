@@ -137,7 +137,10 @@ public class BedwarsTeam {
     }
 
     public boolean isEliminated() {
-        return !hasBed && players.size() == 0;
+        for (Map.Entry<BedwarsPlayer, Boolean> entry : players.entrySet()) {
+            if (!entry.getValue()) return false;
+        }
+        return true;
     }
 
     public static List<BedwarsTeam> initTeams(JSONArray config) {
