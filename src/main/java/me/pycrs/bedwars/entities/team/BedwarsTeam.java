@@ -3,6 +3,7 @@ package me.pycrs.bedwars.entities.team;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
+import me.pycrs.bedwars.events.BedwarsTeamEliminationEvent;
 import me.pycrs.bedwars.generators.Forge;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;
@@ -56,7 +57,7 @@ public class BedwarsTeam {
     }
 
     public void teamBroadcast(Component message) {
-        players.forEach((bedwarsPlayer, aBoolean) -> bedwarsPlayer.getPlayer().sendMessage(message));
+        players.forEach((bedwarsPlayer, eliminated) -> bedwarsPlayer.getPlayer().sendMessage(message));
     }
 
     public boolean isPartOfTeam(BedwarsPlayer player) {
@@ -68,6 +69,11 @@ public class BedwarsTeam {
             if (entry.getKey().getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
         }
         return false;
+    }
+
+    public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
+        players.put(bedwarsPlayer, true);
+        if (isEliminated()) Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent());
     }
 
     public void destroyBed(BedwarsPlayer player) {

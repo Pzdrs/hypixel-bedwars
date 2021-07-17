@@ -7,6 +7,7 @@ import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.tasks.GameLoop;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +23,6 @@ public class BedwarsGameEndListener implements Listener {
 
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
-
+        Bukkit.reload();
     }
 }
