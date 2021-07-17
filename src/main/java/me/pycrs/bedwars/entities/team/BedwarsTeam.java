@@ -73,7 +73,7 @@ public class BedwarsTeam {
 
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
         players.put(bedwarsPlayer, true);
-        if (isEliminated()) Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent());
+        if (isEliminated()) Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
     }
 
     public void destroyBed(BedwarsPlayer player) {

@@ -99,6 +99,7 @@ public final class Bedwars extends JavaPlugin {
 
         new BedwarsGameStartListener(this);
         new BedwarsGameEndListener(this);
+        new BedwarsTeamEliminationListener(this);
         new BedwarsPlayerDeathListener(this);
         new BedwarsPlayerRespawnListener(this);
         new BedwarsPlayerKillListener(this);
