@@ -26,6 +26,7 @@ public class BedwarsTeam {
     private Team team;
     private TeamColor teamColor;
     private TeamUpgrades upgrades;
+    // The boolean value determines if the player is eliminated from the team, i.e. if true, the player is eliminated, if false they are not
     private Map<BedwarsPlayer, Boolean> players;
     private Forge forge;
     private Location spawn, teamChest, bedHead, bedFoot;

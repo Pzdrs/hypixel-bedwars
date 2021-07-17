@@ -17,6 +17,10 @@ public class BedwarsGameEndEvent extends Event {
         this.result = result;
     }
 
+    public Result getResult() {
+        return result;
+    }
+
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS;
