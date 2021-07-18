@@ -3,6 +3,7 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.tasks.LobbyLoop;
@@ -32,14 +33,19 @@ public class PlayerQuitListener implements Listener {
         int actualPlayerAmount = Bukkit.getOnlinePlayers().size() - 1;
 
         if (Bedwars.isGameInProgress()) {
-            // Quit message
-            event.quitMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
+            BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(player);
+            BedwarsTeam team = bedwarsPlayer.getTeam();
+            // Quit message - can't just set edit the message, because it's sent too late, timing is the sole reason for this messy workaround
+            event.quitMessage(null);
+            Utils.inGameBroadcast(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
                     .append(Component.text(" disconnected", NamedTextColor.GRAY)));
 
             // If everyone leaves, the game will end
             if (actualPlayerAmount == 0) {
                 Bukkit.getPluginManager().callEvent(new BedwarsGameEndEvent(BedwarsGameEndEvent.Result.EVERYONE_LEFT));
             }
+            // If someone leaves while their bed is gone, they are eliminated
+            if (!team.hasBed()) team.eliminatePlayer(bedwarsPlayer);
         } else {
             // Quit message
             event.quitMessage(player.displayName()
