@@ -56,8 +56,14 @@ public class BedwarsTeam {
         team.addEntry(player.getName());
     }
 
-    public void teamBroadcast(Component message) {
+    public void broadcastMessage(Component message) {
         players.forEach((bedwarsPlayer, eliminated) -> bedwarsPlayer.getPlayer().sendMessage(message));
+    }
+
+    public void broadcastTitle(Title title) {
+        players.forEach((bedwarsPlayer, eliminated) -> {
+            bedwarsPlayer.getPlayer().showTitle(title);
+        });
     }
 
     public boolean isPartOfTeam(BedwarsPlayer player) {
@@ -100,6 +106,7 @@ public class BedwarsTeam {
                         .append(Component.newline()));
             }
         });
+        if (getOnlinePlayers().size() == 0) Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
     }
 
     public boolean hasBed() {
@@ -128,6 +135,10 @@ public class BedwarsTeam {
 
     public Map<BedwarsPlayer, Boolean> getPlayers() {
         return players;
+    }
+
+    public List<BedwarsPlayer> getOnlinePlayers() {
+        return players.keySet().stream().filter(bedwarsPlayer -> bedwarsPlayer.getPlayer().isOnline()).collect(Collectors.toList());
     }
 
     public Location getTeamChest() {

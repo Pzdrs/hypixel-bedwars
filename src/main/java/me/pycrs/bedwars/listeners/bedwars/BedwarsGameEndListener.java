@@ -6,12 +6,19 @@ import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.tasks.GameLoop;
+import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.time.Duration;
 
 public class BedwarsGameEndListener implements Listener {
     private Bedwars plugin;
@@ -23,6 +30,30 @@ public class BedwarsGameEndListener implements Listener {
 
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
-        Bukkit.reload();
+        if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL) {
+            plugin.getTeams().forEach(team -> {
+                // Title either announcing your victory or your loss
+                team.broadcastTitle(Title.title(
+                        (team.getTeamColor() == event.getTeam().getTeamColor()) ?
+                                Component.text("VICTORY!", NamedTextColor.GOLD, TextDecoration.BOLD) :
+                                Component.text("GAME OVER!", NamedTextColor.RED, TextDecoration.BOLD),
+                        Component.empty(),
+                        Title.Times.of(Duration.ZERO, Duration.ofSeconds(5), Duration.ZERO)));
+                // Game summary
+                team.broadcastMessage(Component.empty()
+                        .append(Component.text("\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d", NamedTextColor.GREEN, TextDecoration.BOLD))
+                        .append(Component.newline())
+                        .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))
+                        .append(Component.newline())
+                        .append(Component.text("team + all members"))
+                        .append(Component.newline())
+                        .append(Component.newline())
+                        .append(Component.text("1st killer"))
+                        .append(Component.text("2st killer"))
+                        .append(Component.text("3st killer"))
+                        .append(Component.newline())
+                        .append(Component.text("----------------------------------------------------------------", NamedTextColor.GREEN, TextDecoration.BOLD)));
+            });
+        }
     }
 }
