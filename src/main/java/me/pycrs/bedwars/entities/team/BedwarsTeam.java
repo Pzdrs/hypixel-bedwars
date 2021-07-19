@@ -77,6 +77,15 @@ public class BedwarsTeam {
         return false;
     }
 
+    public Component getVictoryTeamMembersList() {
+        Component component = teamColor.getFriendlyName().append(Component.text(" - ", NamedTextColor.GRAY));
+        List<BedwarsPlayer> onlinePlayers = getOnlinePlayers();
+        for (int i = 0; i < onlinePlayers.size(); i++) {
+            component = component.append(onlinePlayers.get(i).getPlayer().displayName()).append(Component.text(i == onlinePlayers.size() - 1 ? "" : ", ", NamedTextColor.GRAY));
+        }
+        return component;
+    }
+
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
         players.put(bedwarsPlayer, true);
         if (isEliminated()) Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
@@ -106,7 +115,8 @@ public class BedwarsTeam {
                         .append(Component.newline()));
             }
         });
-        if (getOnlinePlayers().size() == 0) Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
+        if (getOnlinePlayers().size() == 0)
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
     }
 
     public boolean hasBed() {

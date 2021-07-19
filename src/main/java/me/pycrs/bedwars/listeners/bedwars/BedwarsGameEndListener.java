@@ -42,19 +42,12 @@ public class BedwarsGameEndListener implements Listener {
                 // Game summary
                 // TODO: 7/19/2021 The unicode symbol is subject to change
                 team.broadcastMessage(Component.empty()
-                        .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN))
+                        .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)).append(Component.newline())
+                        .append(Utils.nAmountOfSymbols(" ", 34)
+                                .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))).append(Component.newline())
+                        .append(team.getVictoryTeamMembersList())
                         .append(Component.newline())
-                        .append(Utils.nAmountOfSymbols(" ", 25))
-                        .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))
-                        .append(Component.newline())
-                        .append(Component.text("team + all members"))
-                        .append(Component.newline())
-                        .append(Component.newline())
-                        .append(Component.text("1st killer"))
-                        .append(Component.text("2st killer"))
-                        .append(Component.text("3st killer"))
-                        .append(Component.newline())
-                        .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN)));
+                        .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)));
             });
         }
     }

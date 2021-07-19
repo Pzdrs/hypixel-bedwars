@@ -24,13 +24,17 @@ public enum TeamColor {
         return color;
     }
 
+    public Component getFriendlyName() {
+        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getColor());
+    }
+
     public Component getDisplay() {
-        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getColor())
+        return getFriendlyName()
                 .append(Component.text(" Team"));
     }
 
     public Component getBedDisplay() {
-        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getColor())
+        return getFriendlyName()
                 .append(Component.text(" Bed"));
     }
 }
