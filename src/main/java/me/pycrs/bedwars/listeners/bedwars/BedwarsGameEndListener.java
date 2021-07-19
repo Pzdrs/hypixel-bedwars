@@ -55,15 +55,18 @@ public class BedwarsGameEndListener implements Listener {
                         .append(Component.newline()).append(Component.newline())
                         .append(isWorthyOfPlacement(0) ?
                                 Component.text(Utils.color("&e&l1st Killer &7-&r ")).append(plugin.getPlayers().get(0).getPlayer().displayName())
-                                        .append(Component.text(" - " + plugin.getPlayers().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY)) :
+                                        .append(Component.text(" - " + plugin.getPlayers().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                        .append(Component.newline()) :
                                 Component.empty())
                         .append(isWorthyOfPlacement(1) ?
                                 Component.text(Utils.color("&6&l2nd Killer &7-&r ")).append(plugin.getPlayers().get(1).getPlayer().displayName())
-                                        .append(Component.text(" - " + plugin.getPlayers().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY)) :
+                                        .append(Component.text(" - " + plugin.getPlayers().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                        .append(Component.newline()) :
                                 Component.empty())
                         .append(isWorthyOfPlacement(2) ?
                                 Component.text(Utils.color("&c&l3rd Killer &7-&r ")).append(plugin.getPlayers().get(2).getPlayer().displayName())
-                                        .append(Component.text(" - " + plugin.getPlayers().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY)) :
+                                        .append(Component.text(" - " + plugin.getPlayers().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                        .append(Component.newline()) :
                                 Component.empty())
                         .append(Component.newline())
                         .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)));
