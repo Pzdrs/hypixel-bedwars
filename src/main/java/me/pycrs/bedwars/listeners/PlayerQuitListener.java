@@ -1,5 +1,6 @@
 package me.pycrs.bedwars.listeners;
 
+import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
@@ -45,7 +46,8 @@ public class PlayerQuitListener implements Listener {
                 Bukkit.getPluginManager().callEvent(new BedwarsGameEndEvent(BedwarsGameEndEvent.Result.EVERYONE_LEFT));
             }
             // If someone leaves while their bed is gone, they are eliminated
-            if (!team.hasBed()) team.eliminatePlayer(bedwarsPlayer);
+            // Also, if the game is in SOLO mode and the person disconnects, there is no one else in the team, so the team gets eliminated
+            if (!team.hasBed() || Settings.mode == Mode.SOLO) team.eliminatePlayer(bedwarsPlayer);
         } else {
             // Quit message
             event.quitMessage(player.displayName()
