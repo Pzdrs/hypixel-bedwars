@@ -1,8 +1,25 @@
 package me.pycrs.bedwars;
 
+import me.pycrs.bedwars.util.Utils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Settings {
+    public static final Component WELCOME_MESSAGE = Component.empty()
+            .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN)).append(Component.newline())
+            .append(Utils.nAmountOfSymbols(" ", 25)
+                    .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))).append(Component.newline())
+            .append(Component.newline())
+            .append(Component.text("Protect your bed and destroy the enemy beds.", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
+            .append(Component.text("Upgrade yourself and your team by collecting", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
+            .append(Component.text("Iron, Gold, Emeralds and Diamonds from generators", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
+            .append(Component.text("to access powerful upgrades.", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
+            .append(Component.newline())
+            .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN));
+
     public static Mode mode;
     public static int lobbyCountdown;
     public static int shoutCooldown;

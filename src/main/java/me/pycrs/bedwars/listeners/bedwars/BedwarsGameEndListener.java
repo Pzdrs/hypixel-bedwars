@@ -40,9 +40,11 @@ public class BedwarsGameEndListener implements Listener {
                         Component.empty(),
                         Title.Times.of(Duration.ZERO, Duration.ofSeconds(5), Duration.ZERO)));
                 // Game summary
+                // TODO: 7/19/2021 The unicode symbol is subject to change
                 team.broadcastMessage(Component.empty()
-                        .append(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", NamedTextColor.GREEN, TextDecoration.BOLD))
+                        .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN))
                         .append(Component.newline())
+                        .append(Utils.nAmountOfSymbols(" ", 25))
                         .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))
                         .append(Component.newline())
                         .append(Component.text("team + all members"))
@@ -52,7 +54,7 @@ public class BedwarsGameEndListener implements Listener {
                         .append(Component.text("2st killer"))
                         .append(Component.text("3st killer"))
                         .append(Component.newline())
-                        .append(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", NamedTextColor.GREEN, TextDecoration.BOLD)));
+                        .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN)));
             });
         }
     }

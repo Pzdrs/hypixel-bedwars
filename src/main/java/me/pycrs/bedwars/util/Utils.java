@@ -96,7 +96,11 @@ public class Utils {
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
     }
 
-    private static double getBedWarsLevel(double exp) {
+    public static Component nAmountOfSymbols(String symbol, int n) {
+        return Component.text(String.valueOf(symbol).repeat(Math.max(0, n)));
+    }
+
+    public static double getBedWarsLevel(double exp) {
         int level = 100 * ((int) (exp / 487000));
         exp = exp % 487000;
         if (exp < 500) return level + exp / 500;

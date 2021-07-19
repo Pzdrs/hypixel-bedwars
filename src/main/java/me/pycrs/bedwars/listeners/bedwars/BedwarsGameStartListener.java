@@ -1,13 +1,17 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.tasks.GameLoop;
+import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +34,7 @@ public class BedwarsGameStartListener implements Listener {
         plugin.getPlayers().forEach(bedwarsPlayer -> {
             Player player = bedwarsPlayer.getPlayer();
             player.setGameMode(GameMode.SURVIVAL);
-            player.sendMessage(Component.text("bigass welcome message"));
+            player.sendMessage(Settings.WELCOME_MESSAGE);
             bedwarsPlayer.teleportToBase();
         });
 
