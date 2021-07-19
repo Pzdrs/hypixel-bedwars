@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
@@ -19,6 +20,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.time.Duration;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class BedwarsGameEndListener implements Listener {
     private Bedwars plugin;
@@ -31,6 +35,9 @@ public class BedwarsGameEndListener implements Listener {
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL) {
+            // Sort the players by kills
+            Collections.sort(plugin.getPlayers());
+            System.out.println(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {
                 // Title either announcing your victory or your loss
                 team.broadcastTitle(Title.title(
@@ -43,9 +50,10 @@ public class BedwarsGameEndListener implements Listener {
                 // TODO: 7/19/2021 The unicode symbol is subject to change
                 team.broadcastMessage(Component.empty()
                         .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)).append(Component.newline())
+                        .append(Component.newline())
                         .append(Utils.nAmountOfSymbols(" ", 34)
                                 .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))).append(Component.newline())
-                        .append(team.getVictoryTeamMembersList())
+                        .append(team.getVictoryTeamMembersList()).append(Component.newline())
                         .append(Component.newline())
                         .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)));
             });

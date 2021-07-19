@@ -11,12 +11,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class BedwarsPlayer {
+public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
     private Bedwars plugin;
@@ -108,10 +109,16 @@ public class BedwarsPlayer {
     public String toString() {
         return "BedwarsPlayer{" +
                 "player=" + player +
+                ", statistics=" + statistics +
                 '}';
     }
 
     public static BedwarsPlayer toBPlayer(Player player) {
         return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
+    }
+
+    @Override
+    public int compareTo(@NotNull BedwarsPlayer o) {
+        return (o.statistics.getKills() + o.statistics.getFinalKills()) - (this.statistics.getKills() + this.statistics.getFinalKills());
     }
 }

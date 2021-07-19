@@ -1,6 +1,5 @@
 package me.pycrs.bedwars.entities.player;
 
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerStatistics {
@@ -52,27 +51,11 @@ public class PlayerStatistics {
         this.beds = beds;
     }
 
-    public int getIronCollected() {
-        return ironCollected;
-    }
-
-    public void setIronCollected(int ironCollected) {
-        this.ironCollected = ironCollected;
-    }
-
-    public int getGoldCollected() {
-        return goldCollected;
-    }
-
-    public void setGoldCollected(int goldCollected) {
-        this.goldCollected = goldCollected;
-    }
-
-    public int getEmeraldCollected() {
-        return emeraldCollected;
-    }
-
-    public void setEmeraldCollected(int emeraldCollected) {
-        this.emeraldCollected = emeraldCollected;
+    @Override
+    public String toString() {
+        return "PlayerStatistics{" +
+                "kills=" + kills +
+                ", finalKills=" + finalKills +
+                '}';
     }
 }
