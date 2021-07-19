@@ -9,16 +9,20 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class Settings {
     public static final Component WELCOME_MESSAGE = Component.empty()
-            .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN)).append(Component.newline())
-            .append(Utils.nAmountOfSymbols(" ", 25)
+            .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)).append(Component.newline())
+            .append(Utils.nAmountOfSymbols(" ", 34)
                     .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))).append(Component.newline())
             .append(Component.newline())
-            .append(Component.text("Protect your bed and destroy the enemy beds.", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
-            .append(Component.text("Upgrade yourself and your team by collecting", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
-            .append(Component.text("Iron, Gold, Emeralds and Diamonds from generators", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
-            .append(Component.text("to access powerful upgrades.", NamedTextColor.YELLOW, TextDecoration.BOLD)).append(Component.newline())
+            .append(Utils.nAmountOfSymbols(" ", 5)
+                    .append(Component.text("Protect your bed and destroy the enemy beds.", NamedTextColor.YELLOW, TextDecoration.BOLD))).append(Component.newline())
+            .append(Utils.nAmountOfSymbols(" ", 6)
+                    .append(Component.text("Upgrade yourself and your team by collecting", NamedTextColor.YELLOW, TextDecoration.BOLD))).append(Component.newline())
+            .append(Utils.nAmountOfSymbols(" ", 2)
+                    .append(Component.text("Iron, Gold, Emeralds and Diamonds from generators", NamedTextColor.YELLOW, TextDecoration.BOLD))).append(Component.newline())
+            .append(Utils.nAmountOfSymbols(" ", 18)
+                    .append(Component.text("to access powerful upgrades.", NamedTextColor.YELLOW, TextDecoration.BOLD))).append(Component.newline())
             .append(Component.newline())
-            .append(Utils.nAmountOfSymbols("\u25ac", 64).color(NamedTextColor.GREEN));
+            .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN));
 
     public static Mode mode;
     public static int lobbyCountdown;
