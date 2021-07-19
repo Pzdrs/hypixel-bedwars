@@ -119,6 +119,6 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     @Override
     public int compareTo(@NotNull BedwarsPlayer o) {
-        return (o.statistics.getKills() + o.statistics.getFinalKills()) - (this.statistics.getKills() + this.statistics.getFinalKills());
+        return o.statistics.getCombinedKills() - this.statistics.getCombinedKills();
     }
 }

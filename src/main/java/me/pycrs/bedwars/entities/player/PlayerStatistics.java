@@ -9,6 +9,10 @@ public class PlayerStatistics {
         return kills;
     }
 
+    public int getCombinedKills() {
+        return kills + finalKills;
+    }
+
     public void setKills(int kills) {
         this.kills = kills;
     }

@@ -37,7 +37,6 @@ public class BedwarsGameEndListener implements Listener {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL) {
             // Sort the players by kills
             Collections.sort(plugin.getPlayers());
-            System.out.println(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {
                 // Title either announcing your victory or your loss
                 team.broadcastTitle(Title.title(
@@ -47,16 +46,37 @@ public class BedwarsGameEndListener implements Listener {
                         Component.empty(),
                         Title.Times.of(Duration.ZERO, Duration.ofSeconds(5), Duration.ZERO)));
                 // Game summary
-                // TODO: 7/19/2021 The unicode symbol is subject to change
                 team.broadcastMessage(Component.empty()
                         .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)).append(Component.newline())
                         .append(Component.newline())
                         .append(Utils.nAmountOfSymbols(" ", 34)
                                 .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))).append(Component.newline())
                         .append(team.getVictoryTeamMembersList()).append(Component.newline())
+                        .append(Component.newline()).append(Component.newline())
+                        .append(isWorthyOfPlacement(0) ?
+                                Component.text(Utils.color("&e&l1st Killer &7-&r ")).append(plugin.getPlayers().get(0).getPlayer().displayName())
+                                        .append(Component.text(" - " + plugin.getPlayers().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY)) :
+                                Component.empty())
+                        .append(isWorthyOfPlacement(1) ?
+                                Component.text(Utils.color("&6&l2nd Killer &7-&r ")).append(plugin.getPlayers().get(1).getPlayer().displayName())
+                                        .append(Component.text(" - " + plugin.getPlayers().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY)) :
+                                Component.empty())
+                        .append(isWorthyOfPlacement(2) ?
+                                Component.text(Utils.color("&c&l3rd Killer &7-&r ")).append(plugin.getPlayers().get(2).getPlayer().displayName())
+                                        .append(Component.text(" - " + plugin.getPlayers().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY)) :
+                                Component.empty())
                         .append(Component.newline())
                         .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)));
             });
+        }
+    }
+
+    private boolean isWorthyOfPlacement(int index) {
+        try {
+            BedwarsPlayer bedwarsPlayer = plugin.getPlayers().get(index);
+            return bedwarsPlayer.getStatistics().getCombinedKills() != 0;
+        } catch (IndexOutOfBoundsException exception) {
+            return false;
         }
     }
 }
