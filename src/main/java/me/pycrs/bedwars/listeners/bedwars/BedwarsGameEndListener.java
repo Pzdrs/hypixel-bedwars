@@ -41,7 +41,7 @@ public class BedwarsGameEndListener implements Listener {
                         Title.Times.of(Duration.ZERO, Duration.ofSeconds(5), Duration.ZERO)));
                 // Game summary
                 team.broadcastMessage(Component.empty()
-                        .append(Component.text("\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d\u002d", NamedTextColor.GREEN, TextDecoration.BOLD))
+                        .append(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", NamedTextColor.GREEN, TextDecoration.BOLD))
                         .append(Component.newline())
                         .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))
                         .append(Component.newline())
@@ -52,7 +52,7 @@ public class BedwarsGameEndListener implements Listener {
                         .append(Component.text("2st killer"))
                         .append(Component.text("3st killer"))
                         .append(Component.newline())
-                        .append(Component.text("----------------------------------------------------------------", NamedTextColor.GREEN, TextDecoration.BOLD)));
+                        .append(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", NamedTextColor.GREEN, TextDecoration.BOLD)));
             });
         }
     }

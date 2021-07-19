@@ -16,6 +16,8 @@ public class BedwarsBedBreakEvent extends Event implements Cancellable {
     public BedwarsBedBreakEvent(BedwarsTeam team, BlockBreakEvent event) {
         this.team = team;
         this.event = event;
+        // The bed does not drop the actual bed item when destroyed
+        event.setDropItems(false);
     }
 
     public BedwarsTeam getTeam() {
