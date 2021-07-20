@@ -4,6 +4,9 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

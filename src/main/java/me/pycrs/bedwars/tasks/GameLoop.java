@@ -64,9 +64,7 @@ public class GameLoop extends BukkitRunnable {
                         .before(new GameEvent.Builder()
                                 .period(Settings.eventBedDestruction - 300)
                                 .broadcast(Component.text("All beds will be destroyed in 5 minutes!", NamedTextColor.RED, TextDecoration.BOLD)).build())
-                        .handle(() -> {
-                            System.out.println("bed destroyed");
-                        }).build(),
+                        .handle(() -> plugin.getTeams().forEach(team -> team.destroyBed(null))).build(),
                 new GameEvent.Builder()
                         .period(Settings.eventSuddenDeath)
                         .handle(() -> {
@@ -84,7 +82,7 @@ public class GameLoop extends BukkitRunnable {
     @Override
     public void run() {
         int lastReward = -20;
-        if (currentTime == lastReward+60) {
+        if (currentTime == lastReward + 60) {
             // TODO: 7/20/2021 periodical reward, also make the game event applicable for periodical events, includes random announcements, etc.
             Utils.inGameBroadcast(Component.text("+25 Bed Wars Experience (Time Played)", NamedTextColor.AQUA));
             Utils.inGameBroadcast(Component.text("+12 coins! (Time Played)", NamedTextColor.GOLD));
