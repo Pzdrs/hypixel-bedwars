@@ -34,7 +34,7 @@ public class BedwarsGameEndListener implements Listener {
 
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
-        if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL) {
+        if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL || event.getResult() == BedwarsGameEndEvent.Result.GAME_END) {
             // Sort the players by kills
             Collections.sort(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {

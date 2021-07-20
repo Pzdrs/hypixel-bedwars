@@ -3,17 +3,20 @@ package me.pycrs.bedwars.tasks;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.gameevent.GameEvent;
+import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class GameLoop extends BukkitRunnable {
     private Bedwars plugin;
@@ -73,7 +76,9 @@ public class GameLoop extends BukkitRunnable {
                 new GameEvent.Builder()
                         .period(Settings.eventGameEnd)
                         .handle(() -> {
-                            System.out.println("game ended");
+                            // TODO: 7/20/2021 it's not suppose to be random i think there is some sort of formula for determining the winning team but i cannot find it anywhere
+                            Bukkit.getServer().getPluginManager().callEvent(new BedwarsGameEndEvent(BedwarsGameEndEvent.Result.GAME_END,
+                                    plugin.getTeams().get(new Random().nextInt(plugin.getTeams().size()))));
                             cancel();
                         }).build()
         ));
@@ -83,7 +88,6 @@ public class GameLoop extends BukkitRunnable {
     public void run() {
         int lastReward = -20;
         if (currentTime == lastReward + 60) {
-            // TODO: 7/20/2021 periodical reward, also make the game event applicable for periodical events, includes random announcements, etc.
             Utils.inGameBroadcast(Component.text("+25 Bed Wars Experience (Time Played)", NamedTextColor.AQUA));
             Utils.inGameBroadcast(Component.text("+12 coins! (Time Played)", NamedTextColor.GOLD));
             lastReward = currentTime;

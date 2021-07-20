@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class BedwarsGameEndEvent extends Event {
     public enum Result {
         NORMAL,
+        GAME_END,
         EVERYONE_LEFT
     }
 
