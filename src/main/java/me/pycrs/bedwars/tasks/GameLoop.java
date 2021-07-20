@@ -4,6 +4,7 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.gameevent.GameEvent;
 import me.pycrs.bedwars.generators.Generator;
+import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -38,7 +39,7 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text("II", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
                             generator.deactivate();
-                            generator.activate(Generator.getProperty("emeraldII",true));
+                            generator.activate(Generator.getProperty("emeraldII", true));
                         })).build(),
                 new GameEvent.Builder()
                         .period(Settings.eventDiamondIII)
@@ -47,7 +48,7 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getDiamondGenerators().forEach(generator -> {
                             generator.deactivate();
-                            generator.activate(Generator.getProperty("diamondIII",true));
+                            generator.activate(Generator.getProperty("diamondIII", true));
                         })).build(),
                 new GameEvent.Builder()
                         .period(Settings.eventEmeraldIII)
@@ -56,7 +57,7 @@ public class GameLoop extends BukkitRunnable {
                                 .append(Component.text("III", NamedTextColor.RED)))
                         .handle(() -> plugin.getMap().getEmeraldGenerators().forEach(generator -> {
                             generator.deactivate();
-                            generator.activate(Generator.getProperty("emeraldIII",true));
+                            generator.activate(Generator.getProperty("emeraldIII", true));
                         })).build(),
                 new GameEvent.Builder()
                         .period(Settings.eventBedDestruction)
@@ -82,6 +83,13 @@ public class GameLoop extends BukkitRunnable {
 
     @Override
     public void run() {
+        int lastReward = -20;
+        if (currentTime == lastReward+60) {
+            // TODO: 7/20/2021 periodical reward, also make the game event applicable for periodical events, includes random announcements, etc.
+            Utils.inGameBroadcast(Component.text("+25 Bed Wars Experience (Time Played)", NamedTextColor.AQUA));
+            Utils.inGameBroadcast(Component.text("+12 coins! (Time Played)", NamedTextColor.GOLD));
+            lastReward = currentTime;
+        }
         events.forEach(gameEvent -> gameEvent.proceed(currentTime));
         currentTime++;
     }
