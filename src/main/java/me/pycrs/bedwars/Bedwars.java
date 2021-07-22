@@ -89,7 +89,6 @@ public final class Bedwars extends JavaPlugin {
         new PlayerJoinListener(this);
         new PlayerQuitListener(this);
         new AsyncChatListener(this);
-        new AsyncPlayerPreLoginListener(this);
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
         new InventoryClickListener(this);

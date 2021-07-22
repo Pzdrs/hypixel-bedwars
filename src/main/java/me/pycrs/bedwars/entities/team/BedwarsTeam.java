@@ -254,7 +254,7 @@ public class BedwarsTeam {
                 }
             }
         });
-        removeEmptyTeams();
+        //removeEmptyTeams();
     }
 
     private static void removeEmptyTeams() {

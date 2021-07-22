@@ -32,7 +32,6 @@ public class AsyncChatListener implements Listener {
                                 .append(Component.text(": ", NamedTextColor.WHITE))
                                 .append(event.message().color(NamedTextColor.WHITE))));
             } else if (!player.isSpectating()) {
-                // TODO: 6/16/2021 add bw level 
                 if (Settings.mode == Mode.SOLO) {
                     // Send to everyone
                     event.setCancelled(true);

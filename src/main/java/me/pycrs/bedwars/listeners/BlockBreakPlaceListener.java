@@ -4,6 +4,7 @@ import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
+import me.pycrs.bedwars.generators.Generator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +30,21 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        // TODO: 6/20/2021 cant place blocks inside base or near generators or above y256
+        // TODO: 6/20/2021 cant place blocks inside base
+        for (Generator generator : plugin.getMap().getDiamondGenerators()) {
+            if (generator.wasPlacedInsideGenerator(event.getBlock())) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(Component.text("You can't break blocks here!", NamedTextColor.RED));
+                return;
+            }
+        }
+        for (Generator generator : plugin.getMap().getEmeraldGenerators()) {
+            if (generator.wasPlacedInsideGenerator(event.getBlock())) {
+                event.setCancelled(true);
+                event.getPlayer().sendMessage(Component.text("You can't break blocks here!", NamedTextColor.RED));
+                return;
+            }
+        }
         placedBlocks.add(event.getBlock());
     }
 
