@@ -5,17 +5,31 @@ import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
@@ -25,7 +39,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     private BedwarsTeam team;
     private boolean spectating = false;
     private PlayerStatistics statistics;
-    private int level;
+    private int level = 0;
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
@@ -33,10 +47,27 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         this.team = team;
         this.statistics = new PlayerStatistics();
 
+        // Fetching player's statistics from the official Hypixel API
         String apiKey = Settings.hypixelApiKey;
         if (apiKey != null) {
-            // TODO: 6/15/2021 fetch player's bedwars experience from api.hypixel.net
-        } else this.level = 0;
+            HttpClient client = HttpClients.createDefault();
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                try {
+                    HttpResponse response = client.execute(new HttpGet("https://api.hypixel.net/player?key=" + apiKey + "&uuid=" + player.getUniqueId()));
+                    JSONObject object = new JSONObject(Utils.streamToString(response.getEntity().getContent()));
+                    if (object.getBoolean("success")) {
+                        JSONObject stats = object.getJSONObject("player").getJSONObject("stats").getJSONObject("Bedwars");
+                        this.level = (int) Utils.getBedWarsLevel(stats.getDouble("Experience"));
+                    } else {
+                        Bukkit.getLogger().severe("An unexpected error occurred while fetching Hypixel data for " +
+                                player.getUniqueId() + ". Caused by: " + object.getString("cause"));
+                    }
+                } catch (IOException e) {
+                    Bukkit.getLogger().severe("An unexpected error occurred while fetching Hypixel data for " + player.getUniqueId());
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     public void shout(Component component) {
@@ -71,6 +102,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
             plugin.getPlayers().forEach(player -> player.getPlayer().showPlayer(plugin, this.player));
         }
+        player.setGameMode(GameMode.SURVIVAL);
         player.getInventory().clear();
         player.getInventory().addItem(new ItemStack(Material.COMPASS));
         player.setHealth(20);

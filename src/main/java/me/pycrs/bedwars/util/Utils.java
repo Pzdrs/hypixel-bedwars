@@ -10,6 +10,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 public class Utils {
     public static String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
@@ -113,5 +119,20 @@ public class Utils {
         level++;
         exp -= 7000;
         return level + exp / 5000;
+    }
+
+    public static String streamToString(InputStream stream) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+        StringBuilder s = new StringBuilder();
+        try {
+            int data = reader.read();
+            while (data != -1) {
+                s.append((char) data);
+                data = reader.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return s.toString();
     }
 }

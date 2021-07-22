@@ -12,6 +12,10 @@ shoutCooldown: 30
 # Example: A player hits another player, if they die in the next n amount of seconds the first player gets the kill
 playerTagPeriod: 5
 
+# The hypixel api key, that will be used to fetch some additional data, meaning that the plugin will work just fine without it
+# If you want to use this feature, uncomment the field below and replace <key> with your key
+#hypixelApiKey: <key>
+
 # Generator settings in solos and doubles
 generators1&2:
   # The Forge
