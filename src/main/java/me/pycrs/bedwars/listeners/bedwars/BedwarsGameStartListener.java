@@ -33,8 +33,8 @@ public class BedwarsGameStartListener implements Listener {
         // Initial setup
         plugin.getPlayers().forEach(bedwarsPlayer -> {
             Player player = bedwarsPlayer.getPlayer();
-            player.setGameMode(GameMode.SURVIVAL);
             player.sendMessage(Settings.WELCOME_MESSAGE);
+            bedwarsPlayer.setSpectator(false);
             bedwarsPlayer.teleportToBase();
         });
 

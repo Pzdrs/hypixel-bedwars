@@ -31,6 +31,7 @@ public class BedwarsPlayerRespawnListener implements Listener {
             if (respawnTimer.get() == 0) {
                 bukkitTask.cancel();
                 event.getBPlayer().setSpectator(false);
+                event.getBPlayer().teleportToBase();
                 player.setInvisible(false);
                 player.sendMessage(Component.text("You have respawned!", NamedTextColor.YELLOW));
                 player.showTitle(Title.title(Component.text("RESPAWNED!", NamedTextColor.GREEN), Component.empty(),

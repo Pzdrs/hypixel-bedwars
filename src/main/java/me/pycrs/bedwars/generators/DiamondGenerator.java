@@ -15,13 +15,13 @@ public class DiamondGenerator extends Generator {
     }
 
     @Override
-    protected void generateResource() {
+    protected void generateResource(Material material) {
         if (current >= cap) return;
-        super.generateResource();
+        super.generateResource(material);
         current++;
     }
 
-    public void pickupResource(EntityPickupItemEvent event, BedwarsPlayer bedwarsPlayer) {
+    protected void pickupResource(EntityPickupItemEvent event, BedwarsPlayer bedwarsPlayer) {
         current = Math.max(current - event.getItem().getItemStack().getAmount(), 0);
         bedwarsPlayer.getStatistics().addResources(event.getItem().getItemStack());
     }

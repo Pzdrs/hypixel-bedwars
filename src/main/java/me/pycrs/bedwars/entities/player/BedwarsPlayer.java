@@ -68,7 +68,6 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 if (!player.isSpectating()) player.getPlayer().hidePlayer(plugin, this.player);
             });
         } else {
-            teleportToBase();
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
             plugin.getPlayers().forEach(player -> player.getPlayer().showPlayer(plugin, this.player));
         }

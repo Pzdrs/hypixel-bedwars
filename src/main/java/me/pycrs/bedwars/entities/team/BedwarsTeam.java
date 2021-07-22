@@ -132,6 +132,10 @@ public class BedwarsTeam {
         return hasBed;
     }
 
+    public Forge getForge() {
+        return forge;
+    }
+
     public Location getSpawn() {
         return spawn.clone().add(-.5, 0, .5);
     }

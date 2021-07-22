@@ -1,8 +1,10 @@
 package me.pycrs.bedwars.generators;
 
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 
 import java.util.Random;
 
@@ -22,11 +24,27 @@ public class Forge extends Generator {
     }
 
     @Override
+    protected void generateResource(Material material) {
+        if (currentIron >= ironCap || currentGold >= goldCap) return;
+        super.generateResource(material);
+        if (material == Material.IRON_INGOT) currentIron++;
+        else if (material == Material.GOLD_INGOT) currentGold++;
+    }
+
+    @Override
     protected Material getResource() {
         int rnd = new Random().nextInt(100);
         if (rnd < 20) {
             return Material.GOLD_INGOT;
         } else return Material.IRON_INGOT;
+    }
+
+    protected void pickupResource(EntityPickupItemEvent event, BedwarsPlayer bedwarsPlayer, Material material) {
+        if (material == Material.IRON_INGOT)
+            currentIron = Math.max(currentIron - event.getItem().getItemStack().getAmount(), 0);
+        else if (material == Material.GOLD_INGOT)
+            currentGold = Math.max(currentGold - event.getItem().getItemStack().getAmount(), 0);
+        bedwarsPlayer.getStatistics().addResources(event.getItem().getItemStack());
     }
 
     public void setTeam(BedwarsTeam team) {

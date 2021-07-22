@@ -7,6 +7,7 @@ import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -32,8 +33,8 @@ public abstract class Generator {
         return location.clone().add(.5, 2.5, .5);
     }
 
-    protected void generateResource() {
-        Item item = Bukkit.getWorld("world").dropItem(getResourceLocation(), new ItemStack(getResource()));
+    protected void generateResource(Material material) {
+        Item item = Bukkit.getWorld("world").dropItem(getResourceLocation(), new ItemStack(material));
         item.setVelocity(new Vector(0, .1, 0));
     }
 
@@ -57,7 +58,7 @@ public abstract class Generator {
         return new BukkitRunnable() {
             @Override
             public void run() {
-                generateResource();
+                generateResource(getResource());
             }
         };
     }
@@ -71,6 +72,15 @@ public abstract class Generator {
     public static boolean pickupCheck(BedwarsMap map, EntityPickupItemEvent event) {
         BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer((Player) event.getEntity());
         switch (event.getItem().getItemStack().getType()) {
+            case IRON_INGOT:
+            case GOLD_INGOT:
+                Bedwars.getInstance().getTeams().forEach(team -> {
+                    Location item = event.getItem().getLocation();
+                    item.setY(team.getForge().location.getY());
+                    if (team.getForge().location.distance(item) < 1) {
+                        team.getForge().pickupResource(event, bedwarsPlayer, event.getItem().getItemStack().getType());
+                    }
+                });
             case DIAMOND:
                 for (Generator diamondGenerator : map.getDiamondGenerators()) {
                     Location item = event.getItem().getLocation();
