@@ -5,16 +5,17 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import me.pycrs.bedwars.generators.Generator;
+import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,18 +31,23 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        // TODO: 6/20/2021 cant place blocks inside base
         for (Generator generator : plugin.getMap().getDiamondGenerators()) {
-            if (generator.wasPlacedInsideGenerator(event.getBlock())) {
+            if (Utils.isInArea(event.getBlock().getLocation(), generator.getLocation(), 4, 6, 4)) {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage(Component.text("You can't break blocks here!", NamedTextColor.RED));
+                event.getPlayer().sendMessage(Component.text("You can't place blocks here!", NamedTextColor.RED));
                 return;
             }
         }
         for (Generator generator : plugin.getMap().getEmeraldGenerators()) {
-            if (generator.wasPlacedInsideGenerator(event.getBlock())) {
+            if (Utils.isInArea(event.getBlock().getLocation(), generator.getLocation(), 4, 6, 4)) {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage(Component.text("You can't break blocks here!", NamedTextColor.RED));
+                event.getPlayer().sendMessage(Component.text("You can't place blocks here!", NamedTextColor.RED));
+                return;
+            }
+        }
+        for (BedwarsTeam team : plugin.getTeams()) {
+            if (team.getBaseArea().isInArea(event.getBlock().getLocation())) {
+                event.setCancelled(true);
                 return;
             }
         }
@@ -62,11 +68,6 @@ public class BlockBreakPlaceListener implements Listener {
         } else if (!placedBlocks.contains(event.getBlock())) {
             // If just a general block - long message
             event.getPlayer().sendMessage(Component.text("You can only break blocks placed by a player!", NamedTextColor.RED));
-            event.setCancelled(true);
-        } else if (false) {
-            // TODO: 6/13/2021 check if inside the base
-            // If not near the protected base area - short message
-            event.getPlayer().sendMessage(Component.text("You can't break blocks here!", NamedTextColor.RED));
             event.setCancelled(true);
         } else placedBlocks.remove(event.getBlock());
     }

@@ -33,9 +33,10 @@ public class BedwarsTeam {
     private Map<BedwarsPlayer, Boolean> players;
     private Forge forge;
     private Location spawn, teamChest, bedHead, bedFoot;
+    private Area baseArea;
     private boolean hasBed = true;
 
-    public BedwarsTeam(TeamColor teamColor, Location spawn, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
+    public BedwarsTeam(TeamColor teamColor, Location spawn, Area baseArea, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
         this.players = new HashMap<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
@@ -44,6 +45,7 @@ public class BedwarsTeam {
         this.teamChest = teamChest;
         this.teamColor = teamColor;
         this.spawn = spawn;
+        this.baseArea = baseArea;
         this.bedHead = bedHead;
         this.bedFoot = bedFoot;
         this.forge = forge;
@@ -168,6 +170,10 @@ public class BedwarsTeam {
         return teamChest;
     }
 
+    public Area getBaseArea() {
+        return baseArea;
+    }
+
     public Forge getIronGenerator() {
         return forge;
     }
@@ -197,6 +203,7 @@ public class BedwarsTeam {
                 JSONObject teamConfig = new JSONObject(o.toString());
                 if (color.toString().equalsIgnoreCase(teamConfig.getString("color"))) {
                     JSONObject spawn = teamConfig.getJSONObject("spawn");
+                    JSONObject baseAreaObject = teamConfig.getJSONObject("baseArea");
                     JSONObject teamChest = teamConfig.getJSONObject("teamChest");
                     JSONObject forge = teamConfig.getJSONObject("forge");
                     JSONObject bedHead = teamConfig.getJSONObject("bed").getJSONObject("head");
@@ -234,7 +241,9 @@ public class BedwarsTeam {
                             bedFoot.getDouble("z")
                     );
 
-                    teams.add(new BedwarsTeam(color, spawnLocation, teamChestLocation, bedHeadLocation, bedFootLocation,
+                    Area baseArea = new Area(spawnLocation, baseAreaObject.getDouble("x"), baseAreaObject.getDouble("y"), baseAreaObject.getDouble("z"));
+
+                    teams.add(new BedwarsTeam(color, spawnLocation, baseArea, teamChestLocation, bedHeadLocation, bedFootLocation,
                             new Forge(forgeLocation,
                                     Generator.getProperty("forgeIronCap", false),
                                     Generator.getProperty("forgeGoldCap", false))));

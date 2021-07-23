@@ -55,19 +55,6 @@ public abstract class Generator {
         this.runnable = createRunnable();
     }
 
-    public boolean wasPlacedInsideGenerator(Block block) {
-        if (block.getLocation().getBlockX() > (location.getBlockX() - 4) &&
-                block.getLocation().getBlockX() < (location.getBlockX() + 4)) {
-            if (block.getLocation().getBlockY() > (location.getBlockY() - 6) &&
-                    block.getLocation().getBlockY() < (location.getBlockY() + 6)) {
-                if (block.getLocation().getBlockZ() > (location.getBlockZ() - 4) &&
-                        block.getLocation().getBlockZ() < (location.getBlockZ() + 4))
-                    return true;
-            }
-        }
-        return false;
-    }
-
     public Location getLocation() {
         return location;
     }
