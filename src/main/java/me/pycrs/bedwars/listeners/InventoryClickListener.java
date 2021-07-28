@@ -7,6 +7,7 @@ import me.pycrs.bedwars.menu.MenuUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 
 public class InventoryClickListener implements Listener {
     private Bedwars plugin;
@@ -18,7 +19,9 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getInventory().getHolder() instanceof Menu) {
+        if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
+            event.setCancelled(true);
+        } else if (event.getInventory().getHolder() instanceof Menu) {
             event.setCancelled(true);
             Shop shop = (Shop) event.getInventory().getHolder();
             if (event.getClickedInventory() != null) {

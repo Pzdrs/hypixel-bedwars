@@ -135,6 +135,22 @@ public class Utils {
         return s.toString();
     }
 
+    /**
+     * A function that checks whether a given point, a block, is inside of an area centered around a block, the area's size is dictated by an offset on each axis
+     *
+     * @param point   The block that we are checking
+     * @param center  The center of the area
+     * @param xOffset Offset on the X axis
+     * @param yOffset Offset on the Y axis
+     * @param zOffset Offset on the Z axis
+     * @return The point being inside of the given area
+     */
+    public static boolean isInArea(Location point, Location center, double xOffset, double yOffset, double zOffset) {
+        return (point.getBlockX() > (center.getBlockX() - xOffset) && point.getBlockX() < (center.getBlockX() + xOffset)) &&
+                (point.getBlockY() > (center.getBlockY() - yOffset) && point.getBlockY() < (center.getBlockY() + yOffset)) &&
+                (point.getBlockZ() > (center.getBlockZ() - zOffset) && point.getBlockZ() < (center.getBlockZ() + zOffset));
+    }
+
     public static void setArmor(Player player, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, boolean silent) {
         if (player.getEquipment() == null) return;
         player.getEquipment().setHelmet(helmet, silent);
