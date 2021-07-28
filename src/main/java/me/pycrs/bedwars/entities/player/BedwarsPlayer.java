@@ -3,40 +3,40 @@ package me.pycrs.bedwars.entities.player;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
+import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
+    enum Armor {
+        DEFAULT, CHAIN_ARMOR, IRON_ARMOR, DIAMOND_ARMOR
+    }
+
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
     private Bedwars plugin;
     private Player player;
     private BedwarsTeam team;
+    private Armor armor;
     private boolean spectating = false;
     private PlayerStatistics statistics;
     private int level = 0;
@@ -44,13 +44,14 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
         this.player = player;
+        this.armor = Armor.DEFAULT;
         this.team = team;
         this.statistics = new PlayerStatistics();
 
         // Fetching player's statistics from the official Hypixel API
         String apiKey = Settings.hypixelApiKey;
         if (apiKey != null) {
-            HttpClient client = HttpClients.createDefault();
+            CloseableHttpClient client = HttpClients.createDefault();
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try {
                     HttpResponse response = client.execute(new HttpGet("https://api.hypixel.net/player?key=" + apiKey + "&uuid=" + player.getUniqueId()));
@@ -68,6 +69,62 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 }
             });
         }
+    }
+
+    public void setArmor() {
+        ItemStack leggings, boots;
+        ItemStack helmet = new ItemBuilder(Material.LEATHER_HELMET)
+                .setArmorColor(team.getTeamColor().getColor())
+                .addEnchantment(Enchantment.WATER_WORKER, 1)
+                .setUnbreakable(true)
+                .build();
+
+        ItemStack chestplate = new ItemBuilder(Material.LEATHER_CHESTPLATE)
+                .setArmorColor(team.getTeamColor().getColor())
+                .setUnbreakable(true)
+                .build();
+
+        switch (armor) {
+            case CHAIN_ARMOR:
+                leggings = new ItemBuilder(Material.CHAINMAIL_LEGGINGS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+                boots = new ItemBuilder(Material.CHAINMAIL_BOOTS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+            case IRON_ARMOR:
+                leggings = new ItemBuilder(Material.IRON_LEGGINGS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+                boots = new ItemBuilder(Material.IRON_BOOTS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+            case DIAMOND_ARMOR:
+                leggings = new ItemBuilder(Material.DIAMOND_LEGGINGS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+                boots = new ItemBuilder(Material.DIAMOND_BOOTS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+            case DEFAULT:
+            default:
+                leggings = new ItemBuilder(Material.LEATHER_LEGGINGS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+                boots = new ItemBuilder(Material.LEATHER_BOOTS)
+                        .setArmorColor(team.getTeamColor().getColor())
+                        .setUnbreakable(true)
+                        .build();
+        }
+
+        Utils.setArmor(player, helmet, chestplate, leggings, boots, true);
     }
 
     public void shout(Component component) {
@@ -104,7 +161,6 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         }
         player.setGameMode(GameMode.SURVIVAL);
         player.getInventory().clear();
-        player.getInventory().addItem(new ItemStack(Material.COMPASS));
         player.setHealth(20);
         player.setInvulnerable(spectator);
         player.setAllowFlight(spectator);

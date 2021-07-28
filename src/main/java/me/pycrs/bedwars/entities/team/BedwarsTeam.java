@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,7 @@ public class BedwarsTeam {
         this.players = new HashMap<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
-        team.color(teamColor.getColor());
+        team.color(teamColor.getTextColor());
         this.upgrades = new TeamUpgrades();
         this.teamChest = teamChest;
         this.teamColor = teamColor;
@@ -56,7 +55,7 @@ public class BedwarsTeam {
         BedwarsPlayer bedwarsPlayer = new BedwarsPlayer(player, this);
         plugin.getPlayers().add(bedwarsPlayer);
         players.put(bedwarsPlayer, false);
-        player.playerListName(Component.text(player.getName(), teamColor.getColor()));
+        player.playerListName(Component.text(player.getName(), teamColor.getTextColor()));
         team.addEntry(player.getName());
     }
 
@@ -112,7 +111,7 @@ public class BedwarsTeam {
                     bedwarsPlayer.getPlayer().sendMessage(Component.newline()
                             .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
                             .append(Component.text("Your bed was destroyed by ", NamedTextColor.GRAY))
-                            .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getColor()))
+                            .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getTextColor()))
                             .append(Component.text("!", NamedTextColor.GRAY))
                             .append(Component.newline()));
                 } else {
@@ -120,7 +119,7 @@ public class BedwarsTeam {
                             .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
                             .append(teamColor.getBedDisplay())
                             .append(Component.text(" was destroyed by ", NamedTextColor.GRAY))
-                            .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getColor()))
+                            .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getTextColor()))
                             .append(Component.text("!", NamedTextColor.GRAY))
                             .append(Component.newline()));
                 }

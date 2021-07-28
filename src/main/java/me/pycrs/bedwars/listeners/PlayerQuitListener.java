@@ -38,7 +38,7 @@ public class PlayerQuitListener implements Listener {
             BedwarsTeam team = bedwarsPlayer.getTeam();
             // Quit message - can't just set edit the message, because it's sent too late, timing is the sole reason for this messy workaround
             event.quitMessage(null);
-            Utils.inGameBroadcast(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getColor())
+            Utils.inGameBroadcast(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getTextColor())
                     .append(Component.text(" disconnected", NamedTextColor.GRAY)));
 
             // If everyone leaves, the game will end

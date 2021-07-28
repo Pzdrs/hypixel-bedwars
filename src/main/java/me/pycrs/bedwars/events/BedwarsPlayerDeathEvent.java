@@ -27,7 +27,7 @@ public class BedwarsPlayerDeathEvent extends Event {
     public BedwarsPlayerDeathEvent(PlayerDeathEvent event) {
         this.player = BedwarsPlayer.toBPlayer(event.getEntity());
         this.message = Component.empty()
-                .append(event.getEntity().displayName().color(player.getTeam().getTeamColor().getColor()))
+                .append(event.getEntity().displayName().color(player.getTeam().getTeamColor().getTextColor()))
                 .append(Objects.requireNonNull(event.deathMessage())
                         .replaceText(TextReplacementConfig.builder().matchLiteral(event.getEntity().getName())
                                 .replacement(Component.empty()).build())
@@ -40,9 +40,9 @@ public class BedwarsPlayerDeathEvent extends Event {
         this.killer = BedwarsPlayer.toBPlayer(killer);
         this.message = createMessage(Objects.requireNonNull(player.getLastDamageCause()))
                 .replaceText(TextReplacementConfig.builder().matchLiteral("{player}")
-                        .replacement(player.displayName().color(this.player.getTeam().getTeamColor().getColor())).build())
+                        .replacement(player.displayName().color(this.player.getTeam().getTeamColor().getTextColor())).build())
                 .replaceText(TextReplacementConfig.builder().matchLiteral("{killer}")
-                        .replacement(killer.displayName().color(this.killer.getTeam().getTeamColor().getColor())).build());
+                        .replacement(killer.displayName().color(this.killer.getTeam().getTeamColor().getTextColor())).build());
         Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer)));
     }
 

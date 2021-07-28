@@ -35,6 +35,7 @@ public class BedwarsGameStartListener implements Listener {
             Player player = bedwarsPlayer.getPlayer();
             player.sendMessage(Settings.WELCOME_MESSAGE);
             bedwarsPlayer.setSpectator(false);
+            bedwarsPlayer.setArmor();
             bedwarsPlayer.teleportToBase();
         });
 

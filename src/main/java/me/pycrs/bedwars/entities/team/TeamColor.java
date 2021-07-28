@@ -2,30 +2,38 @@ package me.pycrs.bedwars.entities.team;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Color;
 
 public enum TeamColor {
-    RED(NamedTextColor.RED),
-    BLUE(NamedTextColor.BLUE),
-    GREEN(NamedTextColor.GREEN),
-    YELLOW(NamedTextColor.YELLOW),
-    AQUA(NamedTextColor.AQUA),
-    WHITE(NamedTextColor.WHITE),
-    PINK(NamedTextColor.LIGHT_PURPLE),
-    GRAY(NamedTextColor.GRAY);
+    RED(Color.RED, NamedTextColor.RED),
+    BLUE(Color.BLUE, NamedTextColor.BLUE),
+    GREEN(Color.GREEN, NamedTextColor.GREEN),
+    YELLOW(Color.YELLOW, NamedTextColor.YELLOW),
+    AQUA(Color.AQUA, NamedTextColor.AQUA),
+    WHITE(Color.WHITE, NamedTextColor.WHITE),
+    PINK(Color.PURPLE, NamedTextColor.LIGHT_PURPLE),
+    GRAY(Color.GRAY, NamedTextColor.GRAY);
 
-    private NamedTextColor color;
+    private Color color;
+    private NamedTextColor textColor;
 
-    TeamColor(NamedTextColor color) {
+    TeamColor(Color color, NamedTextColor textColor) {
         this.color = color;
+        this.textColor = textColor;
     }
 
-    public NamedTextColor getColor() {
+    public NamedTextColor getTextColor() {
+        return textColor;
+    }
+
+    public Color getColor() {
         return color;
     }
 
     public Component getFriendlyName() {
-        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getColor());
+        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getTextColor());
     }
 
     public Component getDisplay() {

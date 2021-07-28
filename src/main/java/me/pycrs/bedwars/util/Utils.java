@@ -1,14 +1,12 @@
 package me.pycrs.bedwars.util;
 
-import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -61,7 +59,7 @@ public class Utils {
 
     public static Component getTeamPrefix(BedwarsTeam team) {
         if (team == null) return Component.text("[teamName] ");
-        return Component.text("[" + team.getTeamColor().name() + "] ", team.getTeamColor().getColor());
+        return Component.text("[" + team.getTeamColor().name() + "] ", team.getTeamColor().getTextColor());
     }
 
     public static String commandArgsMessage(String[] args, int startIndex) {
@@ -137,19 +135,11 @@ public class Utils {
         return s.toString();
     }
 
-    /**
-     * A function that checks whether a given point, a block, is inside of an area centered around a block, the area's size is dictated by an offset on each axis
-     *
-     * @param point The block that we are checking
-     * @param center The center of the area
-     * @param xOffset Offset on the X axis
-     * @param yOffset Offset on the Y axis
-     * @param zOffset Offset on the Z axis
-     * @return The point being inside of the given area
-     */
-    public static boolean isInArea(Location point, Location center, double xOffset, double yOffset, double zOffset) {
-        return (point.getBlockX() > (center.getBlockX() - xOffset) && point.getBlockX() < (center.getBlockX() + xOffset)) &&
-                (point.getBlockY() > (center.getBlockY() - yOffset) && point.getBlockY() < (center.getBlockY() + yOffset)) &&
-                (point.getBlockZ() > (center.getBlockZ() - zOffset) && point.getBlockZ() < (center.getBlockZ() + zOffset));
+    public static void setArmor(Player player, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, boolean silent) {
+        if (player.getEquipment() == null) return;
+        player.getEquipment().setHelmet(helmet, silent);
+        player.getEquipment().setChestplate(chestplate, silent);
+        player.getEquipment().setLeggings(leggings, silent);
+        player.getEquipment().setBoots(boots, silent);
     }
 }
