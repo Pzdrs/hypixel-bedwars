@@ -19,7 +19,7 @@ public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
+        if (event.getSlotType() == InventoryType.SlotType.ARMOR || event.getSlot() == 40) {
             event.setCancelled(true);
         } else if (event.getInventory().getHolder() instanceof Menu) {
             event.setCancelled(true);

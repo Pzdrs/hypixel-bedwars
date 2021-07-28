@@ -13,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 import java.util.*;
 
@@ -70,5 +72,10 @@ public class EntityDamageListener implements Listener {
             Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(event.getEntity(),
                     Bukkit.getPlayer(taggedPlayers.get(event.getEntity().getUniqueId()).getKey())));
         } else Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(event));
+    }
+
+    @EventHandler
+    public void onItemHeld(PlayerSwapHandItemsEvent event) {
+        event.setCancelled(true);
     }
 }
