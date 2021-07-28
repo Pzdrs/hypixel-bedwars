@@ -7,15 +7,18 @@ import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.tasks.GameLoop;
+import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.persistence.PersistentDataType;
 
 public class BedwarsGameStartListener implements Listener {
     private Bedwars plugin;
@@ -36,6 +39,10 @@ public class BedwarsGameStartListener implements Listener {
             player.sendMessage(Settings.WELCOME_MESSAGE);
             bedwarsPlayer.setSpectator(false);
             bedwarsPlayer.setArmor();
+            player.getInventory().addItem(new ItemBuilder(Material.WOODEN_SWORD)
+                    .setPlugin(plugin)
+                    .setPersistentData("role", PersistentDataType.STRING, "persistent_equipment")
+                    .build());
             bedwarsPlayer.teleportToBase();
         });
 
