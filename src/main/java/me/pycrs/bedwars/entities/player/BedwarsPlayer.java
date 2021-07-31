@@ -27,25 +27,21 @@ import java.util.Map;
 import java.util.UUID;
 
 public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
-    enum Armor {
-        DEFAULT, CHAIN_ARMOR, IRON_ARMOR, DIAMOND_ARMOR
-    }
-
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
     private Bedwars plugin;
     private Player player;
     private BedwarsTeam team;
-    private Armor armor;
-    private boolean spectating = false;
+    private Equipment equipment;
     private PlayerStatistics statistics;
+    private boolean spectating = false;
     private int level = 0;
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
         this.player = player;
-        this.armor = Armor.DEFAULT;
         this.team = team;
+        this.equipment = new Equipment(Equipment.Armor.DEFAULT, Pickaxe.WOODEN_PICKAXE, Axe.WOODEN_AXE, false);
         this.statistics = new PlayerStatistics();
 
         // Fetching player's statistics from the official Hypixel API
@@ -84,7 +80,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 .setUnbreakable(true)
                 .build();
 
-        switch (armor) {
+        switch (equipment.getArmor()) {
             case CHAIN_ARMOR:
                 leggings = new ItemBuilder(Material.CHAINMAIL_LEGGINGS)
                         .setArmorColor(team.getTeamColor().getColor())
