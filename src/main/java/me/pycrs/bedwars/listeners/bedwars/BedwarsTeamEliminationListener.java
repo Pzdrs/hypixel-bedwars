@@ -27,6 +27,7 @@ public class BedwarsTeamEliminationListener implements Listener {
 
     @EventHandler
     public void onTeamElimination(BedwarsTeamEliminationEvent event) {
+        event.getTeam().setEliminated(true);
         Utils.inGameBroadcast(Component.newline()
                 .append(Component.text("TEAM ELIMINATED > ", Style.style(TextDecoration.BOLD)))
                 .append(event.getTeam().getTeamColor().getDisplay())

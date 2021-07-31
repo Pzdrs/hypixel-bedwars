@@ -55,5 +55,7 @@ public class BedwarsGameStartListener implements Listener {
         });
 
         Bedwars.gameLoop.runTaskTimer(plugin, 0, 20);
+
+        BedwarsTeam.removeEmptyTeams();
     }
 }

@@ -29,14 +29,14 @@ public class BedwarsTeam {
     private TeamColor teamColor;
     private TeamUpgrades upgrades;
     // The boolean value determines if the player is eliminated from the team, i.e. if true, the player is eliminated, if false they are not
-    private Map<BedwarsPlayer, Boolean> players;
+    private List<BedwarsPlayer> players;
     private Forge forge;
     private Location spawn, teamChest, bedHead, bedFoot;
     private Area baseArea;
-    private boolean hasBed = true;
+    private boolean hasBed = true, eliminated = false;
 
     public BedwarsTeam(TeamColor teamColor, Location spawn, Area baseArea, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
-        this.players = new HashMap<>();
+        this.players = new ArrayList<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
         team.color(teamColor.getTextColor());
@@ -54,28 +54,28 @@ public class BedwarsTeam {
     public void addPlayer(Player player) {
         BedwarsPlayer bedwarsPlayer = new BedwarsPlayer(player, this);
         plugin.getPlayers().add(bedwarsPlayer);
-        players.put(bedwarsPlayer, false);
+        players.add(bedwarsPlayer);
         player.playerListName(Component.text(player.getName(), teamColor.getTextColor()));
         team.addEntry(player.getName());
     }
 
     public void broadcastMessage(Component message) {
-        players.forEach((bedwarsPlayer, eliminated) -> bedwarsPlayer.getPlayer().sendMessage(message));
+        players.forEach((bedwarsPlayer) -> bedwarsPlayer.getPlayer().sendMessage(message));
     }
 
     public void broadcastTitle(Title title) {
-        players.forEach((bedwarsPlayer, eliminated) -> {
+        players.forEach((bedwarsPlayer) -> {
             bedwarsPlayer.getPlayer().showTitle(title);
         });
     }
 
     public boolean isPartOfTeam(BedwarsPlayer player) {
-        return players.containsKey(player);
+        return players.contains(player);
     }
 
     public boolean isPartOfTeam(Player player) {
-        for (Map.Entry<BedwarsPlayer, Boolean> entry : players.entrySet()) {
-            if (entry.getKey().getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
+        for (BedwarsPlayer bedwarsPlayer : players) {
+            if (bedwarsPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return true;
         }
         return false;
     }
@@ -90,7 +90,6 @@ public class BedwarsTeam {
     }
 
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
-        players.put(bedwarsPlayer, true);
         if (isEliminated()) Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
     }
 
@@ -157,12 +156,8 @@ public class BedwarsTeam {
         return teamColor;
     }
 
-    public Map<BedwarsPlayer, Boolean> getPlayers() {
-        return players;
-    }
-
     public List<BedwarsPlayer> getOnlinePlayers() {
-        return players.keySet().stream().filter(bedwarsPlayer -> bedwarsPlayer.getPlayer().isOnline()).collect(Collectors.toList());
+        return players.stream().filter(bedwarsPlayer -> bedwarsPlayer.getPlayer().isOnline()).collect(Collectors.toList());
     }
 
     public Location getTeamChest() {
@@ -182,17 +177,11 @@ public class BedwarsTeam {
     }
 
     public boolean isEliminated() {
-        for (Map.Entry<BedwarsPlayer, Boolean> entry : players.entrySet()) {
-            if (!entry.getValue()) return false;
-        }
-        return true;
+        return eliminated;
     }
 
-    @Override
-    public String toString() {
-        return "BedwarsTeam{" +
-                "players=" + players +
-                '}';
+    public void setEliminated(boolean eliminated) {
+        this.eliminated = eliminated;
     }
 
     public static List<BedwarsTeam> initTeams(JSONArray config) {
@@ -262,10 +251,9 @@ public class BedwarsTeam {
                 }
             }
         });
-        //removeEmptyTeams();
     }
 
-    private static void removeEmptyTeams() {
+    public static void removeEmptyTeams() {
         Iterator<BedwarsTeam> iterator = Bedwars.getInstance().getTeams().iterator();
         while (iterator.hasNext()) {
             BedwarsTeam team = iterator.next();
