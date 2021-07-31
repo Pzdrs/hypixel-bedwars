@@ -14,6 +14,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.Nullable;
@@ -196,6 +197,8 @@ public class BedwarsTeam {
                     JSONObject forge = teamConfig.getJSONObject("forge");
                     JSONObject bedHead = teamConfig.getJSONObject("bed").getJSONObject("head");
                     JSONObject bedFoot = teamConfig.getJSONObject("bed").getJSONObject("foot");
+                    JSONObject shops = teamConfig.getJSONObject("shops");
+
                     Location spawnLocation = new Location(
                             Bukkit.getWorld("world"),
                             spawn.getDouble("x"),
@@ -229,6 +232,20 @@ public class BedwarsTeam {
                             bedFoot.getDouble("z")
                     );
 
+                    Location generalShop = new Location(
+                            Bukkit.getWorld("world"),
+                            shops.getJSONObject("general").getDouble("x"),
+                            shops.getJSONObject("general").getDouble("y"),
+                            shops.getJSONObject("general").getDouble("z")
+                    );
+
+                    Location diamondShop = new Location(
+                            Bukkit.getWorld("world"),
+                            shops.getJSONObject("diamond").getDouble("x"),
+                            shops.getJSONObject("diamond").getDouble("y"),
+                            shops.getJSONObject("diamond").getDouble("z")
+                    );
+
                     Area baseArea = new Area(spawnLocation, baseAreaObject.getDouble("x"), baseAreaObject.getDouble("y"), baseAreaObject.getDouble("z"));
 
                     teams.add(new BedwarsTeam(color, spawnLocation, baseArea, teamChestLocation, bedHeadLocation, bedFootLocation,
@@ -251,7 +268,7 @@ public class BedwarsTeam {
                 }
             }
         });
-    }
+     }
 
     public static void removeEmptyTeams() {
         Iterator<BedwarsTeam> iterator = Bedwars.getInstance().getTeams().iterator();

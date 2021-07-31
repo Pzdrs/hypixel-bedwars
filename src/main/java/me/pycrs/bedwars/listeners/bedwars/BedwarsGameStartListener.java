@@ -46,6 +46,8 @@ public class BedwarsGameStartListener implements Listener {
             bedwarsPlayer.teleportToBase();
         });
 
+
+
         // Initial generator activation
         plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI", true)));
         plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI", true)));
