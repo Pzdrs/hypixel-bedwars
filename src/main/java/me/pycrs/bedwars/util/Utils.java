@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Utils {
     public static String color(String s) {
@@ -157,5 +159,15 @@ public class Utils {
         player.getEquipment().setChestplate(chestplate, silent);
         player.getEquipment().setLeggings(leggings, silent);
         player.getEquipment().setBoots(boots, silent);
+    }
+
+    /**
+     * Format timer
+     *
+     * @param seconds Max. 3599s
+     * @return Timer with format mm:ss
+     */
+    public static String formatTimer(int seconds) {
+        return LocalTime.of(0, seconds / 60, seconds % 60).format(DateTimeFormatter.ofPattern("m:ss"));
     }
 }
