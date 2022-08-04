@@ -3,6 +3,7 @@ package me.pycrs.bedwars.tasks;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.gameevent.GameEvent;
+import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.util.Utils;
@@ -67,7 +68,7 @@ public class GameLoop extends BukkitRunnable {
                         .before(new GameEvent.Builder()
                                 .period(Settings.eventBedDestruction - 300)
                                 .broadcast(Component.text("All beds will be destroyed in 5 minutes!", NamedTextColor.RED, TextDecoration.BOLD)).build())
-                        .handle(() -> plugin.getTeams().forEach(team -> team.destroyBed(null))).build(),
+                        .handle(() -> plugin.getTeams().forEach(BedwarsTeam::destroyBed)).build(),
                 new GameEvent.Builder()
                         .period(Settings.eventSuddenDeath)
                         .handle(() -> {

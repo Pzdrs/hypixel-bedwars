@@ -48,7 +48,7 @@ public class PlayerJoinListener implements Listener {
             
             player.teleport(plugin.getMap().getLobbySpawnExact());
 
-            Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+/*            Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
             Objective lobby = scoreboard.registerNewObjective("lobby", "dummy", Component.text("BEDWARS",
                     Style.style(NamedTextColor.YELLOW, TextDecoration.BOLD)));
 
@@ -83,7 +83,7 @@ public class PlayerJoinListener implements Listener {
             Score link = lobby.getScore(Utils.color("&ewww.hypixel.net"));
             link.setScore(1);
 
-            player.setScoreboard(scoreboard);
+            player.setScoreboard(scoreboard);*/
 
             // If enough players, start the countdown
             if (Bukkit.getOnlinePlayers().size() >= Settings.mode.getMinPlayers()) {
