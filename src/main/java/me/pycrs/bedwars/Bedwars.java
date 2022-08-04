@@ -12,6 +12,7 @@ import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,6 +32,19 @@ public final class Bedwars extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Automatic reload
+        final long lastModified = getFile().lastModified();
+
+        new BukkitRunnable() {
+            public void run() {
+                if (getFile().lastModified() > lastModified) {
+                    cancel();
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "reload confirm");
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "start");
+                }
+            }
+        }.runTaskTimer(this, 0, 20);
+
         instance = this;
         saveDefaultConfig();
         if (!Settings.loadPluginConfig(getConfig())) Bukkit.getPluginManager().disablePlugin(Bedwars.getInstance());

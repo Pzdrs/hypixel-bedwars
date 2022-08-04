@@ -37,6 +37,8 @@ public class BedwarsTeam {
     private Area baseArea;
     private boolean hasBed = true, eliminated = false;
 
+    private BedwarsPlayer bedBreaker;
+
     public BedwarsTeam(TeamColor teamColor, Location spawn, Area baseArea, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
         this.players = new HashMap<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
@@ -93,48 +95,49 @@ public class BedwarsTeam {
 
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
         players.put(bedwarsPlayer, true);
-        System.out.println(players);
-        System.out.println(getAlivePlayers());
         if (getAlivePlayers().isEmpty())
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
     }
 
     public void destroyBed() {
-        destroyBed(null);
+        getOnlinePlayers().forEach(bedwarsPlayer -> {
+            bedwarsPlayer.getPlayer().sendMessage(Component.text("All beds have been destroyed!", NamedTextColor.RED, TextDecoration.BOLD));
+            bedwarsPlayer.getPlayer().showTitle(Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("All beds have been destroyed!")));
+        });
+        checkEmptyTeam();
     }
 
-    public void destroyBed(@Nullable BedwarsPlayer player) {
+    public void destroyBed(BedwarsPlayer player) {
         if (!hasBed) return;
         hasBed = false;
-        if (player == null) {
-            getOnlinePlayers().forEach(bedwarsPlayer -> {
-                bedwarsPlayer.getPlayer().sendMessage(Component.text("All beds have been destroyed!", NamedTextColor.RED, TextDecoration.BOLD));
-                bedwarsPlayer.getPlayer().showTitle(Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("All beds have been destroyed!")));
-            });
-        } else {
-            player.getStatistics().setBeds(player.getStatistics().getBeds() + 1);
-            Bedwars.getInstance().getPlayers().forEach(bedwarsPlayer -> {
-                if (isPartOfTeam(bedwarsPlayer)) {
-                    bedwarsPlayer.getPlayer().showTitle(
-                            Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("You will no longer respawn!")));
-                    bedwarsPlayer.getPlayer().sendMessage(Component.newline()
-                            .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
-                            .append(Component.text("Your bed was destroyed by ", NamedTextColor.GRAY))
-                            .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getTextColor()))
-                            .append(Component.text("!", NamedTextColor.GRAY))
-                            .append(Component.newline()));
-                } else {
-                    bedwarsPlayer.getPlayer().sendMessage(Component.newline()
-                            .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
-                            .append(teamColor.getBedDisplay())
-                            .append(Component.text(" was destroyed by ", NamedTextColor.GRAY))
-                            .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getTextColor()))
-                            .append(Component.text("!", NamedTextColor.GRAY))
-                            .append(Component.newline()));
-                }
-            });
-        }
-        if (getOnlinePlayers().size() == 0)
+
+        player.getStatistics().setBeds(player.getStatistics().getBeds() + 1);
+        this.bedBreaker = player;
+        Bedwars.getInstance().getPlayers().forEach(bedwarsPlayer -> {
+            if (isPartOfTeam(bedwarsPlayer)) {
+                bedwarsPlayer.getPlayer().showTitle(
+                        Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("You will no longer respawn!")));
+                bedwarsPlayer.getPlayer().sendMessage(Component.newline()
+                        .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
+                        .append(Component.text("Your bed was destroyed by ", NamedTextColor.GRAY))
+                        .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getTextColor()))
+                        .append(Component.text("!", NamedTextColor.GRAY))
+                        .append(Component.newline()));
+            } else {
+                bedwarsPlayer.getPlayer().sendMessage(Component.newline()
+                        .append(Component.text("BED DESTRUCTION > ", Style.style(TextDecoration.BOLD)))
+                        .append(teamColor.getBedDisplay())
+                        .append(Component.text(" was destroyed by ", NamedTextColor.GRAY))
+                        .append(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getTextColor()))
+                        .append(Component.text("!", NamedTextColor.GRAY))
+                        .append(Component.newline()));
+            }
+        });
+        checkEmptyTeam();
+    }
+
+    private void checkEmptyTeam() {
+        if (getAlivePlayers().isEmpty())
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
     }
 
@@ -186,7 +189,7 @@ public class BedwarsTeam {
         return forge;
     }
 
-    public boolean isFull() {
+    private boolean isFull() {
         return players.size() == Settings.mode.getTeamSize();
     }
 

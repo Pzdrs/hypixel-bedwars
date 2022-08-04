@@ -26,12 +26,16 @@ public class ShoutCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         // Check, if sender was a Player
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("This command is available to players only.");
             return true;
         }
 
-        Player player = ((Player) sender);
+        // Check, if this mode has /shout enabled
+        if (Settings.mode.equals(Mode.SOLO)) {
+            player.sendMessage(Component.text("You can't use /shout in solo mode.", NamedTextColor.RED));
+            return true;
+        }
         // Check, if there is a message to shout
         if (args.length < 1) {
             player.sendMessage(Component.text(Utils.color("&cMissing arguments! Usage: " + command.getUsage())));
@@ -40,11 +44,6 @@ public class ShoutCommand implements TabExecutor {
         // Make sure no one shouts before the game starts
         if (!Bedwars.isGameInProgress()) {
             player.sendMessage(Component.text("You can't use /shout before the game has started.", NamedTextColor.RED));
-            return true;
-        }
-        // Check, if this mode has /shout enabled
-        if (Settings.mode.equals(Mode.SOLO)) {
-            player.sendMessage(Component.text("You can't use /shout in solo mode.", NamedTextColor.RED));
             return true;
         }
 
