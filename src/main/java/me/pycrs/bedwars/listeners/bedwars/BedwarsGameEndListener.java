@@ -2,11 +2,7 @@ package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
-import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
-import me.pycrs.bedwars.events.BedwarsGameStartEvent;
-import me.pycrs.bedwars.generators.Generator;
-import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -14,15 +10,11 @@ import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.time.Duration;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class BedwarsGameEndListener implements Listener {
     private Bedwars plugin;
@@ -35,6 +27,7 @@ public class BedwarsGameEndListener implements Listener {
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL || event.getResult() == BedwarsGameEndEvent.Result.GAME_END) {
+            Bedwars.gameLoop.cancel();
             // Sort the players by kills
             Collections.sort(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {
@@ -53,17 +46,17 @@ public class BedwarsGameEndListener implements Listener {
                                 .append(Component.text("Bed Wars", Style.style(TextDecoration.BOLD)))).append(Component.newline())
                         .append(team.getVictoryTeamMembersList()).append(Component.newline())
                         .append(Component.newline()).append(Component.newline())
-                        .append(isWorthyOfPlacement(0) ?
+                        .append(eligibleOfPlacement(0) ?
                                 Component.text(Utils.color("&e&l1st Killer &7-&r ")).append(plugin.getPlayers().get(0).getPlayer().displayName())
                                         .append(Component.text(" - " + plugin.getPlayers().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
-                        .append(isWorthyOfPlacement(1) ?
+                        .append(eligibleOfPlacement(1) ?
                                 Component.text(Utils.color("&6&l2nd Killer &7-&r ")).append(plugin.getPlayers().get(1).getPlayer().displayName())
                                         .append(Component.text(" - " + plugin.getPlayers().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
-                        .append(isWorthyOfPlacement(2) ?
+                        .append(eligibleOfPlacement(2) ?
                                 Component.text(Utils.color("&c&l3rd Killer &7-&r ")).append(plugin.getPlayers().get(2).getPlayer().displayName())
                                         .append(Component.text(" - " + plugin.getPlayers().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
@@ -71,10 +64,11 @@ public class BedwarsGameEndListener implements Listener {
                         .append(Component.newline())
                         .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)));
             });
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, Bukkit::reload, plugin.getConfig().getInt("rebootDelay") * 20L);
         }
     }
 
-    private boolean isWorthyOfPlacement(int index) {
+    private boolean eligibleOfPlacement(int index) {
         try {
             BedwarsPlayer bedwarsPlayer = plugin.getPlayers().get(index);
             return bedwarsPlayer.getStatistics().getCombinedKills() != 0;

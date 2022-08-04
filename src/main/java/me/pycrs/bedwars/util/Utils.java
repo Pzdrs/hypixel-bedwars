@@ -1,5 +1,6 @@
 package me.pycrs.bedwars.util;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
@@ -7,6 +8,8 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -169,5 +172,25 @@ public class Utils {
      */
     public static String formatTimer(int seconds) {
         return LocalTime.of(0, seconds / 60, seconds % 60).format(DateTimeFormatter.ofPattern("m:ss"));
+    }
+
+    public static void applySpectator(Player player, boolean spectator, Bedwars plugin) {
+        // Better invisibility
+        if (spectator) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
+            plugin.getPlayers().forEach(p -> {
+                if (!p.isSpectating()) p.getPlayer().hidePlayer(plugin, player);
+            });
+        } else {
+            player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
+            plugin.getPlayers().forEach(p -> p.getPlayer().showPlayer(plugin, player));
+        }
+        player.setGameMode(spectator ? GameMode.SPECTATOR : GameMode.SURVIVAL);
+        player.getInventory().clear();
+        player.setHealth(20);
+        player.setInvulnerable(spectator);
+        player.setAllowFlight(spectator);
+        player.setFireTicks(0);
+        player.setFlying(spectator);
     }
 }

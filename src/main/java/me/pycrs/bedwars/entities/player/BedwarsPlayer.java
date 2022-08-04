@@ -145,23 +145,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     public void setSpectator(boolean spectator) {
         this.spectating = spectator;
-        // Better invisibility
-        if (spectator) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
-            plugin.getPlayers().forEach(player -> {
-                if (!player.isSpectating()) player.getPlayer().hidePlayer(plugin, this.player);
-            });
-        } else {
-            player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-            plugin.getPlayers().forEach(player -> player.getPlayer().showPlayer(plugin, this.player));
-        }
-        player.setGameMode(GameMode.SURVIVAL);
-        player.getInventory().clear();
-        player.setHealth(20);
-        player.setInvulnerable(spectator);
-        player.setAllowFlight(spectator);
-        player.setFireTicks(0);
-        player.setFlying(spectator);
+        Utils.applySpectator(player, spectator, plugin);
     }
 
     public int getLevel() {

@@ -47,16 +47,13 @@ public class BedwarsPlayerDeathEvent extends Event {
     }
 
     private Component createMessage(EntityDamageEvent event) {
-        switch (event.getCause()) {
-            case PROJECTILE:
-                return Component.text("{player} was shot by {killer}.", NamedTextColor.GRAY);
-            case VOID:
-                return Component.text("{player} was knocked into the void by {killer}.", NamedTextColor.GRAY);
-            case FALL:
-                return Component.text("{player} hit the ground too hard whilst trying to escape {killer}.", NamedTextColor.GRAY);
-            default:
-                return Component.text("{player} was killed by {killer}.", NamedTextColor.GRAY);
-        }
+        return switch (event.getCause()) {
+            case PROJECTILE -> Component.text("{player} was shot by {killer}.", NamedTextColor.GRAY);
+            case VOID -> Component.text("{player} was knocked into the void by {killer}.", NamedTextColor.GRAY);
+            case FALL ->
+                    Component.text("{player} hit the ground too hard whilst trying to escape {killer}.", NamedTextColor.GRAY);
+            default -> Component.text("{player} was killed by {killer}.", NamedTextColor.GRAY);
+        };
     }
 
     public BedwarsPlayer getBPlayer() {

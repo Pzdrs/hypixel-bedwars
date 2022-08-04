@@ -1,11 +1,11 @@
-package me.pycrs.bedwars.entities.gameevent;
+package me.pycrs.bedwars.entities;
 
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 
 public class GameEvent {
     private GameEvent before, after;
-    private GameEventHandler handler;
+    private Runnable handler;
     private Component broadcast;
     private int period;
 
@@ -22,7 +22,7 @@ public class GameEvent {
 
         if (currentTime == period) {
             if (broadcast != null) Utils.inGameBroadcast(broadcast);
-            if (handler != null) handler.handle();
+            if (handler != null) handler.run();
         }
 
         if (after != null) after.proceed(currentTime);
@@ -31,7 +31,7 @@ public class GameEvent {
     public static final class Builder {
         private GameEvent prior;
         private GameEvent after;
-        private GameEventHandler handler;
+        private Runnable handler;
         private Component broadcast;
         private int period;
 
@@ -53,8 +53,8 @@ public class GameEvent {
             return this;
         }
 
-        public Builder handle(GameEventHandler gameEventHandler) {
-            handler = gameEventHandler;
+        public Builder handle(Runnable handler) {
+            this.handler = handler;
             return this;
         }
 

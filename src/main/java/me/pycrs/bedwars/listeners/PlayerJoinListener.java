@@ -10,6 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,10 +34,13 @@ public class PlayerJoinListener implements Listener {
 
         // Set player's display name
         player.displayName(Component.text(event.getPlayer().getName(), NamedTextColor.GRAY));
+        player.teleport(plugin.getMap().getLobbySpawnExact());
+        player.setGameMode(GameMode.ADVENTURE);
 
         if (Bedwars.isGameInProgress()) {
             event.joinMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getTextColor())
                     .append(Component.text(" reconnected", NamedTextColor.GRAY)));
+            Utils.applySpectator(player, true, plugin);
             // TODO: 6/20/2021 death and respawn
         } else {
             // New join messages
@@ -45,8 +49,6 @@ public class PlayerJoinListener implements Listener {
                     .append(Component.text(
                             Utils.color("&e(&b" + Bukkit.getOnlinePlayers().size() + "&e/&b" +
                                     Settings.mode.getTeamSize() * Settings.mode.getAmountOfTeams() + "&e)!"))));
-            
-            player.teleport(plugin.getMap().getLobbySpawnExact());
 
 /*            Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
             Objective lobby = scoreboard.registerNewObjective("lobby", "dummy", Component.text("BEDWARS",
