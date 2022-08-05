@@ -3,6 +3,8 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -38,9 +40,10 @@ public class PlayerInteractListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            if (EnchantmentTarget.WEAPON.includes(event.getMaterial())) {
+            if (isRightClick(event) && EnchantmentTarget.WEAPON.includes(event.getMaterial())) {
                 if (!rightClickHeld.containsKey(event.getPlayer().getUniqueId())) {
                     event.getPlayer().getInventory().setItemInOffHand(new ItemStack(Material.SHIELD));
+                    plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.ITEM_ARMOR_EQUIP_GENERIC, Sound.Source.PLAYER, 1f, 1f));
                     rightClickHeld.put(event.getPlayer().getUniqueId(), Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                         if (!event.getPlayer().isBlocking()) {
                             event.getPlayer().getInventory().setItemInOffHand(null);
@@ -68,5 +71,9 @@ public class PlayerInteractListener implements Listener {
                 }
             }
         }
+    }
+
+    private boolean isRightClick(PlayerInteractEvent event) {
+        return event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK;
     }
 }

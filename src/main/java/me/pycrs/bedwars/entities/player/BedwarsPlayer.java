@@ -3,6 +3,7 @@ package me.pycrs.bedwars.entities.player;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
+import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
@@ -15,6 +16,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -121,6 +124,22 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         }
 
         Utils.setArmor(player, helmet, chestplate, leggings, boots, true);
+    }
+
+    /**
+     * This method is invoked when a player dies by natural means, i.e. is not killed by other player
+     */
+    public void kill() {
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player));
+    }
+
+    /**
+     * This method is invoked when a player is killed by another player
+     *
+     * @param killer the killer
+     */
+    public void kill(Player killer) {
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(this.player, killer));
     }
 
     public void shout(Component component) {
