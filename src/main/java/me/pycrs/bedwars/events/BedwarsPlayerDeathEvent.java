@@ -81,10 +81,6 @@ public class BedwarsPlayerDeathEvent extends Event {
     }
 
     private static final HandlerList HANDLERS = new HandlerList();
-    private static final Function<BedwarsPlayer, Component> DEFAULT_DEATH_MESSAGE = bedwarsPlayer ->
-            Component.empty()
-                    .append(bedwarsPlayer.getPlayer().displayName().color(bedwarsPlayer.getTeam().getTeamColor().getTextColor()))
-                    .append(Component.text(" died.", NamedTextColor.GRAY));
 
     private BedwarsPlayer player, killer;
     private EntityDamageEvent damageEvent;
@@ -93,14 +89,12 @@ public class BedwarsPlayerDeathEvent extends Event {
     public BedwarsPlayerDeathEvent(Player player) {
         this.player = BedwarsPlayer.toBPlayer(player);
         this.damageEvent = player.getLastDamageCause();
-        this.message = DEFAULT_DEATH_MESSAGE.apply(this.player);
     }
 
     public BedwarsPlayerDeathEvent(Player player, Player killer) {
         this.player = BedwarsPlayer.toBPlayer(player);
         this.killer = BedwarsPlayer.toBPlayer(killer);
         this.damageEvent = player.getLastDamageCause();
-        this.message = DEFAULT_DEATH_MESSAGE.apply(this.player);
         Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer)));
     }
 

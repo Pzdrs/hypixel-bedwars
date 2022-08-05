@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import java.util.*;
 
 public class EntityDamageListener implements Listener {
-    public static Map<UUID, Map.Entry<UUID, Integer>> taggedPlayers = new HashMap<>();
+    private static Map<UUID, Map.Entry<UUID, Integer>> taggedPlayers = new HashMap<>();
     private Bedwars plugin;
 
     public EntityDamageListener(Bedwars plugin) {
@@ -34,11 +34,11 @@ public class EntityDamageListener implements Listener {
     public void onPlayerAttack(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player player && (event.getDamager() instanceof Player || event.getDamager() instanceof Projectile)) {
             Player damager;
-            if (event.getDamager() instanceof Player) damager = (Player) event.getDamager();
-            else {
-                Projectile projectile = (Projectile) event.getDamager();
-                damager = (Player) projectile.getShooter();
-            }
+            if (event.getDamager() instanceof Player)
+                damager = (Player) event.getDamager();
+            else
+                damager = (Player) ((Projectile) event.getDamager()).getShooter();
+
             // Prevent spectators from punching people
             if (BedwarsPlayer.toBPlayer(damager).isSpectating()) {
                 event.setCancelled(true);
@@ -63,8 +63,11 @@ public class EntityDamageListener implements Listener {
             if (event.getFinalDamage() >= player.getHealth()) {
                 event.setCancelled(true);
                 player.setLastDamageCause(event);
+                player.setFireTicks(0);
                 // The tiniest delay before actually killing the player so there is enough time for the sound to play
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> player.setHealth(0), 1);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> killPlayer(BedwarsPlayer.toBPlayer(player)), 1);
+                // To avoid double death, i.e. using /kill
+                return;
             }
 
             // Custom void instakill
@@ -73,25 +76,24 @@ public class EntityDamageListener implements Listener {
                 player.setLastDamage(Double.MAX_VALUE);
                 player.setLastDamageCause(event);
                 event.setCancelled(true);
-                player.setHealth(0);
-                /*Bukkit.getServer().getPluginManager().callEvent(new PlayerDeathEvent(player, new ArrayList<>(), 0,
-                        player.displayName().append(Component.text(" fell into the void"))));*/
+                killPlayer(BedwarsPlayer.toBPlayer(player));
             }
         }
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(event.getEntity());
         event.setCancelled(true);
-        // If the player has been hit by a different player, count the death as a kill
-        if (taggedPlayers.containsKey(event.getEntity().getUniqueId())) {
-            bedwarsPlayer.kill(Bukkit.getPlayer(taggedPlayers.get(event.getEntity().getUniqueId()).getKey()));
-        } else bedwarsPlayer.kill();
     }
 
     @EventHandler
     public void onItemHeld(PlayerSwapHandItemsEvent event) {
         event.setCancelled(true);
+    }
+
+    private void killPlayer(BedwarsPlayer player) {
+        if (taggedPlayers.containsKey(player.getPlayer().getUniqueId())) {
+            player.kill(Bukkit.getPlayer(taggedPlayers.get(player.getPlayer().getUniqueId()).getKey()));
+        } else player.kill();
     }
 }

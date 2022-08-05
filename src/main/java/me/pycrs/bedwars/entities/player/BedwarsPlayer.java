@@ -32,11 +32,11 @@ import java.util.UUID;
 public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
-    private Bedwars plugin;
-    private Player player;
-    private BedwarsTeam team;
-    private Equipment equipment;
-    private PlayerStatistics statistics;
+    private final Bedwars plugin;
+    private final Player player;
+    private final BedwarsTeam team;
+    private final Equipment equipment;
+    private final PlayerStatistics statistics;
     private boolean spectating = false;
     private int level = 0;
 
@@ -50,9 +50,8 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         // Fetching player's statistics from the official Hypixel API
         String apiKey = Settings.hypixelApiKey;
         if (apiKey != null) {
-            CloseableHttpClient client = HttpClients.createDefault();
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                try {
+                try (CloseableHttpClient client = HttpClients.createDefault();) {
                     HttpResponse response = client.execute(new HttpGet("https://api.hypixel.net/player?key=" + apiKey + "&uuid=" + player.getUniqueId()));
                     JSONObject object = new JSONObject(Utils.streamToString(response.getEntity().getContent()));
                     if (object.getBoolean("success")) {
