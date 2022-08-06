@@ -32,10 +32,9 @@ public class CommonShopItem extends ShopItem {
     @Override
     protected ItemStack formatPreviewItem(ItemStack itemStack) {
         return new ItemBuilder(itemStack)
-                .setPlugin(Bedwars.getInstance())
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
-                .setPersistentData("role", PersistentDataType.STRING, "shopItem")
-                .setPersistentData("itemId", PersistentDataType.STRING, id)
+                .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, Role.DEFAULT.key())
+                .setPersistentData(ShopItem.ITEM_ID_KEY, PersistentDataType.STRING, id)
                 .setLore(Component.text("Cost: ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false).append(getCost().getDisplay()), Component.empty())
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)
                 .previewEnchantments()

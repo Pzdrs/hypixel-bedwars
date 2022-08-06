@@ -1,10 +1,14 @@
-package me.pycrs.bedwars.entities;
+package me.pycrs.bedwars.util;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.generators.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -15,10 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BedwarsMap {
-    private String name;
-    private Mode[] modes;
-    private Location lobbySpawn;
-    private List<Generator> diamondGenerators, emeraldGenerators;
+    private final String name;
+    private final Mode[] modes;
+    private final Location lobbySpawn;
+    private final List<Generator> diamondGenerators, emeraldGenerators;
 
     public BedwarsMap(String name, List<Object> modes, Location lobbySpawn) {
         this.name = name;
@@ -27,6 +31,15 @@ public class BedwarsMap {
         for (int i = 0; i < modes.size(); i++) this.modes[i] = Mode.valueOf(String.valueOf(modes.get(i)));
         this.diamondGenerators = new ArrayList<>();
         this.emeraldGenerators = new ArrayList<>();
+
+        // Sanitize the physical world
+        World world = Bukkit.getWorld("world");
+        if (world != null) {
+            // Removes all potential items, mobs, etc.
+            for (Entity entity : world.getEntities()) {
+                if (!(entity instanceof Player)) entity.remove();
+            }
+        }
     }
 
     public String getName() {

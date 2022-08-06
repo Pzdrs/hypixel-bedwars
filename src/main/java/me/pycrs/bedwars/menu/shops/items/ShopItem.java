@@ -1,12 +1,31 @@
 package me.pycrs.bedwars.menu.shops.items;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
 import me.pycrs.bedwars.menu.shops.items.dependency.Cost;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class ShopItem {
+    public enum Role {
+        DEFAULT("shopItem"),
+        PERSISTENT_EQUIPMENT("persistent_equipment");
+
+        private final String key;
+
+        Role(String key) {
+            this.key = key;
+        }
+
+        public String key() {
+            return key;
+        }
+    }
+
+    public static final NamespacedKey ROLE_KEY = new NamespacedKey(Bedwars.getInstance(), "role");
+    public static final NamespacedKey ITEM_ID_KEY = new NamespacedKey(Bedwars.getInstance(), "itemId");
     protected String id, description;
     protected ItemStack preview;
     protected Cost cost;

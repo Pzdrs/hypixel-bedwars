@@ -5,6 +5,7 @@ import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -26,11 +27,10 @@ public class ShopCategory {
 
     private ItemStack formatPreviewItem(Material material) {
         return new ItemBuilder(material)
-                .setPlugin(Bedwars.getInstance())
                 .setDisplayName(ChatColor.GREEN + name + ChatColor.RESET)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES)
-                .setPersistentData("role", PersistentDataType.STRING, "category")
-                .setPersistentData("category", PersistentDataType.STRING, id)
+                .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, "category")
+                .setPersistentData(new NamespacedKey(Bedwars.getInstance(), "category"), PersistentDataType.STRING, id)
                 .build();
     }
 

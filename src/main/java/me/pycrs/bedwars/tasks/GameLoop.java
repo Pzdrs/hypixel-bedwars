@@ -2,7 +2,7 @@ package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
-import me.pycrs.bedwars.entities.GameEvent;
+import me.pycrs.bedwars.util.GameEvent;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.generators.Generator;

@@ -51,6 +51,9 @@ generators3&4:
   emeraldIII: 30
   emeraldCap: 6
 
+# Defines how close a player must be to the item on the floor for it to be split between multiple players
+forgeSplitRadius: 2.5
+
 # When should each event occur in seconds (from the start of the game)
 events:
   diamondII: 360 # 6 minutes into the game

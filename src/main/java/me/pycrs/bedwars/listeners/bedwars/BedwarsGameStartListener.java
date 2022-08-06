@@ -6,6 +6,7 @@ import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
+import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
@@ -40,12 +41,10 @@ public class BedwarsGameStartListener implements Listener {
             bedwarsPlayer.setSpectator(false);
             bedwarsPlayer.setArmor();
             player.getInventory().addItem(new ItemBuilder(Material.WOODEN_SWORD)
-                    .setPlugin(plugin)
-                    .setPersistentData("role", PersistentDataType.STRING, "persistent_equipment")
+                    .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, ShopItem.Role.PERSISTENT_EQUIPMENT.key())
                     .build());
             bedwarsPlayer.teleportToBase();
         });
-
 
 
         // Initial generator activation

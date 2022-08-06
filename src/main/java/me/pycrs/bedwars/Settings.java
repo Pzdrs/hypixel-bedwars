@@ -7,7 +7,11 @@ import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class Settings {
+public final class Settings {
+    private Settings() {
+        throw new AssertionError();
+    }
+
     public static final Component WELCOME_MESSAGE = Component.empty()
             .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)).append(Component.newline())
             .append(Utils.nAmountOfSymbols(" ", 34)
@@ -37,6 +41,8 @@ public class Settings {
     public static int eventSuddenDeath;
     public static int eventGameEnd;
 
+    public static double forgeSplitRadius;
+
     public static String hypixelApiKey;
 
     /**
@@ -60,6 +66,8 @@ public class Settings {
         eventBedDestruction = config.getInt("events.bedDestruction");
         eventSuddenDeath = config.getInt("events.suddenDeath");
         eventGameEnd = config.getInt("events.gameEnd");
+
+        forgeSplitRadius = config.getDouble("forgeSplitRadius", 2.5);
 
         hypixelApiKey = config.getString("hypixelApiKey");
         return true;

@@ -2,13 +2,12 @@ package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
-import me.pycrs.bedwars.entities.BedwarsMap;
+import me.pycrs.bedwars.util.BedwarsMap;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.type.Bed;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -17,6 +16,29 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public abstract class Generator {
+    /**
+     * Defines generator resource states, an item is marked as {@link ResourceState#FRESH_SPAWN} when it's spawned, then when the item
+     * is picked up by a player, it is marked as {@link ResourceState#PICKED_UP}
+     */
+    public enum ResourceState {
+        FRESH_SPAWN(0), PICKED_UP(1);
+
+        private final int state;
+
+        ResourceState(int state) {
+            this.state = state;
+        }
+
+        public int state() {
+            return state;
+        }
+    }
+
+    /**
+     * Defines the marker key for generated items (distinguishing between picked up and not yet picked up items)
+     */
+    public static final NamespacedKey RESOURCE_MARKER_KEY = new NamespacedKey(Bedwars.getInstance(), "resource_state");
+
     private BukkitRunnable runnable;
     protected Location location;
 

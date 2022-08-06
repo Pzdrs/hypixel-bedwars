@@ -30,7 +30,7 @@ public class Forge extends Generator {
     protected void generateResource(Material material) {
         if (currentIron >= ironCap || currentGold >= goldCap) return;
         ItemStack resource = new ItemBuilder(material)
-                .setPersistentData("resourceState", PersistentDataType.INTEGER, 0)
+                .setPersistentData(Generator.RESOURCE_MARKER_KEY, PersistentDataType.INTEGER, 0)
                 .build();
         super.generateResource(resource);
         if (material == Material.IRON_INGOT) currentIron++;

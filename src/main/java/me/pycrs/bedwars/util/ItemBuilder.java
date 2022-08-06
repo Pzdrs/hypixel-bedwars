@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemBuilder {
-    private JavaPlugin plugin = Bedwars.getInstance();
     private ItemStack itemStack;
 
     public ItemBuilder(Material material) {
@@ -37,11 +36,6 @@ public class ItemBuilder {
 
     public ItemBuilder(Material material, int amount) {
         this.itemStack = new ItemStack(material, amount);
-    }
-
-    public ItemBuilder setPlugin(JavaPlugin plugin) {
-        this.plugin = plugin;
-        return this;
     }
 
     public ItemBuilder setUnbreakable(boolean unbreakable) {
@@ -180,9 +174,9 @@ public class ItemBuilder {
         return this;
     }
 
-    public <T> ItemBuilder setPersistentData(String key, PersistentDataType<T,T> dataType, T value) {
+    public <T> ItemBuilder setPersistentData(NamespacedKey namespacedKey, PersistentDataType<T,T> dataType, T value) {
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, key), dataType, value);
+        itemMeta.getPersistentDataContainer().set(namespacedKey, dataType, value);
         itemStack.setItemMeta(itemMeta);
         return this;
     }
