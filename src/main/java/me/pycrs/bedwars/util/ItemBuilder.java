@@ -180,7 +180,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setPersistentData(String key, PersistentDataType dataType, Object value) {
+    public <T> ItemBuilder setPersistentData(String key, PersistentDataType<T,T> dataType, T value) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, key), dataType, value);
         itemStack.setItemMeta(itemMeta);

@@ -8,6 +8,8 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +21,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class Utils {
     public static String color(String s) {
@@ -192,5 +195,15 @@ public class Utils {
         player.setAllowFlight(spectator);
         player.setFireTicks(0);
         player.setFlying(spectator);
+    }
+
+    public static <T> Optional<T> getPersistentData(ItemStack itemStack, NamespacedKey namespacedKey, PersistentDataType<T, T> persistentDataType) {
+        if (itemStack.hasItemMeta()) {
+            PersistentDataContainer persistentDataContainer = itemStack.getItemMeta().getPersistentDataContainer();
+            if (persistentDataContainer.has(namespacedKey, persistentDataType)) {
+                return Optional.ofNullable(persistentDataContainer.get(namespacedKey, persistentDataType));
+            }
+        }
+        return Optional.empty();
     }
 }
