@@ -6,9 +6,7 @@ import me.pycrs.bedwars.generators.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -36,9 +34,9 @@ public class BedwarsMap {
         // Sanitize the physical world
         World world = Bukkit.getWorld("world");
         if (world != null) {
-            // Removes all potential items, mobs, etc.
+            // Removes all potential items, mobs, etc., while leaving item frames and such intact
             for (Entity entity : world.getEntities()) {
-                if (!(entity instanceof Player)) entity.remove();
+                if (entity instanceof Item || entity instanceof Mob) entity.remove();
             }
         }
     }
