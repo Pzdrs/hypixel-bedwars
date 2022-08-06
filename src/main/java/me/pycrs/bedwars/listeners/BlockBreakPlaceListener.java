@@ -12,10 +12,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Bed;
+import org.bukkit.entity.Hanging;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -70,5 +72,10 @@ public class BlockBreakPlaceListener implements Listener {
             event.getPlayer().sendMessage(Component.text("You can only break blocks placed by a player!", NamedTextColor.RED));
             event.setCancelled(true);
         } else placedBlocks.remove(event.getBlock());
+    }
+
+    @EventHandler
+    public void onBreakHanging(HangingBreakEvent event) {
+        event.setCancelled(true);
     }
 }

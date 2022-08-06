@@ -7,8 +7,6 @@ import me.pycrs.bedwars.menu.button.MenuButtonHandler;
 import me.pycrs.bedwars.menu.shops.dependency.ShopCategory;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
-import me.pycrs.bedwars.util.InventoryUtils;
-import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;

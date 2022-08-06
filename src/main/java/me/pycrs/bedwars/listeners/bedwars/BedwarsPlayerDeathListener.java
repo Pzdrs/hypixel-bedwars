@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
@@ -29,9 +30,6 @@ public class BedwarsPlayerDeathListener implements Listener {
     public void onPlayerDeath(BedwarsPlayerDeathEvent event) {
         Player player = event.getPlayer();
 
-        event.getBedwarsPlayer().setSpectator(true);
-        player.teleport(plugin.getMap().getLobbySpawn());
-
         if (event.gotKilled()) {
             event.setMessage(BedwarsPlayerDeathEvent.DeathMessage.getMessage(event.getCause(), event.getBedwarsPlayer(), event.getBedwarsKiller()));
         } else {
@@ -49,5 +47,12 @@ public class BedwarsPlayerDeathListener implements Listener {
 
         // Broadcast the death message
         Utils.inGameBroadcast(event.getMessage());
+
+        // Kill event needs to be triggered after the death message but before the player's inventory is cleared due to them being made a spectator
+        if (event.gotKilled())
+            Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(player, event.getKiller()));
+
+        event.getBedwarsPlayer().setSpectator(true);
+        player.teleport(plugin.getMap().getLobbySpawn());
     }
 }

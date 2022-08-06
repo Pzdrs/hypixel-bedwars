@@ -95,7 +95,6 @@ public class BedwarsPlayerDeathEvent extends Event {
         this.player = BedwarsPlayer.toBPlayer(player);
         this.killer = BedwarsPlayer.toBPlayer(killer);
         this.damageEvent = player.getLastDamageCause();
-        Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerKillEvent(BedwarsPlayer.toBPlayer(player), BedwarsPlayer.toBPlayer(killer)));
     }
 
     public EntityDamageEvent.DamageCause getCause() {

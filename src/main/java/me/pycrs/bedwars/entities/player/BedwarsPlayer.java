@@ -4,6 +4,7 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
+import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
@@ -134,7 +135,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      * @param killer the killer
      */
     public void kill(Player killer) {
-        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(this.player, killer));
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, killer));
     }
 
     public void shout(Component component) {

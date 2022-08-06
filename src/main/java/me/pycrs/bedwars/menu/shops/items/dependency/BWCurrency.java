@@ -35,4 +35,11 @@ public enum BWCurrency {
     public String capitalize() {
         return WordUtils.capitalize(toString().toLowerCase());
     }
+
+    public static BWCurrency fromType(Material material) {
+        for (BWCurrency currency : values()) {
+            if (currency.material == material) return currency;
+        }
+        return null;
+    }
 }
