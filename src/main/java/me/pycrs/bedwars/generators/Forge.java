@@ -2,9 +2,12 @@ package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
+import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Random;
 
@@ -26,7 +29,10 @@ public class Forge extends Generator {
     @Override
     protected void generateResource(Material material) {
         if (currentIron >= ironCap || currentGold >= goldCap) return;
-        super.generateResource(material);
+        ItemStack resource = new ItemBuilder(material)
+                .setPersistentData("resourceState", PersistentDataType.INTEGER, 0)
+                .build();
+        super.generateResource(resource);
         if (material == Material.IRON_INGOT) currentIron++;
         else if (material == Material.GOLD_INGOT) currentGold++;
     }

@@ -51,7 +51,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         String apiKey = Settings.hypixelApiKey;
         if (apiKey != null) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                try (CloseableHttpClient client = HttpClients.createDefault();) {
+                try (CloseableHttpClient client = HttpClients.createDefault()) {
                     HttpResponse response = client.execute(new HttpGet("https://api.hypixel.net/player?key=" + apiKey + "&uuid=" + player.getUniqueId()));
                     JSONObject object = new JSONObject(Utils.streamToString(response.getEntity().getContent()));
                     if (object.getBoolean("success")) {

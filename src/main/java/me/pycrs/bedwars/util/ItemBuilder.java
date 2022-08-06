@@ -1,5 +1,6 @@
 package me.pycrs.bedwars.util;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.menu.shops.items.dependency.ShopItemTier;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -8,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemBuilder {
-    private JavaPlugin plugin;
+    private JavaPlugin plugin = Bedwars.getInstance();
     private ItemStack itemStack;
 
     public ItemBuilder(Material material) {

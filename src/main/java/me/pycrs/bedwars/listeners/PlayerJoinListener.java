@@ -36,6 +36,7 @@ public class PlayerJoinListener implements Listener {
         player.displayName(Component.text(event.getPlayer().getName(), NamedTextColor.GRAY));
         player.teleport(plugin.getMap().getLobbySpawnExact());
         player.setGameMode(GameMode.ADVENTURE);
+        player.getInventory().clear();
 
         if (Bedwars.isGameInProgress()) {
             event.joinMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getTextColor())

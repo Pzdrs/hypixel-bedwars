@@ -39,6 +39,11 @@ public abstract class Generator {
         item.setVelocity(new Vector(0, .1, 0));
     }
 
+    protected void generateResource(ItemStack itemStack) {
+        Item item = Bukkit.getWorld("world").dropItem(getResourceLocation(), itemStack);
+        item.setVelocity(new Vector(0, .1, 0));
+    }
+
     protected abstract Material getResource();
 
     /**
