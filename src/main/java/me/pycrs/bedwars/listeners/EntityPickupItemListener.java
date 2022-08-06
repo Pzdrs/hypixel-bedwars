@@ -4,8 +4,8 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.generators.Generator;
+import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
-import me.pycrs.bedwars.util.Utils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,7 +36,7 @@ public class EntityPickupItemListener implements Listener {
         if (Generator.pickupCheck(plugin.getMap(), event)) return;
 
         // Check if the item is marked as freshly spawned
-        Optional<Integer> resourceState = Utils.getPersistentData(itemStack, Generator.RESOURCE_MARKER_KEY, PersistentDataType.INTEGER);
+        Optional<Integer> resourceState = InventoryUtils.getPersistentData(itemStack, Generator.RESOURCE_MARKER_KEY, PersistentDataType.INTEGER);
         if (resourceState.isPresent() && resourceState.get() == Generator.ResourceState.FRESH_SPAWN.state()) {
             // Mark the item as picked up
             ItemStack pickedUpItemStack = new ItemBuilder(itemStack)

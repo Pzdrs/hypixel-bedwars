@@ -1,7 +1,7 @@
 package me.pycrs.bedwars.menu.shops;
 
 import me.pycrs.bedwars.util.ItemBuilder;
-import me.pycrs.bedwars.menu.MenuUtils;
+import me.pycrs.bedwars.util.MenuUtils;
 import me.pycrs.bedwars.menu.shops.dependency.ShopCategory;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

@@ -24,6 +24,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class Utils {
+    private Utils() {
+        throw new AssertionError();
+    }
+
     public static String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
@@ -83,15 +87,6 @@ public class Utils {
 
     public static void inGameBroadcast(Component component) {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(component));
-    }
-
-    public static int getMaterialAmount(Inventory inventory, Material material) {
-        int amount = 0;
-        for (ItemStack content : inventory.getContents()) {
-            if (content != null)
-                if (content.getType().equals(material)) amount += content.getAmount();
-        }
-        return amount;
     }
 
     public static String materialToFriendlyName(Material material) {
@@ -159,14 +154,6 @@ public class Utils {
                 (point.getBlockZ() > (center.getBlockZ() - zOffset) && point.getBlockZ() < (center.getBlockZ() + zOffset));
     }
 
-    public static void setArmor(Player player, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, boolean silent) {
-        if (player.getEquipment() == null) return;
-        player.getEquipment().setHelmet(helmet, silent);
-        player.getEquipment().setChestplate(chestplate, silent);
-        player.getEquipment().setLeggings(leggings, silent);
-        player.getEquipment().setBoots(boots, silent);
-    }
-
     /**
      * Format timer
      *
@@ -195,15 +182,5 @@ public class Utils {
         player.setAllowFlight(spectator);
         player.setFireTicks(0);
         player.setFlying(spectator);
-    }
-
-    public static <T> Optional<T> getPersistentData(ItemStack itemStack, NamespacedKey namespacedKey, PersistentDataType<T, T> persistentDataType) {
-        if (itemStack.hasItemMeta()) {
-            PersistentDataContainer persistentDataContainer = itemStack.getItemMeta().getPersistentDataContainer();
-            if (persistentDataContainer.has(namespacedKey, persistentDataType)) {
-                return Optional.ofNullable(persistentDataContainer.get(namespacedKey, persistentDataType));
-            }
-        }
-        return Optional.empty();
     }
 }

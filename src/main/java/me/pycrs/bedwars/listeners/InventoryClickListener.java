@@ -3,11 +3,16 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.menu.Menu;
 import me.pycrs.bedwars.menu.shops.Shop;
-import me.pycrs.bedwars.menu.MenuUtils;
+import me.pycrs.bedwars.util.InventoryUtils;
+import me.pycrs.bedwars.util.MenuUtils;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Optional;
 
 public class InventoryClickListener implements Listener {
     private Bedwars plugin;
@@ -29,9 +34,11 @@ public class InventoryClickListener implements Listener {
                 if (!(event.getClickedInventory().getHolder() instanceof Menu) || event.getCurrentItem() == null || !MenuUtils.hasRole(event.getCurrentItem()))
                     return;
                 // Check if the player has clicked on a custom menu button
-                if (MenuUtils.getPDCValue(event.getCurrentItem(), "menuButtonID") != null) {
+                Optional<String> potentialMenuButtonID = InventoryUtils
+                        .getPersistentData(event.getCurrentItem(), new NamespacedKey(plugin, "menuButtonID"), PersistentDataType.STRING);
+                if (potentialMenuButtonID.isPresent()) {
                     Menu menu = (Menu) event.getInventory().getHolder();
-                    menu.getButtons().get(MenuUtils.getPDCValue(event.getCurrentItem(), "menuButtonID")).getHandler().handle();
+                    menu.getButtons().get(potentialMenuButtonID.get()).getHandler().handle();
                     return;
                 }
                 shop.handle(event);

@@ -1,13 +1,14 @@
-package me.pycrs.bedwars.menu;
+package me.pycrs.bedwars.util;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.util.ItemBuilder;
-import me.pycrs.bedwars.util.Utils;
+import me.pycrs.bedwars.menu.Menu;
 import me.pycrs.bedwars.menu.button.MenuButton;
 import me.pycrs.bedwars.menu.button.MenuButtonHandler;
-import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
 import me.pycrs.bedwars.menu.shops.dependency.ShopCategory;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
+import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
+import me.pycrs.bedwars.util.InventoryUtils;
+import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -20,6 +21,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class MenuUtils {
+    private MenuUtils() {
+        throw new AssertionError();
+    }
+
     public static void displayCategories(Inventory inventory, LinkedList<ShopCategory> categories, ShopCategory selectedCategory) {
         for (int i = 0; i < 9; i++) {
             if (i > categories.size() - 1) {
@@ -82,11 +87,11 @@ public class MenuUtils {
     }
 
     public static boolean canAfford(BWCurrency currency, int price, Player player) {
-        return Utils.getMaterialAmount(player.getInventory(), currency.getType()) >= price;
+        return InventoryUtils.getMaterialAmount(player.getInventory(), currency.getType()) >= price;
     }
 
     public static int canAffordAmount(BWCurrency currency, int price, Player player) {
-        int amount = Utils.getMaterialAmount(player.getInventory(), currency.getType());
+        int amount = InventoryUtils.getMaterialAmount(player.getInventory(), currency.getType());
         if (price > amount) return price - amount;
         return 0;
     }

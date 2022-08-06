@@ -1,10 +1,9 @@
 package me.pycrs.bedwars.menu.shops;
 
-import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
-import me.pycrs.bedwars.menu.MenuUtils;
+import me.pycrs.bedwars.util.MenuUtils;
 import me.pycrs.bedwars.menu.shops.dependency.ShopCategory;
 import me.pycrs.bedwars.menu.shops.items.PermanentUpgradeShopItem;
 import me.pycrs.bedwars.menu.shops.items.dependency.ShopItemTier;

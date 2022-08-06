@@ -4,7 +4,8 @@ import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.menu.Menu;
-import me.pycrs.bedwars.menu.MenuUtils;
+import me.pycrs.bedwars.util.InventoryUtils;
+import me.pycrs.bedwars.util.MenuUtils;
 import me.pycrs.bedwars.menu.shops.dependency.ShopCategory;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import net.kyori.adventure.text.Component;
@@ -15,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.LinkedList;
+import java.util.Optional;
 
 public abstract class Shop extends Menu {
     public enum CategoryCycleDirection {
@@ -57,7 +59,9 @@ public abstract class Shop extends Menu {
         if (event.getCurrentItem() == null) return;
         switch (MenuUtils.getItemRole(event.getCurrentItem())) {
             case "category":
-                setSelectedCategory(MenuUtils.getPDCValue(event.getCurrentItem(), "category"));
+                Optional<String> potentialCategory = InventoryUtils.getPersistentData(event.getCurrentItem(),
+                        new NamespacedKey(Bedwars.getInstance(), "category"), PersistentDataType.STRING);
+                potentialCategory.ifPresent(this::setSelectedCategory);
                 open();
                 break;
             case "shopItem":
