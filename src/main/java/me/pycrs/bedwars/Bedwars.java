@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public final class Bedwars extends JavaPlugin {
     private static Bedwars instance;
@@ -54,7 +55,13 @@ public final class Bedwars extends JavaPlugin {
         Utils.applyDefaultGamerules(Bukkit.getWorld("world"));
 
         // Map setup
-        JSONObject map = BedwarsMap.loadJSON();
+        Optional<JSONObject> potentialMap = BedwarsMap.loadJSON();
+        // If the map data cannot be accessed, we can't continue - disable the plugin in that case
+        if (potentialMap.isEmpty()) {
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        JSONObject map = potentialMap.get();
         JSONArray diamondsGens = map.getJSONArray("diamondGenerators");
         JSONArray emeraldGens = map.getJSONArray("emeraldGenerators");
 

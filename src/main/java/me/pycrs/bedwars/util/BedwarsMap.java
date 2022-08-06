@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class BedwarsMap {
     private final String name;
@@ -77,13 +78,13 @@ public class BedwarsMap {
                 '}';
     }
 
-    public static JSONObject loadJSON() {
+    public static Optional<JSONObject> loadJSON() {
         try {
-            return new JSONObject(Files.readString(Paths.get("world/map.json")));
+            return Optional.of(new JSONObject(Files.readString(Paths.get("world/map.json"))));
         } catch (IOException e) {
             Bedwars.getInstance().getLogger().severe("Couldn't load world/map.json, it's either corrupted or doesn't exist");
         }
-        return null;
+        return Optional.empty();
     }
 
     public static BedwarsMap createMap(JSONObject map) {
