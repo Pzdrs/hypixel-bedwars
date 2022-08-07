@@ -38,19 +38,20 @@ public class BedwarsPlayerKillListener implements Listener {
         }
 
         // Common player death logic
-        BedwarsPlayerDeathListener.onPlayerDeath(event.getBedwarsPlayer(), plugin, event);
-
-        // Player drops
-        event.getResources().forEach((material, amount) -> {
-            BWCurrency currency = BWCurrency.fromType(material);
-            if (currency != null) {
-                event.getKiller().getInventory().addItem(
-                        new ItemBuilder(material, amount)
-                                .setPersistentData(Generator.RESOURCE_MARKER_KEY, PersistentDataType.INTEGER, Generator.ResourceState.PICKED_UP.state())
-                                .build()
-                );
-                event.getKiller().sendMessage(Component.text(String.format("+%d ", amount), currency.getColor()).append(Component.text(currency.capitalize())));
-            }
+        BedwarsPlayerDeathListener.onPlayerDeath(event.getBedwarsPlayer(), plugin, event, () -> {
+            // Player drops
+            event.getResources().forEach((material, amount) -> {
+                BWCurrency currency = BWCurrency.fromType(material);
+                if (currency != null) {
+                    event.getKiller().getInventory().addItem(
+                            new ItemBuilder(material, amount)
+                                    .setPersistentData(Generator.RESOURCE_MARKER_KEY, PersistentDataType.INTEGER, Generator.ResourceState.PICKED_UP.state())
+                                    .build()
+                    );
+                    event.getKiller().sendMessage(Component.text(String.format("+%d ", amount), currency.getColor()).append(Component.text(currency.capitalize())));
+                }
+            });
         });
+
     }
 }

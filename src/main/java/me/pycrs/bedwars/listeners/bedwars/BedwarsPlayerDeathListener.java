@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class BedwarsPlayerDeathListener implements Listener {
     private final Bedwars plugin;
@@ -34,7 +35,7 @@ public class BedwarsPlayerDeathListener implements Listener {
         onPlayerDeath(event.getBedwarsPlayer(), plugin, event);
     }
 
-    public static void onPlayerDeath(BedwarsPlayer deadPlayer, Bedwars plugin, BedwarsEventWithMessage event) {
+    public static void onPlayerDeath(BedwarsPlayer deadPlayer, Bedwars plugin, BedwarsEventWithMessage event, Runnable playerDrops) {
         deadPlayer.setSpectator(true);
         deadPlayer.getPlayer().teleport(plugin.getMap().getLobbySpawn());
 
@@ -48,10 +49,18 @@ public class BedwarsPlayerDeathListener implements Listener {
             // Final kill message
             event.setMessage(event.getMessage().append(Component.text(" FINAL KILL!", Style.style(NamedTextColor.AQUA, TextDecoration.BOLD))));
             deadPlayer.getPlayer().sendMessage(Component.text("You have been eliminated!", NamedTextColor.RED));
-            deadPlayer.getTeam().eliminatePlayer(deadPlayer);
         }
 
         // Broadcast the death message
         Utils.inGameBroadcast(event.getMessage());
+
+        // Player drops
+        if (playerDrops != null) playerDrops.run();
+
+        if (!deadPlayer.getTeam().hasBed()) deadPlayer.getTeam().eliminatePlayer(deadPlayer);
+    }
+
+    public static void onPlayerDeath(BedwarsPlayer deadPlayer, Bedwars plugin, BedwarsEventWithMessage event) {
+        onPlayerDeath(deadPlayer, plugin, event, null);
     }
 }
