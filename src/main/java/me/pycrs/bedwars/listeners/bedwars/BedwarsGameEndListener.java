@@ -28,6 +28,8 @@ public class BedwarsGameEndListener implements Listener {
     public void onGameEnd(BedwarsGameEndEvent event) {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL || event.getResult() == BedwarsGameEndEvent.Result.GAME_END) {
             Bedwars.gameLoop.cancel();
+            Bedwars.setGameInProgress(false);
+            Bedwars.setGameFinished(true);
             // Sort the players by kills
             Collections.sort(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {

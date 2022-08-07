@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.json.JSONArray;
@@ -60,10 +61,8 @@ public class BedwarsMap {
                     shops.getJSONObject("teamUpgrades").getDouble("z")
             );
 
-            /*world.spawnEntity(itemShop, EntityType.VILLAGER, CreatureSpawnEvent.SpawnReason.CUSTOM, entity -> {
-                PersistentDataContainer persistentDataContainer = entity.getPersistentDataContainer();
-                persistentDataContainer.set(new NamespacedKey(Bedwars.getInstance(), "entityRole"));
-            });*/
+            world.spawnEntity(itemShop, EntityType.VILLAGER);
+            world.spawnEntity(teamUpgradesShop, EntityType.VILLAGER);
         });
     }
 

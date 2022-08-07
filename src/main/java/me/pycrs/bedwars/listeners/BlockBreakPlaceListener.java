@@ -51,6 +51,7 @@ public class BlockBreakPlaceListener implements Listener {
         for (BedwarsTeam team : plugin.getTeams()) {
             if (team.getBaseArea().isInArea(event.getBlock().getLocation())) {
                 event.setCancelled(true);
+                event.getPlayer().sendMessage(Component.text("You can't place blocks here!", NamedTextColor.RED));
                 return;
             }
         }

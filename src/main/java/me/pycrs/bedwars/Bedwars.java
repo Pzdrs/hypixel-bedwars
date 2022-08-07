@@ -31,6 +31,17 @@ public final class Bedwars extends JavaPlugin {
     private LobbyLoop lobbyLoop;
     public static GameLoop gameLoop;
 
+    /**
+     * {@link Bedwars#gameFinished} is true when the game ends and the server is restarting soon, false otherwise
+     * {@link Bedwars#gameFinished} is true when the game is in progress, false before and after the game
+     */
+    private static boolean gameFinished = false, gameInProgress = false;
+
+    public static Bedwars getInstance() {
+        return instance;
+    }
+
+
     @Override
     public void onEnable() {
         // Automatic reload
@@ -70,17 +81,16 @@ public final class Bedwars extends JavaPlugin {
         this.teams = BedwarsTeam.initTeams(map.getJSONArray("teams"));
     }
 
-    public static Bedwars getInstance() {
-        return instance;
-    }
-
     public static boolean isGameInProgress() {
-        return gameLoop != null && !gameLoop.isCancelled();
+        return gameInProgress;
     }
 
-    public void startLobbyCountdown() {
-        this.lobbyLoop = new LobbyLoop(this, Settings.lobbyCountdown);
-        lobbyLoop.runTaskTimer(this, 0, 20);
+    public static boolean isGameFinished() {
+        return gameFinished;
+    }
+
+    public LobbyLoop getLobbyLoop() {
+        return lobbyLoop;
     }
 
     public List<BedwarsPlayer> getPlayers() {
@@ -91,12 +101,21 @@ public final class Bedwars extends JavaPlugin {
         return map;
     }
 
-    public LobbyLoop getLobbyLoop() {
-        return lobbyLoop;
-    }
-
     public List<BedwarsTeam> getTeams() {
         return teams;
+    }
+
+    public void startLobbyCountdown() {
+        this.lobbyLoop = new LobbyLoop(this, Settings.lobbyCountdown);
+        lobbyLoop.runTaskTimer(this, 0, 20);
+    }
+
+    public static void setGameFinished(boolean gameFinished) {
+        Bedwars.gameFinished = gameFinished;
+    }
+
+    public static void setGameInProgress(boolean gameInProgress) {
+        Bedwars.gameInProgress = gameInProgress;
     }
 
     private void init() {

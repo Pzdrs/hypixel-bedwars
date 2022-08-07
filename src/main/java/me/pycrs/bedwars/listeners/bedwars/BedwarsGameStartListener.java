@@ -14,8 +14,13 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,6 +37,7 @@ public class BedwarsGameStartListener implements Listener {
     @EventHandler
     public void onGameStart(BedwarsGameStartEvent event) {
         Bedwars.gameLoop = new GameLoop(plugin);
+        Bedwars.setGameInProgress(true);
         BedwarsTeam.distributePlayers();
 
         // Initial setup
@@ -45,8 +51,6 @@ public class BedwarsGameStartListener implements Listener {
                     .build());
             bedwarsPlayer.teleportToBase();
         });
-
-        // TODO: 8/7/2022 maybe move the map init - shopkeepers, remove entities etc
 
         // Initial generator activation
         plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI", true)));

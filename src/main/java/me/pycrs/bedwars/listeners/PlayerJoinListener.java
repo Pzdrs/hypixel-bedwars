@@ -42,7 +42,7 @@ public class PlayerJoinListener implements Listener {
             event.joinMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getTextColor())
                     .append(Component.text(" reconnected", NamedTextColor.GRAY)));
             Utils.applySpectator(player, true, plugin);
-            // TODO: 6/20/2021 death and respawn
+            // TODO: 6/20/2021 zjistit jestli se actually reconnecti nebo jestli to je spectator
         } else {
             // New join messages
             event.joinMessage(player.displayName()

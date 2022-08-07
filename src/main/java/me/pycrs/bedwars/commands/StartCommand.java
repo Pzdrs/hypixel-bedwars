@@ -5,6 +5,7 @@ import me.pycrs.bedwars.tasks.LobbyLoop;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -26,19 +27,21 @@ public class StartCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
             if (!player.hasPermission("bedwars.start")) {
                 player.sendMessage(Component.text("You must be admin or higher to use this command!", NamedTextColor.RED));
                 return true;
             }
         }
-        if (Bukkit.getOnlinePlayers().size() < 1) {
-            sender.sendMessage("A minimum of 1 player is needed to forcefully start the game.");
-            return true;
-        }
+
         if (LobbyLoop.isCountingDown() || Bedwars.isGameInProgress()) {
             sender.sendMessage(Component.text("The game is starting already or is already in progress.", NamedTextColor.RED));
+            return true;
+        } else if (Bedwars.isGameFinished()) {
+            sender.sendMessage(Component.text("The game has finished, waiting for server restart.", NamedTextColor.RED));
+            return true;
+        } else if (Bukkit.getOnlinePlayers().size() < 2) {
+            sender.sendMessage(Component.text("A minimum of 2 players is needed to forcefully start the game.", NamedTextColor.RED));
             return true;
         } else {
             plugin.startLobbyCountdown();
