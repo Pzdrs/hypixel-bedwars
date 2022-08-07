@@ -2,7 +2,6 @@ package me.pycrs.bedwars.util;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Mode;
-import me.pycrs.bedwars.entities.Shopkeeper;
 import me.pycrs.bedwars.generators.*;
 import net.minecraft.server.v1_16_R3.EntityTypes;
 import net.minecraft.server.v1_16_R3.WorldServer;
@@ -12,7 +11,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.*;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.json.JSONArray;
@@ -66,14 +64,6 @@ public class BedwarsMap {
                 PersistentDataContainer persistentDataContainer = entity.getPersistentDataContainer();
                 persistentDataContainer.set(new NamespacedKey(Bedwars.getInstance(), "entityRole"));
             });*/
-
-            WorldServer worldServer = ((CraftWorld) world).getHandle();
-            Shopkeeper itemShopkeeper = new Shopkeeper(EntityTypes.VILLAGER, worldServer);
-            itemShopkeeper.setPosition(itemShop.getX(), itemShop.getY(), itemShop.getZ());
-            PersistentDataContainer persistentDataContainer = ((Entity) itemShopkeeper).getPersistentDataContainer();
-            persistentDataContainer.set(new NamespacedKey(Bedwars.getInstance(), "entity_role"), PersistentDataType.STRING, "item_shop");
-
-            worldServer.addEntity(itemShopkeeper);
         });
     }
 

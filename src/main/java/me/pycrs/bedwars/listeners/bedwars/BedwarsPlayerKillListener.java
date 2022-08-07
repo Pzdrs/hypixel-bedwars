@@ -2,16 +2,23 @@ package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
+import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
 import me.pycrs.bedwars.util.ItemBuilder;
+import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataType;
 
 public class BedwarsPlayerKillListener implements Listener {
-    private Bedwars plugin;
+    private final Bedwars plugin;
 
     public BedwarsPlayerKillListener(Bedwars plugin) {
         this.plugin = plugin;
@@ -20,13 +27,18 @@ public class BedwarsPlayerKillListener implements Listener {
 
     @EventHandler
     public void onPlayerKill(BedwarsPlayerKillEvent event) {
+        // Death message
+        event.setMessage(BedwarsPlayerKillEvent.DeathMessage.getMessage(event.getLastDamage().getCause(), event.getBedwarsPlayer(), event.getBedwarsKiller()));
+
         // Statistics
         if (event.isFinalKill()) {
-            event.getBedwarsKiller().getStatistics().setFinalKills(event.getBedwarsKiller().getStatistics().getFinalKills() + 1);
+            event.getBedwarsKiller().getStatistics().addFinalKill();
         } else {
-            event.getBedwarsKiller().getStatistics().setKills(event.getBedwarsKiller().getStatistics().getKills() + 1);
+            event.getBedwarsKiller().getStatistics().addKill();
         }
-        event.getBedwarsPlayer().getStatistics().setDeaths(event.getBedwarsPlayer().getStatistics().getDeaths() + 1);
+
+        // Common player death logic
+        BedwarsPlayerDeathListener.onPlayerDeath(event.getBedwarsPlayer(), plugin, event);
 
         // Player drops
         event.getResources().forEach((material, amount) -> {

@@ -1,54 +1,18 @@
 package me.pycrs.bedwars.events;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
-
-public class BedwarsPlayerDeathEvent extends Event {
+public class BedwarsPlayerDeathEvent extends BedwarsPlayerEvent implements BedwarsEventWithMessage{
+    private static final HandlerList HANDLERS = new HandlerList();
     public enum DeathMessage {
-        DEFAULT(null,
-                Component.text("{player} was killed by {killer}.", NamedTextColor.GRAY)),
-        PROJECTILE(EntityDamageEvent.DamageCause.PROJECTILE,
-                Component.text("{player} was shot by {killer}.", NamedTextColor.GRAY)),
-        VOID(EntityDamageEvent.DamageCause.VOID,
-                Component.text("{player} was knocked into the void by {killer}.", NamedTextColor.GRAY)),
-        FALL(EntityDamageEvent.DamageCause.FALL,
-                Component.text("{player} hit the ground too hard whilst trying to escape {killer}.", NamedTextColor.GRAY));
-
-        private final EntityDamageEvent.DamageCause deathCause;
-        private final Component message;
-
-        DeathMessage(EntityDamageEvent.DamageCause deathCause, Component message) {
-            this.deathCause = deathCause;
-            this.message = message;
-        }
-
-        public static Component getMessage(EntityDamageEvent.DamageCause deathCause, BedwarsPlayer player, BedwarsPlayer killer) {
-            Component toReturn = DEFAULT.message;
-            for (DeathMessage cause : values())
-                if (cause.deathCause == deathCause) {
-                    toReturn = cause.message;
-                    break;
-                }
-            return toReturn
-                    .replaceText(TextReplacementConfig.builder().matchLiteral("{player}")
-                            .replacement(player.getPlayer().displayName().color(player.getTeam().getTeamColor().getTextColor())).build())
-                    .replaceText(TextReplacementConfig.builder().matchLiteral("{killer}")
-                            .replacement(killer.getPlayer().getPlayer().displayName().color(killer.getTeam().getTeamColor().getTextColor())).build());
-        }
-    }
-
-    public enum DeathMessageNatural {
         DEFAULT(null,
                 Component.text("{player} died.", NamedTextColor.GRAY)),
         VOID(EntityDamageEvent.DamageCause.VOID,
@@ -62,16 +26,16 @@ public class BedwarsPlayerDeathEvent extends Event {
         private final EntityDamageEvent.DamageCause deathCause;
         private final Component message;
 
-        DeathMessageNatural(EntityDamageEvent.DamageCause deathCause, Component message) {
+        DeathMessage(EntityDamageEvent.DamageCause deathCause, Component message) {
             this.deathCause = deathCause;
             this.message = message;
         }
 
         public static Component getMessage(EntityDamageEvent.DamageCause deathCause, BedwarsPlayer player) {
             Component toReturn = DEFAULT.message;
-            for (DeathMessageNatural naturalCause : values())
-                if (naturalCause.deathCause == deathCause) {
-                    toReturn = naturalCause.message;
+            for (DeathMessage deathMessage : values())
+                if (deathMessage.deathCause == deathCause) {
+                    toReturn = deathMessage.message;
                     break;
                 }
             return toReturn
@@ -80,49 +44,20 @@ public class BedwarsPlayerDeathEvent extends Event {
         }
     }
 
-    private static final HandlerList HANDLERS = new HandlerList();
+    protected final EntityDamageEvent lastDamage;
+    protected Component message;
 
-    private BedwarsPlayer player, killer;
-    private EntityDamageEvent damageEvent;
-    private Component message;
-
-    public BedwarsPlayerDeathEvent(Player player) {
-        this.player = BedwarsPlayer.toBPlayer(player);
-        this.damageEvent = player.getLastDamageCause();
-    }
-
-    public BedwarsPlayerDeathEvent(Player player, Player killer) {
-        this.player = BedwarsPlayer.toBPlayer(player);
-        this.killer = BedwarsPlayer.toBPlayer(killer);
-        this.damageEvent = player.getLastDamageCause();
+    public BedwarsPlayerDeathEvent(Bedwars plugin, BedwarsPlayer player, EntityDamageEvent lastDamage) {
+        super(plugin, player);
+        this.lastDamage = lastDamage;
     }
 
     public EntityDamageEvent.DamageCause getCause() {
-        return damageEvent.getCause();
-    }
-
-    public BedwarsPlayer getBedwarsPlayer() {
-        return player;
-    }
-
-    public Player getPlayer() {
-        return player.getPlayer();
-    }
-
-    public BedwarsPlayer getBedwarsKiller() {
-        return killer;
-    }
-
-    public Player getKiller() {
-        return killer.getPlayer();
+        return lastDamage.getCause();
     }
 
     public void setMessage(Component message) {
         this.message = message;
-    }
-
-    public boolean gotKilled() {
-        return killer != null;
     }
 
     public Component getMessage() {

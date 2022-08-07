@@ -1,10 +1,9 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
+import me.pycrs.bedwars.events.*;
 import me.pycrs.bedwars.util.Utils;
-import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
-import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -19,7 +18,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.util.Objects;
 
 public class BedwarsPlayerDeathListener implements Listener {
-    private Bedwars plugin;
+    private final Bedwars plugin;
 
     public BedwarsPlayerDeathListener(Bedwars plugin) {
         this.plugin = plugin;
@@ -28,31 +27,31 @@ public class BedwarsPlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(BedwarsPlayerDeathEvent event) {
-        Player player = event.getPlayer();
+        // Death message
+        event.setMessage(BedwarsPlayerDeathEvent.DeathMessage.getMessage(event.getCause(), event.getBedwarsPlayer()));
 
-        if (event.gotKilled()) {
-            event.setMessage(BedwarsPlayerDeathEvent.DeathMessage.getMessage(event.getCause(), event.getBedwarsPlayer(), event.getBedwarsKiller()));
-        } else {
-            event.setMessage(BedwarsPlayerDeathEvent.DeathMessageNatural.getMessage(event.getCause(), event.getBedwarsPlayer()));
-        }
+        // Common player death logic
+        onPlayerDeath(event.getBedwarsPlayer(), plugin, event);
+    }
 
-        if (event.getBedwarsPlayer().getTeam().hasBed()) {
-            Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerRespawnEvent(event.getBedwarsPlayer()));
+    public static void onPlayerDeath(BedwarsPlayer deadPlayer, Bedwars plugin, BedwarsEventWithMessage event) {
+        deadPlayer.setSpectator(true);
+        deadPlayer.getPlayer().teleport(plugin.getMap().getLobbySpawn());
+
+        // Statistics
+        deadPlayer.getStatistics().addDeath();
+
+        // If the player still has a bed, respawn them, otherwise eliminate them
+        if (deadPlayer.getTeam().hasBed()) {
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerRespawnEvent(deadPlayer));
         } else {
             // Final kill message
             event.setMessage(event.getMessage().append(Component.text(" FINAL KILL!", Style.style(NamedTextColor.AQUA, TextDecoration.BOLD))));
-            event.getBedwarsPlayer().getPlayer().sendMessage(Component.text("You have been eliminated!", NamedTextColor.RED));
-            event.getBedwarsPlayer().getTeam().eliminatePlayer(event.getBedwarsPlayer());
+            deadPlayer.getPlayer().sendMessage(Component.text("You have been eliminated!", NamedTextColor.RED));
+            deadPlayer.getTeam().eliminatePlayer(deadPlayer);
         }
 
         // Broadcast the death message
         Utils.inGameBroadcast(event.getMessage());
-
-        // Kill event needs to be triggered after the death message but before the player's inventory is cleared due to them being made a spectator
-        if (event.gotKilled())
-            Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(player, event.getKiller()));
-
-        event.getBedwarsPlayer().setSpectator(true);
-        player.teleport(plugin.getMap().getLobbySpawn());
     }
 }
