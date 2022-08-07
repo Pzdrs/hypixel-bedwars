@@ -96,10 +96,14 @@ public class BedwarsTeam {
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
         players.put(bedwarsPlayer, true);
         if (getAlivePlayers().isEmpty())
-            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(plugin, this));
     }
 
+    // TODO: 8/6/2022 actually remove the beds from the world
     public void destroyBed() {
+        if (!hasBed) return;
+        hasBed = false;
+
         getOnlinePlayers().forEach(bedwarsPlayer -> {
             bedwarsPlayer.getPlayer().sendMessage(Component.text("All beds have been destroyed!", NamedTextColor.RED, TextDecoration.BOLD));
             bedwarsPlayer.getPlayer().showTitle(Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("All beds have been destroyed!")));
@@ -138,7 +142,7 @@ public class BedwarsTeam {
 
     private void checkEmptyTeam() {
         if (getAlivePlayers().isEmpty())
-            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(plugin, this));
     }
 
     public boolean hasBed() {
@@ -248,20 +252,6 @@ public class BedwarsTeam {
                             bedFoot.getDouble("z")
                     );
 
-                    Location generalShop = new Location(
-                            Bukkit.getWorld("world"),
-                            shops.getJSONObject("general").getDouble("x"),
-                            shops.getJSONObject("general").getDouble("y"),
-                            shops.getJSONObject("general").getDouble("z")
-                    );
-
-                    Location diamondShop = new Location(
-                            Bukkit.getWorld("world"),
-                            shops.getJSONObject("diamond").getDouble("x"),
-                            shops.getJSONObject("diamond").getDouble("y"),
-                            shops.getJSONObject("diamond").getDouble("z")
-                    );
-
                     Area baseArea = new Area(spawnLocation, baseAreaObject.getDouble("x"), baseAreaObject.getDouble("y"), baseAreaObject.getDouble("z"));
 
                     teams.add(new BedwarsTeam(color, spawnLocation, baseArea, teamChestLocation, bedHeadLocation, bedFootLocation,
@@ -291,7 +281,7 @@ public class BedwarsTeam {
         while (iterator.hasNext()) {
             BedwarsTeam team = iterator.next();
             if (team.players.size() == 0) {
-                Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(team));
+                Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(Bedwars.getInstance(), team));
                 iterator.remove();
             }
         }

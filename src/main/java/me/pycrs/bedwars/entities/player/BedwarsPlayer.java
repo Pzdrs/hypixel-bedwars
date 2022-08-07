@@ -126,7 +126,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      * This method is invoked when a player dies by natural means, i.e. is not killed by other player
      */
     public void kill() {
-        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player));
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(plugin, this, player.getLastDamageCause()));
     }
 
     /**
@@ -135,7 +135,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      * @param killer the killer
      */
     public void kill(Player killer) {
-        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(player, killer));
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(plugin, this, player.getLastDamageCause(), toBPlayer(killer)));
     }
 
     public void shout(Component component) {

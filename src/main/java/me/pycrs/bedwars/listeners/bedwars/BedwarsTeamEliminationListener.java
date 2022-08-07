@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BedwarsTeamEliminationListener implements Listener {
-    private Bedwars plugin;
+    private final Bedwars plugin;
 
     public BedwarsTeamEliminationListener(Bedwars plugin) {
         this.plugin = plugin;
@@ -33,8 +33,8 @@ public class BedwarsTeamEliminationListener implements Listener {
                 .append(event.getTeam().getTeamColor().getDisplay())
                 .append(Component.text(" has been eliminated!", NamedTextColor.RED))
                 .append(Component.newline()));
-        List<BedwarsTeam> teams = plugin.getTeams().stream().filter(team -> !team.isEliminated()).collect(Collectors.toList());
+        List<BedwarsTeam> teams = plugin.getTeams().stream().filter(team -> !team.isEliminated()).toList();
         if (teams.size() == 1)
-            Bukkit.getServer().getPluginManager().callEvent(new BedwarsGameEndEvent(BedwarsGameEndEvent.Result.NORMAL, teams.get(0)));
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsGameEndEvent(plugin, BedwarsGameEndEvent.Result.NORMAL, teams.get(0)));
     }
 }

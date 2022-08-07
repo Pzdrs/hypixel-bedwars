@@ -31,6 +31,18 @@ public class PlayerStatistics {
         }
     }
 
+    public void addDeath() {
+        deaths++;
+    }
+
+    public void addKill() {
+        kills++;
+    }
+
+    public void addFinalKill() {
+        finalKills++;
+    }
+
     public int getFinalKills() {
         return finalKills;
     }

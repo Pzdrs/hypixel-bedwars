@@ -1,22 +1,18 @@
 package me.pycrs.bedwars.events;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class BedwarsPlayerRespawnEvent extends Event implements Cancellable {
+public class BedwarsPlayerRespawnEvent extends BedwarsPlayerEvent implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
-    private boolean cancelled = false;
-    private BedwarsPlayer player;
+    protected boolean cancelled = false;
 
-    public BedwarsPlayerRespawnEvent(BedwarsPlayer player) {
-        this.player = player;
-    }
-
-    public BedwarsPlayer getBPlayer() {
-        return player;
+    public BedwarsPlayerRespawnEvent(Bedwars plugin, BedwarsPlayer player) {
+        super(plugin, player);
     }
 
     @Override
