@@ -46,6 +46,7 @@ public class BedwarsGameStartListener implements Listener {
             bedwarsPlayer.teleportToBase();
         });
 
+        // TODO: 8/7/2022 maybe move the map init - shopkeepers, remove entities etc
 
         // Initial generator activation
         plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI", true)));

@@ -43,7 +43,7 @@ public class PlayerQuitListener implements Listener {
 
             // If everyone leaves, the game will end
             if (actualPlayerAmount == 0) {
-                Bukkit.getPluginManager().callEvent(new BedwarsGameEndEvent(BedwarsGameEndEvent.Result.EVERYONE_LEFT));
+                Bukkit.getPluginManager().callEvent(new BedwarsGameEndEvent(plugin, BedwarsGameEndEvent.Result.EVERYONE_LEFT));
             }
             // If someone leaves while their bed is gone, they are eliminated
             // Also, if the game is in SOLO mode and the person disconnects, there is no one else in the team, so the team gets eliminated

@@ -77,7 +77,7 @@ public class GameLoop extends BukkitRunnable {
                         .period(Settings.eventGameEnd)
                         .handle(() -> {
                             // TODO: 7/20/2021 it's not suppose to be random i think there is some sort of formula for determining the winning team but i cannot find it anywhere
-                            Bukkit.getServer().getPluginManager().callEvent(new BedwarsGameEndEvent(BedwarsGameEndEvent.Result.GAME_END,
+                            Bukkit.getServer().getPluginManager().callEvent(new BedwarsGameEndEvent(plugin, BedwarsGameEndEvent.Result.GAME_END,
                                     plugin.getTeams().get(new Random().nextInt(plugin.getTeams().size()))));
                             cancel();
                         }).build()

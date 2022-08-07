@@ -96,7 +96,7 @@ public class BedwarsTeam {
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
         players.put(bedwarsPlayer, true);
         if (getAlivePlayers().isEmpty())
-            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(plugin, this));
     }
 
     // TODO: 8/6/2022 actually remove the beds from the world
@@ -142,7 +142,7 @@ public class BedwarsTeam {
 
     private void checkEmptyTeam() {
         if (getAlivePlayers().isEmpty())
-            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(plugin, this));
     }
 
     public boolean hasBed() {
@@ -281,7 +281,7 @@ public class BedwarsTeam {
         while (iterator.hasNext()) {
             BedwarsTeam team = iterator.next();
             if (team.players.size() == 0) {
-                Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(team));
+                Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(Bedwars.getInstance(), team));
                 iterator.remove();
             }
         }

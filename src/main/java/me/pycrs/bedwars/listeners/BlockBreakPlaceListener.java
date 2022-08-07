@@ -64,7 +64,7 @@ public class BlockBreakPlaceListener implements Listener {
         } else if (event.getBlock().getBlockData() instanceof Bed) {
             for (BedwarsTeam team : plugin.getTeams())
                 if (event.getBlock().getLocation().equals(team.getBedHead()) || event.getBlock().getLocation().equals(team.getBedFoot())) {
-                    Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(team, event));
+                    Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(plugin, team, event));
                     return;
                 }
         } else if (!placedBlocks.contains(event.getBlock())) {

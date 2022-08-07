@@ -1,27 +1,23 @@
 package me.pycrs.bedwars.events;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class BedwarsBedBreakEvent extends Event implements Cancellable {
+public class BedwarsBedBreakEvent extends BedwarsTeamEvent implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
-    private BedwarsTeam team;
-    private BlockBreakEvent event;
+    protected boolean cancelled = false;
+    private final BlockBreakEvent event;
 
-    public BedwarsBedBreakEvent(BedwarsTeam team, BlockBreakEvent event) {
-        this.team = team;
+    public BedwarsBedBreakEvent(Bedwars plugin, BedwarsTeam team, BlockBreakEvent event) {
+        super(plugin, team);
         this.event = event;
         // The bed does not drop the actual bed item when destroyed
         event.setDropItems(false);
-    }
-
-    public BedwarsTeam getTeam() {
-        return team;
     }
 
     public BedwarsPlayer getBedwarsPlayer() {
@@ -30,7 +26,7 @@ public class BedwarsBedBreakEvent extends Event implements Cancellable {
 
     @Override
     public boolean isCancelled() {
-        return false;
+        return cancelled;
     }
 
     @Override

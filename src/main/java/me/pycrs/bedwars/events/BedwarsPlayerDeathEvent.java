@@ -10,8 +10,9 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class BedwarsPlayerDeathEvent extends BedwarsPlayerEvent implements BedwarsEventWithMessage{
+public class BedwarsPlayerDeathEvent extends BedwarsPlayerEvent implements BedwarsEventWithMessage {
     private static final HandlerList HANDLERS = new HandlerList();
+
     public enum DeathMessage {
         DEFAULT(null,
                 Component.text("{player} died.", NamedTextColor.GRAY)),
