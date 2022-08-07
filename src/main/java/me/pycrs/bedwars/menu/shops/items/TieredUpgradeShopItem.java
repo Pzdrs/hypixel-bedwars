@@ -22,7 +22,6 @@ public class TieredUpgradeShopItem extends ShopItem {
         this.tiers = new HashMap<>();
         for (int i = 0; i < tiers.length; i++) {
             ShopItemTier tier = tiers[i];
-            System.out.println(tier);
             if (i >= startTier) {
                 this.tiers.put(tier, false);
                 continue;
@@ -42,7 +41,6 @@ public class TieredUpgradeShopItem extends ShopItem {
     // TODO: 4/30/2021 put the tiers in the lore
     @Override
     protected ItemStack formatPreviewItem(ItemStack itemStack) {
-        System.out.println(tiers);
         return new ItemBuilder(itemStack)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
                 .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, "shopItem")

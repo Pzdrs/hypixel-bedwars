@@ -99,7 +99,11 @@ public class BedwarsTeam {
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(this));
     }
 
+    // TODO: 8/6/2022 actually remove the beds from the world
     public void destroyBed() {
+        if (!hasBed) return;
+        hasBed = false;
+
         getOnlinePlayers().forEach(bedwarsPlayer -> {
             bedwarsPlayer.getPlayer().sendMessage(Component.text("All beds have been destroyed!", NamedTextColor.RED, TextDecoration.BOLD));
             bedwarsPlayer.getPlayer().showTitle(Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("All beds have been destroyed!")));
@@ -246,20 +250,6 @@ public class BedwarsTeam {
                             bedFoot.getDouble("x"),
                             bedFoot.getDouble("y"),
                             bedFoot.getDouble("z")
-                    );
-
-                    Location generalShop = new Location(
-                            Bukkit.getWorld("world"),
-                            shops.getJSONObject("general").getDouble("x"),
-                            shops.getJSONObject("general").getDouble("y"),
-                            shops.getJSONObject("general").getDouble("z")
-                    );
-
-                    Location diamondShop = new Location(
-                            Bukkit.getWorld("world"),
-                            shops.getJSONObject("diamond").getDouble("x"),
-                            shops.getJSONObject("diamond").getDouble("y"),
-                            shops.getJSONObject("diamond").getDouble("z")
                     );
 
                     Area baseArea = new Area(spawnLocation, baseAreaObject.getDouble("x"), baseAreaObject.getDouble("y"), baseAreaObject.getDouble("z"));

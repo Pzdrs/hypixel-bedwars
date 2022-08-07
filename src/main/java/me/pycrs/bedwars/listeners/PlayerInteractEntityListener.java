@@ -30,6 +30,7 @@ public class PlayerInteractEntityListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
+            System.out.println(entity.getPersistentDataContainer());
             if (event.getHand().equals(EquipmentSlot.HAND)) {
                 switch (entity.getType()) {
                     case VILLAGER -> new GenericShop(event.getPlayer()).open();

@@ -154,7 +154,6 @@ public class ItemBuilder {
 
 
     public ItemBuilder setShopItemTiers(Map<ShopItemTier, Boolean> tiers) {
-        System.out.println(tiers);
         int tierIndex = 1;
         for (Map.Entry<ShopItemTier, Boolean> tier : tiers.entrySet()) {
             addLoreLine(Component.text("Tier ")

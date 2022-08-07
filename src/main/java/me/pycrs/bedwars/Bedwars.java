@@ -62,13 +62,7 @@ public final class Bedwars extends JavaPlugin {
             return;
         }
         JSONObject map = potentialMap.get();
-        JSONArray diamondsGens = map.getJSONArray("diamondGenerators");
-        JSONArray emeraldGens = map.getJSONArray("emeraldGenerators");
-
         this.map = BedwarsMap.createMap(map);
-
-        diamondsGens.forEach(object -> BedwarsMap.addDiamondGenerator(object, this.map));
-        emeraldGens.forEach(object -> BedwarsMap.addEmeraldGenerator(object, this.map));
 
         // Teams setup
         Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
