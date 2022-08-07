@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BlockBreakPlaceListener implements Listener {
-    public static Set<Block> placedBlocks = new HashSet<>();
-    private Bedwars plugin;
+    private static final Set<Block> placedBlocks = new HashSet<>();
+    private final Bedwars plugin;
 
     public BlockBreakPlaceListener(Bedwars plugin) {
         this.plugin = plugin;
@@ -33,6 +33,7 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
+        if (!Bedwars.isGameInProgress()) event.setCancelled(true);
         for (Generator generator : plugin.getMap().getDiamondGenerators()) {
             if (Utils.isInArea(event.getBlock().getLocation(), generator.getLocation(), 4, 6, 4)) {
                 event.setCancelled(true);
