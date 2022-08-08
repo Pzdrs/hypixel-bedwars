@@ -9,8 +9,8 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 
-public class GenericShop extends Shop {
-    public GenericShop(Player player) {
+public class ItemShop extends Shop {
+    public ItemShop(Player player) {
         super(player);
     }
 

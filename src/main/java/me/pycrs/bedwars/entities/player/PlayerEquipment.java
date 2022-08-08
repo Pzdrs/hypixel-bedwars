@@ -1,16 +1,16 @@
 package me.pycrs.bedwars.entities.player;
 
-public class Equipment {
-    enum Armor {
-        DEFAULT, CHAIN_ARMOR, IRON_ARMOR, DIAMOND_ARMOR
-    }
+import org.bukkit.inventory.ItemStack;
+
+public class PlayerEquipment {
+    public static final ItemStack COMPASS = null;
 
     private Armor armor;
     private Pickaxe pickaxe;
     private Axe axe;
     private boolean shears;
 
-    public Equipment(Armor armor, Pickaxe pickaxe, Axe axe, boolean shears) {
+    public PlayerEquipment(Armor armor, Pickaxe pickaxe, Axe axe, boolean shears) {
         this.armor = armor;
         this.pickaxe = pickaxe;
         this.axe = axe;

@@ -3,24 +3,12 @@ package me.pycrs.bedwars.listeners.bedwars;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
-import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.util.ItemBuilder;
-import me.pycrs.bedwars.util.Utils;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
-import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,7 +33,7 @@ public class BedwarsGameStartListener implements Listener {
             Player player = bedwarsPlayer.getPlayer();
             player.sendMessage(Settings.WELCOME_MESSAGE);
             bedwarsPlayer.setSpectator(false);
-            bedwarsPlayer.setArmor();
+            bedwarsPlayer.equipArmor();
             player.getInventory().addItem(new ItemBuilder(Material.WOODEN_SWORD)
                     .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, ShopItem.Role.PERSISTENT_EQUIPMENT.key())
                     .build());

@@ -1,22 +1,15 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entities.team.BedwarsTeam;
-import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -38,7 +31,7 @@ public class BedwarsPlayerRespawnListener implements Listener {
             if (respawnTimer.get() == 0) {
                 bukkitTask.cancel();
                 event.getBedwarsPlayer().setSpectator(false);
-                event.getBedwarsPlayer().setArmor();
+                event.getBedwarsPlayer().equipArmor();
                 event.getBedwarsPlayer().teleportToBase();
                 player.setInvisible(false);
                 player.sendMessage(Component.text("You have respawned!", NamedTextColor.YELLOW));

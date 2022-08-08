@@ -32,7 +32,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     private final Bedwars plugin;
     private final Player player;
     private final BedwarsTeam team;
-    private final Equipment equipment;
+    private final PlayerEquipment playerEquipment;
     private final PlayerStatistics statistics;
     private boolean spectating = false;
     private int level = 0;
@@ -41,7 +41,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         this.plugin = Bedwars.getInstance();
         this.player = player;
         this.team = team;
-        this.equipment = new Equipment(Equipment.Armor.DEFAULT, Pickaxe.WOODEN_PICKAXE, Axe.WOODEN_AXE, false);
+        this.playerEquipment = new PlayerEquipment(Armor.getDefault(), Pickaxe.WOODEN_PICKAXE, Axe.WOODEN_AXE, false);
         this.statistics = new PlayerStatistics();
 
         // Fetching player's statistics from the official Hypixel API
@@ -66,60 +66,24 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         }
     }
 
-    public void setArmor() {
-        ItemStack leggings, boots;
-        ItemStack helmet = new ItemBuilder(Material.LEATHER_HELMET)
-                .setArmorColor(team.getTeamColor().getColor())
-                .addEnchantment(Enchantment.WATER_WORKER, 1)
-                .setUnbreakable(true)
-                .build();
-
-        ItemStack chestplate = new ItemBuilder(Material.LEATHER_CHESTPLATE)
-                .setArmorColor(team.getTeamColor().getColor())
-                .setUnbreakable(true)
-                .build();
-
-        switch (equipment.getArmor()) {
-            case CHAIN_ARMOR:
-                leggings = new ItemBuilder(Material.CHAINMAIL_LEGGINGS)
+    // TODO: 8/8/2022 team upgrades, i.e. protection
+    public void equipArmor() {
+        Armor armor = playerEquipment.getArmor();
+        // Color all the armor pieces accordingly and equip the player, armor that can't be colored is skipped
+        player.getInventory().setArmorContents(new ItemStack[]{
+                new ItemBuilder(armor.getBoots())
                         .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-                boots = new ItemBuilder(Material.CHAINMAIL_BOOTS)
+                        .build(),
+                new ItemBuilder(armor.getLeggings())
                         .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-            case IRON_ARMOR:
-                leggings = new ItemBuilder(Material.IRON_LEGGINGS)
+                        .build(),
+                new ItemBuilder(armor.getChestplate())
                         .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-                boots = new ItemBuilder(Material.IRON_BOOTS)
+                        .build(),
+                new ItemBuilder(armor.getHelmet())
                         .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-            case DIAMOND_ARMOR:
-                leggings = new ItemBuilder(Material.DIAMOND_LEGGINGS)
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-                boots = new ItemBuilder(Material.DIAMOND_BOOTS)
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-            case DEFAULT:
-            default:
-                leggings = new ItemBuilder(Material.LEATHER_LEGGINGS)
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-                boots = new ItemBuilder(Material.LEATHER_BOOTS)
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .setUnbreakable(true)
-                        .build();
-        }
-
-        InventoryUtils.setArmor(player, helmet, chestplate, leggings, boots, true);
+                        .build()
+        });
     }
 
     /**

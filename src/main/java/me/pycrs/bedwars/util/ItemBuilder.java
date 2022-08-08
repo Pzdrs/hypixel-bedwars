@@ -46,7 +46,8 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setArmorColor(Color color) {
-        LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
+        // If the armor item can't be color, i.e. it's not a leather armor piece, do nothing
+        if (!(itemStack.getItemMeta() instanceof LeatherArmorMeta meta)) return this;
         meta.setColor(color);
         itemStack.setItemMeta(meta);
         return this;
@@ -173,7 +174,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public <T> ItemBuilder setPersistentData(NamespacedKey namespacedKey, PersistentDataType<T,T> dataType, T value) {
+    public <T> ItemBuilder setPersistentData(NamespacedKey namespacedKey, PersistentDataType<T, T> dataType, T value) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.getPersistentDataContainer().set(namespacedKey, dataType, value);
         itemStack.setItemMeta(itemMeta);
