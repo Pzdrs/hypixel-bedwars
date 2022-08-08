@@ -5,8 +5,6 @@ import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
-import me.pycrs.bedwars.util.InventoryUtils;
-import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import org.apache.http.HttpResponse;
@@ -14,10 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -32,7 +27,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     private final Bedwars plugin;
     private final Player player;
     private final BedwarsTeam team;
-    private final PlayerEquipment playerEquipment;
+    private final PlayerEquipment equipment;
     private final PlayerStatistics statistics;
     private boolean spectating = false;
     private int level = 0;
@@ -41,7 +36,8 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         this.plugin = Bedwars.getInstance();
         this.player = player;
         this.team = team;
-        this.playerEquipment = new PlayerEquipment(Armor.getDefault(), Pickaxe.WOODEN_PICKAXE, Axe.WOODEN_AXE, false);
+        // Default load-out - only leather armor
+        this.equipment = new PlayerEquipment(this, Armor.DEFAULT, Pickaxe.NONE, Axe.NONE, false);
         this.statistics = new PlayerStatistics();
 
         // Fetching player's statistics from the official Hypixel API
@@ -64,26 +60,6 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 }
             });
         }
-    }
-
-    // TODO: 8/8/2022 team upgrades, i.e. protection
-    public void equipArmor() {
-        Armor armor = playerEquipment.getArmor();
-        // Color all the armor pieces accordingly and equip the player, armor that can't be colored is skipped
-        player.getInventory().setArmorContents(new ItemStack[]{
-                new ItemBuilder(armor.getBoots())
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .build(),
-                new ItemBuilder(armor.getLeggings())
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .build(),
-                new ItemBuilder(armor.getChestplate())
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .build(),
-                new ItemBuilder(armor.getHelmet())
-                        .setArmorColor(team.getTeamColor().getColor())
-                        .build()
-        });
     }
 
     /**
@@ -149,6 +125,10 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public PlayerEquipment getEquipment() {
+        return equipment;
     }
 
     @Override

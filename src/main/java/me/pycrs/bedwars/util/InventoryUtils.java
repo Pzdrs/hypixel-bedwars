@@ -25,14 +25,6 @@ public class InventoryUtils {
         return Optional.empty();
     }
 
-    public static void setArmor(Player player, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots, boolean silent) {
-        if (player.getEquipment() == null) return;
-        player.getEquipment().setHelmet(helmet, silent);
-        player.getEquipment().setChestplate(chestplate, silent);
-        player.getEquipment().setLeggings(leggings, silent);
-        player.getEquipment().setBoots(boots, silent);
-    }
-
     public static int getMaterialAmount(Inventory inventory, Material material) {
         int amount = 0;
         for (ItemStack content : inventory.getContents()) {

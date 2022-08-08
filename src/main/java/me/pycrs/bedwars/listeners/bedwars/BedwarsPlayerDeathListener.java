@@ -39,6 +39,10 @@ public class BedwarsPlayerDeathListener implements Listener {
         deadPlayer.setSpectator(true);
         deadPlayer.getPlayer().teleport(plugin.getMap().getLobbySpawn());
 
+        // Downgrade tools
+        deadPlayer.getEquipment().setAxe(deadPlayer.getEquipment().getAxe().getDowngrade());
+        deadPlayer.getEquipment().setPickaxe(deadPlayer.getEquipment().getPickaxe().getDowngrade());
+
         // Statistics
         deadPlayer.getStatistics().addDeath();
 

@@ -33,10 +33,8 @@ public class BedwarsGameStartListener implements Listener {
             Player player = bedwarsPlayer.getPlayer();
             player.sendMessage(Settings.WELCOME_MESSAGE);
             bedwarsPlayer.setSpectator(false);
-            bedwarsPlayer.equipArmor();
-            player.getInventory().addItem(new ItemBuilder(Material.WOODEN_SWORD)
-                    .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, ShopItem.Role.PERSISTENT_EQUIPMENT.key())
-                    .build());
+            bedwarsPlayer.getEquipment().updateArmor();
+            bedwarsPlayer.getEquipment().equip();
             bedwarsPlayer.teleportToBase();
         });
 

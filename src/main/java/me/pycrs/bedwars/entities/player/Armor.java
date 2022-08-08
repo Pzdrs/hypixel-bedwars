@@ -63,10 +63,6 @@ public enum Armor {
         this.boots = boots;
     }
 
-    public static Armor getDefault() {
-        return DIAMOND_ARMOR;
-    }
-
     /**
      * Returns a tier higher armor, if already the highest tier, itself is returned
      *
