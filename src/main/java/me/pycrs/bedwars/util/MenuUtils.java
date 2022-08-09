@@ -102,10 +102,6 @@ public class MenuUtils {
         return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Bedwars.getInstance(), "role"), PersistentDataType.STRING);
     }
 
-    public static String getPDCValue(ItemStack itemStack, String key) {
-        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Bedwars.getInstance(), key), PersistentDataType.STRING);
-    }
-
     public static int getCategoryIndex(LinkedList<ShopCategory> categories, ShopCategory category) {
         for (int i = 0; i < categories.size(); i++) {
             if (categories.get(i).getId().equals(category.getId())) return i;

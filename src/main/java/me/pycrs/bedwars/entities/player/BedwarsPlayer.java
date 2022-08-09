@@ -37,7 +37,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         this.player = player;
         this.team = team;
         // Default load-out - only leather armor
-        this.equipment = new PlayerEquipment(this, Armor.DEFAULT, Pickaxe.NONE, Axe.NONE, false);
+        this.equipment = new PlayerEquipment(this, Armor.DEFAULT, Pickaxe.NONE, Axe.NONE, true);
         this.statistics = new PlayerStatistics();
 
         // Fetching player's statistics from the official Hypixel API
@@ -75,7 +75,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      * @param killer the killer
      */
     public void kill(Player killer) {
-        Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(plugin, this, player.getLastDamageCause(), toBPlayer(killer)));
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(plugin, this, player.getLastDamageCause(), toBedwarsPlayer(killer)));
     }
 
     public void shout(Component component) {
@@ -139,7 +139,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 '}';
     }
 
-    public static BedwarsPlayer toBPlayer(Player player) {
+    public static BedwarsPlayer toBedwarsPlayer(Player player) {
         return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 

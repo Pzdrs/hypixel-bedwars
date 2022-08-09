@@ -21,7 +21,7 @@ public class BedwarsBedBreakEvent extends BedwarsTeamEvent implements Cancellabl
     }
 
     public BedwarsPlayer getBedwarsPlayer() {
-        return BedwarsPlayer.toBPlayer(event.getPlayer());
+        return BedwarsPlayer.toBedwarsPlayer(event.getPlayer());
     }
 
     @Override

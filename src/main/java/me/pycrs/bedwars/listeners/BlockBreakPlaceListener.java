@@ -9,10 +9,8 @@ import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Bed;
-import org.bukkit.entity.Hanging;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -60,7 +58,7 @@ public class BlockBreakPlaceListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (!Bedwars.isGameInProgress() || BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
+        if (!Bedwars.isGameInProgress() || BedwarsPlayer.toBedwarsPlayer(event.getPlayer()).isSpectating()) {
             // If a spectator or waiting in lobby - just cancel and say nothing
             event.setCancelled(true);
         } else if (event.getBlock().getBlockData() instanceof Bed) {

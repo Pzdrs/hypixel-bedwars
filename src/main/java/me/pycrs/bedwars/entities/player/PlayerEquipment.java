@@ -1,17 +1,22 @@
 package me.pycrs.bedwars.entities.player;
 
-import me.pycrs.bedwars.menu.shops.items.ShopItem;
+import me.pycrs.bedwars.util.BedwarsItemBuilder;
+import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.persistence.PersistentDataType;
 
 public class PlayerEquipment {
-    public static final ItemStack COMPASS = null;
+    public static final ItemStack COMPASS = new BedwarsItemBuilder(Material.COMPASS)
+            .addRole(BedwarsItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+            .build();
+    private static final ItemStack SHEARS = new BedwarsItemBuilder(Material.SHEARS)
+            .addRole(BedwarsItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+            .build();
 
-    private BedwarsPlayer bedwarsPlayer;
+    private final BedwarsPlayer bedwarsPlayer;
     private Armor armor;
     private Pickaxe pickaxe;
     private Axe axe;
@@ -47,24 +52,68 @@ public class PlayerEquipment {
         });
     }
 
+    /**
+     * Gives the player all the necessary tools
+     **/
     public void equip() {
         PlayerInventory inventory = bedwarsPlayer.getPlayer().getInventory();
-        inventory.addItem(new ItemBuilder(Material.WOODEN_SWORD)
-                .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, ShopItem.Role.PERSISTENT_EQUIPMENT.key())
-                .build());
 
-        inventory.addItem(pickaxe.getItemStack());
-        inventory.addItem(axe.getItemStack());
+        if (!hasASword())
+            inventory.addItem(Sword.getDefault().getItemStack());
 
-        if (shears) {
-            inventory.addItem(new ItemBuilder(Material.SHEARS)
-                    .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, ShopItem.Role.PERSISTENT_EQUIPMENT.key())
-                    .build());
+        // A tool is given to a player only if they don't have any kind in their inventory, then depending on the circumstances, a tool is given accordingly
+        if (!hasAPickaxe() && pickaxe != Pickaxe.NONE)
+            inventory.addItem(pickaxe.getItemStack());
+
+        if (!hasAnAxe() && axe != Axe.NONE)
+            inventory.addItem(axe.getItemStack());
+
+        if (shears && !hasShears()) {
+            inventory.addItem(SHEARS);
         }
+
+        if (!hasACompass()) inventory.setItem(8, COMPASS);
     }
 
-    public void updateEquipment() {
+    private boolean hasAPickaxe() {
+        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(),
+                Material.WOODEN_PICKAXE,
+                Material.STONE_PICKAXE,
+                Material.GOLDEN_PICKAXE,
+                Material.IRON_PICKAXE,
+                Material.DIAMOND_PICKAXE,
+                Material.NETHERITE_PICKAXE
+        );
+    }
 
+    private boolean hasAnAxe() {
+        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(),
+                Material.WOODEN_AXE,
+                Material.STONE_AXE,
+                Material.GOLDEN_AXE,
+                Material.IRON_AXE,
+                Material.DIAMOND_AXE,
+                Material.NETHERITE_AXE
+        );
+    }
+
+    private boolean hasACompass() {
+        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(), Material.COMPASS);
+    }
+
+    public boolean hasASword() {
+        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(),
+                Material.WOODEN_SWORD,
+                Material.STONE_SWORD,
+                Material.GOLDEN_SWORD,
+                Material.IRON_SWORD,
+                Material.DIAMOND_SWORD,
+                Material.NETHERITE_SWORD
+        );
+    }
+
+    private boolean hasShears() {
+        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(), Material.SHEARS);
     }
 
     public void setArmor(Armor armor) {
@@ -95,7 +144,7 @@ public class PlayerEquipment {
         return axe;
     }
 
-    public boolean hasShears() {
+    public boolean hasShearsUnlocked() {
         return shears;
     }
 }

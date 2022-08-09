@@ -25,7 +25,7 @@ public class PlayerInteractEntityListener implements Listener {
         if (event.getRightClicked() instanceof ItemFrame) event.setCancelled(true);
         if (Bedwars.isGameInProgress()) {
             // Cancel all spectator interaction
-            if (BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
+            if (BedwarsPlayer.toBedwarsPlayer(event.getPlayer()).isSpectating()) {
                 event.setCancelled(true);
                 return;
             }

@@ -7,6 +7,7 @@ import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.listeners.*;
 import me.pycrs.bedwars.listeners.bedwars.*;
 import me.pycrs.bedwars.tasks.GameLoop;
+import me.pycrs.bedwars.tasks.InventoryWatcher;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.BedwarsMap;
 import me.pycrs.bedwars.util.Utils;
@@ -14,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ public final class Bedwars extends JavaPlugin {
 
     private LobbyLoop lobbyLoop;
     public static GameLoop gameLoop;
+    public static InventoryWatcher inventoryWatcher;
 
     /**
      * {@link Bedwars#gameFinished} is true when the game ends and the server is restarting soon, false otherwise
@@ -58,6 +59,7 @@ public final class Bedwars extends JavaPlugin {
         }.runTaskTimer(this, 0, 20);
 
         instance = this;
+        inventoryWatcher = new InventoryWatcher(this);
         saveDefaultConfig();
         if (!Settings.loadPluginConfig(getConfig())) Bukkit.getPluginManager().disablePlugin(Bedwars.getInstance());
         init();

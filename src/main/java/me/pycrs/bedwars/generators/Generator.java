@@ -102,7 +102,7 @@ public abstract class Generator {
     }
 
     public static boolean pickupCheck(BedwarsMap map, EntityPickupItemEvent event) {
-        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer((Player) event.getEntity());
+        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBedwarsPlayer((Player) event.getEntity());
         switch (event.getItem().getItemStack().getType()) {
             case IRON_INGOT:
             case GOLD_INGOT:

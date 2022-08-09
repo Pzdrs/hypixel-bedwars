@@ -1,37 +1,36 @@
 package me.pycrs.bedwars.entities.player;
 
-import me.pycrs.bedwars.menu.shops.items.ShopItem;
+import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 
-public enum Pickaxe {
+public enum Pickaxe implements Equipment {
     NONE(new ItemStack(Material.AIR)),
-    WOODEN_PICKAXE(new ItemBuilder(Material.WOODEN_PICKAXE)
+    WOODEN_PICKAXE(new BedwarsItemBuilder(Material.WOODEN_PICKAXE)
+            .addRoles(BedwarsItemBuilder.ROLE_DEFAULT_EQUIPMENT)
             .addEnchantment(Enchantment.DIG_SPEED, 1)
-            .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, ShopItem.Role.PERSISTENT_EQUIPMENT.key())
-            .setUnbreakable(true)
             .build()),
     IRON_PICKAXE(new ItemBuilder(Material.IRON_PICKAXE)
             .addEnchantment(Enchantment.DIG_SPEED, 2)
-            .setUnbreakable(true)
             .build()),
     GOLD_PICKAXE(new ItemBuilder(Material.GOLDEN_PICKAXE)
             .addEnchantment(Enchantment.DIG_SPEED, 3)
             .addEnchantment(Enchantment.DAMAGE_ALL, 2)
-            .setUnbreakable(true)
             .build()),
     DIAMOND_PICKAXE(new ItemBuilder(Material.DIAMOND_PICKAXE)
             .addEnchantment(Enchantment.DIG_SPEED, 3)
-            .setUnbreakable(true)
             .build());
 
     private final ItemStack itemStack;
 
     Pickaxe(ItemStack itemStack) {
         this.itemStack = itemStack;
+    }
+
+    public static Pickaxe getDefault() {
+        return WOODEN_PICKAXE;
     }
 
     /**
@@ -53,6 +52,6 @@ public enum Pickaxe {
     }
 
     public ItemStack getItemStack() {
-        return itemStack;
+        return applyEquipmentMeta(itemStack);
     }
 }

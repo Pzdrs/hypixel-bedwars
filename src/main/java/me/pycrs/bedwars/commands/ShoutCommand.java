@@ -47,10 +47,10 @@ public class ShoutCommand implements TabExecutor {
             return true;
         }
 
-        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(player);
+        BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBedwarsPlayer(player);
         bedwarsPlayer.shout(Component
                 .text(Utils.color("&6[SHOUT]&r "))
-                .append(Utils.getTeamPrefix(BedwarsPlayer.toBPlayer(player).getTeam()))
+                .append(Utils.getTeamPrefix(BedwarsPlayer.toBedwarsPlayer(player).getTeam()))
                 .append(player.displayName())
                 .append(Component.text(Utils.color("&7:&r " + Utils.commandArgsMessage(args, 0)))));
         return true;

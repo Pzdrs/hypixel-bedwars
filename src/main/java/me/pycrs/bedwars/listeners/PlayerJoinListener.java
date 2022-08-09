@@ -7,18 +7,12 @@ import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.Style;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
 
 public class PlayerJoinListener implements Listener {
     private Bedwars plugin;
@@ -39,7 +33,7 @@ public class PlayerJoinListener implements Listener {
         player.getInventory().clear();
 
         if (Bedwars.isGameInProgress()) {
-            event.joinMessage(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getTextColor())
+            event.joinMessage(Component.text(player.getName(), BedwarsPlayer.toBedwarsPlayer(player).getTeam().getTeamColor().getTextColor())
                     .append(Component.text(" reconnected", NamedTextColor.GRAY)));
             Utils.applySpectator(player, true, plugin);
             // TODO: 6/20/2021 zjistit jestli se actually reconnecti nebo jestli to je spectator

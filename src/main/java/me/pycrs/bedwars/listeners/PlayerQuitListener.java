@@ -34,11 +34,11 @@ public class PlayerQuitListener implements Listener {
         int actualPlayerAmount = Bukkit.getOnlinePlayers().size() - 1;
 
         if (Bedwars.isGameInProgress()) {
-            BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBPlayer(player);
+            BedwarsPlayer bedwarsPlayer = BedwarsPlayer.toBedwarsPlayer(player);
             BedwarsTeam team = bedwarsPlayer.getTeam();
             // Quit message - can't just set edit the message, because it's sent too late, timing is the sole reason for this messy workaround
             event.quitMessage(null);
-            Utils.inGameBroadcast(Component.text(player.getName(), BedwarsPlayer.toBPlayer(player).getTeam().getTeamColor().getTextColor())
+            Utils.inGameBroadcast(Component.text(player.getName(), BedwarsPlayer.toBedwarsPlayer(player).getTeam().getTeamColor().getTextColor())
                     .append(Component.text(" disconnected", NamedTextColor.GRAY)));
 
             // If everyone leaves, the game will end

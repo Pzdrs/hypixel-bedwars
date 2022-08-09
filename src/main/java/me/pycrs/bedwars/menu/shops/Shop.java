@@ -30,7 +30,7 @@ public abstract class Shop extends Menu {
     public Shop(Player player) {
         super(player);
         this.categories = new LinkedList<>();
-        this.team = BedwarsPlayer.toBPlayer(player).getTeam();
+        this.team = BedwarsPlayer.toBedwarsPlayer(player).getTeam();
 
         setCategories();
         setupSelectedCategory();
@@ -58,17 +58,13 @@ public abstract class Shop extends Menu {
     public final void handle(InventoryClickEvent event) {
         if (event.getCurrentItem() == null) return;
         switch (MenuUtils.getItemRole(event.getCurrentItem())) {
-            case "category":
-                Optional<String> potentialCategory = InventoryUtils.getPersistentData(event.getCurrentItem(),
-                        new NamespacedKey(Bedwars.getInstance(), "category"), PersistentDataType.STRING);
-                potentialCategory.ifPresent(this::setSelectedCategory);
+            case "category" -> {
+                InventoryUtils.getPersistentData(event.getCurrentItem(),
+                        new NamespacedKey(Bedwars.getInstance(), "category"), PersistentDataType.STRING, this::setSelectedCategory);
                 open();
-                break;
-            case "shopItem":
-                handlePurchase(event);
-                break;
-            default:
-                System.out.println("handle case default");
+            }
+            case "shopItem" -> handlePurchase(event);
+            default -> System.out.println("handle case default");
         }
     }
 
@@ -81,7 +77,7 @@ public abstract class Shop extends Menu {
                 .getPersistentDataContainer().get(new NamespacedKey(Bedwars.getInstance(), "itemId"), PersistentDataType.STRING));
         if (item != null)
             if (item.purchase(player)) render();
-    };
+    }
 
     public final void cycleCategory(CategoryCycleDirection direction) {
         int currentIndex = MenuUtils.getCategoryIndex(categories, selectedCategory);

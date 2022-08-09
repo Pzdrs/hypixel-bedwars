@@ -22,7 +22,7 @@ public class AsyncChatListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
         if (Bedwars.isGameInProgress()) {
-            BedwarsPlayer player = BedwarsPlayer.toBPlayer(event.getPlayer());
+            BedwarsPlayer player = BedwarsPlayer.toBedwarsPlayer(event.getPlayer());
             if (player == null || player.isSpectating()) {
                 event.setCancelled(true);
                 plugin.getPlayers().stream()

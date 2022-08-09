@@ -24,7 +24,6 @@ public abstract class ShopItem {
         }
     }
 
-    public static final NamespacedKey ROLE_KEY = new NamespacedKey(Bedwars.getInstance(), "role");
     public static final NamespacedKey ITEM_ID_KEY = new NamespacedKey(Bedwars.getInstance(), "itemId");
     protected String id, description;
     protected ItemStack preview;

@@ -3,11 +3,7 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
-import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -16,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 import java.util.*;
@@ -40,7 +35,7 @@ public class EntityDamageListener implements Listener {
                 damager = (Player) ((Projectile) event.getDamager()).getShooter();
 
             // Prevent spectators from punching people
-            if (BedwarsPlayer.toBPlayer(damager).isSpectating()) {
+            if (BedwarsPlayer.toBedwarsPlayer(damager).isSpectating()) {
                 event.setCancelled(true);
                 return;
             }
@@ -65,7 +60,7 @@ public class EntityDamageListener implements Listener {
                 player.setLastDamageCause(event);
                 player.setFireTicks(0);
                 // The tiniest delay before actually killing the player so there is enough time for the sound to play
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> killPlayer(BedwarsPlayer.toBPlayer(player)), 1);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> killPlayer(BedwarsPlayer.toBedwarsPlayer(player)), 1);
                 // To avoid double death, i.e. using /kill
                 return;
             }
@@ -76,7 +71,7 @@ public class EntityDamageListener implements Listener {
                 player.setLastDamage(Double.MAX_VALUE);
                 player.setLastDamageCause(event);
                 event.setCancelled(true);
-                killPlayer(BedwarsPlayer.toBPlayer(player));
+                killPlayer(BedwarsPlayer.toBedwarsPlayer(player));
             }
         }
     }

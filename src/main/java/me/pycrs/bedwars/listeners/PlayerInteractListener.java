@@ -3,7 +3,6 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -36,7 +35,7 @@ public class PlayerInteractListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         if (Bedwars.isGameInProgress()) {
             // Cancel all spectator interaction
-            if (BedwarsPlayer.toBPlayer(event.getPlayer()).isSpectating()) {
+            if (BedwarsPlayer.toBedwarsPlayer(event.getPlayer()).isSpectating()) {
                 event.setCancelled(true);
                 return;
             }
