@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.menu.shops.dependency;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import org.bukkit.ChatColor;
@@ -29,7 +30,7 @@ public class ShopCategory {
         return new ItemBuilder(material)
                 .setDisplayName(ChatColor.GREEN + name + ChatColor.RESET)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES)
-                .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, "category")
+                .setPersistentData(BedwarsItemBuilder.ROLES_KEY, PersistentDataType.STRING, "category")
                 .setPersistentData(new NamespacedKey(Bedwars.getInstance(), "category"), PersistentDataType.STRING, id)
                 .build();
     }

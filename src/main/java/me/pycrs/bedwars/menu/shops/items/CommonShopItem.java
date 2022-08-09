@@ -1,5 +1,6 @@
 package me.pycrs.bedwars.menu.shops.items;
 
+import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.util.MenuUtils;
@@ -32,7 +33,7 @@ public class CommonShopItem extends ShopItem {
     protected ItemStack formatPreviewItem(ItemStack itemStack) {
         return new ItemBuilder(itemStack)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
-                .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, Role.DEFAULT.key())
+                .setPersistentData(BedwarsItemBuilder.ROLES_KEY, PersistentDataType.STRING, Role.DEFAULT.key())
                 .setPersistentData(ShopItem.ITEM_ID_KEY, PersistentDataType.STRING, id)
                 .setLore(Component.text("Cost: ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false).append(getCost().getDisplay()), Component.empty())
                 .setItemDescription(description == null ? null : description, ChatColor.GRAY)

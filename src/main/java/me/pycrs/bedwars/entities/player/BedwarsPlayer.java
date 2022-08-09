@@ -37,7 +37,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         this.player = player;
         this.team = team;
         // Default load-out - only leather armor
-        this.equipment = new PlayerEquipment(this, Armor.DEFAULT, Pickaxe.NONE, Axe.NONE, true);
+        this.equipment = new PlayerEquipment(this, Armor.DEFAULT, Pickaxe.DIAMOND_PICKAXE, Axe.DIAMOND_AXE, true);
         this.statistics = new PlayerStatistics();
 
         // Fetching player's statistics from the official Hypixel API

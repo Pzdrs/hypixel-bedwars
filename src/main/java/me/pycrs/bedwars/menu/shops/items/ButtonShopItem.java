@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.menu.shops.items;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
 import me.pycrs.bedwars.menu.shops.items.dependency.ShopButtonClickHandler;
@@ -31,7 +32,7 @@ public class ButtonShopItem extends ShopItem {
     protected ItemStack formatPreviewItem(ItemStack itemStack) {
         return new ItemBuilder(itemStack)
                 .setFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS)
-                .setPersistentData(ShopItem.ROLE_KEY, PersistentDataType.STRING, "shopItem")
+                .setPersistentData(BedwarsItemBuilder.ROLES_KEY, PersistentDataType.STRING, "shopItem")
                 .setPersistentData(ShopItem.ITEM_ID_KEY, PersistentDataType.STRING, id)
                 .setLore(Component.text("Cost: ", NamedTextColor.GRAY)
                         .decoration(TextDecoration.ITALIC, false)
