@@ -2,26 +2,15 @@ package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.Sword;
-import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.listeners.InventoryClickListener;
-import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.InventoryUtils;
-import me.pycrs.bedwars.util.Utils;
-import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.title.Title;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.time.Duration;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventoryWatcher extends BukkitRunnable {
     private final Bedwars plugin;
@@ -68,7 +57,7 @@ public class InventoryWatcher extends BukkitRunnable {
         for (int i = 0; i < player.getInventory().getContents().length; i++) {
             ItemStack currentItem = player.getInventory().getItem(i);
             if (currentItem == null) continue;
-            if (InventoryUtils.hasRole(currentItem, BedwarsItemBuilder.ROLE_DEFAULT_EQUIPMENT))
+            if (InventoryUtils.hasRole(currentItem, ItemBuilder.ROLE_DEFAULT_EQUIPMENT))
                 return true;
         }
         return false;

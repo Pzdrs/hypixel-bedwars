@@ -1,13 +1,8 @@
 package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entities.player.BedwarsPlayer;
-import me.pycrs.bedwars.entities.player.Sword;
-import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.InventoryUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.EnchantmentTarget;
+import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,9 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -82,7 +75,7 @@ public class InventoryClickListener implements Listener {
     }
 
     private boolean isAToolOrWeapon(ItemStack itemStack) {
-        return InventoryUtils.hasRole(itemStack, BedwarsItemBuilder.ROLE_PERSISTENT_EQUIPMENT);
+        return InventoryUtils.hasRole(itemStack, ItemBuilder.ROLE_PERSISTENT_EQUIPMENT);
         //return EnchantmentTarget.TOOL.includes(material) || EnchantmentTarget.WEAPON.includes(material) || material == Material.SHEARS;
     }
 

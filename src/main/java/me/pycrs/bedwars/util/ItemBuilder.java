@@ -1,5 +1,6 @@
 package me.pycrs.bedwars.util;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import me.pycrs.bedwars.menu.shops.items.dependency.ShopItemTier;
 import net.kyori.adventure.text.Component;
@@ -19,8 +20,12 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.*;
 
 public class ItemBuilder {
-    protected final ItemStack itemStack;
-    protected final ItemMeta itemMeta;
+    public static final NamespacedKey ROLES_KEY = new NamespacedKey(Bedwars.getInstance(), "roles");
+    public static final String ROLE_PERSISTENT_EQUIPMENT = "persistent_equipment";
+    public static final String ROLE_DEFAULT_EQUIPMENT = "default_equipment";
+
+    private final ItemStack itemStack;
+    private final ItemMeta itemMeta;
 
     public ItemBuilder(Material material) {
         this.itemStack = new ItemStack(material);
@@ -35,6 +40,11 @@ public class ItemBuilder {
     public ItemBuilder(Material material, int amount) {
         this.itemStack = new ItemStack(material, amount);
         this.itemMeta = itemStack.getItemMeta();
+    }
+
+    protected ItemBuilder(ItemStack itemStack, ItemMeta itemMeta) {
+        this.itemStack = itemStack;
+        this.itemMeta = itemMeta;
     }
 
     public ItemBuilder setUnbreakable(boolean unbreakable) {
@@ -69,17 +79,6 @@ public class ItemBuilder {
     public ItemBuilder setDisplayName(Component displayName) {
         if (noItemMeta()) return this;
         itemMeta.displayName(displayName);
-        itemStack.setItemMeta(itemMeta);
-        return this;
-    }
-
-    public ItemBuilder setShopDisplayName(ItemStack itemStack, boolean affordable) {
-        if (noItemMeta()) return this;
-        Component displayName = (itemStack.hasItemMeta() && itemStack.getItemMeta().displayName() != null ?
-                itemStack.getItemMeta().displayName() : Component.text(Utils.materialToFriendlyName(itemStack.getType())));
-        itemMeta.displayName(displayName
-                .color(affordable ? NamedTextColor.GREEN : NamedTextColor.RED)
-                .decoration(TextDecoration.ITALIC, false));
         itemStack.setItemMeta(itemMeta);
         return this;
     }
@@ -136,6 +135,15 @@ public class ItemBuilder {
         return this;
     }
 
+    public <T> ItemBuilder setPersistentData(NamespacedKey namespacedKey, PersistentDataType<T, T> dataType, T value) {
+        if (noItemMeta()) return this;
+        itemMeta.getPersistentDataContainer().set(namespacedKey, dataType, value);
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+
+    // BEDWARS SPECIFIC METHODS
     public ItemBuilder setItemDescription(String description, ChatColor color) {
         if (description == null || noItemMeta()) return this;
         List<Component> lore = itemMeta.hasLore() ? itemMeta.lore() : new ArrayList<>();
@@ -149,6 +157,16 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setShopDisplayName(ItemStack itemStack, boolean affordable) {
+        if (noItemMeta()) return this;
+        Component displayName = (itemStack.hasItemMeta() && itemStack.getItemMeta().displayName() != null ?
+                itemStack.getItemMeta().displayName() : Component.text(Utils.materialToFriendlyName(itemStack.getType())));
+        itemMeta.displayName(displayName
+                .color(affordable ? NamedTextColor.GREEN : NamedTextColor.RED)
+                .decoration(TextDecoration.ITALIC, false));
+        itemStack.setItemMeta(itemMeta);
+        return this;
+    }
 
     public ItemBuilder setShopItemTiers(Map<ShopItemTier, Boolean> tiers) {
         int tierIndex = 1;
@@ -170,15 +188,23 @@ public class ItemBuilder {
         return this;
     }
 
-    public <T> ItemBuilder setPersistentData(NamespacedKey namespacedKey, PersistentDataType<T, T> dataType, T value) {
+    public ItemBuilder addRoles(String... roles) {
         if (noItemMeta()) return this;
-        itemMeta.getPersistentDataContainer().set(namespacedKey, dataType, value);
-        itemStack.setItemMeta(itemMeta);
+        for (String role : roles) {
+            addRole(role);
+        }
+        return this;
+    }
+
+    public ItemBuilder addRole(String role) {
+        if (noItemMeta()) return this;
+        Optional<String> potentialRoles = InventoryUtils.getPersistentData(itemStack, ROLES_KEY, PersistentDataType.STRING);
+        setPersistentData(ROLES_KEY, PersistentDataType.STRING, potentialRoles.isPresent() ? String.format("%s,%s", potentialRoles.get(), role) : role).build();
         return this;
     }
 
     public ItemStack build() {
-        itemStack.setItemMeta(itemMeta);
+        if (!noItemMeta()) itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
