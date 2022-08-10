@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
@@ -20,13 +19,11 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BlockBreakPlaceListener implements Listener {
-    private static final Set<Block> placedBlocks = new HashSet<>();
-    private final Bedwars plugin;
+public class BlockBreakPlaceListener extends BaseListener<Bedwars> {
+    private static final Set<Block> PLACED_BLOCKS = new HashSet<>();
 
     public BlockBreakPlaceListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler
@@ -53,7 +50,7 @@ public class BlockBreakPlaceListener implements Listener {
                 return;
             }
         }
-        placedBlocks.add(event.getBlock());
+        PLACED_BLOCKS.add(event.getBlock());
     }
 
     @EventHandler
@@ -67,11 +64,11 @@ public class BlockBreakPlaceListener implements Listener {
                     Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(plugin, team, event));
                     return;
                 }
-        } else if (!placedBlocks.contains(event.getBlock())) {
+        } else if (!PLACED_BLOCKS.contains(event.getBlock())) {
             // If just a general block - long message
             event.getPlayer().sendMessage(Component.text("You can only break blocks placed by a player!", NamedTextColor.RED));
             event.setCancelled(true);
-        } else placedBlocks.remove(event.getBlock());
+        } else PLACED_BLOCKS.remove(event.getBlock());
     }
 
     @EventHandler

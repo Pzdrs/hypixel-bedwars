@@ -5,6 +5,7 @@ import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
+import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.listeners.InventoryClickListener;
 import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import me.pycrs.bedwars.tasks.GameLoop;
@@ -17,12 +18,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.persistence.PersistentDataType;
 
-public class BedwarsGameStartListener implements Listener {
-    private final Bedwars plugin;
-
+public class BedwarsGameStartListener extends BaseListener<Bedwars> {
     public BedwarsGameStartListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler
@@ -52,7 +50,7 @@ public class BedwarsGameStartListener implements Listener {
         Bedwars.gameLoop.runTaskTimer(plugin, 0, 20);
 
         // This may cause some performance issues, keep an eye on it
-        Bedwars.inventoryWatcher.runTaskTimer(plugin,0,1);
+        Bedwars.inventoryWatcher.runTaskTimer(plugin, 0, 1);
 
         BedwarsTeam.removeEmptyTeams();
     }

@@ -1,13 +1,13 @@
 package me.pycrs.bedwars.listeners;
 
+import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
-import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
-import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.tasks.LobbyLoop;
+import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,17 +15,13 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.time.Duration;
 
-public class PlayerQuitListener implements Listener {
-    private Bedwars plugin;
-
+public class PlayerQuitListener extends BaseListener<Bedwars> {
     public PlayerQuitListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

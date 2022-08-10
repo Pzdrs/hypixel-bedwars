@@ -21,12 +21,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Optional;
 
-public class EntityPickupItemListener implements Listener {
-    private final Bedwars plugin;
-
+public class EntityPickupItemListener extends BaseListener<Bedwars> {
     public EntityPickupItemListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

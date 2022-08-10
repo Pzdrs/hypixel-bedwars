@@ -9,12 +9,9 @@ import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.world.PortalCreateEvent;
 
-public class DisableFeaturesListener implements Listener {
-    private Bedwars plugin;
-
+public class DisableFeaturesListener extends BaseListener<Bedwars> {
     public DisableFeaturesListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

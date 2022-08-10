@@ -11,12 +11,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class AsyncChatListener implements Listener {
-    private Bedwars plugin;
-
+public class AsyncChatListener extends BaseListener<Bedwars> {
     public AsyncChatListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import net.kyori.adventure.text.Component;
@@ -14,12 +15,9 @@ import org.bukkit.event.Listener;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BedwarsPlayerRespawnListener implements Listener {
-    private final Bedwars plugin;
-
+public class BedwarsPlayerRespawnListener extends BaseListener<Bedwars> {
     public BedwarsPlayerRespawnListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

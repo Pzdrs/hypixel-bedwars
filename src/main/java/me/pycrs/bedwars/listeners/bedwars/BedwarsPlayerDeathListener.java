@@ -3,6 +3,7 @@ package me.pycrs.bedwars.listeners.bedwars;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.events.*;
+import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -18,12 +19,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class BedwarsPlayerDeathListener implements Listener {
-    private final Bedwars plugin;
-
+public class BedwarsPlayerDeathListener extends BaseListener<Bedwars> {
     public BedwarsPlayerDeathListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

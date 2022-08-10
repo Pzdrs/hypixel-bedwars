@@ -2,6 +2,7 @@ package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
+import me.pycrs.bedwars.listeners.BaseListener;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
@@ -10,12 +11,9 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class BedwarsBedBreakListener implements Listener {
-    private Bedwars plugin;
-
+public class BedwarsBedBreakListener extends BaseListener<Bedwars> {
     public BedwarsBedBreakListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

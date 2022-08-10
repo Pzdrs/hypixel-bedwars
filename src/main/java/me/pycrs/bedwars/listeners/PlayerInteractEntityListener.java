@@ -7,16 +7,12 @@ import me.pycrs.bedwars.menu.shops.TeamUpgradesShop;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-public class PlayerInteractEntityListener implements Listener {
-    private final Bedwars plugin;
-
+public class PlayerInteractEntityListener extends BaseListener<Bedwars> {
     public PlayerInteractEntityListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

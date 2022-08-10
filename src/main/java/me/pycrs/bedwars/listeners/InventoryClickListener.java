@@ -16,13 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class InventoryClickListener implements Listener {
+public class InventoryClickListener extends BaseListener<Bedwars> {
     public static final Map<UUID, InventoryClickEvent> LAST_EVENT = new HashMap<>();
-    private final Bedwars plugin;
 
     public InventoryClickListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

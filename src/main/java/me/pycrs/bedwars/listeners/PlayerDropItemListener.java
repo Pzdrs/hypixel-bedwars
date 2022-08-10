@@ -15,12 +15,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Optional;
 
-public class PlayerDropItemListener implements Listener {
-    private final Bedwars plugin;
-
+public class PlayerDropItemListener extends BaseListener<Bedwars> {
     public PlayerDropItemListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

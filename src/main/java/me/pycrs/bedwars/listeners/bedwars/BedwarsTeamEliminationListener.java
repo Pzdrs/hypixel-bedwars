@@ -4,6 +4,7 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.events.BedwarsTeamEliminationEvent;
+import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -17,12 +18,9 @@ import org.bukkit.event.Listener;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BedwarsTeamEliminationListener implements Listener {
-    private final Bedwars plugin;
-
+public class BedwarsTeamEliminationListener extends BaseListener<Bedwars> {
     public BedwarsTeamEliminationListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

@@ -4,6 +4,7 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import me.pycrs.bedwars.generators.Generator;
+import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.menu.shops.items.dependency.BWCurrency;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
@@ -17,12 +18,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataType;
 
-public class BedwarsPlayerKillListener implements Listener {
-    private final Bedwars plugin;
+public class BedwarsPlayerKillListener extends BaseListener<Bedwars> {
 
     public BedwarsPlayerKillListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler

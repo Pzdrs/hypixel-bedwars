@@ -8,7 +8,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -16,13 +15,11 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 import java.util.*;
 
-public class EntityDamageListener implements Listener {
-    private static Map<UUID, Map.Entry<UUID, Integer>> taggedPlayers = new HashMap<>();
-    private Bedwars plugin;
+public class EntityDamageListener extends BaseListener<Bedwars> {
+    private static final Map<UUID, Map.Entry<UUID, Integer>> TAGGED_PLAYERS = new HashMap<>();
 
     public EntityDamageListener(Bedwars plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler
@@ -40,12 +37,12 @@ public class EntityDamageListener implements Listener {
                 return;
             }
 
-            if (taggedPlayers.containsKey(player.getUniqueId())) {
-                Bukkit.getScheduler().cancelTask(taggedPlayers.get(player.getUniqueId()).getValue());
+            if (TAGGED_PLAYERS.containsKey(player.getUniqueId())) {
+                Bukkit.getScheduler().cancelTask(TAGGED_PLAYERS.get(player.getUniqueId()).getValue());
             }
             int tid = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () ->
-                    taggedPlayers.remove(player.getUniqueId()), Settings.playerTagPeriod * 20L);
-            taggedPlayers.put(player.getUniqueId(), new AbstractMap.SimpleEntry<>(damager.getUniqueId(), tid));
+                    TAGGED_PLAYERS.remove(player.getUniqueId()), Settings.playerTagPeriod * 20L);
+            TAGGED_PLAYERS.put(player.getUniqueId(), new AbstractMap.SimpleEntry<>(damager.getUniqueId(), tid));
         }
     }
 
@@ -87,8 +84,8 @@ public class EntityDamageListener implements Listener {
     }
 
     private void killPlayer(BedwarsPlayer player) {
-        if (taggedPlayers.containsKey(player.getPlayer().getUniqueId())) {
-            player.kill(Bukkit.getPlayer(taggedPlayers.get(player.getPlayer().getUniqueId()).getKey()));
+        if (TAGGED_PLAYERS.containsKey(player.getPlayer().getUniqueId())) {
+            player.kill(Bukkit.getPlayer(TAGGED_PLAYERS.get(player.getPlayer().getUniqueId()).getKey()));
         } else player.kill();
     }
 }
