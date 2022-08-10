@@ -1,6 +1,5 @@
 package me.pycrs.bedwars.entities.player;
 
-import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Color;
@@ -9,11 +8,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class PlayerEquipment {
-    public static final ItemStack COMPASS = new BedwarsItemBuilder(Material.COMPASS)
-            .addRole(BedwarsItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+    public static final ItemStack COMPASS = new ItemBuilder(Material.COMPASS)
+            .addRole(ItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
             .build();
-    private static final ItemStack SHEARS = new BedwarsItemBuilder(Material.SHEARS)
-            .addRole(BedwarsItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+    private static final ItemStack SHEARS = new ItemBuilder(Material.SHEARS)
+            .addRole(ItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
             .build();
 
     private final BedwarsPlayer bedwarsPlayer;

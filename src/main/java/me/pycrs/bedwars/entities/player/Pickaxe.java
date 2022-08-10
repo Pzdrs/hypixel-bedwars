@@ -1,6 +1,5 @@
 package me.pycrs.bedwars.entities.player;
 
-import me.pycrs.bedwars.util.BedwarsItemBuilder;
 import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -8,10 +7,12 @@ import org.bukkit.inventory.ItemStack;
 
 public enum Pickaxe implements Equipment {
     NONE(new ItemStack(Material.AIR)),
-    WOODEN_PICKAXE(new BedwarsItemBuilder(Material.WOODEN_PICKAXE)
-            .addRoles(BedwarsItemBuilder.ROLE_DEFAULT_EQUIPMENT)
-            .addEnchantment(Enchantment.DIG_SPEED, 1)
-            .build()),
+    WOODEN_PICKAXE(
+            new ItemBuilder(Material.WOODEN_PICKAXE)
+                    .addEnchantment(Enchantment.DIG_SPEED, 1)
+                    .addRole(ItemBuilder.ROLE_DEFAULT_EQUIPMENT)
+                    .build()
+    ),
     IRON_PICKAXE(new ItemBuilder(Material.IRON_PICKAXE)
             .addEnchantment(Enchantment.DIG_SPEED, 2)
             .build()),

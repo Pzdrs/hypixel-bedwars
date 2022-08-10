@@ -50,7 +50,7 @@ public class InventoryUtils {
     }
 
     public static String[] getRoles(ItemStack itemStack) {
-        Optional<String> potentialRoles = getPersistentData(itemStack, BedwarsItemBuilder.ROLES_KEY, PersistentDataType.STRING);
+        Optional<String> potentialRoles = getPersistentData(itemStack, ItemBuilder.ROLES_KEY, PersistentDataType.STRING);
         if (potentialRoles.isEmpty()) return new String[0];
         return potentialRoles.get().split(",");
     }

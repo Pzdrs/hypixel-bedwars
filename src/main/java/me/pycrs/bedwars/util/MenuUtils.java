@@ -135,7 +135,7 @@ public class MenuUtils {
     public static void createButton(ItemStack itemStack, Menu menu, int slot, MenuButtonHandler handler) {
         String id = UUID.randomUUID().toString();
         menu.getInventory().setItem(slot, new ItemBuilder(itemStack)
-                .setPersistentData(BedwarsItemBuilder.ROLES_KEY, PersistentDataType.STRING, "menuButton")
+                .setPersistentData(ItemBuilder.ROLES_KEY, PersistentDataType.STRING, "menuButton")
                 .setPersistentData(new NamespacedKey(Bedwars.getInstance(), "menuButtonID"), PersistentDataType.STRING, id)
                 .build());
         menu.getButtons().put(id, new MenuButton(itemStack, handler));
