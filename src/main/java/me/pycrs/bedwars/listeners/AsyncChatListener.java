@@ -2,60 +2,62 @@ package me.pycrs.bedwars.listeners;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
-import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+
+import java.util.Optional;
 
 public class AsyncChatListener extends BaseListener<Bedwars> {
     public AsyncChatListener(Bedwars plugin) {
         super(plugin);
     }
 
+    // TODO: 8/10/2022 rework to use audience
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
-        if (Bedwars.isGameInProgress()) {
-            BedwarsPlayer player = BedwarsPlayer.toBedwarsPlayer(event.getPlayer());
-            if (player == null || player.isSpectating()) {
-                event.setCancelled(true);
-                plugin.getPlayers().stream()
-                        .filter(BedwarsPlayer::isSpectating)
-                        .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
-                                .append(event.getPlayer().displayName())
-                                .append(Component.text(": ", NamedTextColor.WHITE))
-                                .append(event.message().color(NamedTextColor.WHITE))));
-            } else if (!player.isSpectating()) {
-                if (Settings.mode == Mode.SOLO) {
-                    // Send to everyone
-                    event.setCancelled(true);
-                    plugin.getServer().sendMessage(Component.empty()
-                            .append(Utils.formatStars(player.getLevel()))
-                            .append(event.getPlayer().displayName())
-                            .append(Component.text(": ", NamedTextColor.WHITE))
-                            .append(event.message()));
-                } else {
-                    // Send to team members and spectators
-                    event.setCancelled(true);
-                    plugin.getPlayers().forEach(bedwarsPlayer -> {
-                        if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(player))
-                            bedwarsPlayer.getPlayer().sendMessage(Component.empty()
-                                    .append(Utils.formatStars(player.getLevel()))
-                                    .append(event.getPlayer().displayName())
-                                    .append(Component.text(": ", NamedTextColor.WHITE))
-                                    .append(event.message()));
-                    });
-                }
-            }
-        } else {
+        if (!Bedwars.isGameInProgress()) {
             // Send to everyone
             event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
                     .append(sourceDisplayName)
                     .append(Component.text(": ", NamedTextColor.WHITE))
                     .append(message));
+            return;
+        }
+
+        Optional<BedwarsPlayer> potentialBedwarsPlayer = BedwarsPlayer.of(event.getPlayer());
+        if (potentialBedwarsPlayer.isEmpty() || potentialBedwarsPlayer.get().isSpectating()) {
+            event.setCancelled(true);
+            plugin.getPlayers().stream()
+                    .filter(BedwarsPlayer::isSpectating)
+                    .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
+                            .append(event.getPlayer().displayName())
+                            .append(Component.text(": ", NamedTextColor.WHITE))
+                            .append(event.message().color(NamedTextColor.WHITE))));
+        } else {
+            BedwarsPlayer bedwarsSender = potentialBedwarsPlayer.get();
+            if (Settings.mode == Mode.SOLO) {
+                event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
+                        .append(Utils.formatStars(bedwarsSender.getLevel()))
+                        .append(sourceDisplayName)
+                        .append(Component.text(": ", NamedTextColor.WHITE))
+                        .append(message));
+            } else {
+                // Send to team members and spectators
+                event.setCancelled(true);
+                plugin.getPlayers().forEach(bedwarsPlayer -> {
+                    if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(bedwarsSender))
+                        bedwarsPlayer.getPlayer().sendMessage(Component.empty()
+                                .append(Utils.formatStars(bedwarsSender.getLevel()))
+                                .append(event.getPlayer().displayName())
+                                .append(Component.text(": ", NamedTextColor.WHITE))
+                                .append(event.message()));
+                });
+            }
         }
     }
 }

@@ -25,11 +25,15 @@ public class EntityDamageListener extends BaseListener<Bedwars> {
     @EventHandler
     public void onPlayerAttack(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player player && (event.getDamager() instanceof Player || event.getDamager() instanceof Projectile)) {
-            Player damager;
+            Player damager = null;
             if (event.getDamager() instanceof Player)
                 damager = (Player) event.getDamager();
-            else
-                damager = (Player) ((Projectile) event.getDamager()).getShooter();
+            else {
+                Projectile projectile = (Projectile) event.getDamager();
+                if (projectile.getShooter() instanceof Player)
+                    damager = (Player) projectile.getShooter();
+            }
+            if (damager == null) return;
 
             // Prevent spectators from punching people
             if (BedwarsPlayer.toBedwarsPlayer(damager).isSpectating()) {

@@ -17,9 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
@@ -141,6 +139,13 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     public static BedwarsPlayer toBedwarsPlayer(Player player) {
         return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
+    }
+
+    public static Optional<BedwarsPlayer> of(Player player) {
+        for (BedwarsPlayer bedwarsPlayer : Bedwars.getInstance().getPlayers()) {
+            if (bedwarsPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return Optional.of(bedwarsPlayer);
+        }
+        return Optional.empty();
     }
 
     @Override

@@ -3,8 +3,10 @@ package me.pycrs.bedwars.tasks;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.Sword;
 import me.pycrs.bedwars.listeners.InventoryClickListener;
+import me.pycrs.bedwars.listeners.PlayerInteractListener;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
+import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
@@ -23,6 +25,15 @@ public class InventoryWatcher extends BukkitRunnable {
     public void run() {
         plugin.getPlayers().forEach(bedwarsPlayer -> {
             Player player = bedwarsPlayer.getPlayer();
+
+            // Auto-shield
+            if (PlayerInteractListener.PLAYERS_BLOCKING.contains(player) && player.getInventory().getItemInOffHand().getType() == Material.SHIELD) {
+                if (!player.isBlocking() || (player.isBlocking() && !EnchantmentTarget.WEAPON.includes(player.getInventory().getItemInMainHand()))) {
+                    player.getInventory().setItemInOffHand(null);
+                    PlayerInteractListener.PLAYERS_BLOCKING.remove(player);
+                }
+            }
+
             // If no sword in player's inventory, equip them, otherwise check if there is a default sword, if a default sword
             // is present check for any other sword, if the player has a default sword plus some extra sword(s), remove the default sword
             if (bedwarsPlayer.getEquipment().hasASword()) {

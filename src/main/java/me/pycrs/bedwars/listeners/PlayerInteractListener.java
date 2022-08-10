@@ -6,28 +6,24 @@ import me.pycrs.bedwars.Bedwars;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerInteractListener extends BaseListener<Bedwars> {
-    private final Map<UUID, BukkitTask> rightClickHeld = new HashMap<>();
+    public static final Set<Player> PLAYERS_BLOCKING = new HashSet<>();
+    private final Map<Player, BukkitRunnable> SHIELD_DELAY = new HashMap<>();
     private final EnumSet<Material> OPEN_INVENTORY_EXTRAS = EnumSet.of(
             Material.CRAFTING_TABLE,
             Material.ENDER_CHEST,
@@ -70,18 +66,23 @@ public class PlayerInteractListener extends BaseListener<Bedwars> {
 
             // Auto-shield
             if (isRightClick(event) && EnchantmentTarget.WEAPON.includes(event.getMaterial())) {
-                if (!rightClickHeld.containsKey(event.getPlayer().getUniqueId())) {
-                    if (opensInventory(event.getClickedBlock()) && !event.getPlayer().isSneaking()) return;
-                    event.getPlayer().getInventory().setItemInOffHand(new ItemStack(Material.SHIELD));
-                    plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.ITEM_ARMOR_EQUIP_GENERIC, Sound.Source.PLAYER, 1f, 1f));
-                    rightClickHeld.put(event.getPlayer().getUniqueId(), Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                        if (!event.getPlayer().isBlocking()) {
-                            event.getPlayer().getInventory().setItemInOffHand(null);
-                            rightClickHeld.get(event.getPlayer().getUniqueId()).cancel();
-                            rightClickHeld.remove(event.getPlayer().getUniqueId());
-                        }
-                    }, 10, 1));
-                }
+                // Don't put up a shield if the player interacted with a block that can open an inventory, needs to be sneaking in that case
+                if (opensInventory(event.getClickedBlock()) && !event.getPlayer().isSneaking()) return;
+                // Prevent some nasty shenanigans
+                if (PLAYERS_BLOCKING.contains(event.getPlayer()) || SHIELD_DELAY.containsKey(event.getPlayer())) return;
+                event.getPlayer().getInventory().setItemInOffHand(new ItemStack(Material.SHIELD));
+                plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.ITEM_ARMOR_EQUIP_GENERIC, Sound.Source.PLAYER, 1f, 1f));
+                event.getPlayer().setShieldBlockingDelay(0);
+                BukkitRunnable runnable = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        PLAYERS_BLOCKING.add(event.getPlayer());
+                        SHIELD_DELAY.remove(event.getPlayer());
+                    }
+                };
+
+                SHIELD_DELAY.put(event.getPlayer(), runnable);
+                runnable.runTaskLater(plugin, 4);
             }
         }
     }
