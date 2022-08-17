@@ -6,17 +6,9 @@ import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.listeners.BaseListener;
-import me.pycrs.bedwars.listeners.InventoryClickListener;
-import me.pycrs.bedwars.menu.shops.items.ShopItem;
 import me.pycrs.bedwars.tasks.GameLoop;
-import me.pycrs.bedwars.util.ItemBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.persistence.PersistentDataType;
 
 public class BedwarsGameStartListener extends BaseListener<Bedwars> {
     public BedwarsGameStartListener(Bedwars plugin) {
@@ -34,8 +26,9 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
             Player player = bedwarsPlayer.getPlayer();
             player.sendMessage(Settings.WELCOME_MESSAGE);
             bedwarsPlayer.setSpectator(false);
-            bedwarsPlayer.getEquipment().updateArmor();
-            bedwarsPlayer.getEquipment().equip();
+            bedwarsPlayer.getEquipment().updateArmor(false);
+            bedwarsPlayer.getEquipment().updateEquipment();
+            bedwarsPlayer.showLevel();
             bedwarsPlayer.teleportToBase();
         });
 
@@ -50,7 +43,7 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
         Bedwars.gameLoop.runTaskTimer(plugin, 0, 20);
 
         // This may cause some performance issues, keep an eye on it
-        Bedwars.inventoryWatcher.runTaskTimer(plugin, 0, 1);
+        Bedwars.inventoryWatcher.runTaskTimerAsynchronously(plugin, 0, 1);
 
         BedwarsTeam.removeEmptyTeams();
     }

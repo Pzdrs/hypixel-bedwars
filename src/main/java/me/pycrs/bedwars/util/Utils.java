@@ -183,4 +183,11 @@ public class Utils {
         player.setFireTicks(0);
         player.setFlying(spectator);
     }
+
+    public static <T> boolean atLeastOneEquals(T object, T[] objects) {
+        for (T t : objects) {
+            if (t == object) return true;
+        }
+        return false;
+    }
 }

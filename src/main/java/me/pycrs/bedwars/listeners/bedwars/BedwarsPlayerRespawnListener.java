@@ -10,7 +10,6 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,8 +28,9 @@ public class BedwarsPlayerRespawnListener extends BaseListener<Bedwars> {
             if (respawnTimer.get() == 0) {
                 bukkitTask.cancel();
                 event.getBedwarsPlayer().setSpectator(false);
-                event.getBedwarsPlayer().getEquipment().updateArmor();
-                event.getBedwarsPlayer().getEquipment().equip();
+                event.getBedwarsPlayer().getEquipment().updateArmor(false);
+                event.getBedwarsPlayer().getEquipment().updateEquipment();
+                event.getBedwarsPlayer().showLevel();
                 event.getBedwarsPlayer().teleportToBase();
                 player.setInvisible(false);
                 player.sendMessage(Component.text("You have respawned!", NamedTextColor.YELLOW));

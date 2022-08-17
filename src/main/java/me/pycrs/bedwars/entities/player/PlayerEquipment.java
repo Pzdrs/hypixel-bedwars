@@ -1,11 +1,17 @@
 package me.pycrs.bedwars.entities.player;
 
+import me.pycrs.bedwars.listeners.InventoryClickListener;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import static me.pycrs.bedwars.util.InventoryUtils.*;
 
 public class PlayerEquipment {
     public static final ItemStack COMPASS = new ItemBuilder(Material.COMPASS)
@@ -30,89 +36,67 @@ public class PlayerEquipment {
     }
 
     // TODO: 8/8/2022 team upgrades, i.e. protection
-    public void updateArmor() {
+    public void updateArmor(boolean replace) {
         if (armor == null) return;
         PlayerInventory inventory = bedwarsPlayer.getPlayer().getInventory();
         Color color = bedwarsPlayer.getTeam().getTeamColor().getColor();
         // Color all the armor pieces accordingly and equip the player, armor that can't be colored is skipped
-        inventory.setArmorContents(new ItemStack[]{
-                new ItemBuilder(armor.getBoots())
-                        .setArmorColor(color)
-                        .build(),
-                new ItemBuilder(armor.getLeggings())
-                        .setArmorColor(color)
-                        .build(),
-                new ItemBuilder(armor.getChestplate())
-                        .setArmorColor(color)
-                        .build(),
-                new ItemBuilder(armor.getHelmet())
-                        .setArmorColor(color)
-                        .build()
-        });
+        if (inventory.getHelmet() == null || replace)
+            inventory.setHelmet(new ItemBuilder(armor.getHelmet())
+                    .addRole(ItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+                    .setArmorColor(color)
+                    .build());
+        if (inventory.getChestplate() == null || replace)
+            inventory.setChestplate(new ItemBuilder(armor.getChestplate())
+                    .addRole(ItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+                    .setArmorColor(color)
+                    .build());
+        if (inventory.getLeggings() == null || replace)
+            inventory.setLeggings(new ItemBuilder(armor.getLeggings())
+                    .addRole(ItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+                    .setArmorColor(color)
+                    .build());
+        if (inventory.getBoots() == null || replace)
+            inventory.setBoots(new ItemBuilder(armor.getBoots())
+                    .addRole(ItemBuilder.ROLE_PERSISTENT_EQUIPMENT)
+                    .setArmorColor(color)
+                    .build());
+    }
+
+    public void updateEquipment() {
+        updateEquipment(false);
     }
 
     /**
-     * Gives the player all the necessary tools
+     * Makes sure the player has all up-to-date tools
      **/
-    public void equip() {
+    public void updateEquipment(boolean checkSword) {
+        Player player = bedwarsPlayer.getPlayer();
         PlayerInventory inventory = bedwarsPlayer.getPlayer().getInventory();
 
-        if (!hasASword())
-            inventory.addItem(Sword.getDefault().getItemStack());
-
-        // A tool is given to a player only if they don't have any kind in their inventory, then depending on the circumstances, a tool is given accordingly
-        if (!hasAPickaxe() && pickaxe != Pickaxe.NONE)
-            inventory.addItem(pickaxe.getItemStack());
-
-        if (!hasAnAxe() && axe != Axe.NONE)
-            inventory.addItem(axe.getItemStack());
-
-        if (shears && !hasShears()) {
-            inventory.addItem(SHEARS);
+        // Smart sword
+        if (!hasASword(player)) {
+            InventoryClickEvent lastEvent = InventoryClickListener.LAST_EVENT.get(player.getUniqueId());
+            if (!checkSword || (lastEvent != null && lastEvent.getAction() != InventoryAction.PICKUP_ALL))
+                inventory.addItem(Sword.getDefault().getItemStack());
+        } else if (checkSword) {
+            if (hasDefaultSword(player) && getAmountOfSwords(player) > 1)
+                for (int i = 0; i < player.getInventory().getContents().length; i++) {
+                    ItemStack currentItem = player.getInventory().getItem(i);
+                    if (currentItem == null) continue;
+                    if (Sword.getDefault().getItemStack().getType() == currentItem.getType())
+                        player.getInventory().setItem(i, null);
+                }
         }
 
-        if (!hasACompass()) inventory.setItem(8, COMPASS);
-    }
+        // A tool is given to a player only if they don't have any kind in their inventory, then depending on the circumstances, a tool is given accordingly
+        if (!hasAPickaxe(player) && pickaxe != Pickaxe.NONE) inventory.addItem(pickaxe.getItemStack());
 
-    private boolean hasAPickaxe() {
-        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(),
-                Material.WOODEN_PICKAXE,
-                Material.STONE_PICKAXE,
-                Material.GOLDEN_PICKAXE,
-                Material.IRON_PICKAXE,
-                Material.DIAMOND_PICKAXE,
-                Material.NETHERITE_PICKAXE
-        );
-    }
+        if (!hasAnAxe(player) && axe != Axe.NONE) inventory.addItem(axe.getItemStack());
 
-    private boolean hasAnAxe() {
-        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(),
-                Material.WOODEN_AXE,
-                Material.STONE_AXE,
-                Material.GOLDEN_AXE,
-                Material.IRON_AXE,
-                Material.DIAMOND_AXE,
-                Material.NETHERITE_AXE
-        );
-    }
+        if (shears && !InventoryUtils.hasAtLeastOne(player, Material.SHEARS)) inventory.addItem(SHEARS);
 
-    private boolean hasACompass() {
-        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(), Material.COMPASS);
-    }
-
-    public boolean hasASword() {
-        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(),
-                Material.WOODEN_SWORD,
-                Material.STONE_SWORD,
-                Material.GOLDEN_SWORD,
-                Material.IRON_SWORD,
-                Material.DIAMOND_SWORD,
-                Material.NETHERITE_SWORD
-        );
-    }
-
-    private boolean hasShears() {
-        return InventoryUtils.hasAtLeastOne(bedwarsPlayer.getPlayer(), Material.SHEARS);
+        if (!InventoryUtils.hasAtLeastOne(player, Material.COMPASS)) inventory.setItem(8, COMPASS);
     }
 
     public void setArmor(Armor armor) {
@@ -143,7 +127,7 @@ public class PlayerEquipment {
         return axe;
     }
 
-    public boolean hasShearsUnlocked() {
+    public boolean hasShears() {
         return shears;
     }
 }

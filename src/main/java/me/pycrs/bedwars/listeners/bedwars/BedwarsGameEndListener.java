@@ -28,6 +28,7 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
             Bedwars.gameLoop.cancel();
             Bedwars.setGameInProgress(false);
             Bedwars.setGameFinished(true);
+            Bedwars.inventoryWatcher.cancel();
             // Sort the players by kills
             Collections.sort(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {

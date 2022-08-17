@@ -22,9 +22,14 @@ import java.util.List;
 import java.util.Optional;
 
 public final class Bedwars extends JavaPlugin {
+    public enum GameStage {
+        LOBBY_WAITING, LOBBY_COUNTDOWN, GAME_IN_PROGRESS, GAME_FINISHED;
+    }
+
     private static Bedwars instance;
 
     private BedwarsMap map;
+    private GameStage gameStage;
     private List<BedwarsPlayer> players;
     private List<BedwarsTeam> teams;
 
@@ -110,6 +115,11 @@ public final class Bedwars extends JavaPlugin {
     public void startLobbyCountdown() {
         this.lobbyLoop = new LobbyLoop(this, Settings.lobbyCountdown);
         lobbyLoop.runTaskTimer(this, 0, 20);
+    }
+
+    public GameStage setGameStage(GameStage gameStage) {
+        this.gameStage = gameStage;
+        return this.gameStage;
     }
 
     public static void setGameFinished(boolean gameFinished) {

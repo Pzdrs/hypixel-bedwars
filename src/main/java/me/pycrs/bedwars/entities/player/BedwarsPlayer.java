@@ -5,6 +5,7 @@ import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
+import me.pycrs.bedwars.util.Experience;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import org.apache.http.HttpResponse;
@@ -28,7 +29,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     private final PlayerEquipment equipment;
     private final PlayerStatistics statistics;
     private boolean spectating = false;
-    private int level = 0;
+    private int level = 1445;
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
@@ -115,6 +116,10 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     public void teleportToBase() {
         player.teleport(team.getSpawn());
+    }
+
+    public void showLevel() {
+        Experience.changeExp(player, Experience.getExpFromLevel(level));
     }
 
     public boolean isSpectating() {
