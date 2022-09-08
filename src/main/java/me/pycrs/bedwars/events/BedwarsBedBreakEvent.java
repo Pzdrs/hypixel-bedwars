@@ -31,6 +31,7 @@ public class BedwarsBedBreakEvent extends BedwarsTeamEvent implements Cancellabl
 
     @Override
     public void setCancelled(boolean cancel) {
+        cancelled = true;
         event.setCancelled(cancel);
     }
 

@@ -1,7 +1,10 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
+import me.pycrs.bedwars.events.BedwarsPlayerBeginRespawnEvent;
 import me.pycrs.bedwars.listeners.BaseListener;
+import me.pycrs.bedwars.tasks.RespawnLoop;
 import me.pycrs.bedwars.util.Utils;
 import me.pycrs.bedwars.events.BedwarsPlayerRespawnEvent;
 import net.kyori.adventure.text.Component;
@@ -19,30 +22,28 @@ public class BedwarsPlayerRespawnListener extends BaseListener<Bedwars> {
         super(plugin);
     }
 
+
+    @EventHandler
+    public void onBeginPlayerRespawn(BedwarsPlayerBeginRespawnEvent event) {
+        new RespawnLoop(plugin, event).runTaskTimer(plugin, 0, 20);
+    }
+
     @EventHandler
     public void onPlayerRespawn(BedwarsPlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        AtomicInteger respawnTimer = new AtomicInteger(5);
+        BedwarsPlayer bedwarsPlayer = event.getBedwarsPlayer();
 
-        Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
-            if (respawnTimer.get() == 0) {
-                bukkitTask.cancel();
-                event.getBedwarsPlayer().setSpectator(false);
-                event.getBedwarsPlayer().getEquipment().updateArmor(false);
-                event.getBedwarsPlayer().getEquipment().updateEquipment();
-                event.getBedwarsPlayer().showLevel();
-                event.getBedwarsPlayer().teleportToBase();
-                player.setInvisible(false);
-                player.sendMessage(Component.text("You have respawned!", NamedTextColor.YELLOW));
-                player.showTitle(Title.title(Component.text("RESPAWNED!", NamedTextColor.GREEN), Component.empty(),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-            } else {
-                event.getBedwarsPlayer().getPlayer().showTitle(Title.title(
-                        Component.text("YOU DIED!", NamedTextColor.RED),
-                        Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.get() + " &eseconds!")),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-                player.sendMessage(Component.text(Utils.color("&eYou will respawn in &c" + respawnTimer.getAndDecrement() + " &eseconds!")));
-            }
-        }, 0, 20);
+        bedwarsPlayer.setSpectator(false);
+        bedwarsPlayer.getEquipment().updateArmor(false);
+        bedwarsPlayer.getEquipment().updateEquipment();
+        bedwarsPlayer.showLevel();
+        bedwarsPlayer.teleportToBase();
+        player.setInvisible(false);
+        player.sendMessage(Component.text("You have respawned!", NamedTextColor.YELLOW));
+        player.showTitle(Title.title(
+                Component.text("RESPAWNED!", NamedTextColor.GREEN),
+                Component.empty(),
+                Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)
+        ));
     }
 }

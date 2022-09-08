@@ -46,7 +46,7 @@ public class BedwarsPlayerDeathListener extends BaseListener<Bedwars> {
 
         // If the player still has a bed, respawn them, otherwise eliminate them
         if (deadPlayer.getTeam().hasBed()) {
-            Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerRespawnEvent(plugin, deadPlayer));
+            Bukkit.getServer().getPluginManager().callEvent(new BedwarsPlayerBeginRespawnEvent(plugin, deadPlayer));
         } else {
             // Final kill message
             event.setMessage(event.getMessage().append(Component.text(" FINAL KILL!", Style.style(NamedTextColor.AQUA, TextDecoration.BOLD))));
