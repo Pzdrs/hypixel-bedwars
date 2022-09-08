@@ -50,7 +50,7 @@ public class PlayerQuitListener extends BaseListener<Bedwars> {
                     .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
 
             // Stop lobby countdown if not enough people anymore
-            if (LobbyLoop.isCountingDown()) {
+            if (Bedwars.isLobbyCountingDown()) {
                 if (actualPlayerAmount < Settings.mode.getMinPlayers()) {
                     plugin.getLobbyLoop().cancel();
                     plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));

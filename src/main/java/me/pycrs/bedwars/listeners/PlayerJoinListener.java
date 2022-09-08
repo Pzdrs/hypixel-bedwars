@@ -80,7 +80,7 @@ public class PlayerJoinListener extends BaseListener<Bedwars> {
 
             // If enough players, start the countdown
             if (Bukkit.getOnlinePlayers().size() >= Settings.mode.getMinPlayers()) {
-                if (!LobbyLoop.isCountingDown()) plugin.startLobbyCountdown();
+                if (!Bedwars.isLobbyCountingDown()) plugin.startLobbyCountdown();
                 if (Bukkit.getOnlinePlayers().size() == Settings.mode.getTeamSize() * Settings.mode.getAmountOfTeams())
                     LobbyLoop.timer.set(10);
                 player.sendMessage(

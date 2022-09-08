@@ -12,6 +12,7 @@ import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.BedwarsMap;
 import me.pycrs.bedwars.util.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -29,19 +30,13 @@ public final class Bedwars extends JavaPlugin {
     private static Bedwars instance;
 
     private BedwarsMap map;
-    private GameStage gameStage;
+    private static GameStage gameStage;
     private List<BedwarsPlayer> players;
     private List<BedwarsTeam> teams;
 
     private LobbyLoop lobbyLoop;
     public static GameLoop gameLoop;
     public static InventoryWatcher inventoryWatcher;
-
-    /**
-     * {@link Bedwars#gameFinished} is true when the game ends and the server is restarting soon, false otherwise
-     * {@link Bedwars#gameFinished} is true when the game is in progress, false before and after the game
-     */
-    private static boolean gameFinished = false, gameInProgress = false;
 
     public static Bedwars getInstance() {
         return instance;
@@ -64,7 +59,6 @@ public final class Bedwars extends JavaPlugin {
         }.runTaskTimer(this, 0, 20);
 
         instance = this;
-        inventoryWatcher = new InventoryWatcher(this);
         saveDefaultConfig();
         if (!Settings.loadPluginConfig(getConfig())) Bukkit.getPluginManager().disablePlugin(Bedwars.getInstance());
         init();
@@ -89,11 +83,15 @@ public final class Bedwars extends JavaPlugin {
     }
 
     public static boolean isGameInProgress() {
-        return gameInProgress;
+        return gameStage == GameStage.GAME_IN_PROGRESS;
     }
 
     public static boolean isGameFinished() {
-        return gameFinished;
+        return gameStage == GameStage.GAME_FINISHED;
+    }
+
+    public static boolean isLobbyCountingDown() {
+        return gameStage == GameStage.LOBBY_COUNTDOWN;
     }
 
     public LobbyLoop getLobbyLoop() {
@@ -113,21 +111,14 @@ public final class Bedwars extends JavaPlugin {
     }
 
     public void startLobbyCountdown() {
-        this.lobbyLoop = new LobbyLoop(this, Settings.lobbyCountdown);
+        if (lobbyLoop == null) this.lobbyLoop = new LobbyLoop(this, Settings.lobbyCountdown);
         lobbyLoop.runTaskTimer(this, 0, 20);
+        setGameStage(GameStage.LOBBY_COUNTDOWN);
     }
 
-    public GameStage setGameStage(GameStage gameStage) {
-        this.gameStage = gameStage;
-        return this.gameStage;
-    }
-
-    public static void setGameFinished(boolean gameFinished) {
-        Bedwars.gameFinished = gameFinished;
-    }
-
-    public static void setGameInProgress(boolean gameInProgress) {
-        Bedwars.gameInProgress = gameInProgress;
+    public static GameStage setGameStage(GameStage gameStage) {
+        Bedwars.gameStage = gameStage;
+        return gameStage;
     }
 
     private void init() {
@@ -137,7 +128,7 @@ public final class Bedwars extends JavaPlugin {
         new AsyncChatListener(this);
         new EntityDamageListener(this);
         new PlayerInteractEntityListener(this);
-        new InventoryClickListener(this);
+        new InventoryInteractListener(this);
         new PlayerInteractListener(this);
         new PlayerDropItemListener(this);
         new EntityPickupItemListener(this);

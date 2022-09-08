@@ -1,16 +1,10 @@
 package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entities.player.Sword;
-import me.pycrs.bedwars.listeners.InventoryClickListener;
 import me.pycrs.bedwars.listeners.PlayerInteractListener;
-import me.pycrs.bedwars.util.InventoryUtils;
-import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryWatcher extends BukkitRunnable {
@@ -18,6 +12,7 @@ public class InventoryWatcher extends BukkitRunnable {
 
     public InventoryWatcher(Bedwars plugin) {
         this.plugin = plugin;
+        runTaskTimerAsynchronously(plugin, 0, 1);
     }
 
     @Override

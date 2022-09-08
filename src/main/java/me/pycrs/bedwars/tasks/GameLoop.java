@@ -82,6 +82,9 @@ public class GameLoop extends BukkitRunnable {
                             cancel();
                         }).build()
         ));
+
+        // Automatically run this task when the constructor is called
+        runTaskTimer(plugin, 0, 20);
     }
 
     @Override

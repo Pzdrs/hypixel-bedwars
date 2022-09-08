@@ -33,10 +33,9 @@ public class EntityDamageListener extends BaseListener<Bedwars> {
                 if (projectile.getShooter() instanceof Player)
                     damager = (Player) projectile.getShooter();
             }
-            if (damager == null) return;
 
             // Prevent spectators from punching people
-            if (BedwarsPlayer.toBedwarsPlayer(damager).isSpectating()) {
+            if (BedwarsPlayer.isSpectating(damager)) {
                 event.setCancelled(true);
                 return;
             }

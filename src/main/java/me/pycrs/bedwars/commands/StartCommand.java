@@ -34,7 +34,7 @@ public class StartCommand implements TabExecutor {
             }
         }
 
-        if (LobbyLoop.isCountingDown() || Bedwars.isGameInProgress()) {
+        if (Bedwars.isLobbyCountingDown() || Bedwars.isGameInProgress()) {
             sender.sendMessage(Component.text("The game is starting already or is already in progress.", NamedTextColor.RED));
             return true;
         } else if (Bedwars.isGameFinished()) {

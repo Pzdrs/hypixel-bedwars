@@ -26,8 +26,7 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
     public void onGameEnd(BedwarsGameEndEvent event) {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL || event.getResult() == BedwarsGameEndEvent.Result.GAME_END) {
             Bedwars.gameLoop.cancel();
-            Bedwars.setGameInProgress(false);
-            Bedwars.setGameFinished(true);
+            Bedwars.setGameStage(Bedwars.GameStage.GAME_FINISHED);
             Bedwars.inventoryWatcher.cancel();
             // Sort the players by kills
             Collections.sort(plugin.getPlayers());

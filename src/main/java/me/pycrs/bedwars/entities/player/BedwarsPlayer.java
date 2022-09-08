@@ -142,8 +142,22 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 '}';
     }
 
+    /**
+     * @deprecated Legacy method, use {@link BedwarsPlayer#of(Player)} instead
+     */
     public static BedwarsPlayer toBedwarsPlayer(Player player) {
         return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
+    }
+
+    /**
+     * Null-safe player spectator check
+     *
+     * @return true if the player is spectating, false otherwise (including the possibility of the passed in player being null)
+     */
+    public static boolean isSpectating(Player player) {
+        Optional<BedwarsPlayer> potentialPlayer = of(player);
+        if (potentialPlayer.isEmpty())return false;
+        return potentialPlayer.get().isSpectating();
     }
 
     public static Optional<BedwarsPlayer> of(Player player) {

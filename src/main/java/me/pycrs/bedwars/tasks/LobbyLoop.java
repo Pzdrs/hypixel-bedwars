@@ -37,6 +37,12 @@ public class LobbyLoop extends BukkitRunnable {
         }
     }
 
+    @Override
+    public synchronized void cancel() throws IllegalStateException {
+        super.cancel();
+        Bedwars.setGameStage(Bedwars.GameStage.LOBBY_WAITING);
+    }
+
     private void broadcastCountdown(int timer, NamedTextColor color) {
         // Chat message
         Utils.inGameBroadcast(Component
@@ -47,25 +53,15 @@ public class LobbyLoop extends BukkitRunnable {
         plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
         // Titles
         switch (timer) {
-            case 10:
-                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.GREEN), Component.text().asComponent(),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-                break;
-            case 5:
-            case 4:
-                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.YELLOW), Component.text().asComponent(),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-                break;
-            case 3:
-            case 2:
-            case 1:
-                Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.RED), Component.text().asComponent(),
-                        Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
-                break;
+            case 10 ->
+                    Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.GREEN), Component.text().asComponent(),
+                            Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
+            case 5, 4 ->
+                    Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.YELLOW), Component.text().asComponent(),
+                            Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
+            case 3, 2, 1 ->
+                    Bukkit.getServer().showTitle(Title.title(Component.text(timer, NamedTextColor.RED), Component.text().asComponent(),
+                            Title.Times.of(Duration.ZERO, Duration.ofMillis(1500), Duration.ZERO)));
         }
-    }
-
-    public static boolean isCountingDown() {
-        return Bedwars.getInstance().getLobbyLoop() != null && !Bedwars.getInstance().getLobbyLoop().isCancelled();
     }
 }

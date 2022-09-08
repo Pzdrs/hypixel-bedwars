@@ -7,6 +7,7 @@ import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.tasks.GameLoop;
+import me.pycrs.bedwars.tasks.InventoryWatcher;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
@@ -17,8 +18,7 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
 
     @EventHandler
     public void onGameStart(BedwarsGameStartEvent event) {
-        Bedwars.gameLoop = new GameLoop(plugin);
-        Bedwars.setGameInProgress(true);
+        Bedwars.setGameStage(Bedwars.GameStage.GAME_IN_PROGRESS);
         BedwarsTeam.distributePlayers();
 
         // Initial setup
@@ -40,10 +40,9 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
             team.getIronGenerator().activate(20);
         });
 
-        Bedwars.gameLoop.runTaskTimer(plugin, 0, 20);
-
+        Bedwars.gameLoop = new GameLoop(plugin);
         // This may cause some performance issues, keep an eye on it
-        Bedwars.inventoryWatcher.runTaskTimerAsynchronously(plugin, 0, 1);
+        Bedwars.inventoryWatcher = new InventoryWatcher(plugin);
 
         BedwarsTeam.removeEmptyTeams();
     }

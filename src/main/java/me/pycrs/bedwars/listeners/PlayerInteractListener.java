@@ -38,19 +38,19 @@ public class PlayerInteractListener extends BaseListener<Bedwars> {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (Bedwars.isGameInProgress()) {
-            // Cancel all spectator interaction
-            if (BedwarsPlayer.toBedwarsPlayer(event.getPlayer()).isSpectating()) {
+        // Cancel all spectator interaction
+        if (BedwarsPlayer.isSpectating(event.getPlayer())) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null) {
+            // Cancel any bed interactions
+            if (Tag.BEDS.isTagged(event.getClickedBlock().getType())) {
                 event.setCancelled(true);
                 return;
-            }
-
-            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null) {
-                // Cancel any bed interactions
-                if (Tag.BEDS.isTagged(event.getClickedBlock().getType())) {
-                    event.setCancelled(true);
-                    return;
-                } else if (event.getClickedBlock() instanceof Chest) {
+            } else if (event.getClickedBlock() instanceof Chest) {
+                if (Bedwars.isGameInProgress()) {
                     for (BedwarsTeam team : plugin.getTeams()) {
                         if (team.getTeamChest().equals(event.getClickedBlock().getLocation()) &&
                                 !team.isPartOfTeam(event.getPlayer()) && !team.isEliminated()) {
@@ -61,29 +61,29 @@ public class PlayerInteractListener extends BaseListener<Bedwars> {
                             event.setCancelled(true);
                         }
                     }
+                } else event.setCancelled(true);
+            }
+        }
+
+        // Auto-shield
+        if (isRightClick(event) && EnchantmentTarget.WEAPON.includes(event.getMaterial()) && Bedwars.isGameInProgress()) {
+            // Don't put up a shield if the player interacted with a block that can open an inventory, needs to be sneaking in that case
+            if (opensInventory(event.getClickedBlock()) && !event.getPlayer().isSneaking()) return;
+            // Prevent some nasty shenanigans
+            if (PLAYERS_BLOCKING.contains(event.getPlayer()) || SHIELD_DELAY.containsKey(event.getPlayer())) return;
+            event.getPlayer().getInventory().setItemInOffHand(new ItemStack(Material.SHIELD));
+            plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.ITEM_ARMOR_EQUIP_GENERIC, Sound.Source.PLAYER, 1f, 1f));
+            event.getPlayer().setShieldBlockingDelay(0);
+            BukkitRunnable runnable = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    PLAYERS_BLOCKING.add(event.getPlayer());
+                    SHIELD_DELAY.remove(event.getPlayer());
                 }
-            }
+            };
 
-            // Auto-shield
-            if (isRightClick(event) && EnchantmentTarget.WEAPON.includes(event.getMaterial())) {
-                // Don't put up a shield if the player interacted with a block that can open an inventory, needs to be sneaking in that case
-                if (opensInventory(event.getClickedBlock()) && !event.getPlayer().isSneaking()) return;
-                // Prevent some nasty shenanigans
-                if (PLAYERS_BLOCKING.contains(event.getPlayer()) || SHIELD_DELAY.containsKey(event.getPlayer())) return;
-                event.getPlayer().getInventory().setItemInOffHand(new ItemStack(Material.SHIELD));
-                plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.ITEM_ARMOR_EQUIP_GENERIC, Sound.Source.PLAYER, 1f, 1f));
-                event.getPlayer().setShieldBlockingDelay(0);
-                BukkitRunnable runnable = new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        PLAYERS_BLOCKING.add(event.getPlayer());
-                        SHIELD_DELAY.remove(event.getPlayer());
-                    }
-                };
-
-                SHIELD_DELAY.put(event.getPlayer(), runnable);
-                runnable.runTaskLater(plugin, 4);
-            }
+            SHIELD_DELAY.put(event.getPlayer(), runnable);
+            runnable.runTaskLater(plugin, 4);
         }
     }
 

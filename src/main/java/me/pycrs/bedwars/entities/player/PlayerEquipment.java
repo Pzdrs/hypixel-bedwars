@@ -1,6 +1,6 @@
 package me.pycrs.bedwars.entities.player;
 
-import me.pycrs.bedwars.listeners.InventoryClickListener;
+import me.pycrs.bedwars.listeners.InventoryInteractListener;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Color;
@@ -76,7 +76,7 @@ public class PlayerEquipment {
 
         // Smart sword
         if (!hasASword(player)) {
-            InventoryClickEvent lastEvent = InventoryClickListener.LAST_EVENT.get(player.getUniqueId());
+            InventoryClickEvent lastEvent = InventoryInteractListener.LAST_EVENT.get(player.getUniqueId());
             if (!checkSword || (lastEvent != null && lastEvent.getAction() != InventoryAction.PICKUP_ALL))
                 inventory.addItem(Sword.getDefault().getItemStack());
         } else if (checkSword) {

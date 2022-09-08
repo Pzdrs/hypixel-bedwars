@@ -37,7 +37,7 @@ public class EntityPickupItemListener extends BaseListener<Bedwars> {
         }
 
         // Cancel all spectator interaction
-        if (BedwarsPlayer.toBedwarsPlayer(player).isSpectating()) {
+        if (BedwarsPlayer.isSpectating(player)) {
             event.setCancelled(true);
             return;
         }

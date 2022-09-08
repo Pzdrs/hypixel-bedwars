@@ -4,12 +4,10 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
 import me.pycrs.bedwars.util.Utils;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class InventoryClickListener extends BaseListener<Bedwars> {
+public class InventoryInteractListener extends BaseListener<Bedwars> {
     public static final Map<UUID, InventoryClickEvent> LAST_EVENT = new HashMap<>();
 
     private static final InventoryType.SlotType[] FORBIDDEN_SLOTS = new InventoryType.SlotType[]{
@@ -28,7 +26,7 @@ public class InventoryClickListener extends BaseListener<Bedwars> {
             InventoryType.SlotType.RESULT
     };
 
-    public InventoryClickListener(Bedwars plugin) {
+    public InventoryInteractListener(Bedwars plugin) {
         super(plugin);
     }
 
@@ -68,8 +66,8 @@ public class InventoryClickListener extends BaseListener<Bedwars> {
             }
             case MOVE_TO_OTHER_INVENTORY -> {
                 if (clickedInventory.getHolder() == player &&
-                        event.getInventory().getType() == InventoryType.CHEST ||
-                        event.getInventory().getType() == InventoryType.ENDER_CHEST) {
+                        (event.getInventory().getType() == InventoryType.CHEST ||
+                                event.getInventory().getType() == InventoryType.ENDER_CHEST)) {
                     if (testItem(event.getCurrentItem())) {
                         event.setCancelled(true);
                         return;

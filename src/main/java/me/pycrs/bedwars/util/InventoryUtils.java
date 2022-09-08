@@ -1,7 +1,6 @@
 package me.pycrs.bedwars.util;
 
-import me.pycrs.bedwars.listeners.InventoryClickListener;
-import me.pycrs.bedwars.menu.shops.items.ShopItem;
+import me.pycrs.bedwars.listeners.InventoryInteractListener;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -11,11 +10,9 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.awt.*;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -52,7 +49,7 @@ public class InventoryUtils {
         for (Material material : materials) {
             if (player.getInventory().contains(material)) return true;
         }
-        InventoryClickEvent lastEvent = InventoryClickListener.LAST_EVENT.get(player.getUniqueId());
+        InventoryClickEvent lastEvent = InventoryInteractListener.LAST_EVENT.get(player.getUniqueId());
         for (Material material : materials) {
             if (lastEvent != null && !lastEvent.isCancelled() && Utils.atLeastOneEquals(lastEvent.getAction(), new InventoryAction[]{
                     InventoryAction.PICKUP_ALL,
