@@ -48,18 +48,21 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         if (apiKey != null) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try (CloseableHttpClient client = HttpClients.createDefault()) {
-                    HttpResponse response = client.execute(new HttpGet("https://api.hypixel.net/player?key=" + apiKey + "&uuid=" + player.getUniqueId()));
+                    HttpResponse response = client.execute(new HttpGet(String.format("https://api.hypixel.net/player?key=%s&uuid=%s",
+                            apiKey, player.getUniqueId())));
                     JSONObject object = new JSONObject(Utils.streamToString(response.getEntity().getContent()));
                     if (object.getBoolean("success")) {
                         JSONObject stats = object.getJSONObject("player").getJSONObject("stats").getJSONObject("Bedwars");
                         setHypixelLevel(stats.getDouble("Experience"));
                     } else {
-                        Bukkit.getLogger().severe("An unexpected error occurred while fetching Hypixel data for " +
-                                player.getUniqueId() + ". Caused by: " + object.getString("cause"));
+                        Bukkit.getLogger().severe(
+                                String.format("An unexpected error occurred while fetching Hypixel data for %s. Caused by: %s",
+                                        player.getUniqueId(), object.getString("cause")));
                     }
                 } catch (IOException e) {
-                    Bukkit.getLogger().severe("An unexpected error occurred while fetching Hypixel data for " + player.getUniqueId());
-                    e.printStackTrace();
+                    Bukkit.getLogger().severe(
+                            String.format("An unexpected error occurred while fetching Hypixel data for %s. Caused by: %s",
+                                    player.getUniqueId(), e.getLocalizedMessage()));
                 }
             });
         }
