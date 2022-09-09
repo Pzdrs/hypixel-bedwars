@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.entities.player;
+package me.pycrs.bedwars.entities.player.equipment;
 
 import org.bukkit.inventory.ItemStack;
 

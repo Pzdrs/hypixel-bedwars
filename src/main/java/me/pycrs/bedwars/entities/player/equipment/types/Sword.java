@@ -1,4 +1,4 @@
-package me.pycrs.bedwars.entities.player;
+package me.pycrs.bedwars.entities.player.equipment.types;
 
 import me.pycrs.bedwars.util.ItemBuilder;
 import org.bukkit.Material;

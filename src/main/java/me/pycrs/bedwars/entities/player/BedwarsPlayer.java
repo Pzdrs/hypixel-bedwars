@@ -2,6 +2,10 @@ package me.pycrs.bedwars.entities.player;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
+import me.pycrs.bedwars.entities.player.equipment.types.Armor;
+import me.pycrs.bedwars.entities.player.equipment.types.Axe;
+import me.pycrs.bedwars.entities.player.equipment.types.Pickaxe;
+import me.pycrs.bedwars.entities.player.equipment.PlayerEquipment;
 import me.pycrs.bedwars.entities.player.level.HypixelBedwarsLevel;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;

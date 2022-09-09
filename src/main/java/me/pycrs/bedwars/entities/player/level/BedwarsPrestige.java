@@ -3,7 +3,9 @@ package me.pycrs.bedwars.entities.player.level;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-
+/**
+ * This enum defines what each prestige looks like in chat
+ */
 public enum BedwarsPrestige {
     /*===== BASIC PRESTIGE =====*/
 
@@ -126,10 +128,18 @@ public enum BedwarsPrestige {
 
     public static final BedwarsPrestige HIGHEST_PRESTIGE = values()[values().length - 1];
 
-    public static BedwarsPrestige of(int order) {
-        return values()[order];
+    /**
+     * @param index index
+     * @return {@code BedwarsPrestige} of a given index
+     */
+    public static BedwarsPrestige of(int index) {
+        return values()[index];
     }
 
+    /**
+     * @param level level to construct the prestige for
+     * @return the complete prestige chat representation as a {@code Component}
+     */
     Component color(int level) {
         Component openingBracket = Component.text(PrestigeStyle.BRACKETS.a(), style.openingBracket);
         Component stars = Component.empty();

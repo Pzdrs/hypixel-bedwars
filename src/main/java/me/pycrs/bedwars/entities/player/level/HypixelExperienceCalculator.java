@@ -5,6 +5,9 @@ import org.javatuples.Triplet;
 
 import java.util.Arrays;
 
+/**
+ * Util class containing any hypixel bedwars experience calculations
+ */
 public final class HypixelExperienceCalculator {
     private HypixelExperienceCalculator() {
         throw new AssertionError();

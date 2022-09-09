@@ -2,24 +2,16 @@ package me.pycrs.bedwars.listeners;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
-import me.pycrs.bedwars.entities.player.Axe;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
-import me.pycrs.bedwars.entities.player.Pickaxe;
-import me.pycrs.bedwars.entities.player.Sword;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.Optional;
 
 public class EntityPickupItemListener extends BaseListener<Bedwars> {
     public EntityPickupItemListener(Bedwars plugin) {

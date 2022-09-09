@@ -1,5 +1,10 @@
-package me.pycrs.bedwars.entities.player;
+package me.pycrs.bedwars.entities.player.equipment;
 
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.equipment.types.Armor;
+import me.pycrs.bedwars.entities.player.equipment.types.Axe;
+import me.pycrs.bedwars.entities.player.equipment.types.Pickaxe;
+import me.pycrs.bedwars.entities.player.equipment.types.Sword;
 import me.pycrs.bedwars.listeners.InventoryInteractListener;
 import me.pycrs.bedwars.util.InventoryUtils;
 import me.pycrs.bedwars.util.ItemBuilder;

@@ -4,7 +4,13 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.server.v1_16_R3.Tuple;
 import org.bukkit.entity.Player;
 
+/**
+ * Represents player's Hypixel bedwars level
+ */
 public final class HypixelBedwarsLevel {
+    /**
+     * Fallback instance
+     */
     public final static HypixelBedwarsLevel DEFAULT = new HypixelBedwarsLevel(0);
     private final double experience;
     private final int level;
@@ -16,14 +22,18 @@ public final class HypixelBedwarsLevel {
         this.prestige = HypixelExperienceCalculator.getPrestigeForExp(experience);
     }
 
-    public int getLevel() {
-        return level;
-    }
-
+    /**
+     * @return chat representation of this level
+     */
     public Component toComponent() {
         return prestige.color(level);
     }
 
+    /**
+     * Updates the player's xp bar
+     *
+     * @param player player
+     */
     public void show(Player player) {
         Tuple<Double, Double> progress = HypixelExperienceCalculator.getLevelProgress(experience);
         // Display the progress towards the next level
