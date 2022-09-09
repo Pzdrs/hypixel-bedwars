@@ -2,10 +2,10 @@ package me.pycrs.bedwars.entities.player;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
+import me.pycrs.bedwars.entities.player.level.HypixelBedwarsLevel;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
-import me.pycrs.bedwars.util.Experience;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import org.apache.http.HttpResponse;
@@ -28,8 +28,8 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     private final BedwarsTeam team;
     private final PlayerEquipment equipment;
     private final PlayerStatistics statistics;
+    private HypixelBedwarsLevel hypixelLevel = HypixelBedwarsLevel.DEFAULT;
     private boolean spectating = false;
-    private int level = 1445;
 
     public BedwarsPlayer(Player player, BedwarsTeam team) {
         this.plugin = Bedwars.getInstance();
@@ -48,7 +48,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                     JSONObject object = new JSONObject(Utils.streamToString(response.getEntity().getContent()));
                     if (object.getBoolean("success")) {
                         JSONObject stats = object.getJSONObject("player").getJSONObject("stats").getJSONObject("Bedwars");
-                        this.level = (int) Utils.getBedWarsLevel(stats.getDouble("Experience"));
+                        setHypixelLevel(stats.getDouble("Experience"));
                     } else {
                         Bukkit.getLogger().severe("An unexpected error occurred while fetching Hypixel data for " +
                                 player.getUniqueId() + ". Caused by: " + object.getString("cause"));
@@ -59,6 +59,17 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 }
             });
         }
+    }
+
+    /**
+     * This method is used to assign value to {@link BedwarsPlayer#hypixelLevel} instead of assigning it directly,
+     * due to the data fetching process being asynchronous
+     *
+     * @param experience experience
+     */
+    private void setHypixelLevel(double experience) {
+        this.hypixelLevel = new HypixelBedwarsLevel(experience);
+        showLevel();
     }
 
     /**
@@ -102,8 +113,8 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
         Utils.applySpectator(player, spectator, plugin);
     }
 
-    public int getLevel() {
-        return level;
+    public HypixelBedwarsLevel getLevel() {
+        return hypixelLevel;
     }
 
     public PlayerStatistics getStatistics() {
@@ -119,7 +130,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     }
 
     public void showLevel() {
-        Experience.changeExp(player, Experience.getExpFromLevel(level));
+        hypixelLevel.show(player);
     }
 
     public boolean isSpectating() {
@@ -156,7 +167,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      */
     public static boolean isSpectating(Player player) {
         Optional<BedwarsPlayer> potentialPlayer = of(player);
-        if (potentialPlayer.isEmpty())return false;
+        if (potentialPlayer.isEmpty()) return false;
         return potentialPlayer.get().isSpectating();
     }
 

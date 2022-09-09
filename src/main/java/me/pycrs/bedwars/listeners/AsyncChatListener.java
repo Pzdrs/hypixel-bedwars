@@ -42,7 +42,8 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
             BedwarsPlayer bedwarsSender = potentialBedwarsPlayer.get();
             if (Settings.mode == Mode.SOLO) {
                 event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
-                        .append(Utils.formatStars(bedwarsSender.getLevel()))
+                        .append(bedwarsSender.getLevel().toComponent())
+                        .append(Component.space())
                         .append(sourceDisplayName)
                         .append(Component.text(": ", NamedTextColor.WHITE))
                         .append(message));
@@ -52,7 +53,8 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
                 plugin.getPlayers().forEach(bedwarsPlayer -> {
                     if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(bedwarsSender))
                         bedwarsPlayer.getPlayer().sendMessage(Component.empty()
-                                .append(Utils.formatStars(bedwarsSender.getLevel()))
+                                .append(bedwarsSender.getLevel().toComponent())
+                                .append(Component.space())
                                 .append(event.getPlayer().displayName())
                                 .append(Component.text(": ", NamedTextColor.WHITE))
                                 .append(event.message()));
