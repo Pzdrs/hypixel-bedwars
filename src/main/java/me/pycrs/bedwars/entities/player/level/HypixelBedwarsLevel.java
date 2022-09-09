@@ -36,6 +36,10 @@ public final class HypixelBedwarsLevel {
      */
     public void show(Player player) {
         Tuple<Double, Double> progress = HypixelExperienceCalculator.getLevelProgress(experience);
+        // Reset the xp bar and apply new level
+        player.setLevel(0);
+        player.giveExpLevels(level);
+
         // Display the progress towards the next level
         player.setExp((float) (progress.a() / progress.b()));
     }
