@@ -18,13 +18,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class GameLoop extends BukkitRunnable {
-    private Bedwars plugin;
-    private List<GameEvent> events;
+public final class GameLoop extends BukkitRunnable {
+    private final List<GameEvent> events;
     private int currentTime = 0;
 
     public GameLoop(Bedwars plugin) {
-        this.plugin = plugin;
         this.events = new ArrayList<>(Arrays.asList(
                 new GameEvent.Builder()
                         .period(Settings.eventDiamondII)

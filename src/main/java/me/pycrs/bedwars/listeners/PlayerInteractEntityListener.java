@@ -19,7 +19,7 @@ public class PlayerInteractEntityListener extends BaseListener<Bedwars> {
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
         if (event.getRightClicked() instanceof ItemFrame) event.setCancelled(true);
-        if (Bedwars.isGameInProgress()) {
+        if (Bedwars.getGameStage().isGameInProgress()) {
             // Cancel all spectator interaction
             if (BedwarsPlayer.isSpectating(event.getPlayer())) {
                 event.setCancelled(true);

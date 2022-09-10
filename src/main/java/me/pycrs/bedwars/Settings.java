@@ -28,6 +28,10 @@ public final class Settings {
             .append(Component.newline())
             .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN));
 
+    /**
+     * When we have a full lobby, cut the lobby countdown to this value (seconds)
+     */
+    public static final int FULL_LOBBY_COUNTDOWN = 10;
     public static Mode mode;
     public static int lobbyCountdown;
     public static int shoutCooldown;

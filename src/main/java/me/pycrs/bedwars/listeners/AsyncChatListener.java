@@ -20,7 +20,7 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
     // TODO: 8/10/2022 rework to use audience
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
-        if (!Bedwars.isGameInProgress()) {
+        if (!Bedwars.getGameStage().isGameInProgress()) {
             // Send to everyone
             event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
                     .append(sourceDisplayName)

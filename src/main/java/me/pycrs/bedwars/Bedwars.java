@@ -12,7 +12,6 @@ import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.BedwarsMap;
 import me.pycrs.bedwars.util.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -25,16 +24,32 @@ import java.util.Optional;
 public final class Bedwars extends JavaPlugin {
     public enum GameStage {
         LOBBY_WAITING, LOBBY_COUNTDOWN, GAME_IN_PROGRESS, GAME_FINISHED;
+
+        public boolean isGameInProgress() {
+            return this == GAME_IN_PROGRESS;
+        }
+
+        public boolean isGameFinished() {
+            return this == GAME_FINISHED;
+        }
+
+        public boolean isLobbyCountingDown() {
+            return this == LOBBY_COUNTDOWN;
+        }
+
+        public boolean isLobby() {
+            return this == LOBBY_WAITING || this == LOBBY_COUNTDOWN;
+        }
     }
 
     private static Bedwars instance;
 
+    private static GameStage gameStage = GameStage.LOBBY_WAITING;
     private BedwarsMap map;
-    private static GameStage gameStage;
     private List<BedwarsPlayer> players;
     private List<BedwarsTeam> teams;
 
-    private LobbyLoop lobbyLoop;
+    public static LobbyLoop lobbyLoop;
     public static GameLoop gameLoop;
     public static InventoryWatcher inventoryWatcher;
 
@@ -82,20 +97,8 @@ public final class Bedwars extends JavaPlugin {
         this.teams = BedwarsTeam.initTeams(map.getJSONArray("teams"));
     }
 
-    public static boolean isGameInProgress() {
-        return gameStage == GameStage.GAME_IN_PROGRESS;
-    }
-
-    public static boolean isGameFinished() {
-        return gameStage == GameStage.GAME_FINISHED;
-    }
-
-    public static boolean isLobbyCountingDown() {
-        return gameStage == GameStage.LOBBY_COUNTDOWN;
-    }
-
-    public LobbyLoop getLobbyLoop() {
-        return lobbyLoop;
+    public static GameStage getGameStage() {
+        return gameStage;
     }
 
     public List<BedwarsPlayer> getPlayers() {
@@ -110,15 +113,19 @@ public final class Bedwars extends JavaPlugin {
         return teams;
     }
 
-    public void startLobbyCountdown() {
-        if (lobbyLoop == null) this.lobbyLoop = new LobbyLoop(this, Settings.lobbyCountdown);
-        lobbyLoop.runTaskTimer(this, 0, 20);
+    public static void startLobbyCountdown() {
+        if (lobbyLoop == null) lobbyLoop = new LobbyLoop(Settings.lobbyCountdown);
+        lobbyLoop.runTaskTimer(Bedwars.getInstance(), 0, 20);
         setGameStage(GameStage.LOBBY_COUNTDOWN);
     }
 
-    public static GameStage setGameStage(GameStage gameStage) {
+    public static void cancelLobbyCountdown() {
+        lobbyLoop.cancel();
+        lobbyLoop = null;
+    }
+
+    public static void setGameStage(GameStage gameStage) {
         Bedwars.gameStage = gameStage;
-        return gameStage;
     }
 
     private void init() {
@@ -133,6 +140,7 @@ public final class Bedwars extends JavaPlugin {
         new PlayerDropItemListener(this);
         new EntityPickupItemListener(this);
         new BlockBreakPlaceListener(this);
+        new AsyncPlayerPreLoginListener(this);
 
         new BedwarsGameStartListener(this);
         new BedwarsGameEndListener(this);

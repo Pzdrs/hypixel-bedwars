@@ -14,11 +14,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.data.type.Bed;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,15 +23,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class BedwarsTeam {
-    private Bedwars plugin = Bedwars.getInstance();
-    private Team team;
-    private TeamColor teamColor;
-    private TeamUpgrades upgrades;
+    private final Bedwars plugin = Bedwars.getInstance();
+    private final Team team;
+    private final TeamColor teamColor;
+    private final TeamUpgrades upgrades;
     // The boolean value determines if the player is eliminated from the team, i.e. if true, the player is eliminated, if false they are not
-    private Map<BedwarsPlayer, Boolean> players;
-    private Forge forge;
-    private Location spawn, teamChest, bedHead, bedFoot;
-    private Area baseArea;
+    private final Map<BedwarsPlayer, Boolean> players;
+    private final Forge forge;
+    private final Location spawn, teamChest, bedHead, bedFoot;
+    private final Area baseArea;
     private boolean hasBed = true, eliminated = false;
 
     private BedwarsPlayer bedBreaker;
@@ -157,11 +154,11 @@ public class BedwarsTeam {
         return spawn.clone().add(-.5, 0, .5);
     }
 
-    public Location getBedFoot() {
+    public Location getBedFootLocation() {
         return bedFoot;
     }
 
-    public Location getBedHead() {
+    public Location getBedHeadLocation() {
         return bedHead;
     }
 
@@ -181,16 +178,12 @@ public class BedwarsTeam {
         return players.entrySet().stream().filter(entry -> !entry.getValue()).map(Map.Entry::getKey).toList();
     }
 
-    public Location getTeamChest() {
+    public Location getTeamChestLocation() {
         return teamChest;
     }
 
     public Area getBaseArea() {
         return baseArea;
-    }
-
-    public Forge getIronGenerator() {
-        return forge;
     }
 
     private boolean isFull() {

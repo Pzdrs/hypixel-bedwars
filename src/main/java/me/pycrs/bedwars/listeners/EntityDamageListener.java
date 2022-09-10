@@ -51,7 +51,7 @@ public class EntityDamageListener extends BaseListener<Bedwars> {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
-        if (event.getEntityType().equals(EntityType.PLAYER) && Bedwars.isGameInProgress()) {
+        if (event.getEntityType().equals(EntityType.PLAYER) && Bedwars.getGameStage().isGameInProgress()) {
             Player player = (Player) event.getEntity();
 
             // If a player receives a lethal amount of damage, cancel and manually kill, so it matches the Hypixel behaviour

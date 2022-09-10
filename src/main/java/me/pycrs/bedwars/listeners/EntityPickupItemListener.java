@@ -23,7 +23,7 @@ public class EntityPickupItemListener extends BaseListener<Bedwars> {
         ItemStack itemStack = event.getItem().getItemStack();
 
         // Outside the game, cancel
-        if (!Bedwars.isGameInProgress() || Bedwars.isGameFinished() || !(event.getEntity() instanceof Player player)) {
+        if (!Bedwars.getGameStage().isGameInProgress() || Bedwars.getGameStage().isGameFinished() || !(event.getEntity() instanceof Player player)) {
             event.setCancelled(true);
             return;
         }

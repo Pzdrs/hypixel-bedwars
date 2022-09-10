@@ -34,17 +34,17 @@ public class StartCommand implements TabExecutor {
             }
         }
 
-        if (Bedwars.isLobbyCountingDown() || Bedwars.isGameInProgress()) {
+        if (Bedwars.getGameStage().isLobbyCountingDown() || Bedwars.getGameStage().isGameInProgress()) {
             sender.sendMessage(Component.text("The game is starting already or is already in progress.", NamedTextColor.RED));
             return true;
-        } else if (Bedwars.isGameFinished()) {
+        } else if (Bedwars.getGameStage().isGameFinished()) {
             sender.sendMessage(Component.text("The game has finished, waiting for server restart.", NamedTextColor.RED));
             return true;
         } else if (Bukkit.getOnlinePlayers().size() < 2) {
             sender.sendMessage(Component.text("A minimum of 2 players is needed to forcefully start the game.", NamedTextColor.RED));
             return true;
         } else {
-            plugin.startLobbyCountdown();
+            Bedwars.startLobbyCountdown();
             sender.sendMessage(Component.text("You have started the game manually.", NamedTextColor.GREEN));
         }
         return true;

@@ -28,7 +28,7 @@ public class BlockBreakPlaceListener extends BaseListener<Bedwars> {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (!Bedwars.isGameInProgress()) event.setCancelled(true);
+        if (!Bedwars.getGameStage().isGameInProgress()) event.setCancelled(true);
         for (Generator generator : plugin.getMap().getDiamondGenerators()) {
             if (Utils.isInArea(event.getBlock().getLocation(), generator.getLocation(), 4, 6, 4)) {
                 event.setCancelled(true);
@@ -55,12 +55,12 @@ public class BlockBreakPlaceListener extends BaseListener<Bedwars> {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (!Bedwars.isGameInProgress() || BedwarsPlayer.isSpectating(event.getPlayer())) {
+        if (!Bedwars.getGameStage().isGameInProgress() || BedwarsPlayer.isSpectating(event.getPlayer())) {
             // If a spectator or waiting in lobby - just cancel and say nothing
             event.setCancelled(true);
         } else if (event.getBlock().getBlockData() instanceof Bed) {
             for (BedwarsTeam team : plugin.getTeams())
-                if (event.getBlock().getLocation().equals(team.getBedHead()) || event.getBlock().getLocation().equals(team.getBedFoot())) {
+                if (event.getBlock().getLocation().equals(team.getBedHeadLocation()) || event.getBlock().getLocation().equals(team.getBedFootLocation())) {
                     Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(plugin, team, event));
                     return;
                 }

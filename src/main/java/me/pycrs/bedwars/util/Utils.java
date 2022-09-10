@@ -11,6 +11,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -135,5 +136,19 @@ public class Utils {
             if (t == object) return true;
         }
         return false;
+    }
+
+    public static void sanitizePlayer(@NotNull Player player) {
+        player.setGameMode(GameMode.ADVENTURE);
+        player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
+        player.getInventory().clear();
+        player.setLevel(0);
+        player.setExp(0);
+        player.setFireTicks(0);
+        player.setHealth(20);
+        player.setFoodLevel(20);
+        player.setFlying(false);
+        player.setAllowFlight(false);
+        player.setInvulnerable(true);
     }
 }

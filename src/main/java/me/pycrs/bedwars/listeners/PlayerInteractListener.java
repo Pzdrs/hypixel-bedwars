@@ -50,9 +50,9 @@ public class PlayerInteractListener extends BaseListener<Bedwars> {
                 event.setCancelled(true);
                 return;
             } else if (event.getClickedBlock() instanceof Chest) {
-                if (Bedwars.isGameInProgress()) {
+                if (Bedwars.getGameStage().isGameInProgress()) {
                     for (BedwarsTeam team : plugin.getTeams()) {
-                        if (team.getTeamChest().equals(event.getClickedBlock().getLocation()) &&
+                        if (team.getTeamChestLocation().equals(event.getClickedBlock().getLocation()) &&
                                 !team.isPartOfTeam(event.getPlayer()) && !team.isEliminated()) {
                             event.getPlayer().sendMessage(
                                     Component.text("You cannot open this Chest as the ", NamedTextColor.RED)
@@ -66,7 +66,7 @@ public class PlayerInteractListener extends BaseListener<Bedwars> {
         }
 
         // Auto-shield
-        if (isRightClick(event) && EnchantmentTarget.WEAPON.includes(event.getMaterial()) && Bedwars.isGameInProgress()) {
+        if (isRightClick(event) && EnchantmentTarget.WEAPON.includes(event.getMaterial()) && Bedwars.getGameStage().isGameInProgress()) {
             // Don't put up a shield if the player interacted with a block that can open an inventory, needs to be sneaking in that case
             if (opensInventory(event.getClickedBlock()) && !event.getPlayer().isSneaking()) return;
             // Prevent some nasty shenanigans

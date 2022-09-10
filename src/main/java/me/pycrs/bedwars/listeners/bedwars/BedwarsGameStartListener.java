@@ -40,7 +40,7 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
         plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI", true)));
         plugin.getTeams().forEach(team -> {
             // These will depend on what map is in use
-            team.getIronGenerator().activate(20);
+            team.getForge().activate(20);
         });
 
         Bedwars.gameLoop = new GameLoop(plugin);

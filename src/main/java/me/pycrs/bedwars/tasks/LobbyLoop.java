@@ -14,11 +14,9 @@ import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LobbyLoop extends BukkitRunnable {
-    private Bedwars plugin;
     public static AtomicInteger timer;
 
-    public LobbyLoop(Bedwars plugin, int countFrom) {
-        this.plugin = plugin;
+    public LobbyLoop(int countFrom) {
         timer = new AtomicInteger(countFrom);
     }
 
@@ -33,7 +31,7 @@ public class LobbyLoop extends BukkitRunnable {
         }
         if (timer.getAndDecrement() == 0) {
             this.cancel();
-            Bukkit.getPluginManager().callEvent(new BedwarsGameStartEvent(plugin));
+            Bukkit.getPluginManager().callEvent(new BedwarsGameStartEvent(Bedwars.getInstance()));
         }
     }
 
@@ -50,7 +48,7 @@ public class LobbyLoop extends BukkitRunnable {
                 .append(Component.text(timer + " ", color))
                 .append(Component.text(timer <= 1 ? "second!" : "seconds!")));
         // Sounds
-        plugin.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
+        Bukkit.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
         // Titles
         switch (timer) {
             case 10 ->

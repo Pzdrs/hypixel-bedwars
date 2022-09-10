@@ -22,7 +22,7 @@ public class PlayerDropItemListener extends BaseListener<Bedwars> {
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        if (!Bedwars.isGameInProgress() || Bedwars.isGameFinished()) {
+        if (!Bedwars.getGameStage().isGameInProgress() || Bedwars.getGameStage().isGameFinished()) {
             event.setCancelled(true);
             return;
         }
