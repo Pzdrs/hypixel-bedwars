@@ -3,6 +3,7 @@ package me.pycrs.bedwars.entities.team;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Color;
 
@@ -14,10 +15,10 @@ public enum TeamColor {
     AQUA(Color.AQUA, NamedTextColor.AQUA),
     WHITE(Color.WHITE, NamedTextColor.WHITE),
     PINK(Color.PURPLE, NamedTextColor.LIGHT_PURPLE),
-    GRAY(Color.GRAY, NamedTextColor.GRAY);
+    GRAY(Color.GRAY, NamedTextColor.DARK_GRAY);
 
-    private Color color;
-    private NamedTextColor textColor;
+    private final Color color;
+    private final NamedTextColor textColor;
 
     TeamColor(Color color, NamedTextColor textColor) {
         this.color = color;
@@ -33,7 +34,19 @@ public enum TeamColor {
     }
 
     public Component getFriendlyName() {
-        return Component.text(WordUtils.capitalize(toString().toLowerCase()), getTextColor());
+        return getFriendlyNamePlain().color(textColor);
+    }
+
+    public Component getFriendlyNamePlain() {
+        return Component.text(WordUtils.capitalize(name().toLowerCase()));
+    }
+
+    public Component getTeamLetter() {
+        return Component.text(name().charAt(0), textColor);
+    }
+
+    public Component getTeamLetterBold() {
+        return getTeamLetter().decorate(TextDecoration.BOLD);
     }
 
     public Component getDisplay() {

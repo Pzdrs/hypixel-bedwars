@@ -90,6 +90,24 @@ public class BedwarsTeam {
         return component;
     }
 
+    public Component getScoreboardRepresentation(Player player) {
+        return Component.empty()
+                .append(teamColor.getTeamLetter())
+                .append(Component.space())
+                .append(teamColor.getFriendlyNamePlain())
+                .append(Component.text(": "))
+                .append(eliminated ?
+                        Component.text("\u2717", NamedTextColor.RED, TextDecoration.BOLD) :
+                        hasBed ?
+                                Component.text("\u2713", NamedTextColor.GREEN, TextDecoration.BOLD) :
+                                Component.text(getActivePlayers().size(), NamedTextColor.GREEN)
+                )
+                .append(isPartOfTeam(player) ?
+                        Component.space().append(Component.text("YOU", NamedTextColor.GRAY)) :
+                        Component.empty()
+                );
+    }
+
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
         players.put(bedwarsPlayer, true);
         if (getNonEliminatedPlayers().isEmpty())

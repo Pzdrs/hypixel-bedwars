@@ -23,6 +23,10 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
     public void onGameStart(BedwarsGameStartEvent event) {
         Bedwars.setGameStage(Bedwars.GameStage.GAME_IN_PROGRESS);
         BedwarsTeam.distributePlayers();
+        plugin.getTeams().forEach(bedwarsTeam -> {
+            Player pzdrs = Bukkit.getPlayer("Pzdrs");
+            pzdrs.sendMessage(bedwarsTeam.getScoreboardRepresentation(pzdrs));
+        });
 
         // Initial setup
         plugin.getPlayers().forEach(bedwarsPlayer -> {
