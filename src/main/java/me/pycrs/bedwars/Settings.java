@@ -32,6 +32,11 @@ public final class Settings {
      * When we have a full lobby, cut the lobby countdown to this value (seconds)
      */
     public static final int FULL_LOBBY_COUNTDOWN = 10;
+    /**
+     * If this is set to true, if a player disconnects from a SOLO game, thus leaving it empty until they rejoin, their team is eliminated
+     */
+    public static final boolean SOLO_WIPE_EMPTY_TEAMS = true;
+
     public static Mode mode;
     public static int lobbyCountdown;
     public static int shoutCooldown;

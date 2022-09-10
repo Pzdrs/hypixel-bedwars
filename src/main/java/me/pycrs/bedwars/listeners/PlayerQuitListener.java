@@ -44,10 +44,16 @@ public class PlayerQuitListener extends BaseListener<Bedwars> {
             }
             case GAME_IN_PROGRESS -> BedwarsPlayer.of(player).ifPresent(bedwarsPlayer -> {
                 BedwarsTeam team = bedwarsPlayer.getTeam();
+                // We don't care when spectators disconnect
+                if (bedwarsPlayer.isEliminated()) {
+                    event.quitMessage(null);
+                    return;
+                }
+
                 // Quit message
                 event.quitMessage(
                         Component.text(player.getName(), team.getTeamColor().getTextColor())
-                                .append(Component.text(" disconnected", NamedTextColor.GRAY))
+                                .append(Component.text(" disconnected.", NamedTextColor.GRAY))
                 );
 
                 // If everyone leaves, the game will end
@@ -56,7 +62,7 @@ public class PlayerQuitListener extends BaseListener<Bedwars> {
                 }
                 // If someone leaves with their bed being gone, they are eliminated
                 // Also, if the game is in SOLO mode and the person disconnects, there is no one else in the team, so the team gets eliminated
-                if (!team.hasBed() || Settings.mode == Mode.SOLO)
+                if (!team.hasBed() || (Settings.mode == Mode.SOLO && Settings.SOLO_WIPE_EMPTY_TEAMS))
                     // A tiny delay needs to be added so that the quit message is displayed before a potential team elimination message
                     Bukkit.getScheduler().runTaskLater(plugin, () -> team.eliminatePlayer(bedwarsPlayer), 1);
             });

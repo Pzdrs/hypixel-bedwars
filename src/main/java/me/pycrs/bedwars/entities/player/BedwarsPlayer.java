@@ -28,7 +28,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
     private final Bedwars plugin;
-    private final Player player;
+    private Player player;
     private final BedwarsTeam team;
     private final PlayerEquipment equipment;
     private final PlayerStatistics statistics;
@@ -80,10 +80,27 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     }
 
     /**
+     * If a player leaves, this instance is still holding onto the player's object, after they rejoin, a
+     * new object is Player object is created and the old one becomes useless
+     *
+     * @param player the new Player object
+     */
+    public void updatePlayerObject(Player player) {
+        this.player = player;
+    }
+
+    /**
      * This method is invoked when a player dies by natural means, i.e. is not killed by other player
      */
     public void kill() {
         Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(plugin, this, player.getLastDamageCause()));
+    }
+
+    /**
+     * This method is invoked when a player is killed by the server thus, no death cause is specified
+     */
+    public void killCauseless() {
+        Bukkit.getPluginManager().callEvent(new BedwarsPlayerDeathEvent(plugin, this, null));
     }
 
     /**
@@ -93,6 +110,10 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      */
     public void kill(Player killer) {
         Bukkit.getPluginManager().callEvent(new BedwarsPlayerKillEvent(plugin, this, player.getLastDamageCause(), toBedwarsPlayer(killer)));
+    }
+
+    public boolean isEliminated() {
+        return !team.getNonEliminatedPlayers().contains(this);
     }
 
     public void shout(Component component) {
@@ -183,6 +204,18 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
             if (bedwarsPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return Optional.of(bedwarsPlayer);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BedwarsPlayer that)) return false;
+        return player.getUniqueId().equals(that.player.getUniqueId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(player);
     }
 
     @Override

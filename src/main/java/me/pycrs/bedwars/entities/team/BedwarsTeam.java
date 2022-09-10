@@ -28,7 +28,7 @@ public class BedwarsTeam {
     private final TeamColor teamColor;
     private final TeamUpgrades upgrades;
     // The boolean value determines if the player is eliminated from the team, i.e. if true, the player is eliminated, if false they are not
-    private final Map<BedwarsPlayer, Boolean> players;
+    public final Map<BedwarsPlayer, Boolean> players;
     private final Forge forge;
     private final Location spawn, teamChest, bedHead, bedFoot;
     private final Area baseArea;
@@ -92,7 +92,7 @@ public class BedwarsTeam {
 
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
         players.put(bedwarsPlayer, true);
-        if (getAlivePlayers().isEmpty())
+        if (getNonEliminatedPlayers().isEmpty())
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(plugin, this));
     }
 
@@ -138,7 +138,7 @@ public class BedwarsTeam {
     }
 
     private void checkEmptyTeam() {
-        if (getAlivePlayers().isEmpty())
+        if (getNonEliminatedPlayers().isEmpty() || getOnlinePlayers().isEmpty())
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(plugin, this));
     }
 
@@ -170,11 +170,25 @@ public class BedwarsTeam {
         return teamColor;
     }
 
+    /**
+     * @return list of all players that are ONLINE (includes eliminated players - spectators)
+     */
     public List<BedwarsPlayer> getOnlinePlayers() {
-        return players.keySet().stream().filter(bedwarsPlayer -> bedwarsPlayer.getPlayer().isOnline()).collect(Collectors.toList());
+        return players.keySet().stream().filter(bedwarsPlayer -> bedwarsPlayer.getPlayer().isOnline()).toList();
     }
 
-    public List<BedwarsPlayer> getAlivePlayers() {
+    /**
+     * @return a list of all online players that are currently playing (if a team of
+     * 4 gets their bed broken and two people die, size of this list will be 2)
+     */
+    public List<BedwarsPlayer> getActivePlayers() {
+        return getNonEliminatedPlayers().stream().filter(bedwarsPlayer -> bedwarsPlayer.getPlayer().isOnline()).toList();
+    }
+
+    /**
+     * @return list of all players that hasn't been yet eliminated (includes offline players)
+     */
+    public List<BedwarsPlayer> getNonEliminatedPlayers() {
         return players.entrySet().stream().filter(entry -> !entry.getValue()).map(Map.Entry::getKey).toList();
     }
 

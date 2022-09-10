@@ -20,45 +20,46 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
     // TODO: 8/10/2022 rework to use audience
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
-        if (!Bedwars.getGameStage().isGameInProgress()) {
+        if (Bedwars.getGameStage().isLobby()) {
             // Send to everyone
             event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
                     .append(sourceDisplayName)
                     .append(Component.text(": ", NamedTextColor.WHITE))
                     .append(message));
-            return;
-        }
-
-        Optional<BedwarsPlayer> potentialBedwarsPlayer = BedwarsPlayer.of(event.getPlayer());
-        if (potentialBedwarsPlayer.isEmpty() || potentialBedwarsPlayer.get().isSpectating()) {
-            event.setCancelled(true);
-            plugin.getPlayers().stream()
-                    .filter(BedwarsPlayer::isSpectating)
-                    .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
-                            .append(event.getPlayer().displayName())
-                            .append(Component.text(": ", NamedTextColor.WHITE))
-                            .append(event.message().color(NamedTextColor.WHITE))));
-        } else {
-            BedwarsPlayer bedwarsSender = potentialBedwarsPlayer.get();
-            if (Settings.mode == Mode.SOLO) {
-                event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
-                        .append(bedwarsSender.getLevel().toComponent())
-                        .append(Component.space())
-                        .append(sourceDisplayName)
-                        .append(Component.text(": ", NamedTextColor.WHITE))
-                        .append(message));
-            } else {
-                // Send to team members and spectators
+        } else if (Bedwars.getGameStage().isGameInProgress()) {
+            Optional<BedwarsPlayer> potentialBedwarsSender = BedwarsPlayer.of(event.getPlayer());
+            if (potentialBedwarsSender.isEmpty() || potentialBedwarsSender.get().isSpectating()) {
+                // The player hasn't been there when the game started, or they're spectating
                 event.setCancelled(true);
-                plugin.getPlayers().forEach(bedwarsPlayer -> {
-                    if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(bedwarsSender))
-                        bedwarsPlayer.getPlayer().sendMessage(Component.empty()
-                                .append(bedwarsSender.getLevel().toComponent())
-                                .append(Component.space())
+                plugin.getPlayers().stream()
+                        .filter(BedwarsPlayer::isSpectating)
+                        .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
                                 .append(event.getPlayer().displayName())
                                 .append(Component.text(": ", NamedTextColor.WHITE))
-                                .append(event.message()));
-                });
+                                .append(event.message().color(NamedTextColor.WHITE))));
+            } else {
+                // The player has been there when the game started
+                BedwarsPlayer bedwarsSender = potentialBedwarsSender.get();
+                if (Settings.mode == Mode.SOLO) {
+                    event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
+                            .append(bedwarsSender.getLevel().toComponent())
+                            .append(Component.space())
+                            .append(sourceDisplayName)
+                            .append(Component.text(": ", NamedTextColor.WHITE))
+                            .append(message));
+                } else {
+                    // Send to team members and spectators
+                    event.setCancelled(true);
+                    plugin.getPlayers().forEach(bedwarsPlayer -> {
+                        if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(bedwarsSender))
+                            bedwarsPlayer.getPlayer().sendMessage(Component.empty()
+                                    .append(bedwarsSender.getLevel().toComponent())
+                                    .append(Component.space())
+                                    .append(event.getPlayer().displayName())
+                                    .append(Component.text(": ", NamedTextColor.WHITE))
+                                    .append(event.message()));
+                    });
+                }
             }
         }
     }

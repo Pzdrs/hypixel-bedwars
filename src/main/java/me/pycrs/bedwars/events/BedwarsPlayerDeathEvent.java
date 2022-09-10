@@ -54,7 +54,7 @@ public class BedwarsPlayerDeathEvent extends BedwarsPlayerEvent implements Bedwa
     }
 
     public EntityDamageEvent.DamageCause getCause() {
-        return lastDamage.getCause();
+        return lastDamage == null ? null : lastDamage.getCause();
     }
 
     public void setMessage(Component message) {
