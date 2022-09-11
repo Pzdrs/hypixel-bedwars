@@ -2,10 +2,12 @@ package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
+import me.pycrs.bedwars.entities.team.BedwarsTeamList;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.InventoryWatcher;
+import me.pycrs.bedwars.entities.player.BedwarsPlayerList;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -13,14 +15,9 @@ import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.List;
 
 public class BedwarsGameEndListener extends BaseListener<Bedwars> {
     public BedwarsGameEndListener(Bedwars plugin) {
@@ -34,7 +31,7 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
             GameLoop.stop();
             InventoryWatcher.stop();
             // Sort the players by kills
-            plugin.getTeams().forEach(team -> {
+            BedwarsTeamList.getList().forEach(team -> {
                 // Title either announcing your victory or your loss
                 team.broadcastTitle(Title.title(
                         (team.getTeamColor() == event.getTeam().getTeamColor()) ?
@@ -51,18 +48,18 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
                         .append(team.getVictoryTeamMembersList()).append(Component.newline())
                         .append(Component.newline()).append(Component.newline())
                         .append(eligibleOfPlacement(0) ?
-                                Component.text(Utils.color("&e&l1st Killer &7-&r ")).append(BedwarsPlayer.all().sorted().get(0).getPlayer().displayName())
-                                        .append(Component.text(" - " + BedwarsPlayer.all().sorted().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                Component.text(Utils.color("&e&l1st Killer &7-&r ")).append(BedwarsPlayerList.getList().sorted().get(0).getPlayer().displayName())
+                                        .append(Component.text(" - " + BedwarsPlayerList.getList().sorted().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
                         .append(eligibleOfPlacement(1) ?
-                                Component.text(Utils.color("&6&l2nd Killer &7-&r ")).append(BedwarsPlayer.all().sorted().get(1).getPlayer().displayName())
-                                        .append(Component.text(" - " + BedwarsPlayer.all().sorted().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                Component.text(Utils.color("&6&l2nd Killer &7-&r ")).append(BedwarsPlayerList.getList().sorted().get(1).getPlayer().displayName())
+                                        .append(Component.text(" - " + BedwarsPlayerList.getList().sorted().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
                         .append(eligibleOfPlacement(2) ?
-                                Component.text(Utils.color("&c&l3rd Killer &7-&r ")).append(BedwarsPlayer.all().sorted().get(2).getPlayer().displayName())
-                                        .append(Component.text(" - " + BedwarsPlayer.all().sorted().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                Component.text(Utils.color("&c&l3rd Killer &7-&r ")).append(BedwarsPlayerList.getList().sorted().get(2).getPlayer().displayName())
+                                        .append(Component.text(" - " + BedwarsPlayerList.getList().sorted().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
                         .append(Component.newline())
@@ -77,7 +74,7 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
 
     private boolean eligibleOfPlacement(int index) {
         try {
-            BedwarsPlayer bedwarsPlayer = BedwarsPlayer.all().sorted().get(index);
+            BedwarsPlayer bedwarsPlayer = BedwarsPlayerList.getList().sorted().get(index);
             return bedwarsPlayer.getStatistics().getCombinedKills() != 0;
         } catch (IndexOutOfBoundsException exception) {
             return false;

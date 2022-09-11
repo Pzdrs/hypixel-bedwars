@@ -2,6 +2,7 @@ package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
+import me.pycrs.bedwars.entities.team.BedwarsTeamList;
 import me.pycrs.bedwars.util.GameEvent;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
@@ -75,7 +76,7 @@ public final class GameLoop extends BedwarsRunnable {
                         .before(new GameEvent.Builder()
                                 .period(Settings.eventBedDestruction - 300)
                                 .broadcast(Component.text("All beds will be destroyed in 5 minutes!", NamedTextColor.RED, TextDecoration.BOLD)).build())
-                        .handle(() -> plugin.getTeams().forEach(BedwarsTeam::destroyBed)).build(),
+                        .handle(() -> BedwarsTeamList.getList().forEach(BedwarsTeam::destroyBed)).build(),
                 new GameEvent.Builder()
                         .period(Settings.eventSuddenDeath)
                         .handle(() -> {
@@ -86,7 +87,7 @@ public final class GameLoop extends BedwarsRunnable {
                         .handle(() -> {
                             // TODO: 7/20/2021 it's not suppose to be random i think there is some sort of formula for determining the winning team but i cannot find it anywhere
                             Bukkit.getServer().getPluginManager().callEvent(new BedwarsGameEndEvent(plugin, BedwarsGameEndEvent.Result.GAME_END,
-                                    plugin.getTeams().get(new Random().nextInt(plugin.getTeams().size()))));
+                                    BedwarsTeamList.getList().get(new Random().nextInt(BedwarsTeamList.getList().size()))));
                             cancel();
                         }).build()
         ));

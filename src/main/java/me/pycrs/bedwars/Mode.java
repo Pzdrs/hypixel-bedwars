@@ -1,5 +1,7 @@
 package me.pycrs.bedwars;
 
+import java.util.Optional;
+
 public enum Mode {
     SOLO(1, 8, 2, "Solo"),
     DOUBLES(2, 8,4, "Doubles"),
@@ -30,5 +32,13 @@ public enum Mode {
 
     public int getAmountOfTeams() {
         return amountOfTeams;
+    }
+
+    public static Optional<Mode> of(int teamSize) {
+        for (Mode mode : Mode.values()) {
+            if (mode.getTeamSize() == teamSize) return Optional.of(mode);
+        }
+        Bedwars.getInstance().getLogger().severe("A team can't have " + teamSize + " players. Supported team sizes: 1, 2, 3 or 4");
+        return Optional.empty();
     }
 }

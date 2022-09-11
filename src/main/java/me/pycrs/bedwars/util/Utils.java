@@ -2,6 +2,7 @@ package me.pycrs.bedwars.util;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
+import me.pycrs.bedwars.entities.player.BedwarsPlayerList;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
@@ -114,11 +115,11 @@ public class Utils {
         if (spectator) {
             BedwarsPlayer.PlayerListName.SPECTATOR.apply(player);
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
-            BedwarsPlayer.all().nonSpectators().forEach(p -> p.getPlayer().hidePlayer(plugin, player));
+            BedwarsPlayerList.getList().nonSpectators().forEach(p -> p.getPlayer().hidePlayer(plugin, player));
         } else {
             BedwarsPlayer.PlayerListName.IN_GAME.apply(player);
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-            BedwarsPlayer.all().forEach(p -> p.getPlayer().showPlayer(plugin, player));
+            BedwarsPlayerList.getList().forEach(p -> p.getPlayer().showPlayer(plugin, player));
         }
         player.setGameMode(GameMode.SURVIVAL);
         player.getInventory().clear();

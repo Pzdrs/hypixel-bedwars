@@ -7,6 +7,7 @@ import me.pycrs.bedwars.events.BedwarsTeamEliminationEvent;
 import me.pycrs.bedwars.generators.Forge;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;
+import me.pycrs.bedwars.entities.player.BedwarsPlayerList;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
@@ -149,7 +150,7 @@ public class BedwarsTeam {
 
         player.getStatistics().setBeds(player.getStatistics().getBeds() + 1);
         this.bedBreaker = player;
-        BedwarsPlayer.all().forEach(bedwarsPlayer -> {
+        BedwarsPlayerList.getList().forEach(bedwarsPlayer -> {
             if (isPartOfTeam(bedwarsPlayer)) {
                 bedwarsPlayer.getPlayer().showTitle(
                         Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("You will no longer respawn!")));
@@ -236,7 +237,7 @@ public class BedwarsTeam {
     }
 
     private boolean isFull() {
-        return players.size() == Settings.mode.getTeamSize();
+        return players.size() == Bedwars.getMode().getTeamSize();
     }
 
     public boolean isEliminated() {
@@ -304,24 +305,24 @@ public class BedwarsTeam {
                 }
             }
         }
-        return teams.stream().limit(Settings.mode.getAmountOfTeams()).collect(Collectors.toList());
+        return teams.stream().limit(Bedwars.getMode().getAmountOfTeams()).collect(Collectors.toList());
     }
 
     public static List<BedwarsPlayer> distributePlayers() {
         List<BedwarsPlayer> players = new ArrayList<>();
         Bedwars.getInstance().getServer().getOnlinePlayers().forEach(player -> {
-            for (BedwarsTeam team : Bedwars.getInstance().getTeams()) {
+            for (BedwarsTeam team : BedwarsTeamList.getList()) {
                 if (!team.isFull()) {
                     players.add(team.addPlayer(player));
                     break;
                 }
             }
         });
-        return Collections.unmodifiableList(players);
+        return players;
     }
 
     public static void removeEmptyTeams() {
-        Iterator<BedwarsTeam> iterator = Bedwars.getInstance().getTeams().iterator();
+        Iterator<BedwarsTeam> iterator = BedwarsTeamList.getList().iterator();
         while (iterator.hasNext()) {
             BedwarsTeam team = iterator.next();
             if (team.players.size() == 0) {

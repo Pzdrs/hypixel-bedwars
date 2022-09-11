@@ -2,6 +2,7 @@ package me.pycrs.bedwars.generators;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
+import me.pycrs.bedwars.entities.team.BedwarsTeamList;
 import me.pycrs.bedwars.util.BedwarsMap;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import org.bukkit.Bukkit;
@@ -96,7 +97,7 @@ public abstract class Generator {
     }
 
     public static int getProperty(String path, boolean isGeneratorSpeed) {
-        return (Settings.isSoloOrDoubles() ?
+        return (Bedwars.isSoloOrDoubles() ?
                 Bedwars.getInstance().getConfig().getInt("generators1&2." + path) :
                 Bedwars.getInstance().getConfig().getInt("generators3&4." + path)) * (isGeneratorSpeed ? 20 : 1);
     }
@@ -106,7 +107,7 @@ public abstract class Generator {
         switch (event.getItem().getItemStack().getType()) {
             case IRON_INGOT:
             case GOLD_INGOT:
-                Bedwars.getInstance().getTeams().forEach(team -> {
+                BedwarsTeamList.getList().forEach(team -> {
                     Location item = event.getItem().getLocation();
                     item.setY(team.getForge().location.getY());
                     if (team.getForge().location.distance(item) < 1) {

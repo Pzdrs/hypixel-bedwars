@@ -35,7 +35,7 @@ public class LobbyScoreboard extends GlobalBedwarsScoreboard {
                 .dynamicLine(new DynamicScoreboardLine("player_count", Component.text("Players:"), Component.space(), () -> Component.text()
                         .append(Component.text(Bukkit.getOnlinePlayers().size(), NamedTextColor.GREEN))
                         .append(Component.text("/"))
-                        .append(Component.text(Settings.mode.getTeamSize() * Settings.mode.getAmountOfTeams(), NamedTextColor.GREEN)).build()
+                        .append(Component.text(Bedwars.getMode().getTeamSize() * Bedwars.getMode().getAmountOfTeams(), NamedTextColor.GREEN)).build()
                 ))
                 .newline()
                 .dynamicLine(new DynamicScoreboardLine("countdown", () -> {
@@ -47,7 +47,7 @@ public class LobbyScoreboard extends GlobalBedwarsScoreboard {
                 )
                 .newline()
                 .line(new SimpleScoreboardLine(Component.text("Mode: ")
-                        .append(Component.text(Settings.mode.getDisplayName(), NamedTextColor.GREEN))
+                        .append(Component.text(Bedwars.getMode().getDisplayName(), NamedTextColor.GREEN))
                 ))
                 .line(new SimpleScoreboardLine(Component.text("Version: ")
                         .append(Component.text("v1.6", NamedTextColor.GREEN))

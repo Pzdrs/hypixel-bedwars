@@ -44,7 +44,7 @@ public class PlayerQuitListener extends BaseListener<Bedwars> {
             case LOBBY_COUNTDOWN -> {
                 onLobbyQuit(event, player);
                 // If there is not enough people for the game to start, cancel the countdown
-                if (actualPlayerAmount < Settings.mode.getMinPlayers()) {
+                if (actualPlayerAmount < Bedwars.getMode().getMinPlayers()) {
                     LobbyLoop.stop();
                     Bukkit.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
                     Utils.inGameBroadcast(Component.text("We don't have enough players! Start cancelled.", NamedTextColor.RED));
@@ -76,7 +76,7 @@ public class PlayerQuitListener extends BaseListener<Bedwars> {
                 }
                 // If someone leaves with their bed being gone, they are eliminated
                 // Also, if the game is in SOLO mode and the person disconnects, there is no one else in the team, so the team gets eliminated
-                if (!team.hasBed() || (Settings.mode == Mode.SOLO && Settings.SOLO_WIPE_EMPTY_TEAMS))
+                if (!team.hasBed() || (Bedwars.getMode() == Mode.SOLO && Settings.SOLO_WIPE_EMPTY_TEAMS))
                     // A tiny delay needs to be added so that the quit message is displayed before a potential team elimination message
                     Bukkit.getScheduler().runTaskLater(plugin, () -> team.eliminatePlayer(bedwarsPlayer), 1);
             });

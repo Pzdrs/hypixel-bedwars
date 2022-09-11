@@ -5,7 +5,7 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Mode;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
-import me.pycrs.bedwars.util.Utils;
+import me.pycrs.bedwars.entities.player.BedwarsPlayerList;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,7 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
             if (potentialBedwarsSender.isEmpty() || potentialBedwarsSender.get().isSpectating()) {
                 // The player hasn't been there when the game started, or they're spectating
                 event.setCancelled(true);
-                BedwarsPlayer.all().spectators()
+                BedwarsPlayerList.getList().spectators()
                         .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(
                                 Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
                                         .append(event.getPlayer().displayName())
@@ -41,7 +41,7 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
             } else {
                 // The player has been there when the game started
                 BedwarsPlayer bedwarsSender = potentialBedwarsSender.get();
-                if (Settings.mode == Mode.SOLO) {
+                if (Bedwars.getMode() == Mode.SOLO) {
                     event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
                             .append(bedwarsSender.getLevel().toComponent())
                             .append(Component.space())
@@ -51,7 +51,7 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
                 } else {
                     // Send to team members and spectators
                     event.setCancelled(true);
-                    BedwarsPlayer.all()
+                    BedwarsPlayerList.getList()
                             .filter(bedwarsPlayer -> bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(bedwarsSender))
                             .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text()
                                     .append(bedwarsSender.getLevel().toComponent())

@@ -3,6 +3,7 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.entities.team.BedwarsTeamList;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -51,7 +52,7 @@ public class PlayerInteractListener extends BaseListener<Bedwars> {
                 return;
             } else if (event.getClickedBlock() instanceof Chest) {
                 if (Bedwars.getGameStage().isGameInProgress()) {
-                    for (BedwarsTeam team : plugin.getTeams()) {
+                    for (BedwarsTeam team : BedwarsTeamList.getList()) {
                         if (team.getTeamChestLocation().equals(event.getClickedBlock().getLocation()) &&
                                 !team.isPartOfTeam(event.getPlayer()) && !team.isEliminated()) {
                             event.getPlayer().sendMessage(

@@ -2,6 +2,7 @@ package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
+import me.pycrs.bedwars.entities.team.BedwarsTeamList;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.events.BedwarsTeamEliminationEvent;
 import me.pycrs.bedwars.listeners.BaseListener;
@@ -11,12 +12,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BedwarsTeamEliminationListener extends BaseListener<Bedwars> {
     public BedwarsTeamEliminationListener(Bedwars plugin) {
@@ -31,7 +29,7 @@ public class BedwarsTeamEliminationListener extends BaseListener<Bedwars> {
                 .append(event.getTeam().getTeamColor().getDisplay())
                 .append(Component.text(" has been eliminated!", NamedTextColor.RED))
                 .append(Component.newline()));
-        List<BedwarsTeam> teams = plugin.getTeams().stream().filter(team -> !team.isEliminated()).toList();
+        List<BedwarsTeam> teams = BedwarsTeamList.getList().alive();
         if (teams.size() == 1)
             Bukkit.getServer().getPluginManager().callEvent(new BedwarsGameEndEvent(plugin, BedwarsGameEndEvent.Result.NORMAL, teams.get(0)));
     }

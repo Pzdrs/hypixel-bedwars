@@ -1,8 +1,8 @@
 package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.listeners.PlayerInteractListener;
+import me.pycrs.bedwars.entities.player.BedwarsPlayerList;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class InventoryWatcher extends BedwarsRunnable {
 
     @Override
     public void run() {
-        BedwarsPlayer.all().nonSpectators().forEach(bedwarsPlayer -> {
+        BedwarsPlayerList.getList().nonSpectators().forEach(bedwarsPlayer -> {
             Player player = bedwarsPlayer.getPlayer();
 
             // Make sure the player always has the latest armor

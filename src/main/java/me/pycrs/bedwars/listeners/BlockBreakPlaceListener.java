@@ -3,6 +3,7 @@ package me.pycrs.bedwars.listeners;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
+import me.pycrs.bedwars.entities.team.BedwarsTeamList;
 import me.pycrs.bedwars.events.BedwarsBedBreakEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.util.Utils;
@@ -43,7 +44,7 @@ public class BlockBreakPlaceListener extends BaseListener<Bedwars> {
                 return;
             }
         }
-        for (BedwarsTeam team : plugin.getTeams()) {
+        for (BedwarsTeam team : BedwarsTeamList.getList()) {
             if (team.getBaseArea().isInArea(event.getBlock().getLocation())) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(Component.text("You can't place blocks here!", NamedTextColor.RED));
@@ -59,7 +60,7 @@ public class BlockBreakPlaceListener extends BaseListener<Bedwars> {
             // If a spectator or waiting in lobby - just cancel and say nothing
             event.setCancelled(true);
         } else if (event.getBlock().getBlockData() instanceof Bed) {
-            for (BedwarsTeam team : plugin.getTeams())
+            for (BedwarsTeam team : BedwarsTeamList.getList())
                 if (event.getBlock().getLocation().equals(team.getBedHeadLocation()) || event.getBlock().getLocation().equals(team.getBedFootLocation())) {
                     Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(plugin, team, event));
                     return;

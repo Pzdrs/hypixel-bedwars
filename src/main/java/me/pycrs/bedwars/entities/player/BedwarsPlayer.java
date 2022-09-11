@@ -10,7 +10,6 @@ import me.pycrs.bedwars.entities.player.level.HypixelBedwarsLevel;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
-import me.pycrs.bedwars.util.BedwarsPlayerList;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -28,16 +27,6 @@ import java.util.*;
 import java.util.function.Function;
 
 public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
-    private static BedwarsPlayerList PLAYERS;
-
-    public static BedwarsPlayerList all() {
-        return PLAYERS;
-    }
-
-    public static void setPlayers(BedwarsPlayerList players) {
-        BedwarsPlayer.PLAYERS = players;
-    }
-
     public enum PlayerListName {
         LOBBY(p -> p.displayName().color(NamedTextColor.GRAY)),
         SPECTATOR(p -> p.displayName().color(NamedTextColor.GRAY)),
@@ -221,7 +210,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      * @deprecated Legacy method, use {@link BedwarsPlayer#of(Player)} instead
      */
     public static BedwarsPlayer toBedwarsPlayer(Player player) {
-        return BedwarsPlayer.all().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
+        return BedwarsPlayerList.getList().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 
     /**
@@ -236,7 +225,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     }
 
     public static Optional<BedwarsPlayer> of(Player player) {
-        for (BedwarsPlayer bedwarsPlayer : PLAYERS) {
+        for (BedwarsPlayer bedwarsPlayer : BedwarsPlayerList.getList()) {
             if (bedwarsPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return Optional.of(bedwarsPlayer);
         }
         return Optional.empty();
