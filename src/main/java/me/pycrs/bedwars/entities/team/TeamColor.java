@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Color;
+import org.bukkit.entity.Player;
 
 public enum TeamColor {
     RED(Color.RED, NamedTextColor.RED),
@@ -45,8 +46,12 @@ public enum TeamColor {
         return Component.text(name().charAt(0), textColor);
     }
 
-    public Component getTeamLetterBold() {
-        return getTeamLetter().decorate(TextDecoration.BOLD);
+    public Component getPlayerListName(Player player) {
+        return Component.text()
+                .append(getTeamLetter().decorate(TextDecoration.BOLD))
+                .append(Component.space())
+                .append(player.displayName().color(textColor))
+                .build();
     }
 
     public Component getDisplay() {

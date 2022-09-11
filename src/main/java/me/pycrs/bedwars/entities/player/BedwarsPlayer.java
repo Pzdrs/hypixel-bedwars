@@ -10,6 +10,7 @@ import me.pycrs.bedwars.entities.player.level.HypixelBedwarsLevel;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
+import me.pycrs.bedwars.util.BedwarsPlayerList;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -24,8 +25,38 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 
 public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
+    private static BedwarsPlayerList PLAYERS;
+
+    public static BedwarsPlayerList all() {
+        return PLAYERS;
+    }
+
+    public static void setPlayers(BedwarsPlayerList players) {
+        BedwarsPlayer.PLAYERS = players;
+    }
+
+    public enum PlayerListName {
+        LOBBY(p -> p.displayName().color(NamedTextColor.GRAY)),
+        SPECTATOR(p -> p.displayName().color(NamedTextColor.GRAY)),
+        IN_GAME(p -> BedwarsPlayer.of(p)
+                .map(bedwarsPlayer -> bedwarsPlayer.getTeam().getTeamColor().getPlayerListName(p))
+                .orElseGet(() -> LOBBY.function.apply(p))
+        );
+
+        private final Function<Player, Component> function;
+
+        PlayerListName(Function<Player, Component> function) {
+            this.function = function;
+        }
+
+        public void apply(Player player) {
+            player.playerListName(function.apply(player));
+        }
+    }
+
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
     private final Bedwars plugin;
@@ -139,13 +170,11 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     public void setSpectator(boolean spectator) {
         this.spectating = spectator;
-        /*player.playerListName(spectator ?
-                player.displayName().color(NamedTextColor.GRAY) :
-                Component.empty()
-                        .append(team.getTeamColor().getTeamLetterBold())
-                        .append(Component.space())
-                        .append(player.displayName()));*/
         Utils.applySpectator(player, spectator, plugin);
+    }
+
+    public void changePlayerListName(PlayerListName name) {
+        name.apply(player);
     }
 
     public HypixelBedwarsLevel getLevel() {
@@ -192,7 +221,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
      * @deprecated Legacy method, use {@link BedwarsPlayer#of(Player)} instead
      */
     public static BedwarsPlayer toBedwarsPlayer(Player player) {
-        return Bedwars.getInstance().getPlayers().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
+        return BedwarsPlayer.all().stream().filter(bPlayer -> bPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())).findFirst().orElse(null);
     }
 
     /**
@@ -207,7 +236,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     }
 
     public static Optional<BedwarsPlayer> of(Player player) {
-        for (BedwarsPlayer bedwarsPlayer : Bedwars.getInstance().getPlayers()) {
+        for (BedwarsPlayer bedwarsPlayer : PLAYERS) {
             if (bedwarsPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return Optional.of(bedwarsPlayer);
         }
         return Optional.empty();

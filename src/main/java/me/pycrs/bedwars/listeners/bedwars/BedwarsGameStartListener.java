@@ -2,6 +2,7 @@ package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.Settings;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.player.level.BedwarsPrestige;
 import me.pycrs.bedwars.entities.player.level.HypixelExperienceCalculator;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
@@ -11,6 +12,7 @@ import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.scoreboard.LobbyScoreboard;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.InventoryWatcher;
+import me.pycrs.bedwars.util.BedwarsPlayerList;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,10 +25,10 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
     @EventHandler
     public void onGameStart(BedwarsGameStartEvent event) {
         Bedwars.setGameStage(Bedwars.GameStage.GAME_IN_PROGRESS);
-        BedwarsTeam.distributePlayers();
+        BedwarsPlayer.setPlayers(new BedwarsPlayerList(BedwarsTeam.distributePlayers()));
 
         // Initial setup
-        plugin.getPlayers().forEach(bedwarsPlayer -> {
+        BedwarsPlayer.all().forEach(bedwarsPlayer -> {
             Player player = bedwarsPlayer.getPlayer();
             LobbyScoreboard.get().removePlayer(player);
             player.sendMessage(Settings.WELCOME_MESSAGE);

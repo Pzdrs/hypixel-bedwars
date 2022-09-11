@@ -20,23 +20,24 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
     // TODO: 8/10/2022 rework to use audience
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
-        if (Bedwars.getGameStage().isLobby()) {
+        if (!Bedwars.getGameStage().isGameInProgress()) {
             // Send to everyone
             event.renderer((source, sourceDisplayName, message, viewer) -> Component.empty()
                     .append(sourceDisplayName)
                     .append(Component.text(": ", NamedTextColor.WHITE))
                     .append(message));
-        } else if (Bedwars.getGameStage().isGameInProgress()) {
+        } else {
             Optional<BedwarsPlayer> potentialBedwarsSender = BedwarsPlayer.of(event.getPlayer());
             if (potentialBedwarsSender.isEmpty() || potentialBedwarsSender.get().isSpectating()) {
                 // The player hasn't been there when the game started, or they're spectating
                 event.setCancelled(true);
-                plugin.getPlayers().stream()
-                        .filter(BedwarsPlayer::isSpectating)
-                        .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
-                                .append(event.getPlayer().displayName())
-                                .append(Component.text(": ", NamedTextColor.WHITE))
-                                .append(event.message().color(NamedTextColor.WHITE))));
+                BedwarsPlayer.all().spectators()
+                        .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(
+                                Component.text("[SPECTATOR] ", NamedTextColor.GRAY)
+                                        .append(event.getPlayer().displayName())
+                                        .append(Component.text(": ", NamedTextColor.WHITE))
+                                        .append(event.message().color(NamedTextColor.WHITE))
+                        ));
             } else {
                 // The player has been there when the game started
                 BedwarsPlayer bedwarsSender = potentialBedwarsSender.get();
@@ -50,15 +51,15 @@ public class AsyncChatListener extends BaseListener<Bedwars> {
                 } else {
                     // Send to team members and spectators
                     event.setCancelled(true);
-                    plugin.getPlayers().forEach(bedwarsPlayer -> {
-                        if (bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(bedwarsSender))
-                            bedwarsPlayer.getPlayer().sendMessage(Component.empty()
+                    BedwarsPlayer.all()
+                            .filter(bedwarsPlayer -> bedwarsPlayer.isSpectating() || bedwarsPlayer.getTeam().isPartOfTeam(bedwarsSender))
+                            .forEach(bedwarsPlayer -> bedwarsPlayer.getPlayer().sendMessage(Component.text()
                                     .append(bedwarsSender.getLevel().toComponent())
                                     .append(Component.space())
                                     .append(event.getPlayer().displayName())
                                     .append(Component.text(": ", NamedTextColor.WHITE))
-                                    .append(event.message()));
-                    });
+                                    .append(event.message()).build())
+                            );
                 }
             }
         }

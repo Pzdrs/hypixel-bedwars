@@ -13,11 +13,14 @@ import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
 
 public class BedwarsGameEndListener extends BaseListener<Bedwars> {
     public BedwarsGameEndListener(Bedwars plugin) {
@@ -27,11 +30,10 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL || event.getResult() == BedwarsGameEndEvent.Result.GAME_END) {
-            GameLoop.stop();
             Bedwars.setGameStage(Bedwars.GameStage.GAME_FINISHED);
+            GameLoop.stop();
             InventoryWatcher.stop();
             // Sort the players by kills
-            Collections.sort(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {
                 // Title either announcing your victory or your loss
                 team.broadcastTitle(Title.title(
@@ -49,30 +51,33 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
                         .append(team.getVictoryTeamMembersList()).append(Component.newline())
                         .append(Component.newline()).append(Component.newline())
                         .append(eligibleOfPlacement(0) ?
-                                Component.text(Utils.color("&e&l1st Killer &7-&r ")).append(plugin.getPlayers().get(0).getPlayer().displayName())
-                                        .append(Component.text(" - " + plugin.getPlayers().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                Component.text(Utils.color("&e&l1st Killer &7-&r ")).append(BedwarsPlayer.all().sorted().get(0).getPlayer().displayName())
+                                        .append(Component.text(" - " + BedwarsPlayer.all().sorted().get(0).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
                         .append(eligibleOfPlacement(1) ?
-                                Component.text(Utils.color("&6&l2nd Killer &7-&r ")).append(plugin.getPlayers().get(1).getPlayer().displayName())
-                                        .append(Component.text(" - " + plugin.getPlayers().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                Component.text(Utils.color("&6&l2nd Killer &7-&r ")).append(BedwarsPlayer.all().sorted().get(1).getPlayer().displayName())
+                                        .append(Component.text(" - " + BedwarsPlayer.all().sorted().get(1).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
                         .append(eligibleOfPlacement(2) ?
-                                Component.text(Utils.color("&c&l3rd Killer &7-&r ")).append(plugin.getPlayers().get(2).getPlayer().displayName())
-                                        .append(Component.text(" - " + plugin.getPlayers().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
+                                Component.text(Utils.color("&c&l3rd Killer &7-&r ")).append(BedwarsPlayer.all().sorted().get(2).getPlayer().displayName())
+                                        .append(Component.text(" - " + BedwarsPlayer.all().sorted().get(2).getStatistics().getCombinedKills(), NamedTextColor.GRAY))
                                         .append(Component.newline()) :
                                 Component.empty())
                         .append(Component.newline())
                         .append(Utils.nAmountOfSymbols("\u25ac", 80).color(NamedTextColor.GREEN)));
             });
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, Bukkit::reload, plugin.getConfig().getInt("rebootDelay") * 20L);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                //Bukkit.getOnlinePlayers().forEach(player -> player.kick(Component.text("The server is restarting...")));
+                Bukkit.reload();
+            }, plugin.getConfig().getInt("rebootDelay") * 20L);
         }
     }
 
     private boolean eligibleOfPlacement(int index) {
         try {
-            BedwarsPlayer bedwarsPlayer = plugin.getPlayers().get(index);
+            BedwarsPlayer bedwarsPlayer = BedwarsPlayer.all().sorted().get(index);
             return bedwarsPlayer.getStatistics().getCombinedKills() != 0;
         } catch (IndexOutOfBoundsException exception) {
             return false;

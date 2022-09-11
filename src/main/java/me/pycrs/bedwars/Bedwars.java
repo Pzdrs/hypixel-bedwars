@@ -47,8 +47,8 @@ public final class Bedwars extends JavaPlugin {
 
     private static GameStage gameStage = GameStage.LOBBY_WAITING;
     private static BedwarsMap map;
-    private List<BedwarsPlayer> players;
-    private List<BedwarsTeam> teams;
+    private static List<BedwarsPlayer> players;
+    private static List<BedwarsTeam> teams;
 
     public static Bedwars getInstance() {
         return instance;
@@ -90,8 +90,7 @@ public final class Bedwars extends JavaPlugin {
 
         // Teams setup
         Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
-        this.players = new ArrayList<>();
-        this.teams = BedwarsTeam.initTeams(mapObject.getJSONArray("teams"));
+        teams = BedwarsTeam.initTeams(mapObject.getJSONArray("teams"));
 
         getServer().getOnlinePlayers().forEach(LobbyScoreboard.get()::addPlayer);
     }

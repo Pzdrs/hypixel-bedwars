@@ -73,7 +73,8 @@ public class PlayerJoinListener extends BaseListener<Bedwars> {
                         Utils.color("&e(&b" + Bukkit.getOnlinePlayers().size() + "&e/&b" +
                                 Settings.mode.getTeamSize() * Settings.mode.getAmountOfTeams() + "&e)!"))));
         // Display name
-        player.displayName(Component.text(event.getPlayer().getName(), NamedTextColor.GRAY));
+        player.displayName(player.displayName().color(NamedTextColor.GRAY));
+        BedwarsPlayer.PlayerListName.LOBBY.apply(player);
         // If enough players, start the countdown
         if (Bukkit.getOnlinePlayers().size() >= Settings.mode.getMinPlayers()) {
             // If enough players are online, start the countdown

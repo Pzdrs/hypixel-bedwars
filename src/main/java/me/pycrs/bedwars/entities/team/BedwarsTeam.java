@@ -66,12 +66,11 @@ public class BedwarsTeam {
         forge.setTeam(this);
     }
 
-    public void addPlayer(Player player) {
+    public BedwarsPlayer addPlayer(Player player) {
         BedwarsPlayer bedwarsPlayer = new BedwarsPlayer(player, this);
-        plugin.getPlayers().add(bedwarsPlayer);
         players.put(bedwarsPlayer, false);
-        player.playerListName(Component.text(player.getName(), teamColor.getTextColor()));
         team.addEntry(player.getName());
+        return bedwarsPlayer;
     }
 
     public void broadcastMessage(Component message) {
@@ -150,7 +149,7 @@ public class BedwarsTeam {
 
         player.getStatistics().setBeds(player.getStatistics().getBeds() + 1);
         this.bedBreaker = player;
-        Bedwars.getInstance().getPlayers().forEach(bedwarsPlayer -> {
+        BedwarsPlayer.all().forEach(bedwarsPlayer -> {
             if (isPartOfTeam(bedwarsPlayer)) {
                 bedwarsPlayer.getPlayer().showTitle(
                         Title.title(Component.text("BED DESTROYED!", NamedTextColor.RED), Component.text("You will no longer respawn!")));
@@ -308,15 +307,17 @@ public class BedwarsTeam {
         return teams.stream().limit(Settings.mode.getAmountOfTeams()).collect(Collectors.toList());
     }
 
-    public static void distributePlayers() {
+    public static List<BedwarsPlayer> distributePlayers() {
+        List<BedwarsPlayer> players = new ArrayList<>();
         Bedwars.getInstance().getServer().getOnlinePlayers().forEach(player -> {
             for (BedwarsTeam team : Bedwars.getInstance().getTeams()) {
                 if (!team.isFull()) {
-                    team.addPlayer(player);
+                    players.add(team.addPlayer(player));
                     break;
                 }
             }
         });
+        return Collections.unmodifiableList(players);
     }
 
     public static void removeEmptyTeams() {

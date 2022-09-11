@@ -1,9 +1,7 @@
 package me.pycrs.bedwars.util;
 
 import me.pycrs.bedwars.Bedwars;
-import me.pycrs.bedwars.entities.player.level.HypixelBedwarsLevel;
-import me.pycrs.bedwars.entities.player.level.HypixelExperienceCalculator;
-import me.pycrs.bedwars.entities.player.level.PrestigeStyle;
+import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.WordUtils;
@@ -114,15 +112,15 @@ public class Utils {
     public static void applySpectator(Player player, boolean spectator, Bedwars plugin) {
         // Better invisibility
         if (spectator) {
+            BedwarsPlayer.PlayerListName.SPECTATOR.apply(player);
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
-            plugin.getPlayers().forEach(p -> {
-                if (!p.isSpectating()) p.getPlayer().hidePlayer(plugin, player);
-            });
+            BedwarsPlayer.all().nonSpectators().forEach(p -> p.getPlayer().hidePlayer(plugin, player));
         } else {
+            BedwarsPlayer.PlayerListName.IN_GAME.apply(player);
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-            plugin.getPlayers().forEach(p -> p.getPlayer().showPlayer(plugin, player));
+            BedwarsPlayer.all().forEach(p -> p.getPlayer().showPlayer(plugin, player));
         }
-        player.setGameMode(spectator ? GameMode.SPECTATOR : GameMode.SURVIVAL);
+        player.setGameMode(GameMode.SURVIVAL);
         player.getInventory().clear();
         player.setHealth(20);
         player.setInvulnerable(spectator);
