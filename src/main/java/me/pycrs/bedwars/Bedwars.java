@@ -10,6 +10,7 @@ import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.InventoryWatcher;
 import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.BedwarsMap;
+import me.pycrs.bedwars.scoreboard.LobbyScoreboard;
 import me.pycrs.bedwars.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,13 +46,9 @@ public final class Bedwars extends JavaPlugin {
     private static Bedwars instance;
 
     private static GameStage gameStage = GameStage.LOBBY_WAITING;
-    private BedwarsMap map;
+    private static BedwarsMap map;
     private List<BedwarsPlayer> players;
     private List<BedwarsTeam> teams;
-
-    public static LobbyLoop lobbyLoop;
-    public static GameLoop gameLoop;
-    public static InventoryWatcher inventoryWatcher;
 
     public static Bedwars getInstance() {
         return instance;
@@ -88,13 +85,20 @@ public final class Bedwars extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        JSONObject map = potentialMap.get();
-        this.map = BedwarsMap.createMap(map);
+        JSONObject mapObject = potentialMap.get();
+        map = BedwarsMap.createMap(mapObject);
 
         // Teams setup
         Bukkit.getScoreboardManager().getMainScoreboard().getTeams().forEach(Team::unregister);
         this.players = new ArrayList<>();
-        this.teams = BedwarsTeam.initTeams(map.getJSONArray("teams"));
+        this.teams = BedwarsTeam.initTeams(mapObject.getJSONArray("teams"));
+
+        getServer().getOnlinePlayers().forEach(LobbyScoreboard.get()::addPlayer);
+    }
+
+    @Override
+    public void onDisable() {
+        getServer().getOnlinePlayers().forEach(LobbyScoreboard.get()::removePlayer);
     }
 
     public static GameStage getGameStage() {
@@ -105,23 +109,12 @@ public final class Bedwars extends JavaPlugin {
         return players;
     }
 
-    public BedwarsMap getMap() {
+    public static BedwarsMap getMap() {
         return map;
     }
 
     public List<BedwarsTeam> getTeams() {
         return teams;
-    }
-
-    public static void startLobbyCountdown() {
-        if (lobbyLoop == null) lobbyLoop = new LobbyLoop(Settings.lobbyCountdown);
-        lobbyLoop.runTaskTimer(Bedwars.getInstance(), 0, 20);
-        setGameStage(GameStage.LOBBY_COUNTDOWN);
-    }
-
-    public static void cancelLobbyCountdown() {
-        lobbyLoop.cancel();
-        lobbyLoop = null;
     }
 
     public static void setGameStage(GameStage gameStage) {

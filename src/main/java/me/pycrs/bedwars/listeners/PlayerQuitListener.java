@@ -6,6 +6,8 @@ import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
+import me.pycrs.bedwars.scoreboard.LobbyScoreboard;
+import me.pycrs.bedwars.tasks.LobbyLoop;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -30,17 +32,29 @@ public class PlayerQuitListener extends BaseListener<Bedwars> {
         int actualPlayerAmount = Bukkit.getOnlinePlayers().size() - 1;
 
         switch (Bedwars.getGameStage()) {
-            case LOBBY_WAITING -> onLobbyQuit(event, player);
+            case LOBBY_WAITING -> {
+                onLobbyQuit(event, player);
+                LobbyScoreboard.get().removePlayer(player);
+                // A tiny delay is needed because when Bukkit.getOnlinePlayers() is called here, the player disconnecting hasn't reflected on the list yet
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    LobbyScoreboard.get().getBody().updateLine("player_count");
+                    LobbyScoreboard.get().getBody().updateLine("countdown");
+                }, 1);
+            }
             case LOBBY_COUNTDOWN -> {
                 onLobbyQuit(event, player);
                 // If there is not enough people for the game to start, cancel the countdown
                 if (actualPlayerAmount < Settings.mode.getMinPlayers()) {
-                    Bedwars.cancelLobbyCountdown();
+                    LobbyLoop.stop();
                     Bukkit.getServer().playSound(Sound.sound(org.bukkit.Sound.BLOCK_NOTE_BLOCK_HAT, Sound.Source.BLOCK, 1f, 1f));
                     Utils.inGameBroadcast(Component.text("We don't have enough players! Start cancelled.", NamedTextColor.RED));
                     Bukkit.getServer().showTitle(Title.title(Component.text("Waiting for more players...", NamedTextColor.RED), Component.text().asComponent(),
                             Title.Times.of(Duration.ZERO, Duration.ofMillis(2000), Duration.ZERO)));
                 }
+                // A tiny delay is needed because when Bukkit.getOnlinePlayers() is called here, the player disconnecting hasn't reflected on the list yet
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    LobbyScoreboard.get().getBody().updateLine("player_count");
+                }, 1);
             }
             case GAME_IN_PROGRESS -> BedwarsPlayer.of(player).ifPresent(bedwarsPlayer -> {
                 BedwarsTeam team = bedwarsPlayer.getTeam();
@@ -73,5 +87,6 @@ public class PlayerQuitListener extends BaseListener<Bedwars> {
         // Quit message
         event.quitMessage(player.displayName()
                 .append(Component.text(" has quit! ", NamedTextColor.YELLOW)));
+        LobbyScoreboard.get().removePlayer(player);
     }
 }

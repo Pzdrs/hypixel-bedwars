@@ -34,7 +34,7 @@ public class EntityPickupItemListener extends BaseListener<Bedwars> {
             return;
         }
 
-        if (Generator.pickupCheck(plugin.getMap(), event)) return;
+        if (Generator.pickupCheck(Bedwars.getMap(), event)) return;
 
         // Check if the item is marked as freshly spawned
         InventoryUtils.getPersistentData(itemStack, Generator.RESOURCE_MARKER_KEY, PersistentDataType.INTEGER, resourceState -> {

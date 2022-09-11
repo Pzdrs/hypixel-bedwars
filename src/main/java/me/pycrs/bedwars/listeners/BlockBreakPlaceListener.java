@@ -29,14 +29,14 @@ public class BlockBreakPlaceListener extends BaseListener<Bedwars> {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
         if (!Bedwars.getGameStage().isGameInProgress()) event.setCancelled(true);
-        for (Generator generator : plugin.getMap().getDiamondGenerators()) {
+        for (Generator generator : Bedwars.getMap().getDiamondGenerators()) {
             if (Utils.isInArea(event.getBlock().getLocation(), generator.getLocation(), 4, 6, 4)) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(Component.text("You can't place blocks here!", NamedTextColor.RED));
                 return;
             }
         }
-        for (Generator generator : plugin.getMap().getEmeraldGenerators()) {
+        for (Generator generator : Bedwars.getMap().getEmeraldGenerators()) {
             if (Utils.isInArea(event.getBlock().getLocation(), generator.getLocation(), 4, 6, 4)) {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage(Component.text("You can't place blocks here!", NamedTextColor.RED));

@@ -23,6 +23,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class BedwarsTeam {
+    private enum ScoreboardIcon {
+        ALIVE(Component.text("\u2713", NamedTextColor.GREEN, TextDecoration.BOLD)),
+        ELIMINATED(Component.text("\u2717", NamedTextColor.RED, TextDecoration.BOLD));
+
+        private final Component component;
+
+        ScoreboardIcon(Component component) {
+            this.component = component;
+        }
+    }
+
     private final Bedwars plugin = Bedwars.getInstance();
     private final Team team;
     private final TeamColor teamColor;
@@ -39,8 +50,11 @@ public class BedwarsTeam {
     public BedwarsTeam(TeamColor teamColor, Location spawn, Area baseArea, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
         this.players = new HashMap<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
-        // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
         team.color(teamColor.getTextColor());
+        team.setCanSeeFriendlyInvisibles(true);
+        team.setAllowFriendlyFire(false);
+        team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+        // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
         this.upgrades = new TeamUpgrades();
         this.teamChest = teamChest;
         this.teamColor = teamColor;
@@ -90,6 +104,10 @@ public class BedwarsTeam {
         return component;
     }
 
+    /**
+     * @param player the player that this is being shown to
+     * @return the representation of a team which will be displayed in the scoreboard
+     */
     public Component getScoreboardRepresentation(Player player) {
         return Component.empty()
                 .append(teamColor.getTeamLetter())
@@ -97,9 +115,9 @@ public class BedwarsTeam {
                 .append(teamColor.getFriendlyNamePlain())
                 .append(Component.text(": "))
                 .append(eliminated ?
-                        Component.text("\u2717", NamedTextColor.RED, TextDecoration.BOLD) :
+                        ScoreboardIcon.ELIMINATED.component :
                         hasBed ?
-                                Component.text("\u2713", NamedTextColor.GREEN, TextDecoration.BOLD) :
+                                ScoreboardIcon.ALIVE.component :
                                 Component.text(getActivePlayers().size(), NamedTextColor.GREEN)
                 )
                 .append(isPartOfTeam(player) ?

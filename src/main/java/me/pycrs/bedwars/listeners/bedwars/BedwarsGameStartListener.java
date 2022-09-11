@@ -8,6 +8,7 @@ import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.generators.Generator;
 import me.pycrs.bedwars.listeners.BaseListener;
+import me.pycrs.bedwars.scoreboard.LobbyScoreboard;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.InventoryWatcher;
 import org.bukkit.Bukkit;
@@ -23,14 +24,11 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
     public void onGameStart(BedwarsGameStartEvent event) {
         Bedwars.setGameStage(Bedwars.GameStage.GAME_IN_PROGRESS);
         BedwarsTeam.distributePlayers();
-        plugin.getTeams().forEach(bedwarsTeam -> {
-            Player pzdrs = Bukkit.getPlayer("Pzdrs");
-            pzdrs.sendMessage(bedwarsTeam.getScoreboardRepresentation(pzdrs));
-        });
 
         // Initial setup
         plugin.getPlayers().forEach(bedwarsPlayer -> {
             Player player = bedwarsPlayer.getPlayer();
+            LobbyScoreboard.get().removePlayer(player);
             player.sendMessage(Settings.WELCOME_MESSAGE);
             bedwarsPlayer.setSpectator(false);
             bedwarsPlayer.getEquipment().updateArmor(false);
@@ -40,16 +38,16 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
         });
 
         // Initial generator activation
-        plugin.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI", true)));
-        plugin.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI", true)));
+        Bedwars.getMap().getDiamondGenerators().forEach(generator -> generator.activate(Generator.getProperty("diamondI", true)));
+        Bedwars.getMap().getEmeraldGenerators().forEach(generator -> generator.activate(Generator.getProperty("emeraldI", true)));
         plugin.getTeams().forEach(team -> {
             // These will depend on what map is in use
             team.getForge().activate(20);
         });
 
-        Bedwars.gameLoop = new GameLoop(plugin);
+        GameLoop.start(plugin);
         // This may cause some performance issues, keep an eye on it
-        Bedwars.inventoryWatcher = new InventoryWatcher(plugin);
+        InventoryWatcher.start(plugin);
 
         BedwarsTeam.removeEmptyTeams();
     }

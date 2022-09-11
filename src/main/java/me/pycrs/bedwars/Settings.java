@@ -7,6 +7,8 @@ import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.time.format.DateTimeFormatter;
+
 public final class Settings {
     private Settings() {
         throw new AssertionError();
@@ -36,6 +38,8 @@ public final class Settings {
      * If this is set to true, if a player disconnects from a SOLO game, thus leaving it empty until they rejoin, their team is eliminated
      */
     public static final boolean SOLO_WIPE_EMPTY_TEAMS = true;
+
+    public static final DateTimeFormatter SCOREBOARD_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yy");
 
     public static Mode mode;
     public static int lobbyCountdown;

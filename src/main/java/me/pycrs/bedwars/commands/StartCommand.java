@@ -44,7 +44,7 @@ public class StartCommand implements TabExecutor {
             sender.sendMessage(Component.text("A minimum of 2 players is needed to forcefully start the game.", NamedTextColor.RED));
             return true;
         } else {
-            Bedwars.startLobbyCountdown();
+            LobbyLoop.start(plugin);
             sender.sendMessage(Component.text("You have started the game manually.", NamedTextColor.GREEN));
         }
         return true;

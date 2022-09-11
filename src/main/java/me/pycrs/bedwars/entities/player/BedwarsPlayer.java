@@ -12,6 +12,7 @@ import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -138,6 +139,12 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     public void setSpectator(boolean spectator) {
         this.spectating = spectator;
+        /*player.playerListName(spectator ?
+                player.displayName().color(NamedTextColor.GRAY) :
+                Component.empty()
+                        .append(team.getTeamColor().getTeamLetterBold())
+                        .append(Component.space())
+                        .append(player.displayName()));*/
         Utils.applySpectator(player, spectator, plugin);
     }
 

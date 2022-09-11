@@ -1,27 +1,45 @@
 package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
+import me.pycrs.bedwars.scoreboard.LobbyScoreboard;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class LobbyLoop extends BukkitRunnable {
+public class LobbyLoop extends BedwarsRunnable {
+    private static LobbyLoop INSTANCE;
+
+    public static void start(Bedwars plugin) {
+        if (INSTANCE == null) INSTANCE = new LobbyLoop(plugin, Settings.lobbyCountdown);
+        INSTANCE.runTaskTimer(Bedwars.getInstance(), 0, 20);
+        Bedwars.setGameStage(Bedwars.GameStage.LOBBY_COUNTDOWN);
+        LobbyScoreboard.get().getBody().updateLine("countdown");
+    }
+
+    public static void stop() {
+        INSTANCE.cancel();
+        INSTANCE = null;
+        LobbyScoreboard.get().getBody().updateLine("countdown");
+    }
+
     public static AtomicInteger timer;
 
-    public LobbyLoop(int countFrom) {
+    public LobbyLoop(Bedwars plugin, int countFrom) {
+        super(plugin);
         timer = new AtomicInteger(countFrom);
     }
 
     @Override
     public void run() {
+        LobbyScoreboard.get().getBody().updateLine("countdown");
         if (timer.get() == 20) {
             broadcastCountdown(timer.get(), NamedTextColor.YELLOW);
         } else if (timer.get() == 10) {
@@ -39,6 +57,7 @@ public class LobbyLoop extends BukkitRunnable {
     public synchronized void cancel() throws IllegalStateException {
         super.cancel();
         Bedwars.setGameStage(Bedwars.GameStage.LOBBY_WAITING);
+        LobbyScoreboard.get().getBody().updateLine("countdown");
     }
 
     private void broadcastCountdown(int timer, NamedTextColor color) {

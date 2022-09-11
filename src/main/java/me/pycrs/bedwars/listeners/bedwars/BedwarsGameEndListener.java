@@ -4,6 +4,8 @@ import me.pycrs.bedwars.Bedwars;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
 import me.pycrs.bedwars.listeners.BaseListener;
+import me.pycrs.bedwars.tasks.GameLoop;
+import me.pycrs.bedwars.tasks.InventoryWatcher;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -25,9 +27,9 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL || event.getResult() == BedwarsGameEndEvent.Result.GAME_END) {
-            Bedwars.gameLoop.cancel();
+            GameLoop.stop();
             Bedwars.setGameStage(Bedwars.GameStage.GAME_FINISHED);
-            Bedwars.inventoryWatcher.cancel();
+            InventoryWatcher.stop();
             // Sort the players by kills
             Collections.sort(plugin.getPlayers());
             plugin.getTeams().forEach(team -> {

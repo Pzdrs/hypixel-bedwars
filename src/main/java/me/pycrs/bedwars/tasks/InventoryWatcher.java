@@ -5,14 +5,21 @@ import me.pycrs.bedwars.listeners.PlayerInteractListener;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class InventoryWatcher extends BukkitRunnable {
-    private final Bedwars plugin;
+public class InventoryWatcher extends BedwarsRunnable {
+    private static InventoryWatcher INSTANCE;
+
+    public static void start(Bedwars plugin) {
+        INSTANCE = new InventoryWatcher(plugin);
+        INSTANCE.runTaskTimerAsynchronously(plugin, 0, 1);
+    }
+
+    public static void stop() {
+        INSTANCE.cancel();
+    }
 
     public InventoryWatcher(Bedwars plugin) {
-        this.plugin = plugin;
-        runTaskTimerAsynchronously(plugin, 0, 1);
+        super(plugin);
     }
 
     @Override

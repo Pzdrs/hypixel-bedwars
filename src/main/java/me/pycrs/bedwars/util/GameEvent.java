@@ -8,6 +8,9 @@ public class GameEvent {
     private Component broadcast;
     private int period;
 
+    private GameEvent() {
+    }
+
     private GameEvent(Builder builder) {
         before = builder.prior;
         after = builder.after;

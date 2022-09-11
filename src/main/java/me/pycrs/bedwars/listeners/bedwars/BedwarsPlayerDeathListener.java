@@ -35,7 +35,7 @@ public class BedwarsPlayerDeathListener extends BaseListener<Bedwars> {
 
     public static void onPlayerDeath(BedwarsPlayer deadPlayer, Bedwars plugin, BedwarsEventWithMessage event, Runnable playerDrops) {
         deadPlayer.setSpectator(true);
-        deadPlayer.getPlayer().teleport(plugin.getMap().getLobbySpawn());
+        deadPlayer.getPlayer().teleport(Bedwars.getMap().getLobbySpawn());
 
         // Downgrade tools
         deadPlayer.getEquipment().setAxe(deadPlayer.getEquipment().getAxe().getDowngrade());
