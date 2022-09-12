@@ -62,7 +62,12 @@ public class BlockBreakPlaceListener extends BaseListener<Bedwars> {
         } else if (event.getBlock().getBlockData() instanceof Bed) {
             for (BedwarsTeam team : BedwarsTeamList.getList())
                 if (event.getBlock().getLocation().equals(team.getBedHeadLocation()) || event.getBlock().getLocation().equals(team.getBedFootLocation())) {
-                    Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(plugin, team, event));
+                    if (team.isPartOfTeam(event.getPlayer())) {
+                        event.setCancelled(true);
+                        event.getPlayer().sendMessage(Component.text("You can't destroy your own bed!", NamedTextColor.RED));
+                    } else {
+                        Bukkit.getServer().getPluginManager().callEvent(new BedwarsBedBreakEvent(plugin, team, event));
+                    }
                     return;
                 }
         } else if (!PLACED_BLOCKS.contains(event.getBlock())) {

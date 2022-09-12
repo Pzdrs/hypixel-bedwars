@@ -12,8 +12,11 @@ import me.pycrs.bedwars.listeners.BaseListener;
 import me.pycrs.bedwars.scoreboard.LobbyScoreboard;
 import me.pycrs.bedwars.tasks.GameLoop;
 import me.pycrs.bedwars.tasks.InventoryWatcher;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class BedwarsGameStartListener extends BaseListener<Bedwars> {
     public BedwarsGameStartListener(Bedwars plugin) {
@@ -30,6 +33,7 @@ public class BedwarsGameStartListener extends BaseListener<Bedwars> {
             Player player = bedwarsPlayer.getPlayer();
             LobbyScoreboard.get().removePlayer(player);
             player.sendMessage(Settings.WELCOME_MESSAGE);
+            bedwarsPlayer.getScoreboard().show();
             bedwarsPlayer.setSpectator(false);
             bedwarsPlayer.getEquipment().updateArmor(false);
             bedwarsPlayer.getEquipment().updateEquipment();

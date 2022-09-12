@@ -6,6 +6,8 @@ import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.events.BedwarsTeamEliminationEvent;
 import me.pycrs.bedwars.generators.Forge;
 import me.pycrs.bedwars.generators.Generator;
+import me.pycrs.bedwars.scoreboard.SoloDoubleScoreboard;
+import me.pycrs.bedwars.scoreboard.SquadScoreboard;
 import me.pycrs.bedwars.teamupgrades.TeamUpgrades;
 import me.pycrs.bedwars.entities.player.BedwarsPlayerList;
 import net.kyori.adventure.text.Component;
@@ -51,8 +53,8 @@ public class BedwarsTeam {
     public BedwarsTeam(TeamColor teamColor, Location spawn, Area baseArea, Location teamChest, Location bedHead, Location bedFoot, Forge forge) {
         this.players = new HashMap<>();
         this.team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(teamColor.name());
+        // Setup the team
         team.color(teamColor.getTextColor());
-        team.setCanSeeFriendlyInvisibles(true);
         team.setAllowFriendlyFire(false);
         team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
         // This is where u can make teams already have some upgrades from the beginning, useful for different game modes
@@ -71,6 +73,8 @@ public class BedwarsTeam {
         BedwarsPlayer bedwarsPlayer = new BedwarsPlayer(player, this);
         players.put(bedwarsPlayer, false);
         team.addEntry(player.getName());
+        bedwarsPlayer.setScoreboard(Bedwars.getMode().isSoloOrDoubles() ?
+                new SoloDoubleScoreboard(bedwarsPlayer) : new SquadScoreboard(bedwarsPlayer));
         return bedwarsPlayer;
     }
 
@@ -108,12 +112,8 @@ public class BedwarsTeam {
      * @param player the player that this is being shown to
      * @return the representation of a team which will be displayed in the scoreboard
      */
-    public Component getScoreboardRepresentation(Player player) {
-        return Component.empty()
-                .append(teamColor.getTeamLetter())
-                .append(Component.space())
-                .append(teamColor.getFriendlyNamePlain())
-                .append(Component.text(": "))
+    public Component getScoreboardStatus(BedwarsPlayer player) {
+        return Component.text()
                 .append(eliminated ?
                         ScoreboardIcon.ELIMINATED.component :
                         hasBed ?
@@ -123,7 +123,7 @@ public class BedwarsTeam {
                 .append(isPartOfTeam(player) ?
                         Component.space().append(Component.text("YOU", NamedTextColor.GRAY)) :
                         Component.empty()
-                );
+                ).build();
     }
 
     public void eliminatePlayer(BedwarsPlayer bedwarsPlayer) {
@@ -204,6 +204,10 @@ public class BedwarsTeam {
 
     public TeamColor getTeamColor() {
         return teamColor;
+    }
+
+    public List<Player> getPlayers() {
+        return players.keySet().stream().map(BedwarsPlayer::getPlayer).toList();
     }
 
     /**
@@ -322,13 +326,10 @@ public class BedwarsTeam {
     }
 
     public static void removeEmptyTeams() {
-        Iterator<BedwarsTeam> iterator = BedwarsTeamList.getList().iterator();
-        while (iterator.hasNext()) {
-            BedwarsTeam team = iterator.next();
+        BedwarsTeamList.getList().forEach(team -> {
             if (team.players.size() == 0) {
                 Bukkit.getServer().getPluginManager().callEvent(new BedwarsTeamEliminationEvent(Bedwars.getInstance(), team));
-                iterator.remove();
             }
-        }
+        });
     }
 }

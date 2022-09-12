@@ -10,6 +10,8 @@ import me.pycrs.bedwars.entities.player.level.HypixelBedwarsLevel;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.events.BedwarsPlayerDeathEvent;
 import me.pycrs.bedwars.events.BedwarsPlayerKillEvent;
+import me.pycrs.bedwars.scoreboard.BedwarsScoreboard;
+import me.pycrs.bedwars.scoreboard.PerPlayerScoreboard;
 import me.pycrs.bedwars.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -49,6 +51,7 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
     public static Map<UUID, Integer> shoutCooldown = new HashMap<>();
 
     private final Bedwars plugin;
+    private PerPlayerScoreboard scoreboard;
     private Player player;
     private final BedwarsTeam team;
     private final PlayerEquipment equipment;
@@ -87,6 +90,10 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
                 }
             });
         }
+    }
+
+    public void setScoreboard(PerPlayerScoreboard scoreboard) {
+        this.scoreboard = scoreboard;
     }
 
     /**
@@ -192,6 +199,10 @@ public class BedwarsPlayer implements Comparable<BedwarsPlayer> {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public PerPlayerScoreboard getScoreboard() {
+        return scoreboard;
     }
 
     public PlayerEquipment getEquipment() {

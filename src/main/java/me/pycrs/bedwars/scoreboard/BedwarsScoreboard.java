@@ -5,10 +5,7 @@ import me.pycrs.bedwars.scoreboard.body.line.ScoreboardLine;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.*;
 
 public abstract class BedwarsScoreboard {
     protected final Scoreboard scoreboard;
@@ -22,6 +19,11 @@ public abstract class BedwarsScoreboard {
         this.body = body;
         this.body.setScoreboard(scoreboard, objective);
         render();
+    }
+
+    public void registerTeam(String name, String[] entries) {
+        Team team = scoreboard.registerNewTeam(name);
+        for (String entry : entries) team.addEntry(entry);
     }
 
     public ScoreboardBody getBody() {

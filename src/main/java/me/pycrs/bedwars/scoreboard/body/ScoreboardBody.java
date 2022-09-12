@@ -8,6 +8,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -67,6 +68,11 @@ public class ScoreboardBody {
 
         public Builder lineAny(Supplier<ScoreboardLine> line) {
             lines.add(line.get());
+            return this;
+        }
+
+        public Builder lines(Supplier<ScoreboardLine[]> lines) {
+            this.lines.addAll(Arrays.asList(lines.get()));
             return this;
         }
 

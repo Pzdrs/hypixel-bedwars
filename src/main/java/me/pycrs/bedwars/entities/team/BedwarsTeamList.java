@@ -30,21 +30,4 @@ public final class BedwarsTeamList extends BedwarsList<BedwarsTeam> {
     public BedwarsTeamList alive() {
         return new BedwarsTeamList(elements.stream().filter(team -> !team.isEliminated()).toList());
     }
-
-    // Modifiable list methods below
-
-    @Override
-    public BedwarsTeam set(int index, BedwarsTeam element) {
-        return elements.set(index, element);
-    }
-
-    @Override
-    public BedwarsTeam remove(int index) {
-        return elements.remove(index);
-    }
-
-    @Override
-    public boolean add(BedwarsTeam team) {
-        return elements.add(team);
-    }
 }

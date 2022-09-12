@@ -59,6 +59,14 @@ public enum TeamColor {
                 .append(Component.text(" Team"));
     }
 
+    public Component getScoreboardRepresentation() {
+        return Component.text()
+                .append(getTeamLetter())
+                .append(Component.space())
+                .append(getFriendlyNamePlain())
+                .build();
+    }
+
     public Component getBedDisplay() {
         return getFriendlyName()
                 .append(Component.text(" Bed"));
