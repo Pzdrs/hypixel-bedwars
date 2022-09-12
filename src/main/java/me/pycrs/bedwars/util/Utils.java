@@ -137,6 +137,7 @@ public class Utils {
         return false;
     }
 
+
     public static void sanitizePlayer(@NotNull Player player) {
         player.setGameMode(GameMode.ADVENTURE);
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));

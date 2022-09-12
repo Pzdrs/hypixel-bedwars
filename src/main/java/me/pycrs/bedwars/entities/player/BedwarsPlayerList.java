@@ -3,6 +3,7 @@ package me.pycrs.bedwars.entities.player;
 import me.pycrs.bedwars.entities.team.BedwarsTeam;
 import me.pycrs.bedwars.util.BedwarsList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ public final class BedwarsPlayerList extends BedwarsList<BedwarsPlayer> {
     private static BedwarsPlayerList PLAYERS;
 
     public static BedwarsPlayerList getList() {
+        if (PLAYERS == null) return new BedwarsPlayerList(new ArrayList<>());
         return PLAYERS;
     }
 

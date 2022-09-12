@@ -1,20 +1,21 @@
 package me.pycrs.bedwars;
 
+import me.pycrs.bedwars.util.Utils;
+
 import java.util.Optional;
 
 public enum Mode {
-    SOLO(1, 8, 2, "Solo"),
-    DOUBLES(2, 8,4, "Doubles"),
-    TRIOS(3, 4, 6, "3v3v3v3"),
-    SQUADS(4, 4, 8, "4v4v4v4");
+    SOLO(1, 8, "Solo"),
+    DOUBLES(2, 8, "Doubles"),
+    TRIOS(3, 4, "3v3v3v3"),
+    SQUADS(4, 4, "4v4v4v4");
 
-    private final int teamSize, amountOfTeams, minPlayers;
+    private final int teamSize, amountOfTeams;
     private final String displayName;
 
-    Mode(int teamSize, int amountOfTeams, int minPlayers, String displayName) {
+    Mode(int teamSize, int amountOfTeams, String displayName) {
         this.teamSize = teamSize;
         this.amountOfTeams = amountOfTeams;
-        this.minPlayers = minPlayers;
         this.displayName = displayName;
     }
 
@@ -22,8 +23,36 @@ public enum Mode {
         return displayName;
     }
 
+    /**
+     * @return the minimal possible amount of players for a game of two full teams to start
+     */
     public int getMinPlayers() {
-        return minPlayers;
+        return 2 * teamSize;
+    }
+
+    /**
+     * @return the required amount of players for the lobby countdown to begin
+     */
+    public int getRequiredPlayers() {
+        return teamSize * amountOfTeams - 1;
+    }
+
+    // TODO: 9/12/2022 for development purposes, change for production
+
+    /**
+     * @param players the current amount of online players
+     * @return true if there is enough players for the game to start counting down, false otherwise
+     */
+    public boolean isEnough(int players) {
+        return /*players >= getRequiredPlayers()*/players >= 2;
+    }
+
+    /**
+     * @param players the current amount of online players
+     * @return true if we have a full lobby, false otherwise
+     */
+    public boolean isFull(int players) {
+        return players >= teamSize * amountOfTeams;
     }
 
     public int getTeamSize() {
@@ -32,6 +61,10 @@ public enum Mode {
 
     public int getAmountOfTeams() {
         return amountOfTeams;
+    }
+
+    public boolean isSoloOrDoubles() {
+        return Utils.atLeastOneEquals(this, new Mode[]{SOLO, DOUBLES});
     }
 
     public static Optional<Mode> of(int teamSize) {

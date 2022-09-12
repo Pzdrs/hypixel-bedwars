@@ -35,7 +35,7 @@ public final class Settings {
      */
     public static final int FULL_LOBBY_COUNTDOWN = 10;
     /**
-     * If this is set to true, if a player disconnects from a SOLO game, thus leaving it empty until they rejoin, their team is eliminated
+     * If this is set to true, if a player disconnects from a SOLO game, thus leaving the team empty until they rejoin, their team is eliminated
      */
     public static final boolean SOLO_WIPE_EMPTY_TEAMS = true;
 

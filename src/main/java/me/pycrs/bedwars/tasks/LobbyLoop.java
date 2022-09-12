@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.tasks;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.GameStage;
 import me.pycrs.bedwars.Settings;
 import me.pycrs.bedwars.events.BedwarsGameStartEvent;
 import me.pycrs.bedwars.scoreboard.LobbyScoreboard;
@@ -19,12 +20,14 @@ public class LobbyLoop extends BedwarsRunnable {
 
     public static void start(Bedwars plugin) {
         if (INSTANCE == null) INSTANCE = new LobbyLoop(plugin, Settings.lobbyCountdown);
+        if (Bedwars.getGameStage().isLobbyCountingDown()) return;
         INSTANCE.runTaskTimer(Bedwars.getInstance(), 0, 20);
-        Bedwars.setGameStage(Bedwars.GameStage.LOBBY_COUNTDOWN);
+        Bedwars.setGameStage(GameStage.LOBBY_COUNTDOWN);
         LobbyScoreboard.get().getBody().updateLine("countdown");
     }
 
     public static void stop() {
+        if (INSTANCE == null) return;
         INSTANCE.cancel();
         INSTANCE = null;
         LobbyScoreboard.get().getBody().updateLine("countdown");
@@ -56,7 +59,7 @@ public class LobbyLoop extends BedwarsRunnable {
     @Override
     public synchronized void cancel() throws IllegalStateException {
         super.cancel();
-        Bedwars.setGameStage(Bedwars.GameStage.LOBBY_WAITING);
+        Bedwars.setGameStage(GameStage.LOBBY_WAITING);
         LobbyScoreboard.get().getBody().updateLine("countdown");
     }
 

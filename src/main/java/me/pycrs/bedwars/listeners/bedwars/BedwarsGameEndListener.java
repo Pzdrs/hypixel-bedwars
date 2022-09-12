@@ -1,6 +1,7 @@
 package me.pycrs.bedwars.listeners.bedwars;
 
 import me.pycrs.bedwars.Bedwars;
+import me.pycrs.bedwars.GameStage;
 import me.pycrs.bedwars.entities.player.BedwarsPlayer;
 import me.pycrs.bedwars.entities.team.BedwarsTeamList;
 import me.pycrs.bedwars.events.BedwarsGameEndEvent;
@@ -27,7 +28,7 @@ public class BedwarsGameEndListener extends BaseListener<Bedwars> {
     @EventHandler
     public void onGameEnd(BedwarsGameEndEvent event) {
         if (event.getResult() == BedwarsGameEndEvent.Result.NORMAL || event.getResult() == BedwarsGameEndEvent.Result.GAME_END) {
-            Bedwars.setGameStage(Bedwars.GameStage.GAME_FINISHED);
+            Bedwars.setGameStage(GameStage.GAME_FINISHED);
             GameLoop.stop();
             InventoryWatcher.stop();
             // Sort the players by kills

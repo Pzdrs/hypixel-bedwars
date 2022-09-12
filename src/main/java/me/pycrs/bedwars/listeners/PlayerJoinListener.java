@@ -76,11 +76,11 @@ public class PlayerJoinListener extends BaseListener<Bedwars> {
         player.displayName(player.displayName().color(NamedTextColor.GRAY));
         BedwarsPlayer.PlayerListName.LOBBY.apply(player);
         // If enough players, start the countdown
-        if (Bukkit.getOnlinePlayers().size() >= Bedwars.getMode().getMinPlayers()) {
+        if (Bedwars.getMode().isEnough(Bukkit.getOnlinePlayers().size())) {
             // If enough players are online, start the countdown
-            if (!Bedwars.getGameStage().isLobbyCountingDown()) LobbyLoop.start(plugin);
+            LobbyLoop.start(plugin);
             // If we have a full lobby, cut the countdown
-            if (Bukkit.getOnlinePlayers().size() == Bedwars.getMode().getTeamSize() * Bedwars.getMode().getAmountOfTeams())
+            if (Bedwars.getMode().isFull(Bukkit.getOnlinePlayers().size()))
                 LobbyLoop.timer.set(Settings.FULL_LOBBY_COUNTDOWN);
         }
         LobbyScoreboard.get().getBody().updateLine("player_count");

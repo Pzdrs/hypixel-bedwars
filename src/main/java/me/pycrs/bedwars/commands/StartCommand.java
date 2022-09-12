@@ -41,7 +41,8 @@ public class StartCommand implements TabExecutor {
             sender.sendMessage(Component.text("The game has finished, waiting for server restart.", NamedTextColor.RED));
             return true;
         } else if (Bukkit.getOnlinePlayers().size() < 2) {
-            sender.sendMessage(Component.text("A minimum of 2 players is needed to forcefully start the game.", NamedTextColor.RED));
+            sender.sendMessage(Component.text(
+                    String.format("A minimum of %d players is needed to forcefully start the game.", Bedwars.getMode().getMinPlayers()), NamedTextColor.RED));
             return true;
         } else {
             LobbyLoop.start(plugin);
